@@ -3,6 +3,7 @@ import { Sparkles, X, Globe, Copy, Check, Send, User, Mail, Phone, Building2, Do
 import { motion, AnimatePresence } from 'motion/react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
+import { StageId } from '../../types';
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
@@ -53,7 +54,6 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
 
     try {
       // 1. Create Person
-      const newPersonId = `person-${Date.now()}`;
       addPerson({
         firstName,
         lastName: lastName || '-',
@@ -62,20 +62,22 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
         companyName: companyName || 'Lead Web',
         jobTitle: 'Prospecto Web',
         status: 'Lead',
+        assignedTo: 'clientumlatam@gmail.com',
       });
 
       // 2. Create Opportunity in first stage
-      const firstStage = STAGES[0]?.id || 'stage-qualified';
+      const firstStage: StageId = STAGES[0]?.id || 'lead';
       addOpportunity({
         name: dealTitle || `Interés de ${firstName} ${lastName}`,
         amount: Number(budget) || 1000,
+        currency: 'ARS',
         stage: firstStage,
         probability: 20,
-        expectedCloseDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        closeDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         assignedTo: 'clientumlatam@gmail.com',
         priority: 'High',
+        type: 'New Business',
         contactName: `${firstName} ${lastName}`.trim(),
-        contactEmail: email,
         companyName: companyName || 'Lead Web',
         tags: ['Lead Web', 'Inbound'],
       });

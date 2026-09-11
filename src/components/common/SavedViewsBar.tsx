@@ -22,9 +22,9 @@ export const SavedViewsBar: React.FC<SavedViewsBarProps> = ({ target }) => {
     if (view.rules.length > 0) {
       const rule = view.rules[0];
       if (rule.field === 'amount') {
-        setFilterState({ minAmount: Number(rule.value) || 0 });
+        setFilterState((prev) => ({ ...prev, minAmount: Number(rule.value) || 0 }));
       } else if (rule.field === 'tier' || rule.field === 'priority' || rule.field === 'stage') {
-        setFilterState({ [rule.field]: rule.value });
+        setFilterState((prev) => ({ ...prev, [rule.field]: rule.value }));
       }
     }
     showToast(`Applied view: ${view.name}`, 'info');

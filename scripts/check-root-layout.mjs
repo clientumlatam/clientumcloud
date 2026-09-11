@@ -13,6 +13,7 @@ const allowedRootFiles = new Set([
   '.replit',
   'bun.lock',
   'firebase-applet-config.json',
+  'firebase-blueprint.json',
   'firestore.rules',
   'index.html',
   'metadata.json',

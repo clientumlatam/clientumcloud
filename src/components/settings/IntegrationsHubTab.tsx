@@ -82,6 +82,7 @@ export const IntegrationsHubTab: React.FC = () => {
       url: webhookUrl.trim(),
       events: webhookEvents,
       secret: 'whsec_' + Math.random().toString(36).substring(2, 15),
+      isActive: true,
       status: 'active',
     });
     setIsWebhookModalOpen(false);

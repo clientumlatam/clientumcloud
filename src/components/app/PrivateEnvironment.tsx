@@ -51,7 +51,7 @@ import { PlatformBillingView } from '../billing/PlatformBillingView';
 import { MessagesView } from '../messages/MessagesView';
 import { ComposeEmailModal } from '../webmail/ComposeEmailModal';
 import { FeatureHubView } from '../features/FeatureHubView';
-import { EcosistemaHub } from './EcosistemaHub';
+import { UnifiedControlHub } from '../workspace/UnifiedControlHub';
 import { ToastContainer } from '../common/ToastContainer';
 import { AICopilotFloating } from '../common/AICopilotFloating';
 import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
@@ -67,6 +67,8 @@ const MainContent: React.FC = () => {
     isComposeEmailModalOpen,
     closeComposeEmailModal,
     composeEmailDefaults,
+    isOnline,
+    isSyncPending,
   } = useCRM();
   const [isWizardOpen, setIsWizardOpen] = React.useState(false);
   const [isSimulatorOpen, setIsSimulatorOpen] = React.useState(false);
@@ -74,12 +76,24 @@ const MainContent: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+      {(!isOnline || isSyncPending) && (
+        <div className="bg-amber-500 text-slate-950 px-4 py-2 text-xs font-semibold flex items-center justify-between gap-2 shadow-sm z-50 transition-all">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-950 animate-ping shrink-0" />
+            <span>
+              {!isOnline
+                ? '⚠️ Estás sin conexión (Offline). Tus cambios recientes de prioridad y estado se guardarán localmente en la cola offline y se sincronizarán con Firebase en cuanto se restablezca la conexión.'
+                : '🔄 Sincronizando cambios pendientes de prioridad con Firebase en segundo plano...'}
+            </span>
+          </div>
+          <span className="text-[11px] opacity-90 uppercase tracking-wider font-bold shrink-0">Clientum Cloud Sync</span>
+        </div>
+      )}
       <Navbar />
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
         {activeTab === 'dashboard' && <ExecutiveDashboardView />}
-        {activeTab === 'ecosystemHub' && <EcosistemaHub />}
-        {activeTab === 'featureHub' && <FeatureHubView />}
+        {(activeTab === 'ecosystemHub' || activeTab === 'featureHub') && <UnifiedControlHub />}
         {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
         {activeTab === 'companies' && <CompaniesView />}
         {activeTab === 'people' && <PeopleView />}

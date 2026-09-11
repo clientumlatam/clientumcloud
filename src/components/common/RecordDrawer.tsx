@@ -67,6 +67,7 @@ export const RecordDrawer: React.FC = () => {
 
   // Audio Recording State
   const [isRecording, setIsRecording] = useState(false);
+  const [isWebSpeechActive, setIsWebSpeechActive] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [audioBlobUrl, setAudioBlobUrl] = useState<string | null>(null);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -218,6 +219,58 @@ export const RecordDrawer: React.FC = () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
+    }
+  };
+
+  const toggleWebSpeechRecognition = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      showToast('Tu navegador no soporta Web Speech API (Prueba con Google Chrome o Edge)', 'warning');
+      return;
+    }
+
+    if (isWebSpeechActive) {
+      setIsWebSpeechActive(false);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'es-AR';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => {
+        setIsWebSpeechActive(true);
+        showToast('🎤 Web Speech API activa: Dicta tu nota de voz para esta interacción...', 'info');
+      };
+
+      recognition.onresult = (event: any) => {
+        let finalStr = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalStr += event.results[i][0].transcript;
+          }
+        }
+        if (finalStr) {
+          setNewNote((prev) => (prev ? prev + ' ' + finalStr : finalStr));
+        }
+      };
+
+      recognition.onerror = (e: any) => {
+        console.warn('Speech recognition error:', e);
+        setIsWebSpeechActive(false);
+      };
+
+      recognition.onend = () => {
+        setIsWebSpeechActive(false);
+      };
+
+      recognition.start();
+    } catch (err) {
+      console.error('Failed to start Web Speech API:', err);
+      setIsWebSpeechActive(false);
+      showToast('No se pudo iniciar el dictado por voz', 'error');
     }
   };
 
@@ -567,7 +620,20 @@ export const RecordDrawer: React.FC = () => {
                     >
                       {isRecording ? <Square className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
                     </button>
-                    <span className="text-[10px] text-slate-400">
+                    <button
+                      type="button"
+                      onClick={toggleWebSpeechRecognition}
+                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-xs font-medium transition-all ${
+                        isWebSpeechActive
+                          ? 'bg-red-500/20 border-red-500/40 text-red-300 animate-pulse'
+                          : 'bg-[#1b2230] border-[#232c40] text-slate-300 hover:text-white hover:bg-[#232c40]'
+                      }`}
+                      title="Dictado de voz Web Speech API (Voice-to-Text)"
+                    >
+                      <Mic className={`w-3.5 h-3.5 ${isWebSpeechActive ? 'text-red-400 animate-bounce' : 'text-blue-400'}`} />
+                      <span>{isWebSpeechActive ? 'Escuchando voz...' : 'Dictado Web Speech'}</span>
+                    </button>
+                    <span className="text-[10px] text-slate-400 hidden sm:inline">
                       Logged as <strong className="text-slate-300">{currentUser.name}</strong>
                     </span>
                   </div>

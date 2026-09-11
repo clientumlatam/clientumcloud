@@ -696,11 +696,11 @@ export const KanbanView: React.FC = () => {
 
                 {/* Range Presets */}
                 <div className="flex flex-wrap gap-1">
-                  {[
-                    { label: 'Hasta $10k', min: '', max: 10000 },
-                    { label: '$10k - $50k', min: 10000, max: 50000 },
-                    { label: 'Más de $50k', min: 50000, max: '' },
-                  ].map((preset, idx) => (
+                  {([
+                    { label: 'Hasta $10k', min: '' as const, max: 10000 as const },
+                    { label: '$10k - $50k', min: 10000 as const, max: 50000 as const },
+                    { label: 'Más de $50k', min: 50000 as const, max: '' as const },
+                  ] as const).map((preset, idx) => (
                     <button
                       key={idx}
                       onClick={() => {

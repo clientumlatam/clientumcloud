@@ -68,7 +68,8 @@ export const AICopilotFloating: React.FC = () => {
       case 'googleMaps':
         return 'Prospección B2B con Google Maps';
       case 'ecosystemHub':
-        return 'Módulos & Ecosistema (docs/migrations)';
+      case 'featureHub':
+        return 'Unified Control Hub (Workspace & Ecosistema)';
       case 'companies':
       case 'people':
         return 'Directorio de Empresas y Contactos';
@@ -216,7 +217,8 @@ Proporciona una respuesta precisa, comercialmente estratégica y práctica para 
       description: `Acción derivada de consulta en la vista ${getScreenContextName()}. Contactar al prospecto para presentar propuesta.`,
       dueDate: today,
       priority: 'High',
-      status: 'Pending',
+      status: 'Todo',
+      assignedTo: currentUser?.name || 'Alex Morgan',
     });
     triggerConfetti();
     showToast('Tarea creada y añadida a tu agenda comercial', 'success');

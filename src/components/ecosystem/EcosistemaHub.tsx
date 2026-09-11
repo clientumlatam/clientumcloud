@@ -9,3 +9,5 @@ import { EcosystemHubView } from './EcosystemHubView';
  */
 export { EcosistemaHub, default } from '../app/EcosistemaHub';
 export * from '../app/EcosistemaHub';
+export { UnifiedControlHub } from '../workspace/UnifiedControlHub';
+

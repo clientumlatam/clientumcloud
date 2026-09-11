@@ -40,7 +40,7 @@ export interface Person {
   country?: string;
   linkedin?: string;
   status: 'Lead' | 'Contacted' | 'Customer' | 'Churned';
-  assignedTo: string;
+  assignedTo?: string;
   createdAt: string;
   lastActivityDate: string;
   notes?: string;
@@ -84,6 +84,12 @@ export interface Opportunity {
   notes?: string;
   tags: string[];
   lossReason?: string;
+  healthScore?: number;
+  expectedCloseDate?: string;
+  personName?: string;
+  title?: string;
+  contactEmail?: string;
+  contactPhone?: string;
 }
 
 export interface Task {
@@ -93,7 +99,7 @@ export interface Task {
   dueDate: string;
   priority: 'Low' | 'Medium' | 'High' | 'Urgent';
   status: 'Todo' | 'In Progress' | 'Completed';
-  assignedTo: string;
+  assignedTo?: string;
   targetType?: 'opportunity' | 'company' | 'person';
   targetId?: string;
   targetName?: string;
@@ -117,6 +123,9 @@ export interface Activity {
     fromStage?: StageId;
     toStage?: StageId;
     emailSubject?: string;
+    channel?: string;
+    recipientPhone?: string;
+    [key: string]: any;
   };
 }
 
@@ -362,8 +371,8 @@ export interface RoleDefinition {
   description: string;
   isSystem: boolean;
   color: string;
-  badgeBg: string;
-  badgeText: string;
+  badgeBg?: string;
+  badgeText?: string;
   userCount?: number;
   permissions: RolePermissionMatrix;
   createdAt: string;
@@ -445,6 +454,7 @@ export interface GoogleCalendarSyncState {
   lastSyncAt?: string;
   syncDirection: 'two_way' | 'to_calendar' | 'to_crm';
   syncDeals: boolean;
+  syncOpportunities?: boolean;
   syncTasks: boolean;
   syncMeetings: boolean;
   eventsSyncedCount: number;
@@ -462,7 +472,11 @@ export interface SlackIntegrationState {
   isConnected: boolean;
   webhookUrl: string;
   botName: string;
+  workspaceName?: string;
   defaultChannel: string;
+  notifyOnDealWon?: boolean;
+  notifyOnHighValueLead?: boolean;
+  notifyOnSecurityAnomaly?: boolean;
   channelMappings: SlackChannelMapping[];
   messagesSentCount: number;
   lastDispatchedAt?: string;
@@ -493,6 +507,7 @@ export interface WebhookConfig {
   events: string[];
   secret: string;
   isActive: boolean;
+  status?: 'active' | 'inactive';
   lastTriggeredAt?: string;
   lastResponseCode?: number;
   createdAt: string;

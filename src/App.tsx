@@ -5,6 +5,9 @@ import { ToastContainer } from './components/common/ToastContainer';
 import { AuthModal } from './components/auth/AuthModal';
 import { PublicSite } from './components/public/PublicSite';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { CommandPalette } from './components/common/CommandPalette';
+import { NewRecordModal } from './components/common/NewRecordModal';
+import { RecordDrawer } from './components/common/RecordDrawer';
 import { isPrivateAppPath } from './lib/navigation';
 import { subscribeToAuthState, syncUserProfileToFirestore } from './firebase';
 
@@ -102,6 +105,9 @@ const AppContent: React.FC = () => {
   const publicEnvironment = (
     <div data-theme={resolvedTheme} className="min-h-screen w-screen overflow-x-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
       <PublicSite />
+      <CommandPalette />
+      <NewRecordModal />
+      <RecordDrawer />
       <AuthModal />
       <ToastContainer />
     </div>

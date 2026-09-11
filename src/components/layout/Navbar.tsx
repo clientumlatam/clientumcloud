@@ -17,6 +17,7 @@ import {
   Mic,
   Zap,
   Trophy,
+  Command,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -51,6 +52,7 @@ export const Navbar: React.FC = () => {
     people,
     tasks,
     exitToPublicSite,
+    setIsCommandPaletteOpen,
   } = useCRM();
 
   const [isConfigOpen, setIsConfigOpen] = useState(false);
@@ -85,8 +87,9 @@ export const Navbar: React.FC = () => {
     switch (activeTab) {
       case 'dashboard':
         return { name: 'Resumen Ejecutivo', count: undefined, desc: 'Pipeline de ventas y métricas clave' };
+      case 'ecosystemHub':
       case 'featureHub':
-        return { name: 'Centro de funciones', count: 6, desc: 'Conecta, protege y amplía tu espacio de trabajo' };
+        return { name: 'Unified Control Hub', count: 15, desc: 'Control unificado del Workspace y Ecosistema de módulos' };
       case 'opportunities':
         return { name: t('opportunities') || 'Negocios', count: opportunities.length, desc: t('pipeline') || 'Embudo comercial' };
       case 'companies':
@@ -204,6 +207,18 @@ export const Navbar: React.FC = () => {
 
       {/* Center Search & Filters */}
       <div className="flex-1 max-w-md hidden sm:flex items-center gap-2">
+        <button
+          onClick={() => setIsCommandPaletteOpen(true)}
+          className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-600 hover:text-slate-900 text-xs transition-colors cursor-pointer shrink-0 shadow-2xs font-medium"
+          title="Abrir Command Palette (Ctrl+K o ⌘K) para buscar contactos o crear deals"
+        >
+          <Command className="w-3.5 h-3.5 text-blue-600" />
+          <span className="hidden xl:inline text-[11px] text-slate-700">Buscar / Comandos</span>
+          <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white text-slate-600 border border-slate-300 font-semibold shadow-2xs">
+            {typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.userAgent) ? '⌘K' : 'Ctrl+K'}
+          </kbd>
+        </button>
+
         <div className="relative w-full">
           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input

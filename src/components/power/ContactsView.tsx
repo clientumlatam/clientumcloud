@@ -33,30 +33,33 @@ export const ContactsView: React.FC = () => {
 
       <div className="bg-[#131722] border border-[#212a3d] rounded-xl overflow-hidden">
         <div className="divide-y divide-[#212a3d]">
-          {people.map(p => (
-            <div key={p.id} className="p-4 flex items-center justify-between hover:bg-[#161b28] transition-colors">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">
-                  {p.name.charAt(0)}
+          {people.map(p => {
+            const fullName = `${p.firstName} ${p.lastName}`.trim() || 'Contacto';
+            return (
+              <div key={p.id} className="p-4 flex items-center justify-between hover:bg-[#161b28] transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">
+                    {fullName.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white text-xs">{fullName}</div>
+                    <div className="text-[11px] text-slate-400">{p.email} • {p.phone || 'Sin teléfono'}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold text-white text-xs">{p.name}</div>
-                  <div className="text-[11px] text-slate-400">{p.email} • {p.phone || 'Sin teléfono'}</div>
+                <div className="flex items-center gap-3">
+                  <span className="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 font-medium text-[10px] border border-blue-500/20">
+                    {p.companyName || 'Sin empresa'}
+                  </span>
+                  <button
+                    onClick={() => showToast(`Abriendo expediente de ${fullName}`, 'info')}
+                    className="px-3 py-1.5 bg-[#1c2333] hover:bg-[#252f44] text-white rounded-lg font-semibold transition-colors cursor-pointer"
+                  >
+                    Ver Perfil
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 font-medium text-[10px] border border-blue-500/20">
-                  {p.companyName || 'Sin empresa'}
-                </span>
-                <button
-                  onClick={() => showToast(`Abriendo expediente de ${p.name}`, 'info')}
-                  className="px-3 py-1.5 bg-[#1c2333] hover:bg-[#252f44] text-white rounded-lg font-semibold transition-colors cursor-pointer"
-                >
-                  Ver Perfil
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

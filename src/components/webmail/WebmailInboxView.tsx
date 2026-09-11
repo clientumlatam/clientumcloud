@@ -36,8 +36,6 @@ import { WebmailEmail, WebmailFolder } from '../../types';
 export const WebmailInboxView: React.FC = () => {
   const {
     webmailEmails,
-    webmailSelectedFolder,
-    setWebmailSelectedFolder,
     markWebmailEmailAsRead,
     toggleWebmailStar,
     deleteWebmailEmail,
@@ -47,6 +45,7 @@ export const WebmailInboxView: React.FC = () => {
     currentUser,
   } = useCRM();
 
+  const [webmailSelectedFolder, setWebmailSelectedFolder] = useState<WebmailFolder>('inbox');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
   const [filterUnreadOnly, setFilterUnreadOnly] = useState(false);
@@ -141,6 +140,7 @@ export const WebmailInboxView: React.FC = () => {
         spfStatus: 'PASS',
         dkimStatus: 'PASS',
         dmarcStatus: 'PASS',
+        attachments: [],
         crmLinkedType: selectedEmail.crmLinkedType,
         crmLinkedId: selectedEmail.crmLinkedId,
         crmLinkedName: selectedEmail.crmLinkedName,

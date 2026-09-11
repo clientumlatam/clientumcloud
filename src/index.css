@@ -1,6 +1,26 @@
 @import "tailwindcss";
 
 /* ==========================================================================
+   PALETA DE MARCA — Navy del logo Clientum
+   Sobrescribe la escala "blue" de Tailwind para que bg-blue-*, text-blue-*,
+   border-blue-*, from-blue-*, etc. usen el navy del logo en toda la app
+   (incluye la landing page), en lugar del azul genérico de Tailwind.
+   ========================================================================== */
+@theme {
+  --color-blue-50: #eef1f6;
+  --color-blue-100: #dbe2ec;
+  --color-blue-200: #c3cee0;
+  --color-blue-300: #a9bfe0;
+  --color-blue-400: #5b7ebd;
+  --color-blue-500: #3d5f99;
+  --color-blue-600: #0a2558; /* navy exacto del logo */
+  --color-blue-700: #071b3d;
+  --color-blue-800: #051530;
+  --color-blue-900: #030f24;
+  --color-blue-950: #010a18;
+}
+
+/* ==========================================================================
    CLIENTUM CRM DESIGN SYSTEM & MODULAR THEME ENGINE
    Modular CSS Variable System supporting Light, Dark, and System modes
    with High Contrast Ratios (WCAG AAA/AA) and Consistent Spacing Tokens
@@ -18,30 +38,30 @@
   --bg-navbar: #ffffff;
   --bg-input: #ffffff;
   --bg-muted: #f1f5f9;
-  --bg-accent-subtle: #eff6ff;
+  --bg-accent-subtle: #eef1f6;
 
   /* High Contrast Typography */
   --text-primary: #0f172a;       /* 15.6:1 contrast on white (WCAG AAA) */
   --text-secondary: #334155;     /* 9.4:1 contrast on white */
   --text-muted: #475569;         /* 5.9:1 contrast on white */
   --text-inverse: #ffffff;
-  --text-brand: #2563eb;
-  --text-brand-hover: #1d4ed8;
+  --text-brand: #0a2558;
+  --text-brand-hover: #071b3d;
 
   /* Border & Divider System */
   --border-subtle: #e2e8f0;
   --border-default: #cbd5e1;
   --border-strong: #94a3b8;
-  --border-focus: #2563eb;
+  --border-focus: #0a2558;
 
-  /* Brand Accents */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-primary-light: #eff6ff;
-  --color-primary-text: #1e40af;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  /* Brand Accents (Logo Palette: Deep Indigo & Emerald Accent) */
+  --color-primary: #4338ca;
+  --color-primary-hover: #3730a3;
+  --color-primary-light: #e0e7ff;
+  --color-primary-text: #312e81;
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
 
    /* --------------------------------------------------------------------------
       Clientum Clarity navigation surfaces
@@ -53,18 +73,18 @@
    --sidebar-text-primary: #0f172a;
    --sidebar-text-secondary: #475569;
    --sidebar-text-muted: #64748b;
-   --sidebar-hover-bg: #eff6ff;
-   --sidebar-hover-text: #1e3a8a;
-  --sidebar-active-bg: #2563eb;
+   --sidebar-hover-bg: #eef1f6;
+   --sidebar-hover-text: #081c42;
+  --sidebar-active-bg: #0a2558;
   --sidebar-active-text: #ffffff;
    --sidebar-search-bg: #f8fafc;
    --sidebar-search-border: #cbd5e1;
    --sidebar-search-text: #0f172a;
-   --sidebar-portal-btn-bg: #eff6ff;
-   --sidebar-portal-btn-text: #1d4ed8;
-   --sidebar-portal-btn-border: #bfdbfe;
-   --sidebar-copilot-bg: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
-   --sidebar-copilot-border: #c7d2fe;
+   --sidebar-portal-btn-bg: #eef1f6;
+   --sidebar-portal-btn-text: #071b3d;
+   --sidebar-portal-btn-border: #c3cee0;
+   --sidebar-copilot-bg: linear-gradient(135deg, #eef1f6 0%, #f5f3ff 100%);
+   --sidebar-copilot-border: #c5cee5;
    --sidebar-card-text: #334155;
    --sidebar-card-muted: #64748b;
 
@@ -106,30 +126,30 @@
   --bg-navbar: #0f172a;
   --bg-input: #0f172a;
   --bg-muted: #1e293b;
-  --bg-accent-subtle: rgba(37, 99, 235, 0.15);
+  --bg-accent-subtle: rgba(10, 37, 88, 0.15);
 
   /* High Contrast Typography */
   --text-primary: #f8fafc;       /* 16.5:1 contrast on #090d16 (WCAG AAA) */
   --text-secondary: #cbd5e1;     /* 11.2:1 contrast */
   --text-muted: #94a3b8;         /* 6.8:1 contrast */
   --text-inverse: #0f172a;
-  --text-brand: #60a5fa;
-  --text-brand-hover: #93c5fd;
+  --text-brand: #5b7ebd;
+  --text-brand-hover: #a9bfe0;
 
   /* Border & Divider System */
   --border-subtle: #1e293b;
   --border-default: #334155;
   --border-strong: #475569;
-  --border-focus: #3b82f6;
+  --border-focus: #3d5f99;
 
-  /* Brand Accents */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #60a5fa;
-  --color-primary-light: rgba(59, 130, 246, 0.15);
-  --color-primary-text: #93c5fd;
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
+  /* Brand Accents (Logo Palette) */
+  --color-primary: #6366f1;
+  --color-primary-hover: #818cf8;
+  --color-primary-light: rgba(99, 102, 241, 0.15);
+  --color-primary-text: #a5b4fc;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
 
   /* --------------------------------------------------------------------------
      Sidebar High-Contrast Visual Separation (Dark Mode: Pure Obsidian)
@@ -144,16 +164,16 @@
   --sidebar-text-muted: #64748b;
   --sidebar-hover-bg: #0f172a;
   --sidebar-hover-text: #ffffff;
-  --sidebar-active-bg: #1d4ed8;
+  --sidebar-active-bg: #071b3d;
   --sidebar-active-text: #ffffff;
   --sidebar-search-bg: #090d16;
   --sidebar-search-border: #1e293b;
   --sidebar-search-text: #f8fafc;
   --sidebar-portal-btn-bg: #0f172a;
-  --sidebar-portal-btn-text: #60a5fa;
+  --sidebar-portal-btn-text: #5b7ebd;
   --sidebar-portal-btn-border: #1e293b;
   --sidebar-copilot-bg: linear-gradient(135deg, #09132b 0%, #0d0e24 100%);
-  --sidebar-copilot-border: #1e3a8a;
+  --sidebar-copilot-border: #081c42;
   --sidebar-card-text: #f1f5f9;
   --sidebar-card-muted: #94a3b8;
 
@@ -289,11 +309,11 @@ button:focus-visible {
 
 .crm-top-navbar .text-blue-700,
 .crm-top-navbar .text-blue-600 {
-  color: #1d4ed8 !important;
+  color: #071b3d !important;
 }
 
 .crm-top-navbar .bg-blue-50 {
-  background: #eff6ff !important;
+  background: #eef1f6 !important;
 }
 
 .crm-dashboard {
@@ -311,7 +331,7 @@ button:focus-visible {
   display: flex;
   overflow: hidden;
   background:
-    radial-gradient(circle at 28% -15%, rgba(37, 99, 235, .08), transparent 38%),
+    radial-gradient(circle at 28% -15%, rgba(10, 37, 88, .08), transparent 38%),
     radial-gradient(circle at 88% 110%, rgba(14, 116, 144, .06), transparent 34%),
     var(--crm-bg);
   color: var(--crm-text);
@@ -1464,7 +1484,7 @@ html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar [class*="bo
 }
 
 html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar [class*="hover:bg-slate-"]:hover {
-  background-color: #eff6ff !important;
+  background-color: #eef1f6 !important;
 }
 
 html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar [class*="bg-blue-600"][class*="text-white"],
@@ -1475,12 +1495,12 @@ html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar #sidebar-qu
 }
 
 html[data-theme="light"] .clientum-light-dashboard #sidebar-brand-logo-placeholder > div {
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%) !important;
+  background: linear-gradient(135deg, #0d2c63 0%, #0a2558 100%) !important;
 }
 
 html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar #sidebar-copilot-card {
-  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%) !important;
-  border-color: #c7d2fe !important;
+  background: linear-gradient(135deg, #eef1f6 0%, #f5f3ff 100%) !important;
+  border-color: #c5cee5 !important;
 }
 
 html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar #sidebar-copilot-card [class*="text-blue-2"],
@@ -1575,9 +1595,9 @@ html[data-theme="light"] .clientum-light-dashboard .crm-period {
 html[data-theme="light"] .clientum-light-dashboard .crm-select-button:hover,
 html[data-theme="light"] .clientum-light-dashboard .crm-icon-button:hover,
 html[data-theme="light"] .clientum-light-dashboard .crm-ai-toggle:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
-  color: #1d4ed8;
+  background: #eef1f6;
+  border-color: #a9bfe0;
+  color: #071b3d;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-dropdown,
@@ -1613,15 +1633,15 @@ html[data-theme="light"] .clientum-light-dashboard .crm-stale-deals__label {
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-report-link {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #2563eb;
+  border-color: #c3cee0;
+  background: #eef1f6;
+  color: #0a2558;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-report-link:hover {
   background: #dbeafe;
-  border-color: #93c5fd;
-  color: #1d4ed8;
+  border-color: #a9bfe0;
+  color: #071b3d;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-attention-item,
@@ -1632,7 +1652,7 @@ html[data-theme="light"] .clientum-light-dashboard .crm-stale-deals__list button
 
 html[data-theme="light"] .clientum-light-dashboard .crm-attention-item:hover,
 html[data-theme="light"] .clientum-light-dashboard .crm-stale-deals__list button:hover {
-  border-color: #93c5fd;
+  border-color: #a9bfe0;
   background: #ffffff;
 }
 
@@ -1669,7 +1689,7 @@ html[data-theme="light"] .clientum-light-dashboard .crm-attention-empty {
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-attention-more {
-  color: #2563eb;
+  color: #0a2558;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-stale-deals {
@@ -1689,462 +1709,6 @@ html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card {
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card--accent {
-  background: linear-gradient(145deg, #ecfeff, #ffffff);
-  border-color: #99f6e4;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-assistant__composer,
-html[data-theme="light"] .clientum-light-dashboard .crm-assistant__composer input,
-html[data-theme="light"] .clientum-light-dashboard .crm-message__bubble,
-html[data-theme="light"] .clientum-light-dashboard .crm-chat-day {
-  background: #f8fafc;
-  border-color: #dbe4ef;
-  color: #334155;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-message--user .crm-message__bubble {
-  background: linear-gradient(145deg, #2563eb, #1d4ed8);
-  border-color: #1d4ed8;
-  color: #ffffff;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-send-button {
-  background: #2563eb !important;
-  color: #ffffff !important;
-}
-
-/* ==========================================================================
-   Executive dashboard hierarchy — light workspace
-   The dashboard is intentionally ordered as: context, executive summary,
-   pipeline, then the assistant on demand.
-   ========================================================================== */
-html[data-theme="light"] .clientum-light-dashboard .crm-dashboard {
-  --crm-bg: #f4f7fb;
-  --crm-surface: #ffffff;
-  --crm-surface-2: #f8fafc;
-  --crm-border: #dbe4ef;
-  --crm-border-soft: #e8eef5;
-  --crm-muted: #64748b;
-  --crm-text: #0f172a;
-  --crm-cyan: #0f766e;
-  background: var(--crm-bg);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__content {
-  display: flex;
-  flex-direction: column;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__header {
-  order: 1;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-kpi-grid {
-  order: 3;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-analytics-grid {
-  order: 4;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-pipeline-heading {
-  order: 5;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-board-shell {
-  order: 6;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__header h1 {
-  color: #0f172a;
-  font-size: clamp(1.35rem, 2vw, 1.65rem);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__header p {
-  color: #64748b;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-eyebrow,
-html[data-theme="light"] .clientum-light-dashboard .crm-section-kicker {
-  color: #2563eb;
-}
-
-.crm-pipeline-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 24px 0 10px;
-}
-
-.crm-pipeline-heading h2 {
-  margin: 4px 0 0;
-  color: var(--crm-text, #0f172a);
-  font-size: 15px;
-  letter-spacing: -.02em;
-}
-
-.crm-pipeline-heading > span {
-  color: var(--crm-muted, #64748b);
-  font-size: 10px;
-}
-
-.crm-section-kicker {
-  display: block;
-  color: #2563eb;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.crm-operations-shell {
-  margin: 0 0 22px;
-  padding: 17px;
-  border: 1px solid #dbe4ef;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, .82);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, .06);
-}
-
-.crm-operations-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 14px;
-}
-
-.crm-operations-header h2 {
-  margin: 5px 0 4px;
-  color: #0f172a;
-  font-size: 16px;
-  letter-spacing: -.03em;
-}
-
-.crm-operations-header p {
-  margin: 0;
-  color: #64748b;
-  font-size: 10px;
-}
-
-.crm-operations-health {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 9px;
-  border: 1px solid #bbf7d0;
-  border-radius: 9px;
-  color: #166534;
-  background: #f0fdf4;
-  font-size: 10px;
-  font-weight: 750;
-  white-space: nowrap;
-}
-
-.crm-operations-health .crm-status-dot {
-  width: 6px;
-  height: 6px;
-  background: #22c55e;
-  box-shadow: 0 0 9px rgba(34, 197, 94, .55);
-}
-
-.crm-operations-health small {
-  margin-left: 3px;
-  color: #4d7c5b;
-  font-size: 9px;
-  font-weight: 500;
-}
-
-.crm-operations-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.crm-operation-card {
-  min-width: 0;
-  padding: 11px;
-  border: 1px solid #e2e8f0;
-  border-radius: 11px;
-  background: #f8fafc;
-  color: #0f172a;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease, background .18s ease;
-}
-
-.crm-operation-card:hover {
-  border-color: #93c5fd;
-  background: #ffffff;
-  box-shadow: 0 8px 20px rgba(37, 99, 235, .1);
-  transform: translateY(-1px);
-}
-
-.crm-operation-card__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 5px;
-}
-
-.crm-operation-card__label {
-  color: #64748b;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.crm-operation-card__icon {
-  width: 25px;
-  height: 25px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  border-radius: 7px;
-  color: #2563eb;
-  background: #eff6ff;
-}
-
-.crm-operation-card > strong {
-  display: block;
-  min-height: 28px;
-  margin-top: 10px;
-  color: #1e293b;
-  font-size: 10px;
-  line-height: 1.35;
-}
-
-.crm-operation-card__metric {
-  display: block;
-  margin-top: 7px;
-  color: #0f766e;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -.05em;
-}
-
-.crm-operation-card__detail {
-  display: block;
-  min-height: 27px;
-  margin-top: 3px;
-  color: #64748b;
-  font-size: 9px;
-  line-height: 1.4;
-}
-
-.crm-operation-card__status {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-top: 9px;
-  font-size: 8px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.crm-operation-card__status--good {
-  color: #15803d;
-}
-
-.crm-operation-card__status--info {
-  color: #2563eb;
-}
-
-.crm-operation-card__status--warning {
-  color: #b45309;
-}
-
-.crm-operation-card__arrow {
-  margin-left: auto;
-  opacity: .6;
-}
-
-.crm-suite-map {
-  margin-top: 12px;
-  padding: 11px 12px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 11px;
-  background: #ffffff;
-}
-
-.crm-suite-map__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 9px;
-}
-
-.crm-suite-map__title,
-.crm-suite-map__hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.crm-suite-map__title {
-  color: #1e293b;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.crm-suite-map__title svg {
-  color: #7c3aed;
-}
-
-.crm-suite-map__title b {
-  padding: 3px 6px;
-  border-radius: 999px;
-  color: #6d28d9;
-  background: #f5f3ff;
-  font-size: 8px;
-  font-weight: 800;
-}
-
-.crm-suite-map__hint {
-  color: #94a3b8;
-  font-size: 9px;
-}
-
-.crm-suite-map__modules {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.crm-suite-map__modules button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 7px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  color: #475569;
-  background: #f8fafc;
-  font-size: 8px;
-  font-weight: 650;
-  cursor: pointer;
-  transition: .18s ease;
-}
-
-.crm-suite-map__modules button:hover {
-  border-color: #bfdbfe;
-  color: #1d4ed8;
-  background: #eff6ff;
-}
-
-.crm-suite-map__dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 999px;
-  background: #94a3b8;
-}
-
-.crm-suite-map__modules button:hover .crm-suite-map__dot {
-  background: #3b82f6;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-select-button,
-html[data-theme="light"] .clientum-light-dashboard .crm-icon-button,
-html[data-theme="light"] .clientum-light-dashboard .crm-ai-toggle {
-  background: #ffffff;
-  border-color: #dbe4ef;
-  color: #334155;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-ai-toggle {
-  color: #1d4ed8;
-  border-color: #bfdbfe;
-  background: #eff6ff;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-ai-toggle svg {
-  color: #2563eb;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dropdown {
-  border-color: #dbe4ef;
-  background: #ffffff;
-  box-shadow: 0 18px 40px rgb(15 23 42 / .12);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dropdown button {
-  color: #334155;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-dropdown button:hover {
-  color: #1d4ed8;
-  background: #eff6ff;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-board-shell {
-  background: #ffffff;
-  border-color: #dbe4ef;
-  box-shadow: 0 10px 25px rgb(15 23 42 / .06);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-stage {
-  border-color: #e2e8f0;
-  background: #f8fafc;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-stage__header,
-html[data-theme="light"] .clientum-light-dashboard .crm-deal-card__footer {
-  border-color: #e2e8f0;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-stage__title,
-html[data-theme="light"] .clientum-light-dashboard .crm-deal-card h3 {
-  color: #0f172a;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-stage__total,
-html[data-theme="light"] .clientum-light-dashboard .crm-deal-card__top {
-  color: #64748b;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-deal-card {
-  border-color: #e2e8f0;
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgb(15 23 42 / .04);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-deal-card__footer strong {
-  color: #1e40af;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-new-deal {
-  border-color: #bfdbfe;
-  color: #2563eb;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-new-deal:hover {
-  background: #eff6ff;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card,
-html[data-theme="light"] .clientum-light-dashboard .crm-panel {
-  border-color: #dbe4ef;
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgb(15 23 42 / .04);
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card__head,
-html[data-theme="light"] .clientum-light-dashboard .crm-panel__header p,
-html[data-theme="light"] .clientum-light-dashboard .crm-panel__total span {
-  color: #64748b;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card strong,
-html[data-theme="light"] .clientum-light-dashboard .crm-donut strong {
-  color: #0f172a;
-}
-
-html[data-theme="light"] .clientum-light-dashboard .crm-kpi-card--accent {
   border-color: #99f6e4;
   background: #f0fdfa;
 }
@@ -2155,9 +1719,9 @@ html[data-theme="light"] .clientum-light-dashboard .crm-panel__total strong {
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-kpi-icon {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #2563eb;
+  border-color: #c3cee0;
+  background: #eef1f6;
+  color: #0a2558;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-source-list > div,
@@ -2167,7 +1731,7 @@ html[data-theme="light"] .clientum-light-dashboard .crm-source-list strong {
 
 html[data-theme="light"] .clientum-light-dashboard .crm-report-link {
   border-color: #e2e8f0;
-  color: #2563eb;
+  color: #0a2558;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-assistant-backdrop {
@@ -2197,8 +1761,8 @@ html[data-theme="light"] .clientum-light-dashboard .crm-assistant__composer butt
 
 html[data-theme="light"] .clientum-light-dashboard .crm-assistant__tools button:hover,
 html[data-theme="light"] .clientum-light-dashboard .crm-assistant__composer button:hover {
-  color: #1d4ed8;
-  background: #eff6ff;
+  color: #071b3d;
+  background: #eef1f6;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-message__typing {
@@ -2207,10 +1771,10 @@ html[data-theme="light"] .clientum-light-dashboard .crm-message__typing {
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-chat-reopen {
-  border-color: #bfdbfe;
-  background: #2563eb;
+  border-color: #c3cee0;
+  background: #0a2558;
   color: #ffffff;
-  box-shadow: 0 10px 25px rgb(37 99 235 / .2);
+  box-shadow: 0 10px 25px rgb(10 37 88 / .2);
 }
 
 .crm-assistant-backdrop {

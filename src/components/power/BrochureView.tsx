@@ -83,12 +83,16 @@ export const BrochureView: React.FC = () => {
     addOpportunity({
       name: `Propuesta ClientumCRM (${selectedServices.length} Módulos)`,
       amount: currency === 'ARS' ? finalSetupARS : Math.round(finalSetupARS / usdToArsRate),
+      currency: currency === 'ARS' ? 'ARS' : 'USD',
       companyName: 'Cliente Potencial PyME',
-      personName: 'Interesado Comercial',
+      contactName: 'Interesado Comercial',
       stage: 'proposal',
       probability: 65,
-      expectedCloseDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+      closeDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
       assignedTo: 'Alex Morgan',
+      priority: 'High',
+      type: 'New Business',
+      tags: ['Propuesta', 'Cotización'],
       notes: `Servicios seleccionados: ${activeServicesList.map(s => s.name).join(', ')}. Abono: ${displayMonthly}`
     });
     triggerConfetti();
@@ -623,11 +627,15 @@ export const BrochureView: React.FC = () => {
                       addOpportunity({
                         name: `Interés: ${item.name}`,
                         amount: item.regularPrice || 500,
+                        currency: 'ARS',
                         companyName: 'Cliente Prospecto',
                         stage: 'lead',
                         probability: 25,
-                        expectedCloseDate: new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0],
+                        closeDate: new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0],
                         assignedTo: 'Alex Morgan',
+                        priority: 'Medium',
+                        type: 'New Business',
+                        tags: ['Catálogo'],
                         notes: `Interesado en catálogo item: ${item.sku} - ${item.name}`
                       });
                       showToast(`Agregado "${item.name}" como Lead en el Pipeline`, 'success');

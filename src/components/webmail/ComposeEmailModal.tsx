@@ -223,7 +223,8 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
     try {
       let linkedName = undefined;
       if (selectedCrmType === 'opportunity') {
-        linkedName = opportunities.find((o) => o.id === selectedCrmId)?.title;
+        const opp = opportunities.find((o) => o.id === selectedCrmId);
+        linkedName = opp?.name || opp?.title;
       } else if (selectedCrmType === 'company') {
         linkedName = companies.find((c) => c.id === selectedCrmId)?.name;
       } else if (selectedCrmType === 'person') {
@@ -507,7 +508,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                   <option value="">Seleccionar Negocio...</option>
                   {opportunities.map((opp) => (
                     <option key={opp.id} value={opp.id}>
-                      {opp.title} (${opp.amount.toLocaleString()})
+                      {opp.name || opp.title} (${opp.amount.toLocaleString()})
                     </option>
                   ))}
                 </select>

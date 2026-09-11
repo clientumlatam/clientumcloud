@@ -169,6 +169,8 @@ export async function syncWorkspaceToFirestore(userId: string, data: {
   people?: any[];
   tasks?: any[];
   activities?: any[];
+  theme?: string;
+  [key: string]: any;
 }): Promise<void> {
   if (!isLiveFirebaseReady || !db || !userId) return;
   try {

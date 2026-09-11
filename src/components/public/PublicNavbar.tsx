@@ -26,6 +26,7 @@ import {
   HardHat,
   Car,
   Phone,
+  MapPin,
 } from 'lucide-react';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { useCRM } from '../../context/CRMContext';
@@ -53,7 +54,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
   onOpenSimulator,
   onOpenAudit,
 }) => {
-  const { enterApp, setIsAuthModalOpen, isAuthenticated } = useCRM();
+  const { enterApp, setIsAuthModalOpen, isAuthenticated, setIsCommandPaletteOpen } = useCRM();
 
   // Dropdown states
   const [activeMenu, setActiveMenu] = useState<'product' | 'industries' | 'resources' | null>(null);
@@ -75,21 +76,6 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Keyboard shortcut (⌘K or Ctrl+K) to open search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsSearchOpen(prev => !prev);
-      } else if (e.key === 'Escape') {
-        setActiveMenu(null);
-        setIsSearchOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -348,7 +334,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                           className="p-2.5 rounded-xl hover:bg-cyan-50/70 border border-transparent hover:border-cyan-200 transition-all text-left flex items-start gap-2.5 group cursor-pointer"
                         >
                           <div className="p-2 rounded-lg bg-cyan-50 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors shrink-0">
-                            <Map className="w-4 h-4" />
+                            <MapPin className="w-4 h-4" />
                           </div>
                           <div>
                             <div className="font-bold text-xs text-slate-900 group-hover:text-cyan-700 flex items-center gap-1.5">
@@ -617,12 +603,12 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             
             {/* Interactive Search Bar Trigger */}
             <button
-              onClick={() => setIsSearchOpen(true)}
+              onClick={() => setIsCommandPaletteOpen(true)}
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
-              title="Buscar en todo el sitio (⌘K)"
+              title="Buscar contactos, crear deals... (⌘K / Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-[11px]">Buscar...</span>
+              <span className="text-[11px]">Buscar contactos o deals...</span>
               <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-slate-400">
                 ⌘K
               </kbd>

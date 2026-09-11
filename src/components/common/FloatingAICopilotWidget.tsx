@@ -189,7 +189,8 @@ Responde como un asesor comercial sénior, muy conciso, accionable y profesional
       description: 'Llamar al cliente para revisar dudas de propuesta comercial y agendar demo final.',
       dueDate: today,
       priority: 'High',
-      status: 'Pending',
+      status: 'Todo',
+      assignedTo: 'Alex Morgan',
     });
     triggerConfetti();
     showToast('Tarea creada y añadida a tu agenda con prioridad Alta', 'success');

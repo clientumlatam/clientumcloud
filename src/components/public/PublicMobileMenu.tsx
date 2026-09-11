@@ -106,15 +106,15 @@ export const PublicMobileMenu: React.FC<PublicMobileMenuProps> = ({
             <span className="rounded bg-blue-200 px-1.5 py-0.5 text-[10px] text-blue-800">Ver Demo</span>
           </button>
           {[
-            ['/producto/whatsapp-ia', 'WhatsApp Multiagente & Baileys', MessageSquare, 'text-emerald-600'],
-            ['/producto/erp', 'Facturación AFIP con CAE (WSFE)', FileSpreadsheet, 'text-blue-600'],
-            ['/producto/agentes-ia', 'Agente OS Autónomo (Gemini 3.7)', Bot, 'text-purple-600'],
-            ['/producto/automatizaciones', 'Automatizaciones & Flujos DAG', Zap, 'text-amber-600'],
-            ['/producto/bi', 'Business Intelligence & Forecast', BarChart3, 'text-blue-600'],
-          ].map(([path, label, Icon, color]) => (
+            { path: '/producto/whatsapp-ia', label: 'WhatsApp Multiagente & Baileys', icon: MessageSquare, color: 'text-emerald-600' },
+            { path: '/producto/erp', label: 'Facturación AFIP con CAE (WSFE)', icon: FileSpreadsheet, color: 'text-blue-600' },
+            { path: '/producto/agentes-ia', label: 'Agente OS Autónomo (Gemini 3.7)', icon: Bot, color: 'text-purple-600' },
+            { path: '/producto/automatizaciones', label: 'Automatizaciones & Flujos DAG', icon: Zap, color: 'text-amber-600' },
+            { path: '/producto/bi', label: 'Business Intelligence & Forecast', icon: BarChart3, color: 'text-blue-600' },
+          ].map(({ path, label, icon: Icon, color }) => (
             <button
               type="button"
-              key={path as string}
+              key={path}
               onClick={() => navigate(path as PublicRoutePath)}
               className="flex w-full items-center gap-2 rounded-xl bg-slate-50 p-2.5 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100"
             >

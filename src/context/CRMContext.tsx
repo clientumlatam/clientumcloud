@@ -130,8 +130,8 @@ interface CRMContextType {
   openNewRecordModal: (type?: 'opportunity' | 'company' | 'person' | 'task') => void;
   isAICopilotModalOpen: boolean;
   setIsAICopilotModalOpen: (open: boolean) => void;
-  aiCopilotContext: { type?: string; id?: string; name?: string; initialPrompt?: string } | null;
-  openAICopilot: (context?: { type?: string; id?: string; name?: string; initialPrompt?: string }) => void;
+  aiCopilotContext: { type?: string; id?: string; name?: string; initialPrompt?: string; [key: string]: any } | null;
+  openAICopilot: (context?: { type?: string; id?: string; name?: string; initialPrompt?: string; [key: string]: any }) => void;
   
   // Auth & Profile & Public Site
   isPublicSiteVisible: boolean;
@@ -278,9 +278,12 @@ interface CRMContextType {
   openComposeEmailModal: (defaults?: Partial<WebmailEmail>) => void;
   closeComposeEmailModal: () => void;
 
-  // Ecosystem Hub Order
+  // Ecosystem Hub Order & Sync Status
   ecosystemModuleOrder: string[];
   setEcosystemModuleOrder: (order: string[]) => void;
+  isOnline: boolean;
+  isSyncPending: boolean;
+  offlinePriorityQueue: string[][];
 }
 
 const CRMContext = createContext<CRMContextType | undefined>(undefined);
@@ -537,7 +540,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('clientum_crm_webhooks', JSON.stringify(webhooks));
   }, [webhooks]);
 
-  const [ecosystemModuleOrder, setEcosystemModuleOrder] = useState<string[]>(() => {
+  const [ecosystemModuleOrder, setEcosystemModuleOrderState] = useState<string[]>(() => {
     const saved = localStorage.getItem('clientum_ecosystem_module_order');
     if (saved) {
       try {
@@ -565,9 +568,36 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ];
   });
 
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isSyncPending, setIsSyncPending] = useState<boolean>(false);
+  const [offlinePriorityQueue, setOfflinePriorityQueue] = useState<string[][]>(() => {
+    try {
+      const saved = localStorage.getItem('clientum_offline_priority_queue');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
   useEffect(() => {
-    localStorage.setItem('clientum_ecosystem_module_order', JSON.stringify(ecosystemModuleOrder));
-  }, [ecosystemModuleOrder]);
+    localStorage.setItem('clientum_offline_priority_queue', JSON.stringify(offlinePriorityQueue));
+  }, [offlinePriorityQueue]);
+
+  const setEcosystemModuleOrder = (newOrder: string[]) => {
+    setEcosystemModuleOrderState(newOrder);
+    localStorage.setItem('clientum_ecosystem_module_order', JSON.stringify(newOrder));
+
+    if (!navigator.onLine) {
+      setIsSyncPending(true);
+      setOfflinePriorityQueue((prev) => [...prev, newOrder]);
+      showToast('⚠️ Sin conexión: Cambio de prioridad guardado en cola offline para sincronización con Firebase', 'warning');
+    } else {
+      setIsSyncPending(true);
+      setTimeout(() => {
+        setIsSyncPending(false);
+      }, 900);
+    }
+  };
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [viewMode, setViewMode] = useState<OpportunityViewMode>('kanban');
   const [selectedRecord, setSelectedRecord] = useState<{ type: 'opportunity' | 'company' | 'person' | 'task'; id: string } | null>(null);
@@ -588,7 +618,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isNewRecordModalOpen, setIsNewRecordModalOpen] = useState(false);
   const [newRecordType, setNewRecordType] = useState<'opportunity' | 'company' | 'person' | 'task'>('opportunity');
   const [isAICopilotModalOpen, setIsAICopilotModalOpen] = useState(false);
-  const [aiCopilotContext, setAICopilotContext] = useState<{ type?: string; id?: string; name?: string; initialPrompt?: string } | null>(null);
+  const [aiCopilotContext, setAICopilotContext] = useState<{ type?: string; id?: string; name?: string; initialPrompt?: string; [key: string]: any } | null>(null);
   const [isPublicSiteVisible, setIsPublicSiteVisible] = useState<boolean>(() => {
     try {
       const mode = sessionStorage.getItem('clientum_view_mode');
@@ -684,6 +714,49 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAuthenticated(true);
     setIsAuthReady(true);
   }, [users]);
+
+  // Online / Offline & Background Batching Sync Queue for Module Priority & Workspace State
+  useEffect(() => {
+    const handleOnline = async () => {
+      setIsOnline(true);
+      if (offlinePriorityQueue.length > 0 || isSyncPending) {
+        setIsSyncPending(true);
+        try {
+          const latestOrder = offlinePriorityQueue[offlinePriorityQueue.length - 1];
+          if (latestOrder && isAuthenticated && currentUser.id) {
+            await syncWorkspaceToFirestore(currentUser.id, {
+              opportunities,
+              companies,
+              people,
+              tasks,
+              activities,
+            });
+          }
+          setOfflinePriorityQueue([]);
+          setIsSyncPending(false);
+          showToast('🟢 Conexión restablecida: Cola de prioridad de módulos sincronizada con Firebase', 'success');
+        } catch (err) {
+          console.error('Batch sync priority queue failed:', err);
+          setIsSyncPending(false);
+        }
+      } else {
+        setIsSyncPending(false);
+      }
+    };
+
+    const handleOffline = () => {
+      setIsOnline(false);
+      setIsSyncPending(true);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [offlinePriorityQueue, isSyncPending, isAuthenticated, currentUser, opportunities, companies, people, tasks, activities]);
 
   // PostgreSQL is the source of truth for the core CRM entities. The local
   // state remains as an offline/demo fallback while the authenticated
@@ -1039,31 +1112,46 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Global Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // ⌘K or Ctrl+K
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      // ⌘K or Ctrl+K (case-insensitive & cross-platform)
+      const isCmdOrCtrlK =
+        (e.metaKey || e.ctrlKey) &&
+        (e.key === 'k' || e.key === 'K' || e.code === 'KeyK');
+
+      if (isCmdOrCtrlK) {
         e.preventDefault();
+        e.stopPropagation();
         setIsCommandPaletteOpen((prev) => !prev);
+        return;
       }
-      // 'c' to create new record when not typing in input
+
+      // 'c' to create new record when not typing in an editable field
       if (
-        e.key === 'c' &&
+        (e.key === 'c' || e.key === 'C') &&
         !['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName) &&
+        !(e.target as HTMLElement)?.isContentEditable &&
         !isCommandPaletteOpen &&
         !isNewRecordModalOpen &&
         !isAICopilotModalOpen
       ) {
         e.preventDefault();
         openNewRecordModal();
+        return;
       }
+
       // Escape closes open modals
       if (e.key === 'Escape') {
-        setIsCommandPaletteOpen(false);
-        setIsNewRecordModalOpen(false);
-        setIsAICopilotModalOpen(false);
+        if (isCommandPaletteOpen) {
+          setIsCommandPaletteOpen(false);
+        } else if (isNewRecordModalOpen) {
+          setIsNewRecordModalOpen(false);
+        } else if (isAICopilotModalOpen) {
+          setIsAICopilotModalOpen(false);
+        }
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
   }, [isCommandPaletteOpen, isNewRecordModalOpen, isAICopilotModalOpen]);
 
   const showToast = (message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info') => {
@@ -2906,9 +2994,12 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         openComposeEmailModal,
         closeComposeEmailModal,
 
-        // Ecosystem Hub Order
+        // Ecosystem Hub Order & Sync Status
         ecosystemModuleOrder,
         setEcosystemModuleOrder,
+        isOnline,
+        isSyncPending,
+        offlinePriorityQueue,
       }}
     >
       {children}

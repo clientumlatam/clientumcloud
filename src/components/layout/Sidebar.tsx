@@ -37,8 +37,11 @@ import {
   ScanSearch,
   KeyRound,
   Boxes,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
+import { useTheme } from '../../context/ThemeContext';
 import { ActiveTab } from '../../types';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
@@ -69,7 +72,7 @@ const SidebarNavRow: React.FC<{
   const hasSubItems = Boolean(item.subItems?.length);
   const hasActiveChild = hasActiveDescendant(item, activeTab);
   const [isExpanded, setIsExpanded] = useState(item.defaultExpanded ?? false);
-  const isActive = activeTab === item.id || hasActiveChild;
+  const isActive = activeTab === item.id || (item.id === 'ecosystemHub' && activeTab === 'featureHub') || hasActiveChild;
   const canConfigureCredentials = item.configurable ?? moduleNeedsUserCredentials(item.id);
   const isSubmenuExpanded = isExpanded || hasActiveChild;
 
@@ -161,6 +164,8 @@ export const Sidebar: React.FC = () => {
     webmailEmails,
   } = useCRM();
 
+  const { resolvedTheme, toggleTheme } = useTheme();
+
   const [configModuleId, setConfigModuleId] = useState<ActiveTab | null>(null);
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({
     'Operaciones & Finanzas': true,
@@ -191,9 +196,8 @@ export const Sidebar: React.FC = () => {
       label: 'Panel de control & análisis',
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
-        { id: 'ecosystemHub', label: 'Módulos & Ecosistema', icon: Boxes, badge: '15 Apps', badgeColor: 'bg-indigo-600 text-white font-bold' },
+        { id: 'ecosystemHub', label: 'Unified Control Hub', icon: Boxes, badge: '15 Apps · Activo', badgeColor: 'bg-blue-600 text-white font-bold' },
         { id: 'analytics', label: 'Reportes & BI', icon: BarChart3 },
-        { id: 'featureHub', label: 'Centro de Funciones', icon: ScanSearch, badge: 'Activo', badgeColor: 'bg-violet-100 text-violet-800 font-semibold' },
       ],
     },
     {
@@ -440,6 +444,18 @@ export const Sidebar: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1">
+            <button
+              id="sidebar-theme-toggle-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleTheme();
+                showToast(resolvedTheme === 'dark' ? 'Modo claro activado' : 'Modo oscuro activado', 'success');
+              }}
+              className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+              title={resolvedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+              {resolvedTheme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+            </button>
             <button
               id="sidebar-schema-btn"
               onClick={(e) => {
