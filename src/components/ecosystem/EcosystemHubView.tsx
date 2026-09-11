@@ -54,6 +54,7 @@ export interface EcosystemModuleItem {
   defaultEnabled: boolean;
   capabilities: string[];
   docSummary: string;
+  progressPercentage?: number;
 }
 
 export const ECOSYSTEM_MODULES: EcosystemModuleItem[] = [
@@ -850,6 +851,29 @@ ${found?.capabilities.map((c, i) => `${i + 1}. **${c}**`).join('\n') || ''}
                           <span className="truncate">{cap}</span>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Indicador de Progreso Visual del Módulo */}
+                    <div className="pt-2.5 pb-3 space-y-1.5 border-t border-slate-100">
+                      <div className="flex items-center justify-between text-[10px]">
+                        <span className="text-slate-500 font-semibold flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          Progreso de Migración
+                        </span>
+                        <span className="font-bold text-slate-800 font-mono">
+                          {mod.progressPercentage ?? 100}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${
+                            isEnabled
+                              ? 'bg-gradient-to-r from-blue-500 to-emerald-500'
+                              : 'bg-slate-300'
+                          }`}
+                          style={{ width: `${mod.progressPercentage ?? 100}%` }}
+                        />
+                      </div>
                     </div>
                   </div>
 

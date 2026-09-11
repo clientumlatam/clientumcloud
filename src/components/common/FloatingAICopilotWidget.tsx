@@ -32,6 +32,8 @@ interface CopilotMessage {
   };
 }
 
+export { AICopilotFloating } from './AICopilotFloating';
+
 export const FloatingAICopilotWidget: React.FC = () => {
   const {
     opportunities,

@@ -21,6 +21,7 @@ import { useCRM } from '../../context/CRMContext';
 import { getClientumAuthJsonHeaders } from '../../lib/api';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { moduleNeedsUserCredentials } from '../../data/moduleCredentials';
+export { ModuleProspeccionMaps } from './ModuleProspeccionMaps';
 
 interface ScrapedLead {
   id: string;

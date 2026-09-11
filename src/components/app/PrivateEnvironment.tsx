@@ -51,9 +51,10 @@ import { PlatformBillingView } from '../billing/PlatformBillingView';
 import { MessagesView } from '../messages/MessagesView';
 import { ComposeEmailModal } from '../webmail/ComposeEmailModal';
 import { FeatureHubView } from '../features/FeatureHubView';
-import { EcosystemHubView } from '../ecosystem/EcosystemHubView';
+import { EcosistemaHub } from './EcosistemaHub';
 import { ToastContainer } from '../common/ToastContainer';
-import { FloatingAICopilotWidget } from '../common/FloatingAICopilotWidget';
+import { AICopilotFloating } from '../common/AICopilotFloating';
+import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
 
 const MainContent: React.FC = () => {
   const {
@@ -76,7 +77,7 @@ const MainContent: React.FC = () => {
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
         {activeTab === 'dashboard' && <ExecutiveDashboardView />}
-        {activeTab === 'ecosystemHub' && <EcosystemHubView />}
+        {activeTab === 'ecosystemHub' && <EcosistemaHub />}
         {activeTab === 'featureHub' && <FeatureHubView />}
         {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
         {activeTab === 'companies' && <CompaniesView />}
@@ -116,7 +117,7 @@ const MainContent: React.FC = () => {
         {activeTab === 'csvStudio' && <CSVStudioView />}
         {activeTab === 'agenteOS' && <AgenteOSView />}
         {activeTab === 'propuestas' && <Propuestas />}
-        {activeTab === 'googleMaps' && <CrmFullGoogleMaps />}
+        {activeTab === 'googleMaps' && <ModuleProspeccionMaps />}
         {activeTab === 'domainManager' && <PublicDomainManagerPage />}
         {activeTab === 'campusLMS' && <CampusLMSView />}
         {activeTab === 'tiendaDigital' && <TiendaDigitalView />}
@@ -145,7 +146,7 @@ const MainContent: React.FC = () => {
       <QuoteWizardModal isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />
       <WhatsAppSimulatorModal isOpen={isSimulatorOpen} onClose={() => setIsSimulatorOpen(false)} />
       <ExpressAuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} />
-      <FloatingAICopilotWidget />
+      <AICopilotFloating />
       <ToastContainer />
     </div>
   );
