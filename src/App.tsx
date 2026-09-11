@@ -6,7 +6,7 @@ import { AuthModal } from './components/auth/AuthModal';
 import { PublicSite } from './components/public/PublicSite';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { isPrivateAppPath } from './lib/navigation';
-import { subscribeToAuthState } from './firebase';
+import { subscribeToAuthState, syncUserProfileToFirestore } from './firebase';
 
 const PrivateEnvironment = React.lazy(() => import('./components/app/PrivateEnvironment').then((module) => ({
   default: module.PrivateEnvironment,
@@ -30,6 +30,17 @@ const FirebaseAuthBridge: React.FC = () => {
       lastUserId.current = userId;
 
       try {
+        if (fbUser) {
+          // Immediately sync user profile into Firestore collection 'users'
+          syncUserProfileToFirestore({
+            uid: fbUser.uid,
+            email: fbUser.email,
+            displayName: fbUser.displayName,
+            photoURL: fbUser.photoURL,
+            providerId: fbUser.providerData?.[0]?.providerId || 'google.com',
+          });
+        }
+
         syncClerkAuth(fbUser ? {
           id: fbUser.uid,
           email: fbUser.email || '',

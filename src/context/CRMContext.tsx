@@ -35,7 +35,7 @@ import {
 import { getTranslation, TranslationKey } from '../i18n/translations';
 import { useTheme } from './ThemeContext';
 import { getClientumAuthJsonHeaders } from '../lib/api';
-import { firebaseSignOut } from '../firebase';
+import { firebaseSignOut, syncWorkspaceToFirestore, fetchWorkspaceFromFirestore } from '../firebase';
 import { INITIAL_WEBMAIL_EMAILS } from '../data/webmailInitialData';
 import {
   INITIAL_ACTIVITIES,
@@ -680,6 +680,25 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setTasks(payload.records.tasks || []);
           setActivities(payload.records.activities || []);
         } else {
+          // Check if there is data in Firestore
+          const firestoreData = await fetchWorkspaceFromFirestore(currentUser.id);
+          if (firestoreData && (firestoreData.opportunities?.length || firestoreData.companies?.length || firestoreData.people?.length)) {
+            if (firestoreData.opportunities) setOpportunities(ensureUniqueIds(firestoreData.opportunities, 'opp'));
+            if (firestoreData.companies) setCompanies(firestoreData.companies);
+            if (firestoreData.people) setPeople(firestoreData.people);
+            if (firestoreData.tasks) setTasks(firestoreData.tasks);
+            if (firestoreData.activities) setActivities(firestoreData.activities);
+          } else {
+            // First time: sync initial/current state to Firestore
+            await syncWorkspaceToFirestore(currentUser.id, {
+              opportunities,
+              companies,
+              people,
+              tasks,
+              activities,
+            });
+          }
+
           await fetch('/api/crm/bootstrap', {
             method: 'PUT',
             headers: await getClientumAuthJsonHeaders(currentUser),
@@ -694,7 +713,29 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
         if (!cancelled) setIsCrmRemoteReady(true);
       } catch (error) {
-        console.warn('Persistent CRM bootstrap unavailable; keeping local state:', error);
+        console.warn('Persistent CRM bootstrap fallback to Firestore:', error);
+        // Fallback to Firestore directly if server API is not available
+        try {
+          const firestoreData = await fetchWorkspaceFromFirestore(currentUser.id);
+          if (firestoreData && (firestoreData.opportunities?.length || firestoreData.companies?.length || firestoreData.people?.length)) {
+            if (firestoreData.opportunities) setOpportunities(ensureUniqueIds(firestoreData.opportunities, 'opp'));
+            if (firestoreData.companies) setCompanies(firestoreData.companies);
+            if (firestoreData.people) setPeople(firestoreData.people);
+            if (firestoreData.tasks) setTasks(firestoreData.tasks);
+            if (firestoreData.activities) setActivities(firestoreData.activities);
+          } else {
+            // Save initial data to Firestore so user sees collections
+            await syncWorkspaceToFirestore(currentUser.id, {
+              opportunities,
+              companies,
+              people,
+              tasks,
+              activities,
+            });
+          }
+        } catch (fsErr) {
+          console.warn('Firestore fallback note:', fsErr);
+        }
         if (!cancelled) setIsCrmRemoteReady(true);
       }
     })();
@@ -717,6 +758,15 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     crmPersistTimer.current = window.setTimeout(() => {
       void (async () => {
         try {
+          // Sync directly to Firestore
+          await syncWorkspaceToFirestore(currentUser.id, {
+            opportunities,
+            companies,
+            people,
+            tasks,
+            activities,
+          });
+
           await fetch('/api/crm/bootstrap', {
             method: 'PUT',
             headers: await getClientumAuthJsonHeaders(currentUser),

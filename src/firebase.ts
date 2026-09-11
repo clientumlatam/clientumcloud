@@ -132,12 +132,76 @@ if (typeof window !== 'undefined' && isLiveFirebaseReady && app) {
 // Authentication Providers
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
-// Add Gmail scopes
-googleProvider.addScope('https://mail.google.com/');
-googleProvider.addScope('https://www.googleapis.com/auth/gmail.compose');
-googleProvider.addScope('https://www.googleapis.com/auth/gmail.modify');
-googleProvider.addScope('https://www.googleapis.com/auth/gmail.readonly');
-googleProvider.addScope('https://www.googleapis.com/auth/gmail.send');
+// Add standard user info scopes only by default to avoid "Google hasn't verified this app" warning
+googleProvider.addScope('email');
+googleProvider.addScope('profile');
+
+/**
+ * Helper to sync user profile into Firestore
+ */
+export async function syncUserProfileToFirestore(user: { uid: string; email?: string | null; displayName?: string | null; photoURL?: string | null; providerId?: string }): Promise<void> {
+  if (!isLiveFirebaseReady || !db || !user?.uid) return;
+  try {
+    const userRef = doc(db, 'users', user.uid);
+    await setDoc(userRef, {
+      uid: user.uid,
+      email: user.email || '',
+      displayName: user.displayName || '',
+      photoURL: user.photoURL || '',
+      providerId: user.providerId || 'google.com',
+      lastLoginAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Could not sync user profile to Firestore:', err);
+  }
+}
+
+/**
+ * Helper to sync CRM workspace snapshot to Firestore
+ */
+export async function syncWorkspaceToFirestore(userId: string, data: {
+  opportunities?: any[];
+  companies?: any[];
+  people?: any[];
+  tasks?: any[];
+  activities?: any[];
+}): Promise<void> {
+  if (!isLiveFirebaseReady || !db || !userId) return;
+  try {
+    const workspaceRef = doc(db, 'users', userId, 'workspace', 'crm');
+    await setDoc(workspaceRef, {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Could not sync workspace snapshot to Firestore:', err);
+  }
+}
+
+/**
+ * Helper to fetch CRM workspace snapshot from Firestore
+ */
+export async function fetchWorkspaceFromFirestore(userId: string): Promise<{
+  opportunities?: any[];
+  companies?: any[];
+  people?: any[];
+  tasks?: any[];
+  activities?: any[];
+} | null> {
+  if (!isLiveFirebaseReady || !db || !userId) return null;
+  try {
+    const workspaceRef = doc(db, 'users', userId, 'workspace', 'crm');
+    const snap = await getDoc(workspaceRef);
+    if (snap.exists()) {
+      return snap.data() as any;
+    }
+    return null;
+  } catch (err) {
+    console.warn('Could not fetch workspace snapshot from Firestore:', err);
+    return null;
+  }
+}
 
 export const facebookProvider = new FacebookAuthProvider();
 facebookProvider.addScope('email');
