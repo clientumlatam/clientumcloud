@@ -1,0 +1,57 @@
+14:43:28.552 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:28.552 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". www.clientum.com.ar:1:1
+14:43:28.778 ServiceWorker registration successful with scope:  https://www.clientum.com.ar/ index-YiPDqwyt.js:587:12032
+14:43:28.785 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:28.785 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". www.clientum.com.ar:1:1
+14:43:29.274 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:29.275 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". www.clientum.com.ar:1:1
+14:43:30.028 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:30.028 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". www.clientum.com.ar:1:1
+14:43:31.349 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:31.349 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". www.clientum.com.ar:1:1
+14:43:32.530 Persistent CRM bootstrap unavailable; keeping local state: Error: CRM bootstrap failed: 404
+    yC https://www.clientum.com.ar/assets/index-YiPDqwyt.js:125
+index-YiPDqwyt.js:125:20228
+14:43:33.591 Solicitud de origen cruzado bloqueada: La política de mismo origen no permite la lectura de recursos remotos en https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js. (Razón: Solicitud CORS sin éxito). Código de estado: (null). 
+14:43:33.591 La URI de origen del <script> no está permitida en este docuento: "https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js". app:1:1
+14:43:33.592 Uncaught (in promise) ti: Clerk: Failed to load Clerk JS, failed to load script: https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js
+
+(code="failed_to_load_clerk_js")
+
+    ei https://www.clientum.com.ar/assets/index-YiPDqwyt.js:49
+    ti https://www.clientum.com.ar/assets/index-YiPDqwyt.js:56
+    l https://www.clientum.com.ar/assets/index-YiPDqwyt.js:64
+    Tw https://www.clientum.com.ar/assets/index-YiPDqwyt.js:64
+Caused by: Error: failed to load script: https://clerk.www.clientum.com.ar/npm/@clerk/clerk-js@6/dist/clerk.browser.js
+    y https://www.clientum.com.ar/assets/index-YiPDqwyt.js:64
+index-YiPDqwyt.js:49:38680
+14:43:43.405 ei@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:49:38680
+ti@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:56:93
+l@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:64:28231
+Tw@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:64:28619
+getClerkJsEntryChunk@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:39159
+getEntryChunks@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:38626
+ni@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:36263
+getOrCreateInstance@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:36678
+Jw@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:42191
+Zw@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65:41898
+fu@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:48102
+Ou@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:70910
+k0@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:81242
+ix@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:117014
+L2@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:116060
+sm@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:115890
+J0@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:112335
+bx@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:48:124498
+be@https://www.clientum.com.ar/assets/index-YiPDqwyt.js:25:1640
+index-YiPDqwyt.js:65:39000
+    getEntryChunks https://www.clientum.com.ar/assets/index-YiPDqwyt.js:65
+14:43:45.824 Error al interpretar el valor para '-webkit-text-size-adjust'.  Declaración rechazada. index-Bhe8BB3Z.css:1:9428
+14:43:45.826 Se esperaba un color, pero se encontró '#3\"'.  Error al interpretar el valor para 'border-color'.  Declaración rechazada. index-Bhe8BB3Z.css:1:35531
+14:43:45.828 Se esperaba un color, pero se encontró '#1\"'.  Error al interpretar el valor para 'background-color'.  Declaración rechazada. index-Bhe8BB3Z.css:1:55574
+14:43:45.828 Se esperaba un color, pero se encontró '#2\"'.  Error al interpretar el valor para 'background-color'.  Declaración rechazada. index-Bhe8BB3Z.css:1:56872
+14:43:45.832 Propiedad desconocida '-moz-osx-font-smoothing'.  Declaración rechazada. index-Bhe8BB3Z.css:1:120789
+14:43:45.833 Propiedad desconocida 'backdrop-filter'.  Declaración rechazada. index-Bhe8BB3Z.css:1:136086
+14:43:45.833 Propiedad desconocida 'backdrop-filter'.  Declaración rechazada. index-Bhe8BB3Z.css:1:136696
+14:43:45.833 Propiedad desconocida 'backdrop-filter'.  Declaración rechazada. index-Bhe8BB3Z.css:1:137306
+14:43:45.833 Propiedad desconocida 'backdrop-filter'.  Declaración rechazada. index-Bhe8BB3Z.css:1:137916

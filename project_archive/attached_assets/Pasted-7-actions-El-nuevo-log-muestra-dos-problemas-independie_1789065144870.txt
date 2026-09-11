@@ -1,0 +1,71 @@
+7 actions
+
+El nuevo log muestra dos problemas independientes:
+1. Clerk no puede cargar
+clerk.www.clientum.com.ar
+CORS request failed
+Failed to load Clerk JS
+
+Esto sigue siendo el problema del dominio DNS de Clerk. No es un error de React ni se arregla agregando headers CORS en la app.
+
+Hasta que ese dominio tenga el CNAME correcto y certificado activo, el login y registro reales no funcionarán.
+2. El backend de la app no está publicado en Vercel
+
+Este error es adicional:
+Persistent CRM bootstrap unavailable
+CRM bootstrap failed: 404
+
+También comprobé que Vercel devuelve 404 para:
+/api/crm/bootstrap
+/api/account/bootstrap
+/api/public/contacts
+
+La razón es que Vercel está sirviendo solamente el frontend estático. Aunque el build genera dist/server.cjs, Vercel no está ejecutando automáticamente server.ts ni sus rutas Express.
+
+Por eso, después de arreglar Clerk, el usuario podría entrar, pero el CRM no podría cargar ni guardar datos en PostgreSQL.
+Qué hay que arreglar
+
+Hay que resolver dos partes:
+
+    Clerk/DNS
+        Crear el CNAME de clerk.www.clientum.com.ar.
+        Verificarlo en Clerk.
+        Desplegar los certificados.
+        Mantener las claves pk_live_ y sk_live_ de Production.
+
+    Backend
+        Ejecutar server.ts en producción.
+        O convertir las rutas Express en funciones de Vercel.
+        O publicar el backend existente como servicio Node y conectar el frontend a él.
+
+El backend actual ya está implementado en server.ts; lo que falta es que el deployment de Vercel lo ejecute. Esto requiere elegir la arquitectura de producción:
+
+    Vercel full-stack: adapto Express a funciones serverless de Vercel.
+    Replit full-stack: publico el servidor Express existente y mantengo Vercel solo para el frontend.
+    Demo frontend: dejamos solo la vista demo, sin persistencia real.
+
+La opción más rápida y con menos cambios es publicar el servidor Express existente como backend full-stack, pero hay que decidir si el backend definitivo debe correr en Vercel o en Replit.
+Worked for 38 seconds
+Checkpoint made 44 minutes ago
+
+Vercel
+Free
+43 minutes ago
+2 actions
+
+Perfecto: vamos a mantener Vercel y convertir el backend Express existente en una función serverless, para que las rutas /api/* funcionen en el mismo dominio que el frontend. Primero revisaré la configuración de Vercel y los requisitos del adaptador antes de tocar el servidor.
+4 actions
+
+Vercel es la opción elegida. Voy a adaptar el servidor actual para que Vercel lo ejecute como una función catch-all /api/*, incluir las migraciones necesarias y evitar que server.ts intente abrir un puerto dentro de la función. Así se corrige el 404 del CRM sin reescribir todas las rutas.
+4 actions
+
+La adaptación para Vercel ya está aplicada. Ahora validaré que compile el nuevo endpoint serverless y que el servidor local siga iniciando correctamente antes de darlo por terminado.
+Show less
+Checked code style
+Built the project
+Viewed code changes and 1 other action
+$ git diff --check && git diff --stat
+(no output)
+Worked for 1 minute
+
+You've reached your daily free quota limit. It will reset at 12:00 AM UTC.

@@ -1,0 +1,53 @@
+16:02:24.167 Running build in Washington, D.C., USA (East) – iad1
+16:02:24.168 Build machine configuration: 2 cores, 8 GB
+16:02:24.317 Cloning github.com/clientumlatam/ClientumAPP-mainzip (Branch: main, Commit: 7e2820d)
+16:02:25.110 Cloning completed: 793.000ms
+16:02:25.216 Restored build cache from previous deployment (Fu8UCztmGVrbM524zMGEfuyevM6f)
+16:02:25.521 Running "vercel build"
+16:02:25.540 Vercel CLI 59.11.7
+16:02:26.245 Installing dependencies...
+16:02:27.546 
+16:02:27.547 up to date in 1s
+16:02:27.547 
+16:02:27.547 45 packages are looking for funding
+16:02:27.547   run `npm fund` for details
+16:02:27.549 npm warn allow-scripts 5 packages have install scripts not yet covered by allowScripts:
+16:02:27.549 npm warn allow-scripts   @firebase/util@1.15.3 (postinstall: node ./postinstall.js)
+16:02:27.549 npm warn allow-scripts   @google/genai@2.21.0 (preinstall: echo 'preinstall: no-op')
+16:02:27.550 npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)
+16:02:27.551 npm warn allow-scripts   protobufjs@7.6.6 (postinstall: node scripts/postinstall)
+16:02:27.551 npm warn allow-scripts   esbuild@0.28.2 (postinstall: node install.js)
+16:02:27.552 npm warn allow-scripts
+16:02:27.552 npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+16:02:27.690 
+16:02:27.690 > react-example@0.0.0 build
+16:02:27.690 > vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs
+16:02:27.690 
+16:02:28.038 vite v6.4.3 building for production...
+16:02:28.122 transforming...
+16:02:34.810 ✓ 2846 modules transformed.
+16:02:35.843 rendering chunks...
+16:02:35.921 computing gzip size...
+16:02:35.971 dist/index.html                                 2.50 kB │ gzip:   0.92 kB
+16:02:35.972 dist/assets/index-CJ50sQBd.css                225.71 kB │ gzip:  31.53 kB
+16:02:35.973 dist/assets/index-CpkB5kFl.js                 857.18 kB │ gzip: 237.65 kB
+16:02:35.973 dist/assets/PrivateEnvironment-bR9tm0n9.js  1,266.69 kB │ gzip: 306.31 kB
+16:02:35.973 
+16:02:35.974 (!) Some chunks are larger than 500 kB after minification. Consider:
+16:02:35.974 - Using dynamic import() to code-split the application
+16:02:35.979 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+16:02:35.979 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+16:02:35.980 ✓ built in 7.91s
+16:02:36.064 
+16:02:36.064   dist/server.cjs      131.1kb
+16:02:36.064   dist/server.cjs.map  221.6kb
+16:02:36.065 
+16:02:36.065 ⚡ Done in 16ms
+16:02:36.377 Using TypeScript 5.8.3 (local user-provided)
+16:02:55.465 Build Completed in /vercel/output [29s]
+16:02:55.569 Deploying outputs...
+16:03:01.967 Deployment completed
+16:03:01.972 Creating build cache...
+16:03:24.927 Created build cache: 23s
+16:03:24.927 Uploading build cache [81.33 MB]
+16:03:26.526 Build cache uploaded: 1.599s

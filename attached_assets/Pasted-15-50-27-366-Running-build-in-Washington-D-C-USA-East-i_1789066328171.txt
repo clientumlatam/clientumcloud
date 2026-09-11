@@ -1,0 +1,75 @@
+15:50:27.366 Running build in Washington, D.C., USA (East) – iad1
+15:50:27.366 Build machine configuration: 2 cores, 8 GB
+15:50:27.399 Retrieving list of deployment files...
+15:50:27.868 Downloading 144 deployment files...
+15:50:29.803 Restored build cache from previous deployment (HbQYHyAacZXKa2WbG48eoRBHvM8E)
+15:50:30.237 Running "vercel build"
+15:50:30.258 Vercel CLI 59.11.7
+15:50:30.953 Running "install" command: `npm ci`...
+15:50:36.626 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+15:50:43.198 
+15:50:43.199 added 376 packages, and audited 377 packages in 12s
+15:50:43.199 
+15:50:43.200 45 packages are looking for funding
+15:50:43.200   run `npm fund` for details
+15:50:43.203 
+15:50:43.204 2 moderate severity vulnerabilities
+15:50:43.204 
+15:50:43.204 To address all issues (including breaking changes), run:
+15:50:43.205   npm audit fix --force
+15:50:43.205 
+15:50:43.205 Run `npm audit` for details.
+15:50:43.206 npm warn allow-scripts 5 packages have install scripts not yet covered by allowScripts:
+15:50:43.206 npm warn allow-scripts   @firebase/util@1.15.3 (postinstall: node ./postinstall.js)
+15:50:43.207 npm warn allow-scripts   @google/genai@2.21.0 (preinstall: echo 'preinstall: no-op')
+15:50:43.207 npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)
+15:50:43.208 npm warn allow-scripts   protobufjs@7.6.6 (postinstall: node scripts/postinstall)
+15:50:43.208 npm warn allow-scripts   esbuild@0.28.2 (postinstall: node install.js)
+15:50:43.209 npm warn allow-scripts
+15:50:43.209 npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+15:50:43.496 
+15:50:43.496 > react-example@0.0.0 build
+15:50:43.496 > vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs
+15:50:43.496 
+15:50:43.800 vite v6.4.3 building for production...
+15:50:43.890 transforming...
+15:50:50.809 ✓ 2846 modules transformed.
+15:50:51.914 rendering chunks...
+15:50:51.993 computing gzip size...
+15:50:52.041 dist/index.html                                 2.50 kB │ gzip:   0.92 kB
+15:50:52.042 dist/assets/index-CpXCs7IK.css                215.24 kB │ gzip:  30.55 kB
+15:50:52.042 dist/assets/index-BFNaBBMm.js                 856.97 kB │ gzip: 237.54 kB
+15:50:52.043 dist/assets/PrivateEnvironment-B-JXyY-_.js  1,266.69 kB │ gzip: 306.31 kB
+15:50:52.043 
+15:50:52.043 (!) Some chunks are larger than 500 kB after minification. Consider:
+15:50:52.044 - Using dynamic import() to code-split the application
+15:50:52.044 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+15:50:52.046 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+15:50:52.046 ✓ built in 8.22s
+15:50:52.138 
+15:50:52.138   dist/server.cjs      130.9kb
+15:50:52.138   dist/server.cjs.map  221.4kb
+15:50:52.138 
+15:50:52.138 ⚡ Done in 17ms
+15:50:52.185 Installing dependencies...
+15:50:54.296 
+15:50:54.297 up to date in 2s
+15:50:54.297 
+15:50:54.297 45 packages are looking for funding
+15:50:54.298   run `npm fund` for details
+15:50:54.299 npm warn allow-scripts 5 packages have install scripts not yet covered by allowScripts:
+15:50:54.299 npm warn allow-scripts   @firebase/util@1.15.3 (postinstall: node ./postinstall.js)
+15:50:54.300 npm warn allow-scripts   @google/genai@2.21.0 (preinstall: echo 'preinstall: no-op')
+15:50:54.300 npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)
+15:50:54.300 npm warn allow-scripts   protobufjs@7.6.6 (postinstall: node scripts/postinstall)
+15:50:54.301 npm warn allow-scripts   esbuild@0.28.2 (postinstall: node install.js)
+15:50:54.301 npm warn allow-scripts
+15:50:54.302 npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+15:50:54.590 Using TypeScript 5.8.3 (local user-provided)
+15:51:13.391 Build Completed in /vercel/output [42s]
+15:51:13.489 Deploying outputs...
+15:51:20.116 Deployment completed
+15:51:20.120 Creating build cache...
+15:51:41.526 Created build cache: 21s
+15:51:41.526 Uploading build cache [81.33 MB]
+15:51:42.498 Build cache uploaded: 972.000ms
