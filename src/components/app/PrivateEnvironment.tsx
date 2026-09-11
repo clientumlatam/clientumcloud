@@ -51,7 +51,9 @@ import { PlatformBillingView } from '../billing/PlatformBillingView';
 import { MessagesView } from '../messages/MessagesView';
 import { ComposeEmailModal } from '../webmail/ComposeEmailModal';
 import { FeatureHubView } from '../features/FeatureHubView';
+import { EcosystemHubView } from '../ecosystem/EcosystemHubView';
 import { ToastContainer } from '../common/ToastContainer';
+import { FloatingAICopilotWidget } from '../common/FloatingAICopilotWidget';
 
 const MainContent: React.FC = () => {
   const {
@@ -74,6 +76,7 @@ const MainContent: React.FC = () => {
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
         {activeTab === 'dashboard' && <ExecutiveDashboardView />}
+        {activeTab === 'ecosystemHub' && <EcosystemHubView />}
         {activeTab === 'featureHub' && <FeatureHubView />}
         {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
         {activeTab === 'companies' && <CompaniesView />}
@@ -142,6 +145,7 @@ const MainContent: React.FC = () => {
       <QuoteWizardModal isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />
       <WhatsAppSimulatorModal isOpen={isSimulatorOpen} onClose={() => setIsSimulatorOpen(false)} />
       <ExpressAuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} />
+      <FloatingAICopilotWidget />
       <ToastContainer />
     </div>
   );

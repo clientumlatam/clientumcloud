@@ -11,10 +11,14 @@ import {
   Sparkles,
   ExternalLink,
   Clock,
+  FileUp,
+  MessageSquare,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { Person } from '../../types';
 import { SavedViewsBar } from '../common/SavedViewsBar';
+import { QuickCSVImportModal } from '../csv/QuickCSVImportModal';
+import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
 
 export const PeopleView: React.FC = () => {
   const {
@@ -23,6 +27,8 @@ export const PeopleView: React.FC = () => {
     setSelectedRecord,
     openNewRecordModal,
     openAICopilot,
+    addActivity,
+    currentUser,
     filterState,
     t,
     language,
@@ -30,6 +36,8 @@ export const PeopleView: React.FC = () => {
   } = useCRM();
 
   const [viewStyle, setViewStyle] = useState<'cards' | 'table'>('cards');
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [whatsAppPerson, setWhatsAppPerson] = useState<Person | null>(null);
 
   const filteredPeople = people.filter((person) => {
     if (filterState.search) {
@@ -90,6 +98,16 @@ export const PeopleView: React.FC = () => {
               {t('tableView')}
             </button>
           </div>
+
+          <button
+            id="import-csv-btn"
+            onClick={() => setIsImportModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold shadow-xs transition-all cursor-pointer"
+            title="Importar contactos masivamente desde CSV o Excel"
+          >
+            <FileUp className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Importar CSV</span>
+          </button>
 
           <button
             id="add-person-btn"
@@ -180,6 +198,15 @@ export const PeopleView: React.FC = () => {
 
                 <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                   <button
+                    id={`person-whatsapp-${person.id}`}
+                    onClick={() => setWhatsAppPerson(person)}
+                    className="p-1 rounded text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                    title="Enviar WhatsApp"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                  </button>
+
+                  <button
                     id={`person-ai-email-${person.id}`}
                     onClick={() =>
                       openAICopilot({
@@ -262,15 +289,25 @@ export const PeopleView: React.FC = () => {
                   </td>
                   <td className="px-3 py-2.5 text-slate-400">{p.assignedTo}</td>
                   <td className="px-3 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      id={`table-delete-person-${p.id}`}
-                      onClick={() => {
-                        if (confirm(`Delete ${p.firstName}?`)) deletePerson(p.id);
-                      }}
-                      className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        id={`table-whatsapp-person-${p.id}`}
+                        onClick={() => setWhatsAppPerson(p)}
+                        className="p-1 rounded text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                        title="Enviar WhatsApp"
+                      >
+                        <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                      </button>
+                      <button
+                        id={`table-delete-person-${p.id}`}
+                        onClick={() => {
+                          if (confirm(`Delete ${p.firstName}?`)) deletePerson(p.id);
+                        }}
+                        className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -279,6 +316,38 @@ export const PeopleView: React.FC = () => {
         </div>
       )}
       </div>
+
+      {/* CSV / Excel Bulk Import Modal */}
+      <QuickCSVImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+      />
+
+      {/* Quick WhatsApp Action Modal */}
+      <WhatsAppQuickActionModal
+        isOpen={!!whatsAppPerson}
+        onClose={() => setWhatsAppPerson(null)}
+        recipientName={whatsAppPerson ? `${whatsAppPerson.firstName} ${whatsAppPerson.lastName}` : ''}
+        recipientPhone={whatsAppPerson?.phone || ''}
+        companyName={whatsAppPerson?.companyName || ''}
+        onLogActivity={(msg) => {
+          if (whatsAppPerson) {
+            addActivity({
+              type: 'call',
+              title: `WhatsApp enviado a ${whatsAppPerson.firstName} ${whatsAppPerson.lastName}`,
+              content: msg,
+              author: currentUser.name,
+              targetType: 'person',
+              targetId: whatsAppPerson.id,
+              meta: {
+                channel: 'whatsapp',
+                recipientPhone: whatsAppPerson.phone,
+              },
+            });
+            showToast('Actividad registrada en el historial del contacto', 'success');
+          }
+        }}
+      />
     </div>
   );
 };

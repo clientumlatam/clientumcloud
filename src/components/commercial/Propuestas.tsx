@@ -162,7 +162,14 @@ export const Propuestas: React.FC = () => {
   const grandTotal = netTaxable + totalTax;
 
   const handlePrintPDF = () => {
-    window.print();
+    if (!previewMode) {
+      setPreviewMode(true);
+      setTimeout(() => {
+        window.print();
+      }, 250);
+    } else {
+      window.print();
+    }
   };
 
   const handleShareWhatsApp = () => {

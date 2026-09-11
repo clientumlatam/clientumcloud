@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Search,
   Plus,
@@ -14,6 +14,9 @@ import {
   ExternalLink,
   Settings2,
   MoreHorizontal,
+  Mic,
+  Zap,
+  Trophy,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -21,6 +24,10 @@ import { Language, StageId } from '../../types';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { moduleNeedsUserCredentials } from '../../data/moduleCredentials';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
+import { FollowupRemindersDropdown } from '../common/FollowupRemindersDropdown';
+import { VoiceNoteModal } from '../activities/VoiceNoteModal';
+import { AutomationsManagerModal } from '../workflows/AutomationsManagerModal';
+import { TeamLeaderboardModal } from '../analytics/TeamLeaderboardModal';
 
 export const Navbar: React.FC = () => {
   const {
@@ -46,8 +53,31 @@ export const Navbar: React.FC = () => {
     exitToPublicSite,
   } = useCRM();
 
-  const [isConfigOpen, setIsConfigOpen] = React.useState(false);
-  const [isMoreOpen, setIsMoreOpen] = React.useState(false);
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isRemindersOpen, setIsRemindersOpen] = useState(false);
+  const [isVoiceNoteOpen, setIsVoiceNoteOpen] = useState(false);
+  const [isAutomationsOpen, setIsAutomationsOpen] = useState(false);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+
+  // Calculate alerts for the Bell icon
+  const totalAlertsCount = useMemo(() => {
+    const now = Date.now();
+    const fiveDaysMs = 5 * 24 * 60 * 60 * 1000;
+    const rotting = opportunities.filter((o) => {
+      if (o.stage === 'won' || o.stage === 'lost') return false;
+      const last = new Date(o.updatedAt || o.createdAt).getTime();
+      return now - last >= fiveDaysMs;
+    }).length;
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const pendingTasks = tasks.filter(
+      (t) => t.status !== 'Completed' && t.dueDate <= todayStr
+    ).length;
+
+    return rotting + pendingTasks;
+  }, [opportunities, tasks]);
+
   const configModuleId = activeTab === 'mapsProspecting' ? 'googleMaps' : activeTab;
   const hasModuleCredentials = moduleNeedsUserCredentials(configModuleId);
 
@@ -295,6 +325,66 @@ export const Navbar: React.FC = () => {
           <span className="hidden sm:inline">Copilot</span>
         </button>
 
+        {/* AI Voice Note Recorder */}
+        <button
+          id="navbar-voice-note-btn"
+          onClick={() => setIsVoiceNoteOpen(true)}
+          className="p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs transition-all cursor-pointer shadow-xs"
+          title="Grabar nota de voz o llamada con IA"
+        >
+          <Mic className="w-3.5 h-3.5 text-indigo-600" />
+        </button>
+
+        {/* Active Automations Engine */}
+        <button
+          id="navbar-automations-btn"
+          onClick={() => setIsAutomationsOpen(true)}
+          className="p-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs transition-all cursor-pointer shadow-xs"
+          title="Automatizaciones y Workflows en vivo"
+        >
+          <Zap className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
+        </button>
+
+        {/* Sales Team Leaderboard & Quotas */}
+        <button
+          id="navbar-leaderboard-btn"
+          onClick={() => setIsLeaderboardOpen(true)}
+          className="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs transition-all cursor-pointer shadow-xs"
+          title="Ranking y Metas del Equipo de Ventas"
+        >
+          <Trophy className="w-3.5 h-3.5 text-emerald-600" />
+        </button>
+
+        {/* Follow-up Reminders Bell with Active Badge */}
+        <div className="relative">
+          <button
+            id="navbar-reminders-bell-btn"
+            onClick={() => setIsRemindersOpen((prev) => !prev)}
+            className={`relative p-1.5 rounded-lg border text-xs transition-all cursor-pointer shadow-xs ${
+              totalAlertsCount > 0
+                ? 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+            }`}
+            title={
+              totalAlertsCount > 0
+                ? `${totalAlertsCount} recordatorios urgentes y tratos estancados`
+                : 'Recordatorios de seguimiento'
+            }
+          >
+            <Bell className="w-3.5 h-3.5" />
+            {totalAlertsCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-600 text-white font-mono text-[9px] font-extrabold flex items-center justify-center ring-2 ring-white">
+                {totalAlertsCount > 9 ? '9+' : totalAlertsCount}
+              </span>
+            )}
+          </button>
+
+          <FollowupRemindersDropdown
+            isOpen={isRemindersOpen}
+            onClose={() => setIsRemindersOpen(false)}
+          />
+        </div>
+
         {/* Export CSV for Opportunities */}
         {activeTab === 'opportunities' && (
           <button
@@ -386,6 +476,18 @@ export const Navbar: React.FC = () => {
     <ModuleCredentialsModal
       moduleId={isConfigOpen ? configModuleId : null}
       onClose={() => setIsConfigOpen(false)}
+    />
+    <VoiceNoteModal
+      isOpen={isVoiceNoteOpen}
+      onClose={() => setIsVoiceNoteOpen(false)}
+    />
+    <AutomationsManagerModal
+      isOpen={isAutomationsOpen}
+      onClose={() => setIsAutomationsOpen(false)}
+    />
+    <TeamLeaderboardModal
+      isOpen={isLeaderboardOpen}
+      onClose={() => setIsLeaderboardOpen(false)}
     />
     </>
   );

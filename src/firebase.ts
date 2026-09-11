@@ -26,6 +26,9 @@ import {
   getDoc,
   collection,
   getDocs,
+  onSnapshot,
+  deleteDoc,
+  writeBatch,
 } from 'firebase/firestore';
 import appletConfig from '../firebase-applet-config.json';
 
@@ -200,6 +203,130 @@ export async function fetchWorkspaceFromFirestore(userId: string): Promise<{
   } catch (err) {
     console.warn('Could not fetch workspace snapshot from Firestore:', err);
     return null;
+  }
+}
+
+export type CRMSubcollectionName = 'opportunities' | 'companies' | 'people' | 'tasks' | 'activities';
+
+/**
+ * Real-time listener for user CRM subcollections (opportunities, companies, people, tasks, activities)
+ */
+export function subscribeToUserSubcollection<T = any>(
+  userId: string,
+  subcollectionName: CRMSubcollectionName,
+  onData: (items: T[]) => void,
+  onError?: (err: Error) => void
+): () => void {
+  if (!isLiveFirebaseReady || !db || !userId) {
+    return () => {};
+  }
+  try {
+    const colRef = collection(db, 'users', userId, subcollectionName);
+    const unsubscribe = onSnapshot(
+      colRef,
+      (snapshot) => {
+        const items = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
+        })) as T[];
+        onData(items);
+      },
+      (err) => {
+        console.warn(`Realtime subscription error on ${subcollectionName}:`, err);
+        onError?.(err);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn(`Failed to attach listener for ${subcollectionName}:`, err);
+    return () => {};
+  }
+}
+
+/**
+ * Save or update a single record in a user subcollection in real-time
+ */
+export async function saveUserSubcollectionRecord(
+  userId: string,
+  subcollectionName: CRMSubcollectionName,
+  id: string,
+  data: any
+): Promise<void> {
+  if (!isLiveFirebaseReady || !db || !userId || !id) return;
+  try {
+    const docRef = doc(db, 'users', userId, subcollectionName, id);
+    const cleanData = JSON.parse(JSON.stringify(data));
+    await setDoc(docRef, { ...cleanData, updatedAt: new Date().toISOString() }, { merge: true });
+  } catch (err) {
+    console.warn(`Failed to save record to ${subcollectionName}/${id}:`, err);
+  }
+}
+
+/**
+ * Delete a single record from a user subcollection in real-time
+ */
+export async function deleteUserSubcollectionRecord(
+  userId: string,
+  subcollectionName: CRMSubcollectionName,
+  id: string
+): Promise<void> {
+  if (!isLiveFirebaseReady || !db || !userId || !id) return;
+  try {
+    const docRef = doc(db, 'users', userId, subcollectionName, id);
+    await deleteDoc(docRef);
+  } catch (err) {
+    console.warn(`Failed to delete record from ${subcollectionName}/${id}:`, err);
+  }
+}
+
+/**
+ * Seeds initial CRM data into user subcollections if they are empty
+ */
+export async function seedUserSubcollectionsIfEmpty(
+  userId: string,
+  initialData: {
+    opportunities?: any[];
+    companies?: any[];
+    people?: any[];
+    tasks?: any[];
+    activities?: any[];
+  }
+): Promise<boolean> {
+  if (!isLiveFirebaseReady || !db || !userId) return false;
+  try {
+    const subcollections: CRMSubcollectionName[] = [
+      'opportunities',
+      'companies',
+      'people',
+      'tasks',
+      'activities',
+    ];
+
+    let seededAny = false;
+    for (const sub of subcollections) {
+      const items = initialData[sub];
+      if (!items || items.length === 0) continue;
+
+      const colRef = collection(db, 'users', userId, sub);
+      const snap = await getDocs(colRef);
+      if (snap.empty) {
+        // Write batch in chunks of 450 (Firestore limit is 500)
+        const batch = writeBatch(db);
+        items.slice(0, 400).forEach((item) => {
+          if (item?.id) {
+            const itemDocRef = doc(db, 'users', userId, sub, item.id);
+            const cleanItem = JSON.parse(JSON.stringify(item));
+            batch.set(itemDocRef, cleanItem);
+          }
+        });
+        await batch.commit();
+        seededAny = true;
+      }
+    }
+    return seededAny;
+  } catch (err) {
+    console.warn('Could not seed subcollections:', err);
+    return false;
   }
 }
 

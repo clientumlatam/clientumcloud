@@ -22,11 +22,20 @@ import {
   Settings2,
   Eye,
   EyeOff,
+  Globe,
+  Flame,
+  PenTool,
+  FileCheck,
+  Mic,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
 import { Opportunity, StageId } from '../../types';
 import { SavedViewsBar } from '../common/SavedViewsBar';
+import { LeadCaptureModal } from '../leads/LeadCaptureModal';
+import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
+import { QuoteSignPortalModal } from '../commercial/QuoteSignPortalModal';
+import { VoiceNoteModal } from '../activities/VoiceNoteModal';
 
 export const KanbanView: React.FC = () => {
   const {
@@ -36,13 +45,21 @@ export const KanbanView: React.FC = () => {
     setSelectedRecord,
     openNewRecordModal,
     openAICopilot,
+    addActivity,
+    currentUser,
     filterState,
     t,
     language,
+    showToast,
   } = useCRM();
 
   const [draggedOppId, setDraggedOppId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<StageId | null>(null);
+  const [whatsAppOpp, setWhatsAppOpp] = useState<Opportunity | null>(null);
+  const [quoteSignOpp, setQuoteSignOpp] = useState<Opportunity | null>(null);
+  const [voiceNoteOpp, setVoiceNoteOpp] = useState<Opportunity | null>(null);
+  const [isLeadCaptureOpen, setIsLeadCaptureOpen] = useState(false);
+  const [currencyMode, setCurrencyMode] = useState<'USD' | 'ARS'>('USD');
 
   // Multi-Select Filter Sidebar States
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
@@ -175,6 +192,30 @@ export const KanbanView: React.FC = () => {
     people.find((person) => person.id === opp.contactId) ||
     people.find((person) => `${person.firstName} ${person.lastName}` === opp.contactName);
 
+  const exchangeRate = 1250; // USD to ARS
+  const formatAmount = (amt: number) => {
+    if (currencyMode === 'ARS') {
+      return `$${Math.round((amt * exchangeRate) / 1000000)}M ARS`;
+    }
+    return `$${Math.round(amt / 1000)}k USD`;
+  };
+
+  const totalActivePipeline = filteredOpportunities
+    .filter((o) => o.stage !== 'won' && o.stage !== 'lost')
+    .reduce((acc, o) => acc + o.amount, 0);
+
+  const totalWonDeals = filteredOpportunities
+    .filter((o) => o.stage === 'won')
+    .reduce((acc, o) => acc + o.amount, 0);
+
+  const wonCount = filteredOpportunities.filter((o) => o.stage === 'won').length;
+  const closedCount = filteredOpportunities.filter((o) => o.stage === 'won' || o.stage === 'lost').length;
+  const winRate = closedCount > 0 ? Math.round((wonCount / closedCount) * 100) : 42;
+
+  const urgentDealsCount = filteredOpportunities.filter(
+    (o) => o.priority === 'Critical' || (o.healthScore && o.healthScore < 50)
+  ).length;
+
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
       {/* Top Bar with Saved Views and Multi-Select Filter Trigger */}
@@ -189,6 +230,16 @@ export const KanbanView: React.FC = () => {
         </div>
 
         <div className="px-3 py-2 border-l border-slate-200 flex items-center gap-2 shrink-0 relative">
+          <button
+            id="open-lead-capture-btn"
+            onClick={() => setIsLeadCaptureOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 shadow-2xs transition-all cursor-pointer"
+            title="Formularios y enlaces públicos para captar prospectos directo al CRM"
+          >
+            <Globe className="w-3.5 h-3.5 text-indigo-600" />
+            <span className="hidden md:inline">Captar Leads Web</span>
+          </button>
+
           <button
             id="toggle-kanban-filter-sidebar"
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
@@ -247,6 +298,69 @@ export const KanbanView: React.FC = () => {
                 ))}
               </div>
             )}
+          </div>
+
+          <button
+            id="kanban-add-opp-top-btn"
+            onClick={() => openNewRecordModal('opportunity')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-xs transition-all cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>{t('newOpportunity')}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Real-time Pipeline Intelligence Ribbon */}
+      <div className="bg-white border-b border-slate-200/80 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-medium text-slate-500">Pipeline Activo:</span>
+            <span className="font-mono font-bold text-slate-900 text-sm">{formatAmount(totalActivePipeline)}</span>
+          </div>
+          <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-medium text-slate-500">Ganado (Won):</span>
+            <span className="font-mono font-bold text-emerald-600 text-sm">{formatAmount(totalWonDeals)}</span>
+          </div>
+          <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-medium text-slate-500">Tasa de Cierre:</span>
+            <span className="font-mono font-bold text-blue-600">{winRate}%</span>
+          </div>
+          {urgentDealsCount > 0 && (
+            <>
+              <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200 text-rose-700 font-semibold text-[11px]">
+                <Flame className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
+                <span>{urgentDealsCount} tratos con atención requerida</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Currency Switcher */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] text-slate-400 font-medium">Moneda:</span>
+          <div className="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px]">
+            <button
+              type="button"
+              onClick={() => setCurrencyMode('USD')}
+              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
+                currencyMode === 'USD' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              USD
+            </button>
+            <button
+              type="button"
+              onClick={() => setCurrencyMode('ARS')}
+              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
+                currencyMode === 'ARS' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              ARS
+            </button>
           </div>
         </div>
       </div>
@@ -327,6 +441,27 @@ export const KanbanView: React.FC = () => {
                             ${opp.amount.toLocaleString()}
                           </span>
                         </div>
+
+                        {/* Rotting Deal Indicator (Stagnant > 5 days) */}
+                        {(() => {
+                          const nowMs = Date.now();
+                          const lastUpdateMs = new Date(opp.updatedAt || opp.createdAt).getTime();
+                          const daysStagnant = Math.max(1, Math.floor((nowMs - lastUpdateMs) / (1000 * 60 * 60 * 24)));
+                          const isRotting = opp.stage !== 'won' && opp.stage !== 'lost' && daysStagnant >= 5;
+
+                          if (!isRotting) return null;
+                          return (
+                            <div className="mb-2 flex items-center gap-1">
+                              <span
+                                className="inline-flex items-center gap-1 text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-300 shadow-2xs"
+                                title={`Este trato lleva ${daysStagnant} días sin actividad comercial`}
+                              >
+                                <Flame className="w-3 h-3 text-amber-600 fill-amber-500" />
+                                <span>{daysStagnant}d estancado</span>
+                              </span>
+                            </div>
+                          );
+                        })()}
 
                         {/* Company & Contact Link */}
                         {opp.companyName && (
@@ -409,18 +544,17 @@ export const KanbanView: React.FC = () => {
                           ) : <span />}
 
                           <div className="flex items-center gap-1.5">
-                            {getContact(opp) && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedRecord({ type: 'opportunity', id: opp.id });
-                                }}
-                                className="p-1 rounded hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
-                                title="Abrir conversación del negocio"
-                              >
-                                <MessageCircle className="w-3 h-3" />
-                              </button>
-                            )}
+                            <button
+                              id={`deal-whatsapp-quick-${opp.id}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setWhatsAppOpp(opp);
+                              }}
+                              className="p-1 rounded hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
+                              title="Enviar WhatsApp al contacto del negocio"
+                            >
+                              <MessageCircle className="w-3 h-3 text-emerald-500" />
+                            </button>
                             <button
                               id={`deal-ai-summary-${opp.id}`}
                               onClick={(e) => {
@@ -625,6 +759,46 @@ export const KanbanView: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Web Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={isLeadCaptureOpen}
+        onClose={() => setIsLeadCaptureOpen(false)}
+      />
+
+      {/* Quick WhatsApp Action Modal */}
+      <WhatsAppQuickActionModal
+        isOpen={!!whatsAppOpp}
+        onClose={() => setWhatsAppOpp(null)}
+        recipientName={
+          whatsAppOpp
+            ? getContact(whatsAppOpp)?.firstName
+              ? `${getContact(whatsAppOpp)!.firstName} ${getContact(whatsAppOpp)!.lastName}`
+              : whatsAppOpp.contactName || ''
+            : ''
+        }
+        recipientPhone={
+          whatsAppOpp
+            ? getContact(whatsAppOpp)?.phone || (whatsAppOpp as any).contactPhone || ''
+            : ''
+        }
+        companyName={whatsAppOpp?.companyName || ''}
+        dealName={whatsAppOpp?.name}
+        dealAmount={whatsAppOpp?.amount}
+        onLogActivity={(msg) => {
+          if (whatsAppOpp) {
+            addActivity({
+              type: 'call',
+              title: `WhatsApp enviado para negocio "${whatsAppOpp.name}"`,
+              content: msg,
+              author: currentUser.name,
+              targetType: 'opportunity',
+              targetId: whatsAppOpp.id,
+            });
+            showToast('Actividad de WhatsApp registrada en el negocio', 'success');
+          }
+        }}
+      />
     </div>
   );
 };

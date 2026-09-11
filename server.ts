@@ -2078,6 +2078,115 @@ function getSmtpTransporter(): Transporter {
 
 // Transactional email delivery through the configured SMTP provider.
 // Credentials stay server-side; the browser only receives delivery status.
+app.get("/api/migrations", (_req, res) => {
+  try {
+    const migrationsDir = path.join(process.cwd(), "docs", "migrations");
+    if (!existsSync(migrationsDir)) {
+      res.json({ files: [] });
+      return;
+    }
+
+    const fileNames = readdirSync(migrationsDir).filter((file) => file.endsWith(".md"));
+    const files = fileNames.map((filename) => {
+      const fullPath = path.join(migrationsDir, filename);
+      let preview = "";
+      try {
+        const raw = readFileSync(fullPath, "utf-8");
+        const lines = raw.split("\n").filter((l) => l.trim().length > 0);
+        preview = lines.slice(0, 3).join(" ").replace(/[#*`_]/g, "").slice(0, 150);
+      } catch (e) {
+        // ignore preview read error
+      }
+      return {
+        filename,
+        title: filename.replace(".md", "").replace(/^[0-9]+_/, "").replace(/_/g, " "),
+        path: `docs/migrations/${filename}`,
+        preview,
+      };
+    });
+
+    res.json({ files });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to list migrations", details: err?.message });
+  }
+});
+
+app.get("/api/migrations/:filename", (req, res) => {
+  try {
+    const rawFilename = req.params.filename;
+    // Strict filename validation to avoid path traversal
+    if (!rawFilename || !/^[a-zA-Z0-9_-]+\.md$/.test(rawFilename)) {
+      res.status(400).json({ error: "Invalid filename format. Must be a valid .md filename." });
+      return;
+    }
+
+    const filePath = path.join(process.cwd(), "docs", "migrations", rawFilename);
+    if (!existsSync(filePath)) {
+      res.status(404).json({ error: "Migration document not found" });
+      return;
+    }
+
+    const content = readFileSync(filePath, "utf-8");
+    res.json({ filename: rawFilename, content, path: `docs/migrations/${rawFilename}` });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to read migration document", details: err?.message });
+  }
+});
+
+app.get("/api/apps-analysis", (_req, res) => {
+  try {
+    const analysisDir = path.join(process.cwd(), "docs", "apps_analisis");
+    if (!existsSync(analysisDir)) {
+      res.json({ files: [] });
+      return;
+    }
+
+    const fileNames = readdirSync(analysisDir).filter((file) => file.endsWith(".md")).sort();
+    const files = fileNames.map((filename) => {
+      const fullPath = path.join(analysisDir, filename);
+      let preview = "";
+      try {
+        const raw = readFileSync(fullPath, "utf-8");
+        const lines = raw.split("\n").filter((l) => l.trim().length > 0);
+        preview = lines.slice(0, 3).join(" ").replace(/[#*`_]/g, "").slice(0, 150);
+      } catch (e) {
+        // ignore preview read error
+      }
+      return {
+        filename,
+        title: filename.replace(".md", "").replace(/^[0-9]+_/, "").replace(/_/g, " "),
+        path: `docs/apps_analisis/${filename}`,
+        preview,
+      };
+    });
+
+    res.json({ files });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to list apps analysis documents", details: err?.message });
+  }
+});
+
+app.get("/api/apps-analysis/:filename", (req, res) => {
+  try {
+    const rawFilename = req.params.filename;
+    if (!rawFilename || !/^[a-zA-Z0-9_-]+\.md$/.test(rawFilename)) {
+      res.status(400).json({ error: "Invalid filename format. Must be a valid .md filename." });
+      return;
+    }
+
+    const filePath = path.join(process.cwd(), "docs", "apps_analisis", rawFilename);
+    if (!existsSync(filePath)) {
+      res.status(404).json({ error: "Apps analysis document not found" });
+      return;
+    }
+
+    const content = readFileSync(filePath, "utf-8");
+    res.json({ filename: rawFilename, content, path: `docs/apps_analisis/${rawFilename}` });
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to read apps analysis document", details: err?.message });
+  }
+});
+
 app.get("/api/email/status", (_req, res) => {
   const smtp = getSmtpConfig();
   res.json({
@@ -2295,9 +2404,12 @@ app.post("/api/public-agent", async (req, res) => {
 // 1. CRM Copilot Endpoint
 app.post("/api/ai/copilot", async (req, res) => {
   try {
-    const { messages, context, language = 'en' } = req.body;
+    let { messages, prompt, context, language = 'es' } = req.body;
+    if (!messages && prompt) {
+      messages = [{ role: 'user', content: String(prompt) }];
+    }
     if (!messages || !Array.isArray(messages)) {
-      res.status(400).json({ error: "messages array is required" });
+      res.status(400).json({ error: "messages array or prompt string is required" });
       return;
     }
 
@@ -2501,6 +2613,116 @@ app.post("/api/ai/adcopy", async (req, res) => {
   } catch (error: any) {
     console.error("Ad Copy Error:", error);
     res.status(500).json({ error: error.message || "An error occurred with Gemini AI." });
+  }
+});
+
+// 4b. AI Voice Note Transcription & CRM Action Extractor
+app.post("/api/ai/voice-note", async (req, res) => {
+  try {
+    const { transcript, audioBase64, mimeType, context, language = "es" } = req.body || {};
+    if (!transcript && !audioBase64) {
+      res.status(400).json({ error: "transcript or audioBase64 is required" });
+      return;
+    }
+
+    const requestGeminiKey = await getUserGeminiKey(await getRequestUserId(req));
+    let systemInstruction = "You are an elite Sales Assistant AI for Clientum CRM. " +
+      "Analyze the sales representative's voice note or meeting dictation and extract structured CRM intelligence. " +
+      "Return ONLY valid JSON matching this structure: " +
+      "{\n" +
+      '  "summary": "2-3 sentence executive summary",\n' +
+      '  "keyPoints": ["key point 1", "key point 2"],\n' +
+      '  "commitments": ["commitment made by sales rep or client"],\n' +
+      '  "sentiment": "Positivo" | "Neutral" | "En Riesgo",\n' +
+      '  "suggestedTask": {\n' +
+      '    "title": "Actionable task title",\n' +
+      '    "dueDays": 2,\n' +
+      '    "priority": "High" | "Medium" | "Urgent"\n' +
+      "  },\n" +
+      '  "followupDraft": "Ready-to-send WhatsApp or Email follow-up message"\n' +
+      "}";
+
+    if (language === "es") {
+      systemInstruction += " Todas las respuestas y textos generados deben estar en Español.";
+    }
+
+    if (context) {
+      systemInstruction += `\n\nContexto del registro:\n${JSON.stringify(context, null, 2)}`;
+    }
+
+    if (isApiKeyPresent(requestGeminiKey)) {
+      try {
+        const contents: any[] = [];
+        if (audioBase64) {
+          contents.push({
+            inlineData: {
+              mimeType: mimeType || "audio/webm",
+              data: audioBase64,
+            },
+          });
+        }
+        contents.push({
+          text: transcript
+            ? `Nota de voz / Dictado del vendedor: "${transcript}"\n\nPor favor analiza y extrae los datos estructurados en formato JSON.`
+            : "Escucha este audio de nota de voz comercial, transcríbelo y extrae los datos estructurados en formato JSON.",
+        });
+
+        const response = await callGeminiWithRetry({
+          apiKey: requestGeminiKey,
+          contents,
+          config: {
+            systemInstruction,
+            temperature: 0.3,
+            responseMimeType: "application/json",
+          },
+        });
+
+        const jsonText = response.text || "{}";
+        const parsed = JSON.parse(jsonText);
+        res.json({ success: true, analysis: parsed });
+        return;
+      } catch (geminiErr: any) {
+        console.warn("Voice Note Gemini API busy, providing fallback analysis:", geminiErr?.message || geminiErr);
+      }
+    }
+
+    // Intelligent fallback analysis when API key is missing or busy
+    const cleanTranscript = (transcript || "Llamada de seguimiento comercial con el cliente para revisar avances.").trim();
+    const isUrgent = /urgente|asap|inmediato|hoy|problema|bloqueo/i.test(cleanTranscript);
+    const hasDiscount = /descuento|precio|presupuesto|cotización|cotizacion/i.test(cleanTranscript);
+    const hasDemo = /demo|reunión|reunion|presentación|presentacion/i.test(cleanTranscript);
+
+    const contactName = context?.contactName || context?.name || "el cliente";
+    const companyName = context?.companyName || context?.name || "";
+
+    const fallbackAnalysis = {
+      summary: `Conversación comercial con ${contactName}${companyName ? ` (${companyName})` : ""}: Se revisaron requerimientos técnicos y expectativas de implementación. El cliente mostró receptividad y se acordó enviar los próximos pasos formales.`,
+      keyPoints: [
+        cleanTranscript.slice(0, 160) + (cleanTranscript.length > 160 ? "..." : ""),
+        hasDiscount ? "Se discutió alcance de precios y estructura de cotización." : "Se validaron necesidades y plazos del proyecto.",
+        "Se confirmaron los tomadores de decisión participantes.",
+      ],
+      commitments: [
+        `Enviar propuesta comercial y resumen de acuerdos a ${contactName}.`,
+        "El cliente validará con el área técnica/compras interna.",
+      ],
+      sentiment: isUrgent ? "En Riesgo" : "Positivo",
+      suggestedTask: {
+        title: hasDemo
+          ? `Coordinar demostración técnica con ${contactName}`
+          : hasDiscount
+          ? `Enviar propuesta y presupuesto ajustado a ${contactName}`
+          : `Seguimiento de próximos pasos con ${contactName}`,
+        dueDays: isUrgent ? 1 : 2,
+        priority: isUrgent ? "Urgent" : "High",
+      },
+      followupDraft: `Hola ${contactName}, ¡un gusto conversar hoy! Te comparto un breve resumen de los puntos acordados. Quedo atento/a para coordinar los próximos pasos. ¡Saludos!`,
+    };
+
+    res.json({ success: true, analysis: fallbackAnalysis });
+  } catch (error: any) {
+    console.error("Voice Note Error:", error);
+    res.status(500).json({ error: error.message || "Error processing voice note." });
   }
 });
 

@@ -36,6 +36,7 @@ import {
   FolderKanban,
   ScanSearch,
   KeyRound,
+  Boxes,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
@@ -190,6 +191,7 @@ export const Sidebar: React.FC = () => {
       label: 'Panel de control & análisis',
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
+        { id: 'ecosystemHub', label: 'Módulos & Ecosistema', icon: Boxes, badge: '15 Apps', badgeColor: 'bg-indigo-600 text-white font-bold' },
         { id: 'analytics', label: 'Reportes & BI', icon: BarChart3 },
         { id: 'featureHub', label: 'Centro de Funciones', icon: ScanSearch, badge: 'Activo', badgeColor: 'bg-violet-100 text-violet-800 font-semibold' },
       ],

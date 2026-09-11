@@ -185,11 +185,14 @@ export const CrmFullGoogleMaps: React.FC = () => {
     // Add opportunity
     addOpportunity({
       name: `Oportunidad: ${lead.name}`,
-      stageId: 'lead',
+      stage: 'lead',
+      currency: 'USD',
       amount: 150000,
       closeDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       probability: 30,
-      priority: lead.status === 'Alta Intención' ? 'high' : 'medium',
+      priority: lead.status === 'Alta Intención' ? 'High' : 'Medium',
+      type: 'New Business',
+      assignedTo: 'Sarah Chen',
       companyName: lead.name,
       tags: ['Google Maps Scraper', lead.city]
     });
@@ -221,11 +224,14 @@ export const CrmFullGoogleMaps: React.FC = () => {
 
       addOpportunity({
         name: `Prospecto Maps: ${lead.name}`,
-        stageId: 'lead',
+        stage: 'lead',
+        currency: 'USD',
         amount: 140000,
         closeDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         probability: 25,
-        priority: 'medium',
+        priority: 'Medium',
+        type: 'New Business',
+        assignedTo: 'Sarah Chen',
         companyName: lead.name,
         tags: ['Google Maps Masivo']
       });

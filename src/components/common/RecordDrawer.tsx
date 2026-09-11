@@ -23,12 +23,15 @@ import {
   Mic,
   Square,
   Disc,
+  FileText,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
 import { Activity, Opportunity, Person, Company, Task, StageId } from '../../types';
 import { getClientumAuthJsonHeaders } from '../../lib/api';
 import { motion, AnimatePresence } from 'motion/react';
+import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
+import { QuickQuoteDrawerTab } from '../commercial/QuickQuoteDrawerTab';
 
 export const RecordDrawer: React.FC = () => {
   const {
@@ -55,7 +58,8 @@ export const RecordDrawer: React.FC = () => {
     showToast,
   } = useCRM();
 
-  const [activeTab, setActiveTab] = useState<'timeline' | 'ai' | 'details'>('timeline');
+  const [activeTab, setActiveTab] = useState<'timeline' | 'ai' | 'details' | 'quote'>('timeline');
+  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [newNote, setNewNote] = useState('');
   const [activityType, setActivityType] = useState<'note' | 'call' | 'email' | 'meeting'>('note');
   const [callDuration, setCallDuration] = useState('15');
@@ -235,6 +239,14 @@ export const RecordDrawer: React.FC = () => {
     return null;
   }
 
+  // Contact resolution for WhatsApp
+  const contactForWhatsApp = opp 
+    ? (people.find((p) => p.id === opp.contactId) || people.find((p) => `${p.firstName} ${p.lastName}` === opp.contactName))
+    : person;
+  const recipientName = contactForWhatsApp ? `${contactForWhatsApp.firstName} ${contactForWhatsApp.lastName}` : (opp?.contactName || company?.name || '');
+  const recipientPhone = contactForWhatsApp?.phone || (opp as any)?.contactPhone || (company as any)?.phone || '';
+  const recipientCompany = company?.name || opp?.companyName || contactForWhatsApp?.companyName || '';
+
   // Filter activities for this record
   const recordActivities = activities.filter(
     (a) => a.targetType === selectedRecord.type && a.targetId === selectedRecord.id
@@ -298,6 +310,16 @@ export const RecordDrawer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1.5">
+            <button
+              id="drawer-whatsapp-quick-btn"
+              onClick={() => setIsWhatsAppModalOpen(true)}
+              className="flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition-colors"
+              title="Abrir WhatsApp directo con plantillas"
+            >
+              <MessageSquare className="w-3 h-3 text-emerald-400" />
+              <span>WhatsApp</span>
+            </button>
+
             <button
               id="drawer-ai-quick-btn"
               onClick={() =>
@@ -389,6 +411,20 @@ export const RecordDrawer: React.FC = () => {
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             AI Intelligence
           </button>
+          {opp && (
+            <button
+              id="drawer-tab-quote"
+              onClick={() => setActiveTab('quote')}
+              className={`py-2.5 px-3 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
+                activeTab === 'quote'
+                  ? 'border-blue-500 text-white'
+                  : 'border-transparent text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5 text-blue-400" />
+              Presupuesto & PDF
+            </button>
+          )}
         </div>
 
         {/* Drawer Body */}
@@ -853,7 +889,43 @@ export const RecordDrawer: React.FC = () => {
               </div>
             </div>
           )}
+          {/* TAB 4: QUOTE BUILDER & PDF */}
+          {activeTab === 'quote' && opp && (
+            <QuickQuoteDrawerTab
+              opp={opp}
+              person={contactForWhatsApp}
+              company={company || companies.find((c) => c.id === opp.companyId)}
+              onUpdateDealAmount={(amt) => updateOpportunity(opp.id, { amount: amt })}
+              onOpenWhatsApp={() => setIsWhatsAppModalOpen(true)}
+            />
+          )}
         </div>
+
+        {/* Quick WhatsApp Action Modal */}
+        <WhatsAppQuickActionModal
+          isOpen={isWhatsAppModalOpen}
+          onClose={() => setIsWhatsAppModalOpen(false)}
+          recipientName={recipientName}
+          recipientPhone={recipientPhone}
+          companyName={recipientCompany}
+          dealName={opp?.name}
+          dealAmount={opp?.amount}
+          onLogActivity={(msg) => {
+            addActivity({
+              type: 'call',
+              title: `Mensaje de WhatsApp enviado a ${recipientName || 'contacto'}`,
+              content: msg,
+              author: currentUser.name,
+              targetType: selectedRecord.type as 'opportunity' | 'company' | 'person',
+              targetId: selectedRecord.id,
+              meta: {
+                channel: 'whatsapp',
+                recipientPhone,
+              },
+            });
+            showToast('Actividad registrada en el CRM y sincronizada en Firestore', 'success');
+          }}
+        />
       </motion.div>
     </div>
   );

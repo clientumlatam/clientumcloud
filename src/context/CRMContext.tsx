@@ -35,7 +35,15 @@ import {
 import { getTranslation, TranslationKey } from '../i18n/translations';
 import { useTheme } from './ThemeContext';
 import { getClientumAuthJsonHeaders } from '../lib/api';
-import { firebaseSignOut, syncWorkspaceToFirestore, fetchWorkspaceFromFirestore } from '../firebase';
+import {
+  firebaseSignOut,
+  syncWorkspaceToFirestore,
+  fetchWorkspaceFromFirestore,
+  subscribeToUserSubcollection,
+  saveUserSubcollectionRecord,
+  deleteUserSubcollectionRecord,
+  seedUserSubcollectionsIfEmpty,
+} from '../firebase';
 import { INITIAL_WEBMAIL_EMAILS } from '../data/webmailInitialData';
 import {
   INITIAL_ACTIVITIES,
@@ -655,93 +663,108 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     setIsCrmRemoteReady(false);
+    const unsubs: Array<() => void> = [];
+
     void (async () => {
       try {
-        const response = await fetch('/api/crm/bootstrap', {
-          headers: await getClientumAuthJsonHeaders(currentUser),
+        // 1. Seed subcollections if empty so user has their data in individual documents in Firestore
+        await seedUserSubcollectionsIfEmpty(currentUser.id, {
+          opportunities,
+          companies,
+          people,
+          tasks,
+          activities,
         });
-        if (!response.ok) throw new Error(`CRM bootstrap failed: ${response.status}`);
-        const payload = await response.json() as {
-          count?: number;
-          records?: {
-            opportunities?: Opportunity[];
-            companies?: Company[];
-            people?: Person[];
-            tasks?: Task[];
-            activities?: Activity[];
-          };
-        };
 
         if (cancelled) return;
-        if (payload.count && payload.records) {
-          setOpportunities(ensureUniqueIds(payload.records.opportunities || [], 'opp'));
-          setCompanies(payload.records.companies || []);
-          setPeople(payload.records.people || []);
-          setTasks(payload.records.tasks || []);
-          setActivities(payload.records.activities || []);
-        } else {
-          // Check if there is data in Firestore
-          const firestoreData = await fetchWorkspaceFromFirestore(currentUser.id);
-          if (firestoreData && (firestoreData.opportunities?.length || firestoreData.companies?.length || firestoreData.people?.length)) {
-            if (firestoreData.opportunities) setOpportunities(ensureUniqueIds(firestoreData.opportunities, 'opp'));
-            if (firestoreData.companies) setCompanies(firestoreData.companies);
-            if (firestoreData.people) setPeople(firestoreData.people);
-            if (firestoreData.tasks) setTasks(firestoreData.tasks);
-            if (firestoreData.activities) setActivities(firestoreData.activities);
-          } else {
-            // First time: sync initial/current state to Firestore
-            await syncWorkspaceToFirestore(currentUser.id, {
-              opportunities,
-              companies,
-              people,
-              tasks,
-              activities,
-            });
-          }
 
-          await fetch('/api/crm/bootstrap', {
-            method: 'PUT',
+        // 2. Attach real-time subcollection listeners (multi-device, instantaneous)
+        const unsubOpp = subscribeToUserSubcollection<Opportunity>(
+          currentUser.id,
+          'opportunities',
+          (items) => {
+            if (items && items.length > 0) {
+              setOpportunities(ensureUniqueIds(items, 'opp'));
+            }
+          }
+        );
+        const unsubComp = subscribeToUserSubcollection<Company>(
+          currentUser.id,
+          'companies',
+          (items) => {
+            if (items && items.length > 0) {
+              setCompanies(items);
+            }
+          }
+        );
+        const unsubPeople = subscribeToUserSubcollection<Person>(
+          currentUser.id,
+          'people',
+          (items) => {
+            if (items && items.length > 0) {
+              setPeople(items);
+            }
+          }
+        );
+        const unsubTasks = subscribeToUserSubcollection<Task>(
+          currentUser.id,
+          'tasks',
+          (items) => {
+            if (items && items.length > 0) {
+              setTasks(items);
+            }
+          }
+        );
+        const unsubActivities = subscribeToUserSubcollection<Activity>(
+          currentUser.id,
+          'activities',
+          (items) => {
+            if (items && items.length > 0) {
+              setActivities(items);
+            }
+          }
+        );
+
+        unsubs.push(unsubOpp, unsubComp, unsubPeople, unsubTasks, unsubActivities);
+
+        // Fallback bootstrap check for legacy data
+        try {
+          const response = await fetch('/api/crm/bootstrap', {
             headers: await getClientumAuthJsonHeaders(currentUser),
-            body: JSON.stringify({
-              opportunities,
-              companies,
-              people,
-              tasks,
-              activities,
-            }),
           });
+          if (response.ok) {
+            const payload = await response.json() as {
+              count?: number;
+              records?: {
+                opportunities?: Opportunity[];
+                companies?: Company[];
+                people?: Person[];
+                tasks?: Task[];
+                activities?: Activity[];
+              };
+            };
+            if (payload.count && payload.records) {
+              if (payload.records.opportunities?.length) setOpportunities(ensureUniqueIds(payload.records.opportunities, 'opp'));
+              if (payload.records.companies?.length) setCompanies(payload.records.companies);
+              if (payload.records.people?.length) setPeople(payload.records.people);
+              if (payload.records.tasks?.length) setTasks(payload.records.tasks);
+              if (payload.records.activities?.length) setActivities(payload.records.activities);
+            }
+          }
+        } catch {
+          // Keep Firestore data
         }
+
         if (!cancelled) setIsCrmRemoteReady(true);
       } catch (error) {
-        console.warn('Persistent CRM bootstrap fallback to Firestore:', error);
-        // Fallback to Firestore directly if server API is not available
-        try {
-          const firestoreData = await fetchWorkspaceFromFirestore(currentUser.id);
-          if (firestoreData && (firestoreData.opportunities?.length || firestoreData.companies?.length || firestoreData.people?.length)) {
-            if (firestoreData.opportunities) setOpportunities(ensureUniqueIds(firestoreData.opportunities, 'opp'));
-            if (firestoreData.companies) setCompanies(firestoreData.companies);
-            if (firestoreData.people) setPeople(firestoreData.people);
-            if (firestoreData.tasks) setTasks(firestoreData.tasks);
-            if (firestoreData.activities) setActivities(firestoreData.activities);
-          } else {
-            // Save initial data to Firestore so user sees collections
-            await syncWorkspaceToFirestore(currentUser.id, {
-              opportunities,
-              companies,
-              people,
-              tasks,
-              activities,
-            });
-          }
-        } catch (fsErr) {
-          console.warn('Firestore fallback note:', fsErr);
-        }
+        console.warn('Realtime CRM bootstrap error:', error);
         if (!cancelled) setIsCrmRemoteReady(true);
       }
     })();
 
     return () => {
       cancelled = true;
+      unsubs.forEach((unsub) => unsub());
     };
   }, [currentUser.id, isAuthReady, isAuthenticated]);
 
@@ -1069,6 +1092,11 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       meta: { toStage: newOpp.stage },
     });
 
+    // Real-time Firestore write
+    if (currentUser.id) {
+      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', newOpp.id, newOpp);
+    }
+
     logAuditEvent({
       userId: currentUser.id,
       userName: currentUser.name,
@@ -1090,15 +1118,21 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateOpportunity = (id: string, updates: Partial<Opportunity>) => {
     const opp = opportunities.find((o) => o.id === id);
+    let updatedOpp: Opportunity | null = null;
     setOpportunities((prev) =>
       prev.map((o) => {
         if (o.id === id) {
           const updated = { ...o, ...updates, updatedAt: new Date().toISOString() };
+          updatedOpp = updated;
           return updated;
         }
         return o;
       })
     );
+
+    if (currentUser.id && updatedOpp) {
+      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', id, updatedOpp);
+    }
 
     logAuditEvent({
       userId: currentUser.id,
@@ -1123,6 +1157,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOpportunities((prev) => prev.filter((o) => o.id !== id));
     if (selectedRecord?.id === id) {
       setSelectedRecord(null);
+    }
+
+    if (currentUser.id) {
+      void deleteUserSubcollectionRecord(currentUser.id, 'opportunities', id);
     }
 
     logAuditEvent({
@@ -1150,19 +1188,25 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const oldStage = opp.stage;
     const stageConf = STAGES.find((s) => s.id === newStage);
 
+    let movedOpp: Opportunity | null = null;
     setOpportunities((prev) =>
       prev.map((o) => {
         if (o.id === id) {
-          return {
+          movedOpp = {
             ...o,
             stage: newStage,
             probability: stageConf?.probability ?? o.probability,
             updatedAt: new Date().toISOString(),
           };
+          return movedOpp;
         }
         return o;
       })
     );
+
+    if (currentUser.id && movedOpp) {
+      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', id, movedOpp);
+    }
 
     // Record activity
     addActivity({
@@ -1210,6 +1254,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setCompanies((prev) => [newComp, ...prev]);
 
+    if (currentUser.id) {
+      void saveUserSubcollectionRecord(currentUser.id, 'companies', newComp.id, newComp);
+    }
+
     logAuditEvent({
       userId: currentUser.id,
       userName: currentUser.name,
@@ -1231,7 +1279,18 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateCompany = (id: string, updates: Partial<Company>) => {
     const comp = companies.find((c) => c.id === id);
-    setCompanies((prev) => prev.map((c) => (c.id === id ? { ...c, ...updates } : c)));
+    let updatedComp: Company | null = null;
+    setCompanies((prev) => prev.map((c) => {
+      if (c.id === id) {
+        updatedComp = { ...c, ...updates };
+        return updatedComp;
+      }
+      return c;
+    }));
+
+    if (currentUser.id && updatedComp) {
+      void saveUserSubcollectionRecord(currentUser.id, 'companies', id, updatedComp);
+    }
 
     logAuditEvent({
       userId: currentUser.id,
@@ -1256,6 +1315,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCompanies((prev) => prev.filter((c) => c.id !== id));
     if (selectedRecord?.id === id) {
       setSelectedRecord(null);
+    }
+
+    if (currentUser.id) {
+      void deleteUserSubcollectionRecord(currentUser.id, 'companies', id);
     }
 
     logAuditEvent({
@@ -1286,6 +1349,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setPeople((prev) => [newPerson, ...prev]);
 
+    if (currentUser.id) {
+      void saveUserSubcollectionRecord(currentUser.id, 'people', newPerson.id, newPerson);
+    }
+
     logAuditEvent({
       userId: currentUser.id,
       userName: currentUser.name,
@@ -1307,7 +1374,18 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updatePerson = (id: string, updates: Partial<Person>) => {
     const person = people.find((p) => p.id === id);
-    setPeople((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+    let updatedPerson: Person | null = null;
+    setPeople((prev) => prev.map((p) => {
+      if (p.id === id) {
+        updatedPerson = { ...p, ...updates };
+        return updatedPerson;
+      }
+      return p;
+    }));
+
+    if (currentUser.id && updatedPerson) {
+      void saveUserSubcollectionRecord(currentUser.id, 'people', id, updatedPerson);
+    }
 
     logAuditEvent({
       userId: currentUser.id,
@@ -1332,6 +1410,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setPeople((prev) => prev.filter((p) => p.id !== id));
     if (selectedRecord?.id === id) {
       setSelectedRecord(null);
+    }
+
+    if (currentUser.id) {
+      void deleteUserSubcollectionRecord(currentUser.id, 'people', id);
     }
 
     logAuditEvent({
@@ -1361,6 +1443,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setTasks((prev) => [newTask, ...prev]);
 
+    if (currentUser.id) {
+      void saveUserSubcollectionRecord(currentUser.id, 'tasks', newTask.id, newTask);
+    }
+
     logAuditEvent({
       userId: currentUser.id,
       userName: currentUser.name,
@@ -1382,7 +1468,19 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateTask = (id: string, updates: Partial<Task>) => {
     const task = tasks.find((t) => t.id === id);
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...updates } : t)));
+    let updatedTask: Task | null = null;
+    setTasks((prev) => prev.map((t) => {
+      if (t.id === id) {
+        updatedTask = { ...t, ...updates };
+        return updatedTask;
+      }
+      return t;
+    }));
+
+    if (currentUser.id && updatedTask) {
+      void saveUserSubcollectionRecord(currentUser.id, 'tasks', id, updatedTask);
+    }
+
     showToast('Task updated', 'info');
   };
 
@@ -1391,6 +1489,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTasks((prev) => prev.filter((t) => t.id !== id));
     if (selectedRecord?.id === id) {
       setSelectedRecord(null);
+    }
+
+    if (currentUser.id) {
+      void deleteUserSubcollectionRecord(currentUser.id, 'tasks', id);
     }
 
     logAuditEvent({
@@ -1412,20 +1514,26 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const toggleTaskStatus = (id: string) => {
+    let toggledTask: Task | null = null;
     setTasks((prev) =>
       prev.map((t) => {
         if (t.id === id) {
           const isDone = t.status === 'Completed';
           const newStatus = isDone ? 'Todo' : 'Completed';
-          return {
+          toggledTask = {
             ...t,
             status: newStatus,
             completedAt: isDone ? undefined : new Date().toISOString(),
           };
+          return toggledTask;
         }
         return t;
       })
     );
+
+    if (currentUser.id && toggledTask) {
+      void saveUserSubcollectionRecord(currentUser.id, 'tasks', id, toggledTask);
+    }
   };
 
   // --- CRUD ACTIVITY ---
@@ -1436,11 +1544,20 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       createdAt: new Date().toISOString(),
     };
     setActivities((prev) => [newAct, ...prev]);
+
+    if (currentUser.id) {
+      void saveUserSubcollectionRecord(currentUser.id, 'activities', newAct.id, newAct);
+    }
+
     return newAct;
   };
 
   const deleteActivity = (id: string) => {
     setActivities((prev) => prev.filter((a) => a.id !== id));
+
+    if (currentUser.id) {
+      void deleteUserSubcollectionRecord(currentUser.id, 'activities', id);
+    }
   };
 
   // --- CLIENTUM CUSTOM OBJECTS STUDIO ---
