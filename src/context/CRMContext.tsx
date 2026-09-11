@@ -277,6 +277,10 @@ interface CRMContextType {
   composeEmailDefaults: Partial<WebmailEmail> | null;
   openComposeEmailModal: (defaults?: Partial<WebmailEmail>) => void;
   closeComposeEmailModal: () => void;
+
+  // Ecosystem Hub Order
+  ecosystemModuleOrder: string[];
+  setEcosystemModuleOrder: (order: string[]) => void;
 }
 
 const CRMContext = createContext<CRMContextType | undefined>(undefined);
@@ -532,6 +536,38 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     localStorage.setItem('clientum_crm_webhooks', JSON.stringify(webhooks));
   }, [webhooks]);
+
+  const [ecosystemModuleOrder, setEcosystemModuleOrder] = useState<string[]>(() => {
+    const saved = localStorage.getItem('clientum_ecosystem_module_order');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // ignore
+      }
+    }
+    return [
+      'mod-01-maps',
+      'mod-02-erp',
+      'mod-03-omnichannel',
+      'mod-04-workflows',
+      'mod-05-proposals',
+      'mod-06-copilot',
+      'mod-07-tasks-kanban',
+      'mod-08-bi-dashboard',
+      'mod-09-contacts-enrichment',
+      'mod-10-calendar',
+      'mod-11-webforms',
+      'mod-12-email-cadences',
+      'mod-13-checkout-gateways',
+      'mod-14-helpdesk-tickets',
+      'mod-15-catalog-pricing',
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('clientum_ecosystem_module_order', JSON.stringify(ecosystemModuleOrder));
+  }, [ecosystemModuleOrder]);
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [viewMode, setViewMode] = useState<OpportunityViewMode>('kanban');
   const [selectedRecord, setSelectedRecord] = useState<{ type: 'opportunity' | 'company' | 'person' | 'task'; id: string } | null>(null);
@@ -2869,6 +2905,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         composeEmailDefaults,
         openComposeEmailModal,
         closeComposeEmailModal,
+
+        // Ecosystem Hub Order
+        ecosystemModuleOrder,
+        setEcosystemModuleOrder,
       }}
     >
       {children}

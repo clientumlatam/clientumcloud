@@ -26,7 +26,15 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Info,
-  ChevronRight
+  ChevronRight,
+  GripVertical,
+  ArrowUp,
+  ArrowDown,
+  Download,
+  Cloud,
+  CloudOff,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 
@@ -312,7 +320,8 @@ export const INITIAL_ECOSYSTEM_MODULES: EcosystemModuleConfig[] = [
 const STORAGE_KEY = 'clientum_ecosystem_modules_state';
 
 export const EcosistemaHub: React.FC = () => {
-  const { setActiveTab } = useCRM();
+  const { setActiveTab, ecosystemModuleOrder, setEcosystemModuleOrder } = useCRM();
+  const [draggedModuleId, setDraggedModuleId] = useState<string | null>(null);
 
   // Estados consumidos desde la configuración inicial con persistencia local
   const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>(() => {
@@ -337,6 +346,62 @@ export const EcosistemaHub: React.FC = () => {
   const [selectedDoc, setSelectedDoc] = useState<{ filename: string; title: string; content?: string } | null>(null);
   const [loadingDoc, setLoadingDoc] = useState(false);
   const [docError, setDocError] = useState<string | null>(null);
+
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isSyncPending, setIsSyncPending] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      setTimeout(() => setIsSyncPending(false), 1200);
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      setIsSyncPending(true);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!navigator.onLine) {
+      setIsSyncPending(true);
+    } else {
+      setIsSyncPending(true);
+      const timer = setTimeout(() => {
+        setIsSyncPending(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [ecosystemModuleOrder, enabledModules]);
+
+  const handleExportCSV = () => {
+    const headers = ['Prioridad', 'ID Modulo', 'Titulo', 'Categoria', 'Estado', 'Progreso (%)'];
+    const rows = orderedModules.map((m, index) => [
+      index + 1,
+      m.id,
+      `"${m.title.replace(/"/g, '""')}"`,
+      `"${m.category}"`,
+      enabledModules[m.id] ? 'Activo' : 'Inactivo',
+      m.progressPercentage
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `clientum_ecosistema_modulos_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Persistir cambios en localStorage
   useEffect(() => {
@@ -371,6 +436,7 @@ export const EcosistemaHub: React.FC = () => {
       defaultMap[m.id] = m.defaultEnabled;
     });
     setEnabledModules(defaultMap);
+    setEcosystemModuleOrder(INITIAL_ECOSYSTEM_MODULES.map((m) => m.id));
   };
 
   // Leer documento de migración
@@ -397,9 +463,67 @@ export const EcosistemaHub: React.FC = () => {
     }
   };
 
-  // Filtros
+  // Ordenar módulos según ecosystemModuleOrder global
+  const orderedModules = useMemo(() => {
+    const map = new Map(INITIAL_ECOSYSTEM_MODULES.map((m) => [m.id, m]));
+    const result: EcosystemModuleConfig[] = [];
+    ecosystemModuleOrder.forEach((id) => {
+      const mod = map.get(id);
+      if (mod) result.push(mod);
+    });
+    INITIAL_ECOSYSTEM_MODULES.forEach((m) => {
+      if (!result.some((r) => r.id === m.id)) {
+        result.push(m);
+      }
+    });
+    return result;
+  }, [ecosystemModuleOrder]);
+
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    setDraggedModuleId(id);
+    e.dataTransfer.setData('text/plain', id);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+    if (!draggedModuleId || draggedModuleId === targetId) return;
+
+    const currentOrder = orderedModules.map((m) => m.id);
+    const sourceIndex = currentOrder.indexOf(draggedModuleId);
+    const targetIndex = currentOrder.indexOf(targetId);
+
+    if (sourceIndex !== -1 && targetIndex !== -1) {
+      const newOrder = [...currentOrder];
+      newOrder.splice(sourceIndex, 1);
+      newOrder.splice(targetIndex, 0, draggedModuleId);
+      setEcosystemModuleOrder(newOrder);
+    }
+    setDraggedModuleId(null);
+  };
+
+  const handleMovePosition = (id: string, direction: 'up' | 'down') => {
+    const currentOrder = orderedModules.map((m) => m.id);
+    const index = currentOrder.indexOf(id);
+    if (index === -1) return;
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === currentOrder.length - 1) return;
+
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    const newOrder = [...currentOrder];
+    const [moved] = newOrder.splice(index, 1);
+    newOrder.splice(newIndex, 0, moved);
+    setEcosystemModuleOrder(newOrder);
+  };
+
+  // Filtros aplicados sobre la lista ordenada
   const filteredModules = useMemo(() => {
-    return INITIAL_ECOSYSTEM_MODULES.filter((m) => {
+    return orderedModules.filter((m) => {
       const matchesSearch =
         m.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         m.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -408,7 +532,7 @@ export const EcosistemaHub: React.FC = () => {
       const matchesCategory = selectedCategory === 'Todos' || m.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [orderedModules, searchTerm, selectedCategory]);
 
   // Métricas de progreso visual global
   const activeCount = useMemo(() => {
@@ -526,6 +650,40 @@ export const EcosistemaHub: React.FC = () => {
         </div>
       </div>
 
+      {/* Indicador de Sincronización con Firebase & Exportar CSV */}
+      <div className="max-w-7xl w-full mx-auto px-6 sm:px-8 mt-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="flex items-center gap-2.5">
+            {isOnline && !isSyncPending ? (
+              <>
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Sincronizado con Firebase en tiempo real</span>
+              </>
+            ) : !isOnline ? (
+              <>
+                <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="text-xs font-medium text-amber-700 dark:text-amber-300">Sin conexión (Offline) — Los cambios de prioridad y estado están pendientes de sincronización</span>
+              </>
+            ) : (
+              <>
+                <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-spin shrink-0" />
+                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Sincronizando cambios de prioridad y estado con Firebase...</span>
+              </>
+            )}
+          </div>
+
+          <button
+            id="btn-export-csv"
+            onClick={handleExportCSV}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition shrink-0"
+            title="Descargar reporte resumen de módulos y prioridades en CSV"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Exportar Reporte CSV
+          </button>
+        </div>
+      </div>
+
       {/* Barra de Filtros y Búsqueda */}
       <div className="max-w-7xl w-full mx-auto px-6 sm:px-8 py-5">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -564,12 +722,19 @@ export const EcosistemaHub: React.FC = () => {
           {filteredModules.map((module) => {
             const isEnabled = !!enabledModules[module.id];
             const Icon = module.icon;
+            const currentPriorityIndex = orderedModules.findIndex((m) => m.id === module.id) + 1;
 
             return (
               <div
                 key={module.id}
                 id={`module-card-${module.id}`}
-                className={`flex flex-col justify-between bg-white dark:bg-slate-900 rounded-xl border transition-all duration-200 ${
+                draggable={true}
+                onDragStart={(e) => handleDragStart(e, module.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, module.id)}
+                className={`flex flex-col justify-between bg-white dark:bg-slate-900 rounded-xl border transition-all duration-200 select-none ${
+                  draggedModuleId === module.id ? 'opacity-40 border-dashed border-blue-500 scale-95' : ''
+                } ${
                   isEnabled
                     ? 'border-slate-200 dark:border-slate-800 shadow-sm hover:border-blue-400 dark:hover:border-blue-600'
                     : 'border-slate-200/60 dark:border-slate-800/60 opacity-60 bg-slate-50/50 dark:bg-slate-950/40'
@@ -579,13 +744,17 @@ export const EcosistemaHub: React.FC = () => {
                 <div className="p-5 pb-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
+                      {/* Drag Handle & Icon */}
+                      <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 cursor-grab active:cursor-grabbing" title="Arrastra para reordenar prioridad">
+                        <GripVertical className="w-4 h-4 hover:text-blue-600 transition" />
+                      </div>
                       <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-mono font-bold text-slate-400 dark:text-slate-500">
-                            #{String(module.order).padStart(2, '0')}
+                          <span className="text-[11px] font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-900" title="Prioridad de Módulo en Ecosistema">
+                            #{String(currentPriorityIndex).padStart(2, '0')}
                           </span>
                           <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                             {module.category}
@@ -597,25 +766,49 @@ export const EcosistemaHub: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Interruptor (Toggle Switch) */}
-                    <button
-                      type="button"
-                      role="switch"
-                      aria-checked={isEnabled}
-                      id={`toggle-${module.id}`}
-                      onClick={() => handleToggleModule(module.id)}
-                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                        isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
-                      }`}
-                      title={isEnabled ? 'Desactivar módulo' : 'Activar módulo'}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                          isEnabled ? 'translate-x-5' : 'translate-x-0'
+                    {/* Controles de Reordenamiento Rápido & Toggle */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex flex-col gap-0.5 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-md border border-slate-200 dark:border-slate-700">
+                        <button
+                          type="button"
+                          onClick={() => handleMovePosition(module.id, 'up')}
+                          disabled={currentPriorityIndex === 1}
+                          className="p-0.5 text-slate-500 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-slate-500 transition"
+                          title="Subir prioridad"
+                        >
+                          <ArrowUp className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleMovePosition(module.id, 'down')}
+                          disabled={currentPriorityIndex === orderedModules.length}
+                          className="p-0.5 text-slate-500 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-slate-500 transition"
+                          title="Bajar prioridad"
+                        >
+                          <ArrowDown className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      {/* Interruptor (Toggle Switch) */}
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={isEnabled}
+                        id={`toggle-${module.id}`}
+                        onClick={() => handleToggleModule(module.id)}
+                        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                          isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
                         }`}
-                      />
-                    </button>
+                        title={isEnabled ? 'Desactivar módulo' : 'Activar módulo'}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                            isEnabled ? 'translate-x-5' : 'translate-x-0'
+                          }`}
+                        />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Descripción */}

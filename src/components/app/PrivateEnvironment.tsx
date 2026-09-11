@@ -55,6 +55,7 @@ import { EcosistemaHub } from './EcosistemaHub';
 import { ToastContainer } from '../common/ToastContainer';
 import { AICopilotFloating } from '../common/AICopilotFloating';
 import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
+import { TutorialOnboardingModal } from '../common/TutorialOnboardingModal';
 
 const MainContent: React.FC = () => {
   const {
@@ -148,6 +149,7 @@ const MainContent: React.FC = () => {
       <ExpressAuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} />
       <AICopilotFloating />
       <ToastContainer />
+      <TutorialOnboardingModal />
     </div>
   );
 };

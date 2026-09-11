@@ -1,8 +1,10 @@
-const CACHE_NAME = 'clientum-crm-cache-v2';
+const CACHE_NAME = 'clientum-crm-offline-v3';
 
 const urlsToCache = [
   '/',
-  '/index.html'
+  '/index.html',
+  '/favicon.svg',
+  '/og-image.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -10,6 +12,9 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll(urlsToCache);
+      })
+      .catch((err) => {
+        console.warn('Service Worker preload cache error:', err);
       })
   );
   self.skipWaiting();
@@ -33,32 +38,41 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const requestUrl = new URL(event.request.url);
+  
+  // Ignorar peticiones externas o de API
   if (requestUrl.origin !== self.location.origin) return;
   if (requestUrl.pathname.startsWith('/api/')) return;
-  
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        // Verificar si la respuesta es válida
         if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
+
         const responseToCache = response.clone();
-        caches.open(CACHE_NAME)
-          .then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
         return response;
       })
       .catch(() => {
-        return caches.match(event.request).then(response => {
-          if (response) {
-            return response;
+        // Modo sin conexión: buscar en caché
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
           }
-          // fallback to index.html for SPA
-          if (event.request.mode === 'navigate') {
-             return caches.match('/index.html');
+          // Si es navegación SPA, retornar index.html en caché
+          if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+            return caches.match('/index.html');
           }
-           return Response.error();
+          return new Response('Sin conexión a internet y recurso no disponible en caché.', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
+          });
         });
       })
   );
