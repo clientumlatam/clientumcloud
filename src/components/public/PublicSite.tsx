@@ -9,9 +9,9 @@ import { PublicCaseStudiesPage } from './PublicCaseStudiesPage';
 import { PublicServicesPage } from './PublicServicesPage';
 import { PublicResourcesPage } from './PublicResourcesPage';
 import { PublicCompanyPage } from './PublicCompanyPage';
-import { PublicClientsPage } from './PublicClientsPage';
-import { PublicPartnersPage } from './PublicPartnersPage';
-import { PublicCareersPage } from './PublicCareersPage';
+import { PublicClientsPage } from "./PublicClientsPage";
+import { PublicPartnersPage } from "./PublicPartnersPage";
+import { PublicCareersPage } from "./PublicCareersPage";
 import { PublicAcademyLanding } from './PublicAcademyLanding';
 import { PublicContactPage } from './PublicContactPage';
 import { PublicLegalPage } from './PublicLegalPage';
@@ -163,21 +163,9 @@ export const PublicSite: React.FC = () => {
       );
     }
 
-    // 9. Campus LMS
-    if (currentPath === '/academia') {
-      return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="mb-4">
-            <button
-              onClick={() => handleNavigate('/')}
-              className="text-xs text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 cursor-pointer font-bold"
-            >
-              ← Volver al Portal Principal
-            </button>
-          </div>
-          <CampusLMSView />
-        </div>
-      );
+    // 9. Academy
+    if (currentPath === '/academia' || currentPath === ('/academia' as PublicRoutePath)) {
+      return <PublicAcademyLanding onNavigate={(path) => handleNavigate(path as PublicRoutePath)} />;
     }
 
     // 10. DNS & Domains Tool
@@ -220,11 +208,6 @@ export const PublicSite: React.FC = () => {
     // 11d. Careers & Jobs
     if (currentPath === '/empleo' || currentPath === '/trabajo' || currentPath === '/carreras') {
       return <PublicCareersPage onNavigate={handleNavigate} />;
-    }
-
-    // 11e. Academy
-    if (currentPath === ('/academia' as PublicRoutePath)) {
-      return <PublicAcademyLanding onNavigate={(path) => handleNavigate(path as PublicRoutePath)} />;
     }
 
     // 12. Contact & Demo Request
