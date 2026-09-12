@@ -33,6 +33,7 @@ import { useCRM } from '../../context/CRMContext';
 import { PublicRoutePath } from './publicRoutes';
 import { PublicPlatformMap } from './PublicPlatformMap';
 import { PublicSiteHighlights } from './PublicSiteHighlights';
+import { PublicDashboardShowcase } from './PublicDashboardShowcase';
 
 interface PublicHomeProps {
   onNavigate: (path: PublicRoutePath) => void;
@@ -193,7 +194,14 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
         onOpenSimulator={onOpenSimulator}
       />
 
-      {/* 3. INTERACTIVE PRODUCT PREVIEW SHOWCASE */}
+      {/* 3. EXECUTIVE DASHBOARD SHOWCASE */}
+      <PublicDashboardShowcase
+        onNavigate={onNavigate}
+        onOpenSimulator={onOpenSimulator}
+        onOpenWizard={onOpenWizard}
+      />
+
+      {/* 4. INTERACTIVE PRODUCT PREVIEW SHOWCASE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">

@@ -580,5 +580,25 @@ export interface WebmailD1Stats {
   }>;
 }
 
+export type ClientumPlanId = 'starter' | 'professional' | 'enterprise';
+
+export interface TrialSubscriptionState {
+  plan: ClientumPlanId | 'trial';
+  status: 'trial' | 'active' | 'expired' | 'cancelled';
+  trialStartDate: string;
+  trialEndDate: string;
+  daysRemaining: number;
+  isTrialActive: boolean;
+  isTrialExpired: boolean;
+  paymentMethod?: 'mercadopago' | 'credit_card' | 'bank_transfer';
+  billingCycle: 'monthly' | 'annual';
+  lastPaymentDate?: string;
+  nextBillingDate?: string;
+  subscriptionId?: string;
+  amountARS?: number;
+  cuitOrCuil?: string;
+  businessName?: string;
+}
+
 
 

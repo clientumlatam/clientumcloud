@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Activity,
   ArrowRight,
+  BarChart3,
   Bot,
   CheckCircle2,
   Clock,
@@ -24,6 +25,14 @@ interface PublicSiteHighlightsProps {
 }
 
 const serviceCards = [
+  {
+    title: 'Dashboard & Control Ejecutivo',
+    description: 'Semáforo de alertas operativas, detección de tratos en riesgo (Deal Rotting) y Copilot con IA.',
+    detail: '5 KPIs en vivo · Alertas > 7d · Resumen IA',
+    icon: BarChart3,
+    accent: 'blue',
+    path: '/producto/dashboard' as PublicRoutePath,
+  },
   {
     title: 'Inteligencia Artificial & Bots',
     description: 'Agentes conversacionales que atienden, califican y agendan reuniones 24/7.',

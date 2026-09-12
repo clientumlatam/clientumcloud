@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Zap, Mail, Lock, User, Building, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { X, Zap, Mail, Lock, User, Building, Eye, EyeOff, ArrowRight, Sparkles, Clock } from "lucide-react";
 import { useCRM } from "../../context/CRMContext";
 import { SocialAuthButtons } from "./SocialAuthButtons";
 import { signInWithEmail, registerWithEmail, sendFirebasePasswordReset } from "../../firebase";
@@ -159,6 +159,18 @@ export const AuthModal: React.FC = () => {
                   enterApp(true);
                 }}
               />
+            </div>
+          )}
+
+          {mode === "register" && (
+            <div className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-emerald-200">
+              <div className="flex items-center gap-2 font-bold text-xs text-emerald-300">
+                <Clock className="h-4 w-4 text-emerald-400" />
+                <span>Incluye 7 Días de Free Trial Completo</span>
+              </div>
+              <p className="mt-1 text-[11px] text-emerald-200/80 leading-relaxed">
+                Accedé 1 semana completa con todas las funciones Pro sin tarjeta. Podés continuar o suscribirte con Mercado Pago en cualquier momento.
+              </p>
             </div>
           )}
 

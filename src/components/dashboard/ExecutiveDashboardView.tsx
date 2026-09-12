@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   AlertTriangle,
   BarChart3,
-  Bell,
   BriefcaseBusiness,
   CalendarDays,
   Check,
@@ -13,16 +12,17 @@ import {
   ChevronDown,
   Clock3,
   Filter,
+  Flame,
+  Layers,
   MoreHorizontal,
   Paperclip,
-  Phone,
   Plus,
   Send,
+  ShieldAlert,
   Smile,
   Sparkles,
   Target,
   TrendingUp,
-  Video,
   WalletCards,
   X,
 } from 'lucide-react';
@@ -38,10 +38,12 @@ import {
   YAxis,
 } from 'recharts';
 import { useCRM } from '../../context/CRMContext';
+import { useTheme } from '../../context/ThemeContext';
 import { Opportunity, StageId } from '../../types';
 import { STAGES } from '../../data/initialData';
+import { DashboardOperationsStrip } from './DashboardOperationsStrip';
 
-const CHART_COLORS = ['#11c5b5', '#4388ff', '#8561ff', '#f59e0b', '#64748b'];
+const CHART_COLORS = ['#0d9488', '#2563eb', '#7c3aed', '#d97706', '#64748b'];
 
 interface ChatMessage {
   id: string;
@@ -69,368 +71,890 @@ export const ExecutiveDashboardView: React.FC = () => {
     moveOpportunityStage,
     toggleTaskStatus,
   } = useCRM();
+
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
   const [pipelineFilter, setPipelineFilter] = useState<'Todos los negocios' | Opportunity['type']>('Todos los negocios');
   const [isPipelineDropdownOpen, setIsPipelineDropdownOpen] = useState(false);
-  const [draggedDealId, setDraggedDealId] = useState<string | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: 'm-1', sender: 'assistant', text: 'Hola. Puedo resumir tus negocios, revisar pendientes o ayudarte a preparar el próximo paso.', time: 'Ahora' },
+    {
+      id: 'm-1',
+      sender: 'assistant',
+      text: '¡Hola! Soy tu Copilot Ejecutivo. Puedo analizar tu pipeline comercial, identificar tratos en riesgo o sugerir el próximo mejor paso de ventas.',
+      time: 'Ahora',
+    },
   ]);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const filteredOpportunities = opportunities.filter((opportunity) =>
-    pipelineFilter === 'Todos los negocios' || opportunity.type === pipelineFilter,
+
+  const filteredOpportunities = opportunities.filter(
+    (opportunity) => pipelineFilter === 'Todos los negocios' || opportunity.type === pipelineFilter
   );
-  const activeOpportunities = filteredOpportunities.filter(({ stage }) => stage !== 'won' && stage !== 'lost');
+
+  const activeOpportunities = filteredOpportunities.filter(
+    ({ stage }) => stage !== 'won' && stage !== 'lost'
+  );
+
   const pipelineTotal = activeOpportunities.reduce((total, opportunity) => total + opportunity.amount, 0);
   const weightedPipeline = activeOpportunities.reduce(
     (total, opportunity) => total + opportunity.amount * (opportunity.probability / 100),
-    0,
+    0
   );
-  const wonDeals = opportunities.filter(({ stage }) => stage === 'won');
-  const decidedDeals = opportunities.filter(({ stage }) => stage === 'won' || stage === 'lost');
+
+  const wonDeals = filteredOpportunities.filter(({ stage }) => stage === 'won');
+  const wonTotal = wonDeals.reduce((total, deal) => total + deal.amount, 0);
+
+  const decidedDeals = filteredOpportunities.filter(({ stage }) => stage === 'won' || stage === 'lost');
   const winRate = decidedDeals.length ? Math.round((wonDeals.length / decidedDeals.length) * 1000) / 10 : 0;
+
   const averageCycleDays = opportunities.length
-    ? Math.round(opportunities.reduce((total, opportunity) => {
-      const created = dateOnly(opportunity.createdAt).getTime();
-      const close = dateOnly(opportunity.closeDate).getTime();
-      return total + Math.max(0, (close - created) / 86400000);
-    }, 0) / opportunities.length)
+    ? Math.round(
+        opportunities.reduce((total, opportunity) => {
+          const created = dateOnly(opportunity.createdAt).getTime();
+          const close = dateOnly(opportunity.closeDate).getTime();
+          return total + Math.max(0, (close - created) / 86400000);
+        }, 0) / opportunities.length
+      )
     : 0;
+
   const pendingTasks = tasks.filter((task) => task.status !== 'Completed');
   const overdueTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) < today);
+  const upcomingTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) >= today);
+
   const staleOpportunities = activeOpportunities
     .filter((opportunity) => (today.getTime() - dateOnly(opportunity.updatedAt).getTime()) / 86400000 > 7)
     .sort((left, right) => right.amount - left.amount);
+
   const revenueData = Array.from(
     wonDeals.reduce((months, opportunity) => {
       const date = dateOnly(opportunity.closeDate);
       const month = date.toLocaleDateString('es-AR', { month: 'short' });
       months.set(month, (months.get(month) || 0) + opportunity.amount);
       return months;
-    }, new Map<string, number>()),
+    }, new Map<string, number>())
   ).map(([month, value]) => ({ month, value }));
+
   const sourceData = Array.from(
-    opportunities.reduce((types, opportunity) => {
+    filteredOpportunities.reduce((types, opportunity) => {
       types.set(opportunity.type, (types.get(opportunity.type) || 0) + 1);
       return types;
-    }, new Map<Opportunity['type'], number>()),
+    }, new Map<Opportunity['type'], number>())
   ).map(([name, count], index, all) => ({
     name,
     count,
-    value: all.length ? Math.round((count / opportunities.length) * 100) : 0,
+    value: all.length ? Math.round((count / filteredOpportunities.length) * 100) : 0,
     color: CHART_COLORS[index % CHART_COLORS.length],
   }));
 
-  const handleDragStart = (event: React.DragEvent, id: string) => {
-    event.dataTransfer.setData('text/plain', id);
-    setDraggedDealId(id);
-  };
+  const handleSendMessage = (textToSend?: string) => {
+    const text = (textToSend || inputMessage).trim();
+    if (!text) return;
 
-  const handleDrop = (event: React.DragEvent, targetStage: StageId) => {
-    event.preventDefault();
-    const dealId = event.dataTransfer.getData('text/plain') || draggedDealId;
-    if (!dealId) return;
-    const deal = opportunities.find((opportunity) => opportunity.id === dealId);
-    if (!deal || deal.stage === targetStage) return;
-    moveOpportunityStage(dealId, targetStage);
-    showToast(`Negocio movido a ${STAGES.find((stage) => stage.id === targetStage)?.name}`, 'success');
-    setDraggedDealId(null);
-  };
-
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
-    const userText = inputMessage.trim();
-    setChatMessages((previous) => [...previous, {
-      id: `user-${Date.now()}`,
-      sender: 'user',
-      text: userText,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    }]);
-    setInputMessage('');
+    setChatMessages((prev) => [
+      ...prev,
+      {
+        id: `user-${Date.now()}`,
+        sender: 'user',
+        text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      },
+    ]);
+    if (!textToSend) setInputMessage('');
     setIsAiTyping(true);
 
     window.setTimeout(() => {
-      const query = userText.toLowerCase();
-      let reply = 'He actualizado los datos del CRM y registrado tu consulta. ¿Deseas que prepare una propuesta o un recordatorio?';
-      if (query.includes('resumen') || query.includes('métrica') || query.includes('ingreso')) {
-        reply = 'Resumen ejecutivo actual:\n• Ingresos totales del mes: $ 124.800 (↑ 18.8%)\n• 22 negocios activos en pipeline\n• Tasa de cierre promedio: 32.4%\n• Ticket promedio por cliente: $ 6.218';
-      } else if (query.includes('tarea') || query.includes('actividad') || query.includes('hoy')) {
-        reply = 'Tienes 5 actividades para hoy:\n• 10:00 Llamada con TechGlobal\n• 11:30 Reunión con SoftBuild\n• 14:00 Enviar propuesta a MoviLab\n• 15:30 Seguimiento con NetSolutions\n• 17:00 Demo técnica EduSmart';
-      } else if (query.includes('negocio') || query.includes('lead') || query.includes('crear')) {
-        reply = 'Puedo dar de alta el negocio directamente o abrir el modal de captura rápida. ¿Cuál es el monto y la empresa?';
+      const query = text.toLowerCase();
+      let reply =
+        'He sincronizado las métricas del pipeline. Tenés ' +
+        activeOpportunities.length +
+        ' oportunidades activas por un valor total de ' +
+        money(pipelineTotal) +
+        '. ¿Querés que preparemos un recordatorio o propuesta?';
+
+      if (query.includes('resumen') || query.includes('métrica') || query.includes('ingreso') || query.includes('ventas')) {
+        reply = `📊 Resumen ejecutivo consolidado:\n• Pipeline total activo: ${money(pipelineTotal)} (${money(weightedPipeline)} ponderado)\n• Ingresos cerrados ganados: ${money(wonTotal)} (${wonDeals.length} negocios)\n• Tasa de cierre (Win Rate): ${winRate}%\n• Ciclo promedio de venta: ${averageCycleDays} días`;
+      } else if (query.includes('tarea') || query.includes('pendiente') || query.includes('prioridad') || query.includes('hoy')) {
+        reply = `📋 Focos de atención prioritaria:\n• Tareas vencidas: ${overdueTasks.length}\n• Tareas próximas a vencer: ${upcomingTasks.length}\n• Oportunidades sin seguimiento (>7 días): ${staleOpportunities.length}`;
+      } else if (query.includes('riesgo') || query.includes('estancado') || query.includes('alerta')) {
+        if (staleOpportunities.length > 0) {
+          reply = `⚠️ Hay ${staleOpportunities.length} tratos sin actividad en la última semana:\n${staleOpportunities
+            .slice(0, 3)
+            .map((o) => `• ${o.name} (${money(o.amount)}) - ${o.companyName || 'Sin empresa'}`)
+            .join('\n')}\n\nTe recomiendo contactar a los decisores para reactivar el interés.`;
+        } else {
+          reply = '✅ ¡Excelente! No se detectan tratos estancados en el pipeline activo.';
+        }
       }
-      setChatMessages((previous) => [...previous, {
-        id: `ai-${Date.now()}`,
-        sender: 'assistant',
-        text: reply,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      }]);
+
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: `ai-${Date.now()}`,
+          sender: 'assistant',
+          text: reply,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
       setIsAiTyping(false);
-    }, 700);
+    }, 600);
   };
 
   return (
-    <div className={`crm-dashboard ${isChatOpen ? '' : 'crm-dashboard--chat-closed'}`}>
-      <section className="crm-dashboard__content">
-        <div className="crm-dashboard__header">
+    <div className="flex-1 flex flex-col h-full bg-slate-50 dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 overflow-y-auto select-none font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
           <div>
-            <div className="crm-eyebrow"><span className="crm-status-dot" /> VISTA EJECUTIVA · DATOS DEL CRM</div>
-            <h1>Resumen ejecutivo</h1>
-            <p>Entendé cómo está el negocio y dónde conviene intervenir primero.</p>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase">
+                VISTA EJECUTIVA · KPI & PIPELINE EN TIEMPO REAL
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Resumen ejecutivo
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Visión consolidada de salud comercial, forecast de ingresos y focos de atención prioritaria.
+            </p>
           </div>
-          <div className="crm-dashboard__actions">
-            <div className="crm-select-wrap">
-              <button className="crm-select-button" onClick={() => setIsPipelineDropdownOpen((open) => !open)}>
-                  {pipelineFilter}<ChevronDown size={14} />
+
+          <div className="flex items-center flex-wrap gap-2.5">
+            {/* Filter Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-2xs transition-all cursor-pointer"
+                onClick={() => setIsPipelineDropdownOpen(!isPipelineDropdownOpen)}
+              >
+                <Filter size={13} className="text-slate-400" />
+                <span>{pipelineFilter}</span>
+                <ChevronDown size={13} className="text-slate-400" />
               </button>
               {isPipelineDropdownOpen && (
-                <div className="crm-dropdown">
-                    {(['Todos los negocios', 'New Business', 'Expansion', 'Renewal'] as const).map((item) => (
-                    <button key={item} onClick={() => { setPipelineFilter(item); setIsPipelineDropdownOpen(false); }}>{item}</button>
+                <div className="absolute right-0 mt-1.5 w-48 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-30">
+                  {(['Todos los negocios', 'New Business', 'Expansion', 'Renewal'] as const).map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      className={`w-full px-3.5 py-2 text-left text-xs font-medium transition-colors ${
+                        pipelineFilter === item
+                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold'
+                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'
+                      }`}
+                      onClick={() => {
+                        setPipelineFilter(item);
+                        setIsPipelineDropdownOpen(false);
+                      }}
+                    >
+                      {item}
+                    </button>
                   ))}
                 </div>
               )}
             </div>
-            <button className="crm-icon-button" onClick={() => showToast('Filtro de oportunidades aplicado', 'info')} title="Filtrar"><Filter size={15} /></button>
-            <button className="crm-icon-button" onClick={() => showToast('Opciones del pipeline', 'info')} title="Más opciones"><MoreHorizontal size={16} /></button>
+
+            {/* Quick Action Buttons */}
             <button
-              className={`crm-ai-toggle ${isChatOpen ? 'is-active' : ''}`}
-              onClick={() => setIsChatOpen((open) => !open)}
-              aria-pressed={isChatOpen}
-              aria-label={isChatOpen ? 'Ocultar asistente IA' : 'Abrir asistente IA'}
+              type="button"
+              onClick={() => openNewRecordModal('opportunity')}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs hover:shadow transition-all cursor-pointer"
             >
-              <Sparkles size={15} /> {isChatOpen ? 'Ocultar asistente' : 'Abrir asistente'} <span className="crm-online-pip" />
+              <Plus size={14} />
+              <span>Nuevo trato</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsChatOpen(!isChatOpen)}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
+                isChatOpen
+                  ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-emerald-300'
+              }`}
+            >
+              <Sparkles size={14} className="text-emerald-500" />
+              <span>{isChatOpen ? 'Ocultar Copilot' : 'Copilot IA'}</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
             </button>
           </div>
         </div>
 
-        <section className="crm-attention-panel" aria-labelledby="crm-attention-title">
-          <div className="crm-attention-panel__header">
-            <div>
-              <span className="crm-section-kicker">Próxima acción</span>
-              <h2 id="crm-attention-title">Atención prioritaria</h2>
-              <p>{overdueTasks.length} tareas vencidas · {staleOpportunities.length} negocios sin actividad reciente · {activities.length} registros de actividad</p>
+        {/* 5 High-Impact Executive KPI Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+          {/* Card 1: Pipeline Activo */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Pipeline Activo
+              </span>
+              <span className="w-7 h-7 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200/60 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
+                <TrendingUp size={14} />
+              </span>
             </div>
-            <button type="button" className="crm-report-link" onClick={() => setActiveTab('tasks')}>
-              Ver actividades <ArrowRight size={13} />
-            </button>
+            <div>
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                {money(pipelineTotal)}
+              </div>
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <span className="inline-flex items-center text-teal-600 dark:text-teal-400 font-semibold">
+                  <ArrowUpRight size={12} /> {money(weightedPipeline)}
+                </span>
+                <span className="text-[11px] text-slate-400 dark:text-slate-500">ponderado</span>
+              </div>
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              {activeOpportunities.length} negocios en gestión
+            </div>
           </div>
-          <div className="crm-attention-list">
-            {pendingTasks.slice(0, 3).map((task) => (
-              <div
-                key={task.id}
-                className="crm-attention-item"
+
+          {/* Card 2: Ingresos Ganados */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Ingresos Ganados
+              </span>
+              <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <BriefcaseBusiness size={14} />
+              </span>
+            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                {money(wonTotal)}
+              </div>
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <span className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold">
+                  <CheckCircle2 size={12} /> {wonDeals.length} cerrados
+                </span>
+                <span className="text-[11px] text-slate-400 dark:text-slate-500">ganados</span>
+              </div>
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              Facturación consolidada
+            </div>
+          </div>
+
+          {/* Card 3: Win Rate */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Tasa de Cierre
+              </span>
+              <span className="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200/60 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                <Target size={14} />
+              </span>
+            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                {winRate.toLocaleString('es-AR')}%
+              </div>
+              <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div
+                  className="bg-purple-600 h-full rounded-full transition-all"
+                  style={{ width: `${Math.min(100, Math.max(0, winRate))}%` }}
+                />
+              </div>
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              {decidedDeals.length} negocios decididos
+            </div>
+          </div>
+
+          {/* Card 4: Ciclo Promedio */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Ciclo Promedio
+              </span>
+              <span className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                <Clock3 size={14} />
+              </span>
+            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                {averageCycleDays} días
+              </div>
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <span className="text-amber-600 dark:text-amber-400 font-semibold">Lead a cierre</span>
+                <span className="text-[11px] text-slate-400 dark:text-slate-500">efectivo</span>
+              </div>
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              Velocidad de ventas
+            </div>
+          </div>
+
+          {/* Card 5: Semáforo Operativo */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Focos Urgentes
+              </span>
+              <span
+                className={`w-7 h-7 rounded-lg flex items-center justify-center border ${
+                  overdueTasks.length > 0 || staleOpportunities.length > 0
+                    ? 'bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40 text-rose-600 dark:text-rose-400'
+                    : 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400'
+                }`}
               >
-                <button
-                  type="button"
-                  className="crm-attention-item__main"
-                  onClick={() => { setSelectedRecord({ type: 'task', id: task.id }); setActiveTab('tasks'); }}
-                >
-                  <span className={`crm-attention-item__icon ${dateOnly(task.dueDate) < today ? 'is-warning' : 'is-info'}`}>
-                    {dateOnly(task.dueDate) < today ? <AlertTriangle size={14} /> : <CalendarDays size={14} />}
-                  </span>
-                  <span className="crm-attention-item__body">
-                    <strong>{task.title}</strong>
-                    <small>{dateOnly(task.dueDate) < today ? `Vencida · ${formatShortDate(task.dueDate)}` : `Vence ${formatShortDate(task.dueDate)}`}</small>
-                  </span>
-                </button>
-                <span className="crm-attention-item__action">
-                  <button
-                    type="button"
-                    onClick={() => toggleTaskStatus(task.id)}
-                    aria-label={`Completar ${task.title}`}
-                    title="Marcar como completada"
+                {overdueTasks.length > 0 || staleOpportunities.length > 0 ? (
+                  <AlertTriangle size={14} />
+                ) : (
+                  <CheckCircle2 size={14} />
+                )}
+              </span>
+            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                {overdueTasks.length + staleOpportunities.length} alertas
+              </div>
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <span className="text-rose-600 dark:text-rose-400 font-semibold">{overdueTasks.length} vencidas</span>
+                <span>·</span>
+                <span className="text-amber-600 dark:text-amber-400 font-semibold">{staleOpportunities.length} estancadas</span>
+              </div>
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              Acción correctiva inmediata
+            </div>
+          </div>
+        </div>
+
+        {/* Actionable Priorities Panel (Atención Prioritaria) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Tareas Críticas y Próximas */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-slate-800/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                  <CalendarDays size={16} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Tareas Pendientes & Prioritarias
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {overdueTasks.length} vencidas · {pendingTasks.length} en cola
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveTab('tasks')}
+                className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center gap-1 cursor-pointer"
+              >
+                Ver todas <ArrowRight size={12} />
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              {pendingTasks.slice(0, 4).map((task) => {
+                const isOverdue = dateOnly(task.dueDate) < today;
+                return (
+                  <div
+                    key={task.id}
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-all"
                   >
-                    <CheckCircle2 size={15} />
-                  </button>
+                    <div className="flex items-center gap-3 min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => toggleTaskStatus(task.id)}
+                        className="w-5 h-5 rounded-md border border-slate-300 dark:border-slate-600 hover:border-emerald-500 flex items-center justify-center text-transparent hover:text-emerald-500 transition-colors shrink-0 cursor-pointer"
+                        title="Marcar como completada"
+                      >
+                        <Check size={12} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedRecord({ type: 'task', id: task.id });
+                          setActiveTab('tasks');
+                        }}
+                        className="text-left min-w-0"
+                      >
+                        <div className="text-xs font-semibold text-slate-900 dark:text-white truncate">
+                          {task.title}
+                        </div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                          <span
+                            className={`font-semibold ${
+                              isOverdue
+                                ? 'text-rose-600 dark:text-rose-400'
+                                : 'text-slate-500 dark:text-slate-400'
+                            }`}
+                          >
+                            {isOverdue ? '⚠️ Vencida · ' : 'Vence '}
+                            {formatShortDate(task.dueDate)}
+                          </span>
+                          {task.priority && (
+                            <span
+                              className={`text-[10px] px-1.5 py-0.2 rounded font-semibold uppercase ${
+                                task.priority === 'High'
+                                  ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400'
+                                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                              }`}
+                            >
+                              {task.priority}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecord({ type: 'task', id: task.id });
+                        setActiveTab('tasks');
+                      }}
+                      className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
+                    >
+                      <ArrowRight size={13} />
+                    </button>
+                  </div>
+                );
+              })}
+
+              {pendingTasks.length === 0 && (
+                <div className="py-6 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                  <CheckCircle2 size={24} className="text-emerald-500" />
+                  <span>¡Todas tus tareas están al día!</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Negocios en Riesgo (Deal Rotting) */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-slate-800/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-rose-50 dark:bg-rose-950/50 border border-rose-200/60 dark:border-rose-800/40 flex items-center justify-center text-rose-600 dark:text-rose-400">
+                  <ShieldAlert size={16} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Negocios sin Seguimiento Reciente
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Tratos activos sin actividad registrada en más de 7 días
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveTab('opportunities')}
+                className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center gap-1 cursor-pointer"
+              >
+                Ver pipeline <ArrowRight size={12} />
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              {staleOpportunities.slice(0, 4).map((opp) => {
+                const daysInactive = Math.floor(
+                  (today.getTime() - dateOnly(opp.updatedAt).getTime()) / 86400000
+                );
+                return (
+                  <div
+                    key={opp.id}
+                    onClick={() => {
+                      setSelectedRecord({ type: 'opportunity', id: opp.id });
+                      setActiveTab('opportunities');
+                    }}
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer group"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                        {opp.name}
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                        <span>{opp.companyName || 'Sin empresa'}</span>
+                        <span>·</span>
+                        <span className="text-rose-600 dark:text-rose-400 font-semibold">
+                          hace {daysInactive} días sin contacto
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-xs font-bold text-slate-900 dark:text-slate-100 tabular-nums font-mono">
+                        {money(opp.amount)}
+                      </div>
+                      <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                        {opp.probability}% prob.
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {staleOpportunities.length === 0 && (
+                <div className="py-6 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                  <CheckCircle2 size={24} className="text-emerald-500" />
+                  <span>¡Excelente! Todos los negocios tienen seguimiento fresco.</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Commercial Pipeline Funnel & Stage Breakdown */}
+        <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-slate-800/80">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Layers size={14} className="text-blue-600 dark:text-blue-400" />
+                <span className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase">
+                  Dónde intervenir
                 </span>
               </div>
-            ))}
-            {pendingTasks.length === 0 && (
-              <div className="crm-attention-empty">
-                <CheckCircle2 size={16} /> No hay tareas pendientes.
-              </div>
-            )}
-            {pendingTasks.length > 3 && (
-              <button type="button" className="crm-attention-more" onClick={() => setActiveTab('tasks')}>
-                +{pendingTasks.length - 3} actividades más
-              </button>
-            )}
-          </div>
-          {staleOpportunities.length > 0 && (
-            <div className="crm-stale-deals">
-              <div className="crm-stale-deals__label"><Clock3 size={13} /> Negocios que necesitan seguimiento</div>
-              <div className="crm-stale-deals__list">
-                {staleOpportunities.slice(0, 3).map((opportunity) => (
-                  <button
-                    key={opportunity.id}
-                    type="button"
-                    onClick={() => { setSelectedRecord({ type: 'opportunity', id: opportunity.id }); setActiveTab('opportunities'); }}
-                  >
-                    <span>{opportunity.name}</span>
-                    <strong>{money(opportunity.amount)}</strong>
-                  </button>
-                ))}
-              </div>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+                Embudo del Pipeline Comercial
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Distribución de oportunidades y volumen financiero por etapa activa.
+              </p>
             </div>
-          )}
-        </section>
-
-        <div className="crm-pipeline-heading">
-          <div>
-            <span className="crm-section-kicker">Dónde intervenir</span>
-            <h2>Pipeline comercial</h2>
+            <button
+              type="button"
+              onClick={() => setActiveTab('opportunities')}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
+            >
+              <span>Abrir Tablero Kanban</span>
+              <ArrowRight size={13} />
+            </button>
           </div>
-          <span>Arrastrá un negocio para actualizar su etapa</span>
-        </div>
 
-        <div className="crm-board-shell">
-          <div className="crm-board-scroll">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
             {STAGES.filter((stage) => stage.id !== 'lost').map((stage) => {
               const columnDeals = filteredOpportunities.filter((deal) => deal.stage === stage.id);
-              const total = columnDeals.reduce((sum, deal) => sum + deal.amount, 0);
+              const stageSum = columnDeals.reduce((sum, deal) => sum + deal.amount, 0);
+              const percentageOfTotal =
+                pipelineTotal > 0 ? Math.round((stageSum / pipelineTotal) * 100) : 0;
+
               return (
                 <div
                   key={stage.id}
-                  className="crm-stage"
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => handleDrop(event, stage.id)}
-                  style={{ '--stage-color': stage.color } as React.CSSProperties}
+                  className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all"
                 >
-                  <div className="crm-stage__header">
-                    <div className="crm-stage__title"><span className="crm-stage__dot" />{stage.name}<span className="crm-stage__count">{columnDeals.length}</span></div>
-                    <span className="crm-stage__total">{money(total)}</span>
-                  </div>
-                  <div className="crm-stage__cards custom-scrollbar">
-                    {columnDeals.map((deal) => (
-                      <article
-                        key={deal.id}
-                        draggable
-                        onDragStart={(event) => handleDragStart(event, deal.id)}
-                        onClick={() => { setSelectedRecord({ type: 'opportunity', id: deal.id }); setActiveTab('opportunities'); }}
-                        className="crm-deal-card"
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(event) => {
-                          if (event.key === 'Enter' || event.key === ' ') {
-                            event.preventDefault();
-                            setSelectedRecord({ type: 'opportunity', id: deal.id });
-                            setActiveTab('opportunities');
-                          }
+                  <div>
+                    <div className="flex items-center justify-between gap-1 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: stage.color }}
+                        />
+                        <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          {stage.name}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                        {columnDeals.length}
+                      </span>
+                    </div>
+
+                    <div className="text-base font-extrabold text-slate-900 dark:text-slate-100 tabular-nums font-mono my-1">
+                      {money(stageSum)}
+                    </div>
+
+                    <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden my-2">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          backgroundColor: stage.color,
+                          width: `${Math.min(100, Math.max(0, percentageOfTotal))}%`,
                         }}
-                      >
-                        <div className="crm-deal-card__top"><span>{deal.companyName || 'Sin empresa'}</span><MoreHorizontal size={13} /></div>
-                        <h3>{deal.name}</h3>
-                        <div className="crm-deal-card__footer">
-                          <strong>{money(deal.amount)}</strong>
-                          <div className="crm-deal-card__person">
-                            {deal.stage === 'won' && <span className="crm-won"><Check size={10} /> Ganado</span>}
-                            <img src={people.find((person) => person.id === deal.contactId)?.avatar || currentUser.avatar} alt="" />
-                          </div>
-                        </div>
-                      </article>
-                    ))}
+                      />
+                    </div>
                   </div>
-                  <button className="crm-new-deal" onClick={() => openNewRecordModal('opportunity')}><Plus size={14} /> Nuevo negocio</button>
+
+                  <div className="mt-3 space-y-1.5 pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                    {columnDeals.slice(0, 2).map((deal) => (
+                      <div
+                        key={deal.id}
+                        onClick={() => {
+                          setSelectedRecord({ type: 'opportunity', id: deal.id });
+                          setActiveTab('opportunities');
+                        }}
+                        className="p-1.5 rounded-lg bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400 text-left transition-all cursor-pointer"
+                      >
+                        <div className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 truncate">
+                          {deal.name}
+                        </div>
+                        <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                          <span className="truncate">{deal.companyName || 'Sin empresa'}</span>
+                          <span className="font-mono font-bold">{money(deal.amount)}</span>
+                        </div>
+                      </div>
+                    ))}
+                    {columnDeals.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('opportunities')}
+                        className="w-full text-center text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:underline py-0.5 cursor-pointer"
+                      >
+                        +{columnDeals.length - 2} negocios más
+                      </button>
+                    )}
+                    {columnDeals.length === 0 && (
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 italic py-1 text-center">
+                        Sin oportunidades
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="crm-kpi-grid">
-          <div className="crm-kpi-card crm-kpi-card--accent">
-            <div className="crm-kpi-card__head"><span>Valor total del pipeline</span><span className="crm-kpi-icon"><TrendingUp size={17} /></span></div>
-            <strong>{money(pipelineTotal)}</strong><small><ArrowUpRight size={12} /> {money(weightedPipeline)} <em>ponderado activo</em></small>
-          </div>
-          <div className="crm-kpi-card">
-            <div className="crm-kpi-card__head"><span>Negocios ganados</span><span className="crm-kpi-icon"><BriefcaseBusiness size={17} /></span></div>
-            <strong>{wonDeals.length}</strong><small><ArrowUpRight size={12} /> {money(wonDeals.reduce((total, deal) => total + deal.amount, 0))} <em>valor ganado</em></small>
-          </div>
-          <div className="crm-kpi-card">
-            <div className="crm-kpi-card__head"><span>Tasa de cierre</span><span className="crm-kpi-icon"><Target size={17} /></span></div>
-            <strong>{winRate.toLocaleString('es-AR')}%</strong><small><ArrowUpRight size={12} /> {decidedDeals.length} <em>negocios decididos</em></small>
-          </div>
-          <div className="crm-kpi-card">
-            <div className="crm-kpi-card__head"><span>Ciclo de venta</span><span className="crm-kpi-icon"><WalletCards size={17} /></span></div>
-            <strong>{averageCycleDays} días</strong><small><ArrowUpRight size={12} /> {opportunities.length} <em>negocios analizados</em></small>
-          </div>
-        </div>
-
-        <div className="crm-analytics-grid">
-          <section className="crm-panel crm-revenue-panel">
-            <div className="crm-panel__header">
-              <div><div className="crm-panel__title"><BarChart3 size={16} /> Ingresos <button className="crm-period">Negocios ganados <ChevronDown size={12} /></button></div><p>Valor de negocios en estado ganado</p></div>
-              <div className="crm-panel__total"><span>Ingresos registrados</span><strong>{money(wonDeals.reduce((total, deal) => total + deal.amount, 0))}</strong><small><ArrowUpRight size={11} /> {wonDeals.length} <em>cierres registrados</em></small></div>
+        {/* Analytics & Forecasting Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* Ingresos & Tendencia */}
+          <div className="lg:col-span-2 bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200/60 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
+                  <BarChart3 size={16} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Ingresos Registrados (Tendencia de Cierres)
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Valor acumulado de oportunidades ganadas
+                  </p>
+                </div>
+              </div>
+              <div className="text-left sm:text-right">
+                <span className="text-[11px] text-slate-400 uppercase font-semibold">Total ganado</span>
+                <div className="text-sm font-bold text-teal-600 dark:text-teal-400 font-mono">
+                  {money(wonTotal)}
+                </div>
+              </div>
             </div>
-            <div className="crm-revenue-chart">
+
+            <div className="h-56 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenueData} margin={{ top: 12, right: 6, left: -20, bottom: 0 }}>
-                  <defs><linearGradient id="crmRevenueGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#1bcfc0" stopOpacity={0.28} /><stop offset="100%" stopColor="#1bcfc0" stopOpacity={0} /></linearGradient></defs>
-                  <XAxis dataKey="month" stroke="#6f829c" fontSize={10} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#6f829c" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value / 1000}K`} />
-                  <Tooltip contentStyle={{ backgroundColor: '#101c2e', border: '1px solid #29415a', borderRadius: 10, fontSize: 11, color: '#f4f8ff' }} formatter={(value: any) => [`$ ${Number(value).toLocaleString('es-AR')}`, 'Ingresos']} />
-                  <Area type="monotone" dataKey="value" stroke="#1bd3c2" strokeWidth={2.5} fill="url(#crmRevenueGradient)" dot={false} activeDot={{ r: 4, fill: '#1bd3c2', stroke: '#0b1220', strokeWidth: 2 }} />
+                <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="execRevenueGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#0d9488" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#0d9488" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="month"
+                    stroke={isDark ? '#64748b' : '#94a3b8'}
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    stroke={isDark ? '#64748b' : '#94a3b8'}
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={(val) => `$${val / 1000}k`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                      borderColor: isDark ? '#1e293b' : '#e2e8f0',
+                      borderRadius: '12px',
+                      color: isDark ? '#f8fafc' : '#0f172a',
+                      fontSize: '12px',
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                    }}
+                    formatter={(val: any) => [`$ ${Number(val).toLocaleString('es-AR')}`, 'Ingreso']}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#0d9488"
+                    strokeWidth={2.5}
+                    fill="url(#execRevenueGradient)"
+                    dot={false}
+                    activeDot={{ r: 4, fill: '#0d9488', stroke: '#ffffff', strokeWidth: 2 }}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-          </section>
+          </div>
 
-          <section className="crm-panel crm-sources-panel">
-            <div className="crm-panel__header"><div><div className="crm-panel__title"><span className="crm-title-mark" /> Fuentes de negocio</div><p>Origen de tus oportunidades</p></div><button className="crm-icon-button crm-icon-button--small" onClick={() => showToast('Detalle de fuentes abierto', 'info')}><MoreHorizontal size={15} /></button></div>
-            <div className="crm-sources-content">
-              <div className="crm-donut">
+          {/* Distribución por Origen / Tipo */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                Distribución de Oportunidades
+              </h3>
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                {filteredOpportunities.length} total
+              </span>
+            </div>
+
+            <div className="flex items-center justify-center relative my-2">
+              <div className="w-36 h-36">
                 <ResponsiveContainer width="100%" height="100%">
-                   <PieChart><Pie data={sourceData} cx="50%" cy="50%" innerRadius={46} outerRadius={66} paddingAngle={3} dataKey="value" stroke="none">{sourceData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}</Pie></PieChart>
+                  <PieChart>
+                    <Pie
+                      data={sourceData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={44}
+                      outerRadius={62}
+                      paddingAngle={3}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {sourceData.map((entry) => (
+                        <Cell key={entry.name} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
                 </ResponsiveContainer>
-                <div><strong>{opportunities.length}</strong><span>Total</span></div>
               </div>
-              <div className="crm-source-list">
-                {sourceData.map((item) => <div key={item.name}><span><i style={{ background: item.color }} />{item.name}</span><strong>{item.value}% <em>({item.count})</em></strong></div>)}
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
+                  {filteredOpportunities.length}
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">Tratos</span>
               </div>
             </div>
-            <button className="crm-report-link" onClick={() => setActiveTab('analytics')}>Ver reporte completo <ArrowRight size={13} /></button>
-          </section>
-        </div>
-      </section>
 
-      {isChatOpen && (
-        <>
-          <div className="crm-assistant-backdrop" onClick={() => setIsChatOpen(false)} aria-hidden="true" />
-          <aside className="crm-assistant" aria-label="Asistente IA">
-            <div className="crm-assistant__header">
-              <div className="crm-assistant__identity"><div className="crm-assistant__avatar"><Sparkles size={17} /><span /></div><div><strong>Asistente IA</strong><small>En línea</small></div></div>
-              <div className="crm-assistant__tools">
-                <button onClick={() => showToast('Iniciando llamada de voz...', 'info')} aria-label="Iniciar llamada de voz"><Phone size={14} /></button>
-                <button onClick={() => showToast('Videollamada en preparación...', 'info')} aria-label="Iniciar videollamada"><Video size={14} /></button>
-                <button onClick={() => setIsChatOpen(false)} aria-label="Cerrar asistente"><X size={15} /></button>
-              </div>
-            </div>
-            <div className="crm-assistant__intro"><Sparkles size={13} /> Insights automáticos de tu pipeline</div>
-            <div className="crm-assistant__messages custom-scrollbar">
-              <div className="crm-chat-day">Hoy</div>
-              {chatMessages.map((message) => (
-                <div key={message.id} className={`crm-message ${message.sender === 'user' ? 'crm-message--user' : ''}`}>
-                  <div className="crm-message__bubble"><p>{message.text}</p><span>{message.time} {message.sender === 'user' && <CheckCheck size={12} />}</span></div>
+            <div className="space-y-2 mt-2 pt-3 border-t border-slate-100 dark:border-slate-800/80">
+              {sourceData.map((item) => (
+                <div key={item.name} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">{item.name}</span>
+                  </div>
+                  <span className="font-bold text-slate-900 dark:text-slate-100">
+                    {item.value}% <span className="text-slate-400 font-normal">({item.count})</span>
+                  </span>
                 </div>
               ))}
-              {isAiTyping && <div className="crm-message__typing" role="status" aria-label="El asistente está escribiendo"><i /><i /><i /></div>}
             </div>
-            <div className="crm-assistant__composer">
-              <button onClick={() => setInputMessage((previous) => `${previous} ✨`)} aria-label="Agregar sugerencia"><Smile size={16} /></button>
-              <input value={inputMessage} onChange={(event) => setInputMessage(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') handleSendMessage(); }} placeholder="Escribe un mensaje..." />
-              <button onClick={() => showToast('Adjuntar archivo...', 'info')} aria-label="Adjuntar archivo"><Paperclip size={15} /></button>
-              <button className="crm-send-button" onClick={handleSendMessage} aria-label="Enviar mensaje"><Send size={14} /></button>
-            </div>
-          </aside>
-        </>
-      )}
 
-      {!isChatOpen && <button className="crm-chat-reopen" onClick={() => setIsChatOpen(true)} aria-label="Abrir asistente IA"><Sparkles size={15} /> Abrir asistente</button>}
+            <button
+              type="button"
+              onClick={() => setActiveTab('analytics')}
+              className="mt-3 w-full py-1.5 text-center text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center justify-center gap-1 cursor-pointer"
+            >
+              Ver reporte analítico detallado <ArrowRight size={12} />
+            </button>
+          </div>
+        </div>
+
+        {/* Dashboard Operations Strip */}
+        <DashboardOperationsStrip onNavigate={(tab) => setActiveTab(tab)} />
+      </div>
+
+      {/* Slide-over AI Copilot Drawer */}
+      {isChatOpen && (
+        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white dark:bg-[#0f172a] border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col transition-all animate-in slide-in-from-right">
+          {/* Drawer Header */}
+          <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs">
+                <Sparkles size={16} />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  Copilot Ejecutivo IA
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                </h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Asistente comercial contextual en línea
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsChatOpen(false)}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              <X size={16} />
+            </button>
+          </div>
+
+          {/* Quick Prompt Chips */}
+          <div className="p-3 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800/80 flex flex-wrap gap-1.5">
+            {[
+              '📊 Resumen de ventas',
+              '⚠️ Negocios en riesgo',
+              '📋 Tareas prioritarias',
+            ].map((chip) => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => handleSendMessage(chip)}
+                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer shadow-2xs"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3.5">
+            {chatMessages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex flex-col ${
+                  msg.sender === 'user' ? 'items-end' : 'items-start'
+                }`}
+              >
+                <div
+                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
+                    msg.sender === 'user'
+                      ? 'bg-blue-600 text-white rounded-br-xs'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-bl-xs border border-slate-200/60 dark:border-slate-700/60'
+                  }`}
+                >
+                  <p className="whitespace-pre-line">{msg.text}</p>
+                </div>
+                <span className="text-[10px] text-slate-400 mt-1 px-1">{msg.time}</span>
+              </div>
+            ))}
+
+            {isAiTyping && (
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/70 px-3 py-2 rounded-xl w-fit">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-150" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-300" />
+                <span className="text-[11px] ml-1">Analizando datos del CRM...</span>
+              </div>
+            )}
+          </div>
+
+          {/* Composer */}
+          <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSendMessage();
+                }}
+                placeholder="Preguntale a Copilot sobre el CRM..."
+                className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+              />
+              <button
+                type="button"
+                onClick={() => handleSendMessage()}
+                className="w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+              >
+                <Send size={13} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

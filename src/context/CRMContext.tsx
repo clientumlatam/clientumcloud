@@ -31,6 +31,8 @@ import {
   APIKey,
   WebhookConfig,
   WebmailEmail,
+  ClientumPlanId,
+  TrialSubscriptionState,
 } from '../types';
 import { getTranslation, TranslationKey } from '../i18n/translations';
 import { useTheme } from './ThemeContext';
@@ -154,6 +156,16 @@ interface CRMContextType {
   logout: () => void;
   syncClerkAuth: (identity: { id: string; email: string; name: string; avatar?: string | null } | null) => void;
   resetPassword: (email: string) => void;
+
+  // Free Trial & Mercado Pago Subscription
+  trialSubscription: TrialSubscriptionState;
+  startFreeTrial: (plan?: ClientumPlanId) => void;
+  upgradeSubscription: (plan: ClientumPlanId, billingCycle?: 'monthly' | 'annual', mpInfo?: any) => Promise<boolean>;
+  isMpCheckoutModalOpen: boolean;
+  setIsMpCheckoutModalOpen: (open: boolean) => void;
+  selectedCheckoutPlan: ClientumPlanId;
+  setSelectedCheckoutPlan: (plan: ClientumPlanId) => void;
+  openMercadoPagoCheckout: (plan?: ClientumPlanId) => void;
   
   // CRUD
   addOpportunity: (opp: Omit<Opportunity, 'id' | 'createdAt' | 'updatedAt'>) => Opportunity;
@@ -638,6 +650,114 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const demoSessionRef = useRef(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [gmailAccessToken, setGmailAccessToken] = useState<string | null>(null);
+
+  // Free Trial & Mercado Pago Subscription State
+  const [trialSubscription, setTrialSubscription] = useState<TrialSubscriptionState>(() => {
+    try {
+      const saved = localStorage.getItem('clientum_subscription_state');
+      if (saved) {
+        const parsed = JSON.parse(saved) as TrialSubscriptionState;
+        const now = Date.now();
+        const end = new Date(parsed.trialEndDate).getTime();
+        const days = Math.max(0, Math.ceil((end - now) / (1000 * 60 * 60 * 24)));
+        return {
+          ...parsed,
+          daysRemaining: days,
+          isTrialActive: parsed.status === 'trial' ? days > 0 : false,
+          isTrialExpired: parsed.status === 'trial' ? days <= 0 : false,
+        };
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // Default: 7-Day Free Trial (1 week)
+    const now = Date.now();
+    const trialStartDate = new Date(now).toISOString();
+    const trialEndDate = new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString();
+    return {
+      plan: 'trial',
+      status: 'trial',
+      trialStartDate,
+      trialEndDate,
+      daysRemaining: 7,
+      isTrialActive: true,
+      isTrialExpired: false,
+      billingCycle: 'annual',
+    };
+  });
+
+  const [isMpCheckoutModalOpen, setIsMpCheckoutModalOpen] = useState(false);
+  const [selectedCheckoutPlan, setSelectedCheckoutPlan] = useState<ClientumPlanId>('professional');
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('clientum_subscription_state', JSON.stringify(trialSubscription));
+    } catch (e) {}
+  }, [trialSubscription]);
+
+  const startFreeTrial = useCallback((plan: ClientumPlanId = 'professional') => {
+    const now = Date.now();
+    const trialStartDate = new Date(now).toISOString();
+    const trialEndDate = new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString();
+    const updated: TrialSubscriptionState = {
+      plan,
+      status: 'trial',
+      trialStartDate,
+      trialEndDate,
+      daysRemaining: 7,
+      isTrialActive: true,
+      isTrialExpired: false,
+      billingCycle: 'annual',
+    };
+    setTrialSubscription(updated);
+    try {
+      localStorage.setItem('clientum_subscription_state', JSON.stringify(updated));
+    } catch (e) {}
+  }, []);
+
+  const upgradeSubscription = useCallback(async (
+    plan: ClientumPlanId,
+    billingCycle: 'monthly' | 'annual' = 'annual',
+    mpInfo?: any
+  ): Promise<boolean> => {
+    const now = new Date();
+    const nextBill = new Date(now);
+    if (billingCycle === 'annual') {
+      nextBill.setFullYear(nextBill.getFullYear() + 1);
+    } else {
+      nextBill.setMonth(nextBill.getMonth() + 1);
+    }
+
+    const updated: TrialSubscriptionState = {
+      plan,
+      status: 'active',
+      trialStartDate: trialSubscription.trialStartDate,
+      trialEndDate: trialSubscription.trialEndDate,
+      daysRemaining: 0,
+      isTrialActive: false,
+      isTrialExpired: false,
+      billingCycle,
+      paymentMethod: 'mercadopago',
+      lastPaymentDate: now.toISOString(),
+      nextBillingDate: nextBill.toISOString(),
+      subscriptionId: mpInfo?.subscriptionId || `mp-sub-${Date.now()}`,
+      amountARS: mpInfo?.amountARS || (plan === 'starter' ? 14900 : plan === 'professional' ? 29900 : 59900),
+      cuitOrCuil: mpInfo?.cuitOrCuil,
+      businessName: mpInfo?.businessName,
+    };
+
+    setTrialSubscription(updated);
+    try {
+      localStorage.setItem('clientum_subscription_state', JSON.stringify(updated));
+    } catch (e) {}
+    return true;
+  }, [trialSubscription.trialStartDate, trialSubscription.trialEndDate]);
+
+  const openMercadoPagoCheckout = useCallback((plan: ClientumPlanId = 'professional') => {
+    setSelectedCheckoutPlan(plan);
+    setIsMpCheckoutModalOpen(true);
+  }, []);
   const [isCrmRemoteReady, setIsCrmRemoteReady] = useState(false);
   const [lastImport, setLastImport] = useState<{
     id: string;
@@ -1044,6 +1164,8 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (error) {
       console.warn('Storage access denied', error);
     }
+
+    startFreeTrial('professional');
 
     setIsAuthenticated(true);
     setActiveTab('dashboard');
@@ -2888,6 +3010,14 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         logout,
         resetPassword,
         syncClerkAuth,
+        trialSubscription,
+        startFreeTrial,
+        upgradeSubscription,
+        isMpCheckoutModalOpen,
+        setIsMpCheckoutModalOpen,
+        selectedCheckoutPlan,
+        setSelectedCheckoutPlan,
+        openMercadoPagoCheckout,
         addOpportunity,
         updateOpportunity,
         deleteOpportunity,

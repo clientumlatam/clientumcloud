@@ -1,6 +1,7 @@
 export type PublicRoutePath =
   | '/'
   | '/producto'
+  | '/producto/dashboard'
   | '/producto/crm'
   | '/producto/whatsapp-ia'
   | '/producto/automatizaciones'
@@ -49,6 +50,7 @@ export interface PublicNavigationItem {
 }
 
 export const PRODUCT_SUBNAV: PublicNavigationItem[] = [
+  { label: 'Dashboard & Control Ejecutivo', path: '/producto/dashboard', description: 'Semáforo de alertas, deal rotting, pipeline ponderado y Copilot IA', badge: 'En Vivo' },
   { label: 'CRM 360° Omnicanal', path: '/producto/crm', description: 'Pipeline Kanban, MEDDIC y gestión comercial de punta a punta' },
   { label: 'WhatsApp IA & Bots', path: '/producto/whatsapp-ia', description: 'Atención 24/7 con IA Gemini 3.6 y catálogo sincronizado', badge: 'Popular' },
   { label: 'Automatizaciones DAG', path: '/producto/automatizaciones', description: 'Editor visual de flujos sin código para tareas y alertas' },

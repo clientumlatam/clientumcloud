@@ -43,6 +43,38 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://clientum.com.ar/#organization",
+            "name": "ClientumCRM",
+            "url": "https://clientum.com.ar",
+            "logo": "https://clientum.com.ar/og-image.png",
+            "description": "CRM comercial y plataforma omnicanal para PyMEs en Argentina y Latinoamérica.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "AR"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://clientum.com.ar/#software",
+            "name": "ClientumCRM",
+            "operatingSystem": "Web",
+            "applicationCategory": "BusinessApplication",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "CRM comercial argentino con integración de WhatsApp, pipeline Kanban, prospección con Google Maps y facturación electrónica AFIP."
+          }
+        ]
+      }
+    </script>
   </head>
   <body
     class="h-full antialiased bg-white text-slate-900 selection:bg-blue-600 selection:text-white font-['Plus_Jakarta_Sans',sans-serif]"

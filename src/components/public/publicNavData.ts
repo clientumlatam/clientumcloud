@@ -1,6 +1,7 @@
 import type { PublicSearchItem } from './PublicSearchDialog';
 
 export const PUBLIC_SEARCH_ITEMS: PublicSearchItem[] = [
+  { title: 'Dashboard & Control Ejecutivo', category: 'Producto', path: '/producto/dashboard', desc: 'Semáforo de alertas, deal rotting, pipeline ponderado y Copilot IA' },
   { title: 'CRM 360° Comercial', category: 'Producto', path: '/clientum-crm', desc: 'Pipeline Kanban, gestión de tratos y forecast' },
   { title: 'WhatsApp Multiagente & Baileys', category: 'Producto', path: '/producto/whatsapp-ia', desc: 'Centraliza números comerciales con QR' },
   { title: 'Facturación AFIP con CAE', category: 'Fiscal & ERP', path: '/producto/erp', desc: 'Facturas A, B, C automáticas con QR fiscal' },

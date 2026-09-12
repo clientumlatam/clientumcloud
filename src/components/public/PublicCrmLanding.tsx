@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { PublicRoutePath } from './publicRoutes';
+import { PublicDashboardShowcase } from './PublicDashboardShowcase';
 
 interface PublicCrmLandingProps {
   onNavigate: (path: PublicRoutePath) => void;
@@ -123,6 +124,9 @@ export const PublicCrmLanding: React.FC<PublicCrmLandingProps> = ({ onNavigate }
           </p>
         </div>
       </section>
+
+      {/* Live Executive Dashboard Showcase */}
+      <PublicDashboardShowcase onNavigate={onNavigate} />
 
       {/* Comparison Table vs Legacy CRMs */}
       <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">

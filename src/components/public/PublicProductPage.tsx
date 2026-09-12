@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { PublicRoutePath } from './publicRoutes';
 import { useCRM } from '../../context/CRMContext';
+import { PublicDashboardShowcase } from './PublicDashboardShowcase';
 
 interface PublicProductPageProps {
   currentSubPath?: string;
@@ -31,6 +32,7 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
 
   // Extract initial active tab from path or default to 'overview'
   const getInitialTab = () => {
+    if (currentSubPath?.includes('dashboard')) return 'dashboard';
     if (currentSubPath?.includes('crm')) return 'crm';
     if (currentSubPath?.includes('whatsapp')) return 'whatsapp';
     if (currentSubPath?.includes('automatizaciones')) return 'automatizaciones';
@@ -52,6 +54,13 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
       icon: Boxes,
       badge: 'Suite Completa',
       tagline: 'Todo el ciclo de vida del cliente en una arquitectura unificada.'
+    },
+    {
+      id: 'dashboard',
+      name: 'Dashboard Ejecutivo',
+      icon: BarChart3,
+      badge: 'Control 360°',
+      tagline: 'Semáforo de focos urgentes, deal rotting, pipeline ponderado y Copilot con IA.'
     },
     {
       id: 'crm',
@@ -216,6 +225,62 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
                 Conexión nativa con servidores fiscales para emitir comprobantes oficiales con CAE en el momento exacto del cierre de la venta.
               </p>
             </div>
+          </div>
+        )}
+
+        {activeModule === 'dashboard' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Centro de Mando Ejecutivo para Líderes de Negocio
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-0.5">
+                    Unifica los 5 indicadores de salud comercial, semáforo de tareas vencidas, detección preventiva de enfriamiento de tratos y Copilot conversacional con IA.
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full shrink-0">
+                  Actualización en tiempo real
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-blue-600" />
+                    Pipeline Ponderado Activo
+                  </div>
+                  <p className="text-slate-600">
+                    Calcula el valor real estimado ajustado por probabilidad de etapa (ej. 40% en Prospecto vs 85% en Propuesta formal).
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-rose-500" />
+                    Alerta de "Deal Rotting"
+                  </div>
+                  <p className="text-slate-600">
+                    Avisa al líder comercial si un trato supera los 7 días sin nueva llamada, mensaje de WhatsApp o actividad registrada.
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-purple-600" />
+                    Copilot con Asistente Gemini
+                  </div>
+                  <p className="text-slate-600">
+                    Consultas conversacionales inmediatas de KPIs, redacción de objeciones y sugerencias tácticas para acelerar el cierre.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <PublicDashboardShowcase
+              onNavigate={onNavigate}
+            />
           </div>
         )}
 

@@ -56,6 +56,8 @@ import { ToastContainer } from '../common/ToastContainer';
 import { AICopilotFloating } from '../common/AICopilotFloating';
 import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
 import { TutorialOnboardingModal } from '../common/TutorialOnboardingModal';
+import { TrialBanner } from '../billing/TrialBanner';
+import { MercadoPagoSubscriptionModal } from '../billing/MercadoPagoSubscriptionModal';
 
 const MainContent: React.FC = () => {
   const {
@@ -69,6 +71,9 @@ const MainContent: React.FC = () => {
     composeEmailDefaults,
     isOnline,
     isSyncPending,
+    isMpCheckoutModalOpen,
+    setIsMpCheckoutModalOpen,
+    selectedCheckoutPlan,
   } = useCRM();
   const [isWizardOpen, setIsWizardOpen] = React.useState(false);
   const [isSimulatorOpen, setIsSimulatorOpen] = React.useState(false);
@@ -90,6 +95,7 @@ const MainContent: React.FC = () => {
         </div>
       )}
       <Navbar />
+      <TrialBanner />
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
         {activeTab === 'dashboard' && <ExecutiveDashboardView />}
@@ -164,6 +170,11 @@ const MainContent: React.FC = () => {
       <AICopilotFloating />
       <ToastContainer />
       <TutorialOnboardingModal />
+      <MercadoPagoSubscriptionModal
+        isOpen={isMpCheckoutModalOpen}
+        onClose={() => setIsMpCheckoutModalOpen(false)}
+        initialPlan={selectedCheckoutPlan}
+      />
     </div>
   );
 };

@@ -55,6 +55,7 @@ const platformGroups: PlatformGroup[] = [
     accent: 'text-blue-600',
     softAccent: 'bg-blue-50 border-blue-100',
     modules: [
+      { name: 'Dashboard Ejecutivo', detail: 'Semáforo de alertas, deal rotting y 5 KPIs', icon: BarChart3, path: '/producto/dashboard' },
       { name: 'Oportunidades Kanban', detail: 'Etapas, tabla, MEDDIC y propuestas PDF', icon: Kanban, path: '/producto/crm' },
       { name: 'Personas & empresas', detail: 'Fichas B2B, relaciones y duplicados', icon: Users, path: '/producto/crm' },
       { name: 'Prospección Maps IA', detail: 'Comercios, teléfonos y sitios importados', icon: Map, path: '/producto/integraciones' },

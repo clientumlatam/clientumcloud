@@ -8,6 +8,8 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { CommandPalette } from './components/common/CommandPalette';
 import { NewRecordModal } from './components/common/NewRecordModal';
 import { RecordDrawer } from './components/common/RecordDrawer';
+import { TrialBanner } from './components/billing/TrialBanner';
+import { MercadoPagoSubscriptionModal } from './components/billing/MercadoPagoSubscriptionModal';
 import { isPrivateAppPath } from './lib/navigation';
 import { subscribeToAuthState, syncUserProfileToFirestore } from './firebase';
 
@@ -71,7 +73,16 @@ const FirebaseAuthBridge: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { resolvedTheme } = useTheme();
-  const { isPublicSiteVisible, isAuthenticated, isAuthReady, openPublicSite, enterApp } = useCRM();
+  const {
+    isPublicSiteVisible,
+    isAuthenticated,
+    isAuthReady,
+    openPublicSite,
+    enterApp,
+    isMpCheckoutModalOpen,
+    setIsMpCheckoutModalOpen,
+    selectedCheckoutPlan,
+  } = useCRM();
   const [pathname, setPathname] = React.useState(() =>
     typeof window === 'undefined' ? '/' : window.location.pathname,
   );
@@ -104,11 +115,17 @@ const AppContent: React.FC = () => {
 
   const publicEnvironment = (
     <div data-theme={resolvedTheme} className="min-h-screen w-screen overflow-x-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
+      <TrialBanner />
       <PublicSite />
       <CommandPalette />
       <NewRecordModal />
       <RecordDrawer />
       <AuthModal />
+      <MercadoPagoSubscriptionModal
+        isOpen={isMpCheckoutModalOpen}
+        onClose={() => setIsMpCheckoutModalOpen(false)}
+        initialPlan={selectedCheckoutPlan}
+      />
       <ToastContainer />
     </div>
   );
