@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { ThemeMode } from '../types';
 import { syncWorkspaceToFirestore } from '../firebase';
 
@@ -14,29 +14,64 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_STORAGE_KEY = 'clientum_theme';
 
+const getInitialSystemTheme = (): 'light' | 'dark' => {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return 'light';
+};
+
 export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?: ThemeMode }> = ({
   children,
-  defaultTheme = 'light',
+  defaultTheme = 'system',
 }) => {
+  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(getInitialSystemTheme);
+
   const [theme, setThemeState] = useState<ThemeMode>(() => {
     try {
-      const saved = localStorage.getItem(THEME_STORAGE_KEY);
-      if (saved === 'dark' || saved === 'light') return saved;
+      const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.getItem('theme');
+      if (saved === 'dark' || saved === 'light' || saved === 'system') {
+        return saved as ThemeMode;
+      }
     } catch {
-      // fallback
+      // storage unavailable
     }
     return defaultTheme;
   });
 
-  const resolvedTheme: 'light' | 'dark' = theme === 'dark' ? 'dark' : 'light';
-  const systemTheme: 'light' | 'dark' = 'light';
+  // Calculate resolved theme based on current mode and system OS preference
+  const resolvedTheme: 'light' | 'dark' = theme === 'system' ? systemTheme : theme;
 
+  // 1. System OS Theme Listener
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      const newSysTheme = e.matches ? 'dark' : 'light';
+      setSystemTheme(newSysTheme);
+    };
+
+    setSystemTheme(mediaQuery.matches ? 'dark' : 'light');
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleSystemChange);
+      return () => mediaQuery.removeEventListener('change', handleSystemChange);
+    } else if ((mediaQuery as any).addListener) {
+      (mediaQuery as any).addListener(handleSystemChange);
+      return () => (mediaQuery as any).removeListener(handleSystemChange);
+    }
+  }, []);
+
+  // 2. Synchronize DOM document root attributes and localStorage
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
     const root = document.documentElement;
     root.setAttribute('data-theme', resolvedTheme);
     root.setAttribute('data-mode', resolvedTheme);
+    root.setAttribute('data-theme-setting', theme);
+
     if (resolvedTheme === 'dark') {
       root.classList.add('dark');
       root.classList.remove('light');
@@ -46,18 +81,34 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
     }
     root.style.colorScheme = resolvedTheme;
 
+    // Persist current theme mode selection
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, resolvedTheme);
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      localStorage.setItem('theme', theme);
     } catch {
       // storage unavailable
     }
-  }, [resolvedTheme]);
+  }, [theme, resolvedTheme]);
 
-  const setTheme = (newTheme: ThemeMode) => {
-    const targetTheme = newTheme === 'dark' ? 'dark' : 'light';
-    setThemeState(targetTheme);
+  // 3. Listen to cross-tab storage updates
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if ((e.key === THEME_STORAGE_KEY || e.key === 'theme') && e.newValue) {
+        if (e.newValue === 'dark' || e.newValue === 'light' || e.newValue === 'system') {
+          setThemeState(e.newValue as ThemeMode);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  const setTheme = useCallback((newTheme: ThemeMode) => {
+    setThemeState(newTheme);
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, targetTheme);
+      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+      localStorage.setItem('theme', newTheme);
     } catch {
       // storage unavailable
     }
@@ -68,17 +119,30 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
       if (authUserStr) {
         const userObj = JSON.parse(authUserStr);
         if (userObj?.id) {
-          syncWorkspaceToFirestore(userObj.id, { theme: targetTheme });
+          syncWorkspaceToFirestore(userObj.id, { theme: newTheme });
         }
       }
     } catch (err) {
       console.warn('Failed to sync theme preference to Firestore:', err);
     }
-  };
+  }, []);
 
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  };
+  const toggleTheme = useCallback(() => {
+    setThemeState((current) => {
+      let next: ThemeMode;
+      if (current === 'light') next = 'dark';
+      else if (current === 'dark') next = 'system';
+      else next = 'light';
+
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, next);
+        localStorage.setItem('theme', next);
+      } catch {
+        // storage unavailable
+      }
+      return next;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider

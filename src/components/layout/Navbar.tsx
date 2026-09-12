@@ -18,6 +18,8 @@ import {
   Zap,
   Trophy,
   Command,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -29,6 +31,7 @@ import { FollowupRemindersDropdown } from '../common/FollowupRemindersDropdown';
 import { VoiceNoteModal } from '../activities/VoiceNoteModal';
 import { AutomationsManagerModal } from '../workflows/AutomationsManagerModal';
 import { TeamLeaderboardModal } from '../analytics/TeamLeaderboardModal';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export const Navbar: React.FC = () => {
   const {
@@ -44,6 +47,8 @@ export const Navbar: React.FC = () => {
     openAICopilot,
     exportOpportunitiesCSV,
     resetToDemoData,
+    theme,
+    setTheme,
     language,
     setLanguage,
     t,
@@ -412,6 +417,9 @@ export const Navbar: React.FC = () => {
           </button>
         )}
 
+        {/* Global Theme Switcher (Light / Dark / System Mode) */}
+        <ThemeSwitcher showLabel={true} />
+
         {/* Low-frequency actions stay together instead of competing with the primary action. */}
         <div className="relative">
           <button
@@ -435,6 +443,29 @@ export const Navbar: React.FC = () => {
                 <Globe className="w-3.5 h-3.5 text-blue-600" />
                 <span>Sitio Público</span>
                 <ExternalLink className="w-3 h-3 ml-auto text-slate-400" />
+              </button>
+              <button
+                id="navbar-toggle-theme-btn"
+                onClick={() => {
+                  const nextTheme = theme === 'dark' ? 'light' : 'dark';
+                  setTheme(nextTheme);
+                }}
+                className="w-full flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+                role="menuitem"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="flex-1">Cambiar a Modo Claro</span>
+                    <span className="text-[10px] text-slate-400 font-mono">Claro</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-blue-600" />
+                    <span className="flex-1">Cambiar a Modo Oscuro</span>
+                    <span className="text-[10px] text-slate-400 font-mono">Oscuro</span>
+                  </>
+                )}
               </button>
               <label className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700">
                 <Globe className="w-3.5 h-3.5 text-slate-500" />

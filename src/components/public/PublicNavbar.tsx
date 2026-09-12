@@ -133,14 +133,10 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             {/* Professional Minimalist Brand Logo Placeholder */}
             <div
               id="brand-logo-placeholder"
-              className="relative w-10 h-10 rounded-xl bg-slate-900 border border-slate-200/90 shadow-xs flex items-center justify-center group-hover:border-blue-500 group-hover:shadow-md transition-all duration-200 shrink-0 overflow-visible"
+              className="relative shrink-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-200"
               title="ClientumCRM Brand Logo"
             >
-              {/* Inner geometric logo emblem with subtle gradient */}
-              <div className="w-full h-full rounded-[11px] bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 flex items-center justify-center p-1.5 overflow-hidden">
-                <ClientumLogo className="w-6 h-6 text-white group-hover:scale-105 transition-transform duration-200" />
-              </div>
-
+              <ClientumLogo className="w-9 h-9 drop-shadow-xs" />
               {/* Minimalist Live Service Pulse Indicator */}
               <span
                 className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"
@@ -599,34 +595,42 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
           </nav>
 
           {/* Quick Search, Auth & Action Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             
             {/* Interactive Search Bar Trigger */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
+              className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
               title="Buscar contactos, crear deals... (⌘K / Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-[11px]">Buscar contactos o deals...</span>
+              <span className="text-[11px]">Buscar...</span>
               <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-slate-400">
                 ⌘K
               </kbd>
             </button>
 
-            {/* Secondary CTA: Pedir Demo */}
+            {/* Phone Quick Contact Button */}
             <button
               onClick={() => handleNavClick('/contacto')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-300 hover:border-blue-500 text-slate-700 hover:text-blue-700 hover:bg-blue-50/50 font-bold text-xs transition-all cursor-pointer"
+              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer shadow-xs"
+              title="Contacto y Llamadas"
             >
-              <Phone className="w-3.5 h-3.5 text-blue-600" />
-              <span>Pedir Demo</span>
+              <Phone className="w-4 h-4" />
+            </button>
+
+            {/* Secondary CTA: Probar Demo */}
+            <button
+              onClick={() => handleNavClick('/contacto')}
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-all cursor-pointer shadow-xs"
+            >
+              <span>Probar Demo</span>
             </button>
 
             {/* Primary CTA: dashboard access */}
             <button
               onClick={() => enterApp()}
-              className="group relative inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
+              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
             >
               <span>{isAuthenticated ? 'Ir al Dashboard' : 'Ingresar al CRM'}</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -635,7 +639,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer shadow-2xs"
+              className="xl:hidden p-2.5 rounded-full bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer shadow-2xs"
               aria-label="Abrir menú de navegación"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

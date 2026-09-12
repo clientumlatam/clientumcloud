@@ -117,7 +117,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
           <div className="text-center max-w-3xl mx-auto space-y-6">
             
             {/* Top pill badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-800 shadow-xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-900 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Plataforma Comercial Omnicanal • +1.750 PyMEs en Cono Sur</span>
             </div>
@@ -131,16 +131,16 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
               Unifica WhatsApp, pipeline visual Kanban y facturación AFIP en una sola plataforma.
               Operá con soporte humano, moneda local y herramientas pensadas para PyMEs latinoamericanas.
             </p>
 
-            {/* Primary Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            {/* Primary Action Buttons - Pill Navy Palette */}
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => enterApp()}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/25 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
               >
                 <span>Probar Demo Interactiva Gratis</span>
                 <ArrowRight className="w-4 h-4" />
@@ -148,36 +148,36 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
 
               <button
                 onClick={onOpenWizard}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/25 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
               >
-                <Calculator className="w-4 h-4 text-blue-600" />
+                <Calculator className="w-4 h-4" />
                 <span>Calcular Ahorro & ROI</span>
               </button>
 
               <button
                 onClick={onOpenAudit}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/25 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
               >
-                <Sparkles className="w-4 h-4 text-amber-600" />
+                <Sparkles className="w-4 h-4" />
                 <span>Auditoría Digital 60s</span>
               </button>
             </div>
 
             {/* Verified Metric Badges */}
             <div className="pt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
                 <div className="text-xl sm:text-2xl font-black text-slate-900">{CLIENTUM_BROCHURE_METRICS.activePymes}</div>
                 <div className="text-xs text-slate-500 font-medium">PyMEs Activas en Latam</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
                 <div className="text-xl sm:text-2xl font-black text-blue-600">{CLIENTUM_BROCHURE_METRICS.slaReal}</div>
                 <div className="text-xs text-slate-500 font-medium">Disponibilidad SLA Real</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
                 <div className="text-xl sm:text-2xl font-black text-emerald-600">&lt; 4 horas</div>
                 <div className="text-xs text-slate-500 font-medium">Soporte Humano WhatsApp</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
                 <div className="text-xl sm:text-2xl font-black text-slate-900">&lt; 5 días</div>
                 <div className="text-xs text-slate-500 font-medium">Implementación Completa</div>
               </div>

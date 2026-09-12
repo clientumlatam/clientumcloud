@@ -54,11 +54,11 @@
   --border-strong: #94a3b8;
   --border-focus: #0a2558;
 
-  /* Brand Accents (Logo Palette: Deep Indigo & Emerald Accent) */
-  --color-primary: #4338ca;
-  --color-primary-hover: #3730a3;
-  --color-primary-light: #e0e7ff;
-  --color-primary-text: #312e81;
+  /* Brand Accents (Logo Palette: Clientum Navy) */
+  --color-primary: #0a2558;
+  --color-primary-hover: #071b3d;
+  --color-primary-light: #dbe2ec;
+  --color-primary-text: #051530;
   --color-success: #059669;
   --color-warning: #d97706;
   --color-danger: #dc2626;
@@ -83,7 +83,7 @@
    --sidebar-portal-btn-bg: #eef1f6;
    --sidebar-portal-btn-text: #071b3d;
    --sidebar-portal-btn-border: #c3cee0;
-   --sidebar-copilot-bg: linear-gradient(135deg, #eef1f6 0%, #f5f3ff 100%);
+   --sidebar-copilot-bg: linear-gradient(135deg, #eef1f6 0%, #dbe2ec 100%);
    --sidebar-copilot-border: #c5cee5;
    --sidebar-card-text: #334155;
    --sidebar-card-muted: #64748b;
@@ -143,21 +143,21 @@
   --border-focus: #3d5f99;
 
   /* Brand Accents (Logo Palette) */
-  --color-primary: #6366f1;
-  --color-primary-hover: #818cf8;
-  --color-primary-light: rgba(99, 102, 241, 0.15);
-  --color-primary-text: #a5b4fc;
+  --color-primary: #3d5f99;
+  --color-primary-hover: #5b7ebd;
+  --color-primary-light: rgba(10, 37, 88, 0.20);
+  --color-primary-text: #a9bfe0;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
 
   /* --------------------------------------------------------------------------
-     Sidebar High-Contrast Visual Separation (Dark Mode: Pure Obsidian)
+     Sidebar High-Contrast Visual Separation (Dark Mode: Pure Obsidian & Navy)
      Provides sharp contrast against cards and canvas in dark mode.
      -------------------------------------------------------------------------- */
-  --sidebar-bg: #050811;
-  --sidebar-header-bg: #020408;
-  --sidebar-footer-bg: #020408;
+  --sidebar-bg: #040c1a;
+  --sidebar-header-bg: #020912;
+  --sidebar-footer-bg: #020912;
   --sidebar-border: #131b2e;
   --sidebar-text-primary: #ffffff;
   --sidebar-text-secondary: #94a3b8;
@@ -172,7 +172,7 @@
   --sidebar-portal-btn-bg: #0f172a;
   --sidebar-portal-btn-text: #5b7ebd;
   --sidebar-portal-btn-border: #1e293b;
-  --sidebar-copilot-bg: linear-gradient(135deg, #09132b 0%, #0d0e24 100%);
+  --sidebar-copilot-bg: linear-gradient(135deg, #09132b 0%, #0a1842 100%);
   --sidebar-copilot-border: #081c42;
   --sidebar-card-text: #f1f5f9;
   --sidebar-card-muted: #94a3b8;
