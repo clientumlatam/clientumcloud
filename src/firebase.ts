@@ -377,12 +377,21 @@ export async function signInWithGoogle(): Promise<AuthResult> {
       };
     }
   } catch (err: any) {
-    console.warn('Live Google Sign-in error, using robust fallback handler:', err);
+    console.warn('Live Google Sign-in error:', err);
     if (err.code === 'auth/popup-closed-by-user') {
       return { success: false, error: 'Inicio de sesión cancelado por el usuario.' };
     }
-    if (isLiveFirebaseReady || !isDemoAuthFallbackEnabled) {
-      return { success: false, error: 'No se pudo iniciar sesión con Google.' };
+    if (err.code === 'auth/popup-blocked') {
+      return { success: false, error: 'El navegador bloqueó la ventana emergente de inicio de sesión. Permite las ventanas emergentes (popups) para continuar.' };
+    }
+    if (err.code === 'auth/operation-not-allowed') {
+      return { success: false, error: 'Google Sign-in no está habilitado. Ve a Firebase Console > Authentication > Método de acceso y habilita Google.' };
+    }
+    if (err.code === 'auth/unauthorized-domain') {
+      return { success: false, error: 'Este dominio no está autorizado en tu consola de Firebase.' };
+    }
+    if (isLiveFirebaseReady) {
+      return { success: false, error: err.message || 'No se pudo iniciar sesión con Google.' };
     }
   }
 

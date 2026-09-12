@@ -28,21 +28,27 @@ const FirebaseAuthBridge: React.FC = () => {
 
   React.useEffect(() => {
     const unsubscribe = subscribeToAuthState((fbUser) => {
-      const userId = fbUser?.uid || null;
-      const authStateChanged = lastUserId.current !== userId;
-      const previousUserId = lastUserId.current;
-      if (!authStateChanged && lastUserId.current !== undefined) return;
-      lastUserId.current = userId;
-
       try {
+        const userId = fbUser?.uid || null;
+        
+        // Prevent redundant state updates which could cause infinite loops or race conditions
+        if (lastUserId.current === userId && lastUserId.current !== undefined) {
+          return;
+        }
+        
+        const previousUserId = lastUserId.current;
+        lastUserId.current = userId;
+
         if (fbUser) {
-          // Immediately sync user profile into Firestore collection 'users'
-          syncUserProfileToFirestore({
+          // Safely sync user profile without blocking auth state resolution
+          Promise.resolve(syncUserProfileToFirestore({
             uid: fbUser.uid,
             email: fbUser.email,
             displayName: fbUser.displayName,
             photoURL: fbUser.photoURL,
             providerId: fbUser.providerData?.[0]?.providerId || 'google.com',
+          })).catch(err => {
+             console.warn('Non-fatal error syncing profile to Firestore:', err);
           });
         }
 
@@ -58,8 +64,9 @@ const FirebaseAuthBridge: React.FC = () => {
           enterApp(true);
         }
       } catch (error) {
-        console.error('Firebase auth synchronization failed:', error);
+        console.error('FirebaseAuthBridge critical error during synchronization:', error);
         syncClerkAuth(null);
+        lastUserId.current = null;
       }
     });
 
