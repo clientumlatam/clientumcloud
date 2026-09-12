@@ -647,3 +647,5 @@ function renderFullChartsPreview(isDark: boolean) {
     </div>
   );
 }
+
+export default ThemeSettingsModal;

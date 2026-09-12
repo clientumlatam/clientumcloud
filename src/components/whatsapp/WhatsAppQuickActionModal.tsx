@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { MessageSquare, Send, X, Sparkles, Phone, Check, Copy } from 'lucide-react';
+import { MessageSquare, Send, X, Sparkles, Phone, Check, Copy, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { WhatsAppVoiceDictationBar } from './WhatsAppVoiceDictationBar';
 
 interface WhatsAppQuickActionModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export const WhatsAppQuickActionModal: React.FC<WhatsAppQuickActionModalProps> =
   const [selectedTemplate, setSelectedTemplate] = useState<'intro' | 'quote' | 'followup' | 'meeting' | 'custom'>('intro');
   const [customMessage, setCustomMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isVoiceDictationOpen, setIsVoiceDictationOpen] = useState(false);
 
   // Synchronize initial phone if it changes
   React.useEffect(() => {
@@ -175,10 +177,33 @@ export const WhatsAppQuickActionModal: React.FC<WhatsAppQuickActionModalProps> =
             {/* Message Preview / Edit */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-[11px] font-medium text-slate-300">
-                  Mensaje a Enviar
+                <label className="text-[11px] font-medium text-slate-300 flex items-center gap-1.5">
+                  <span>Mensaje a Enviar</span>
+                  {selectedTemplate === 'custom' && (
+                    <span className="text-[10px] text-emerald-400 font-normal">
+                      (Personalizado / Dictado)
+                    </span>
+                  )}
                 </label>
                 <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (selectedTemplate !== 'custom') {
+                        setCustomMessage(getTemplateText(selectedTemplate));
+                        setSelectedTemplate('custom');
+                      }
+                      setIsVoiceDictationOpen(!isVoiceDictationOpen);
+                    }}
+                    className={`text-[10px] px-2 py-0.5 rounded-lg border transition-colors flex items-center gap-1 cursor-pointer ${
+                      isVoiceDictationOpen
+                        ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                        : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                    }`}
+                  >
+                    <Mic className={`w-3 h-3 ${isVoiceDictationOpen ? 'animate-pulse text-red-400' : ''}`} />
+                    <span>{isVoiceDictationOpen ? 'Cerrar Dictado' : 'Dictar por voz'}</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => {
@@ -202,13 +227,34 @@ export const WhatsAppQuickActionModal: React.FC<WhatsAppQuickActionModalProps> =
                 </div>
               </div>
 
+              {/* Voice Dictation Bar */}
+              {isVoiceDictationOpen && (
+                <div className="mb-2">
+                  <WhatsAppVoiceDictationBar
+                    onInsertText={(text, mode) => {
+                      if (selectedTemplate !== 'custom') {
+                        setSelectedTemplate('custom');
+                      }
+                      if (mode === 'replace') {
+                        setCustomMessage(text);
+                      } else {
+                        setCustomMessage(prev => prev ? `${prev.trim()} ${text}` : text);
+                      }
+                      setIsVoiceDictationOpen(false);
+                    }}
+                    currentInputText={selectedTemplate === 'custom' ? customMessage : getTemplateText(selectedTemplate)}
+                    onClose={() => setIsVoiceDictationOpen(false)}
+                  />
+                </div>
+              )}
+
               {selectedTemplate === 'custom' ? (
                 <textarea
                   rows={4}
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
                   className="w-full bg-[#161b26] border border-[#242c40] rounded-xl p-3 text-white text-xs leading-relaxed focus:border-emerald-500 focus:outline-none resize-none"
-                  placeholder="Escribe tu mensaje personalizado..."
+                  placeholder="Escribe o dicta tu mensaje de WhatsApp..."
                 />
               ) : (
                 <div className="bg-[#121622] border border-[#1e2536] rounded-xl p-3 text-slate-200 text-xs leading-relaxed font-sans min-h-[85px] whitespace-pre-wrap">

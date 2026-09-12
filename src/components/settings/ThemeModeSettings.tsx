@@ -280,3 +280,5 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
   );
 };
 
+export default ThemeModeSettings;
+

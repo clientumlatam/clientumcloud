@@ -204,3 +204,5 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     </>
   );
 };
+
+export default ThemeSwitcher;

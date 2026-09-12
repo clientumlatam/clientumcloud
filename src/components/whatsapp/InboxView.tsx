@@ -7,6 +7,7 @@ import {
   Paperclip,
   Smile,
   Mic,
+  MicOff,
   CheckCircle2,
   Sparkles,
   ShieldCheck,
@@ -16,9 +17,14 @@ import {
   Filter,
   UserCheck,
   Clock,
-  Tag
+  Tag,
+  Volume2,
+  Play,
+  Pause,
+  FileAudio
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
+import { WhatsAppVoiceDictationBar } from './WhatsAppVoiceDictationBar';
 
 interface Message {
   id: string;
@@ -26,6 +32,8 @@ interface Message {
   text: string;
   time: string;
   type?: 'text' | 'audio' | 'image';
+  audioDuration?: string;
+  audioTranscription?: string;
 }
 
 interface Thread {
@@ -83,6 +91,8 @@ export const InboxView: React.FC = () => {
   const [selectedThreadId, setSelectedThreadId] = useState<string>('t-1');
   const [inputText, setInputText] = useState('');
   const [filterMode, setFilterMode] = useState<'all' | 'bot' | 'human'>('all');
+  const [isVoiceDictationOpen, setIsVoiceDictationOpen] = useState(false);
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
 
   const activeThread = threads.find(t => t.id === selectedThreadId) || threads[0];
 
@@ -110,7 +120,17 @@ export const InboxView: React.FC = () => {
     }));
 
     setInputText('');
+    setIsVoiceDictationOpen(false);
     showToast('Mensaje enviado por WhatsApp', 'success');
+  };
+
+  const handleInsertDictatedText = (text: string, mode: 'append' | 'replace') => {
+    if (mode === 'replace') {
+      setInputText(text);
+    } else {
+      setInputText(prev => prev ? `${prev.trim()} ${text}` : text);
+    }
+    showToast('Voz transcrita e insertada en el mensaje', 'success');
   };
 
   const toggleMode = (threadId: string) => {
@@ -281,24 +301,74 @@ export const InboxView: React.FC = () => {
           })}
         </div>
 
-        {/* Reply Footer */}
-        <form onSubmit={handleSendMessage} className="p-3.5 border-t border-[#1e2330] bg-[#0d0f17] flex items-center gap-3">
-          <button type="button" className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-[#161b26] transition-colors">
+        {/* Voice Dictation Bar (when open) */}
+        {isVoiceDictationOpen && (
+          <div className="px-3.5 pt-3 bg-[#0d0f17] border-t border-[#1e2330]">
+            <WhatsAppVoiceDictationBar
+              onInsertText={handleInsertDictatedText}
+              currentInputText={inputText}
+              onClose={() => setIsVoiceDictationOpen(false)}
+            />
+          </div>
+        )}
+
+        {/* Reply Footer / Message Composer */}
+        <form onSubmit={handleSendMessage} className="p-3.5 border-t border-[#1e2330] bg-[#0d0f17] flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-[#161b26] transition-colors"
+            title="Adjuntar archivo"
+          >
             <Paperclip className="w-4 h-4" />
           </button>
-          <button type="button" className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-[#161b26] transition-colors">
-            <Mic className="w-4 h-4" />
+
+          {/* Voice-to-Text Dictation Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsVoiceDictationOpen(!isVoiceDictationOpen)}
+            className={`p-2 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              isVoiceDictationOpen
+                ? 'bg-red-500/20 text-red-400 border border-red-500/40 shadow-sm shadow-red-500/20'
+                : 'text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20'
+            }`}
+            title={isVoiceDictationOpen ? 'Cerrar dictado por voz' : 'Dictar mensaje por voz (Speech-to-Text)'}
+          >
+            <Mic className={`w-4 h-4 ${isVoiceDictationOpen ? 'animate-pulse text-red-400' : ''}`} />
+            <span className="hidden md:inline text-[11px] font-medium">
+              {isVoiceDictationOpen ? 'Dictando...' : 'Dictar por voz'}
+            </span>
           </button>
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder={activeThread.mode === 'bot' ? 'El Bot IA está respondiendo (escribe para intervenir)...' : 'Escribe un mensaje de WhatsApp...'}
-            className="flex-1 bg-[#151924] text-white px-4 py-2.5 rounded-xl border border-[#232b3f] text-xs focus:outline-none focus:border-emerald-500"
-          />
+
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder={
+                isVoiceDictationOpen
+                  ? 'Habla por tu micrófono para dictar el texto...'
+                  : activeThread.mode === 'bot'
+                  ? 'El Bot IA está respondiendo (escribe o dicta para intervenir)...'
+                  : 'Escribe o dicta un mensaje de WhatsApp...'
+              }
+              className="w-full bg-[#151924] text-white px-4 py-2.5 rounded-xl border border-[#232b3f] text-xs focus:outline-none focus:border-emerald-500 pr-10"
+            />
+            {inputText && (
+              <button
+                type="button"
+                onClick={() => setInputText('')}
+                className="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300 text-[11px]"
+                title="Limpiar texto"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
           <button
             type="submit"
-            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
+            disabled={!inputText.trim()}
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
           >
             <span>Enviar</span>
             <Send className="w-3.5 h-3.5" />

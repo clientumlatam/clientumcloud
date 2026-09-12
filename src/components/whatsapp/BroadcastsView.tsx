@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Send, Plus, CheckCircle2, Clock, Users, Sparkles, BarChart2 } from 'lucide-react';
+import { Send, Plus, CheckCircle2, Clock, Users, Sparkles, BarChart2, Mic } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
+import { WhatsAppVoiceDictationBar } from './WhatsAppVoiceDictationBar';
 
 export const BroadcastsView: React.FC = () => {
   const { showToast, triggerConfetti } = useCRM();
+  const [isVoiceDictationOpen, setIsVoiceDictationOpen] = useState(false);
   const [broadcasts, setBroadcasts] = useState([
     {
       id: 'b-1',
@@ -95,7 +97,41 @@ export const BroadcastsView: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-[11px] font-semibold text-slate-300 mb-1">Mensaje de Difusión (Plantilla Aprobada)</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-[11px] font-semibold text-slate-300">
+                Mensaje de Difusión (Plantilla Aprobada)
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsVoiceDictationOpen(!isVoiceDictationOpen)}
+                className={`text-[10px] px-2 py-0.5 rounded-lg border transition-colors flex items-center gap-1 cursor-pointer ${
+                  isVoiceDictationOpen
+                    ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                    : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border-blue-500/30'
+                }`}
+              >
+                <Mic className={`w-3 h-3 ${isVoiceDictationOpen ? 'animate-pulse text-red-400' : ''}`} />
+                <span>{isVoiceDictationOpen ? 'Cerrar Dictado' : 'Dictar por voz'}</span>
+              </button>
+            </div>
+
+            {isVoiceDictationOpen && (
+              <div className="mb-2">
+                <WhatsAppVoiceDictationBar
+                  onInsertText={(text, mode) => {
+                    if (mode === 'replace') {
+                      setMessage(text);
+                    } else {
+                      setMessage(prev => prev ? `${prev.trim()} ${text}` : text);
+                    }
+                    setIsVoiceDictationOpen(false);
+                  }}
+                  currentInputText={message}
+                  onClose={() => setIsVoiceDictationOpen(false)}
+                />
+              </div>
+            )}
+
             <textarea
               rows={3}
               value={message}
