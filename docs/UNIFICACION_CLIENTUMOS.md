@@ -1,26 +1,91 @@
 # Diagnóstico y Plan de Unificación: ClientumOS
-**Sistema Operativo Comercial y de Gestión para PyMEs Argentinas**
+**Sistema Operativo Comercial y de Gestión Integral para PyMEs Argentinas**
 *Unificación Arquitectónica: ClientumCRM + Remix ClientumOS + Ecosistema Twenty CRM*
 
 ---
 
-## 1. Diagnóstico Estructural de Directorios y Repositorios Satélite
+## 1. Contexto y Objetivos del 'Prompt Maestro'
 
-En las iteraciones previas y repositorios satélite de Replit/GitHub (`twenty-crm-5-`, `remix-remix-editor-de-brochure-clientumzip22`, `crm-full-google-maps`), la arquitectura se encontraba dispersa en tres raíces conceptuales:
-- **`src/components/crm-full`**: Contenía los prototipos de prospección sobre Google Maps B2B, enriquecimiento de leads y extracción de datos comerciales geolocalizados.
-- **`src/twenty-crm`**: Módulo experimental derivado del CRM open source *Twenty CRM*, aportando el motor de metadatos, objetos personalizados (*Custom Objects*) y esquemas relacionales.
-- **`src/remix-twenty-crm`**: Entorno exportado desde Replit con herramientas de edición de folletos (*brochure builder*), transcripción de audio de WhatsApp vía Whisper/Gemini y bandeja de entrada Cloudflare Webmail.
+Este documento establece el diagnóstico exhaustivo, inventario de componentes, análisis de patrones de enrutamiento y la hoja de ruta para consolidar las diferentes vertientes y repositorios satélite del ecosistema Clientum (`crm-full`, `twenty-crm` y `remix-twenty-crm`) en una única plataforma canónica: **ClientumOS**.
 
-### Estado Actual de Absorción y Consolidación
-En el árbol de directorios canónico de la aplicación, estos módulos han sido analizados e integrados en una arquitectura modular limpia dentro de `src/components/`:
-- **Prospección B2B**: Absorbido canónicamente en `src/components/commercial/ModuleProspeccionMaps.tsx` y `CrmFullGoogleMaps.tsx`.
-- **Twenty CRM Schemas & Custom Objects**: Absorbido canónicamente en `src/components/custom/CustomObjectsView.tsx` y `src/components/csv/CSVStudioView.tsx`.
-- **Comunicaciones & Webmail**: Absorbido canónicamente en `src/components/webmail/WebmailInboxView.tsx` y `src/components/whatsapp/WhatsAppView.tsx`.
-- **Ecosistema & Repositorios Hub**: Centralizado en `src/components/workspace/UnifiedControlHub.tsx` y `src/components/settings/EcosystemReposHubTab.tsx`.
+El objetivo es eliminar la fragmentación entre prototipos históricos creados en Replit y GitHub, resolver dependencias duplicadas, alinear los esquemas de datos con la realidad operativa de las PyMEs de Argentina (AFIP, CUIT, facturación A/B/C con CAE, cobranzas con Mercado Pago, prospección B2B y mensajería omnicanal de WhatsApp), y proveer una interfaz directiva unificada bajo un único shell de navegación.
 
 ---
 
-## 2. Inventario Completo de Rutas Activas en la Aplicación
+## 2. Diagnóstico Estructural de Directorios y Repositorios Satélite
+
+En iteraciones previas y repositorios satélite de Replit/GitHub (`twenty-crm-5-`, `remix-remix-editor-de-brochure-clientumzip22`, `crm-full-google-maps`), la arquitectura se encontraba dispersa en tres raíces conceptuales:
+
+### A. `src/components/crm-full` (Prototipo de Prospección B2B & Google Maps)
+- **Origen**: Repositorio satélite enfocado en enriquecimiento y extracción de leads desde Google Maps.
+- **Componentes Detectados**:
+  - Extractor de fichas comerciales, teléfonos y sitios web (`CrmFullGoogleMaps.tsx`).
+  - Filtros por localidad geográfica y rubro (corralones, distribuidoras, bodegas, talleres, ferreterías).
+  - Algoritmo de normalización de teléfonos a formato internacional WhatsApp (+54 9...).
+- **Estado de Unificación**: **MIGRADO A CANÓNICO**.
+  - Se unificó en `src/components/commercial/ModuleProspeccionMaps.tsx` y `src/components/commercial/CrmFullGoogleMaps.tsx`.
+  - Integrado en el pipeline comercial con acción de "Convertir a Lead" o "Crear Oportunidad" con 1 clic.
+
+### B. `src/twenty-crm` (Motor de Metadatos y Objetos Personalizados)
+- **Origen**: Adaptación basada en el core open source de *Twenty CRM* para soportar esquemas dinámicos relacionales.
+- **Componentes Detectados**:
+  - Definición de esquemas de datos (*Custom Objects* / Entidades configurables).
+  - Campos personalizados (CUIT, Condición IVA, Lista de Precios, Límite de Crédito).
+  - Vistas configurables de tabla y tarjetas.
+  - Importador y exportador CSV con mapeo de columnas dinámico.
+- **Estado de Unificación**: **CANÓNICO CONSOLIDADO**.
+  - Absorbido en `src/components/custom/CustomObjectsView.tsx` y `src/components/csv/CSVStudioView.tsx`.
+  - Mantiene compatibilidad de sincronización bidireccional y exportación estructurada sin sobrecargar el runtime.
+
+### C. `src/remix-twenty-crm` (Editor de Folletos, Webmail & Transcripción de Audio)
+- **Origen**: Exportación de Replit que combinaba el backend Remix con tres utilidades específicas de productividad.
+- **Componentes Detectados**:
+  - *Brochure Builder*: Generador y editor visual de folletos comerciales/presupuestos PDF.
+  - *Whisper/Gemini Audio Transcription*: Transcripción de notas de voz recibidas por WhatsApp para convertirlas en minutas o tareas.
+  - *Cloudflare Webmail*: Bandeja de correo corporativo para dominios propios.
+- **Estado de Unificación**: **INTEGRADO Y CENTRALIZADO**.
+  - *Brochure Builder & Presupuestos*: Absorbido canónicamente en `src/components/commercial/Propuestas.tsx`.
+  - *Audio & WhatsApp*: Centralizado en `src/components/whatsapp/WhatsAppView.tsx` con integración nativa a Gemini 3.8.
+  - *Webmail*: Integrado en `src/components/webmail/WebmailInboxView.tsx` con soporte de credenciales seguras.
+
+---
+
+## 3. Comparación de Patrones de Enrutamiento: 'ClientumCRM' vs 'Remix ClientumOS'
+
+### A. Patrón de 'ClientumCRM' (SPA Client-Side State-Driven)
+- **Mecanismo**: Control de navegación basado en estado React (`activeTab: ActiveTab`) administrado centralmente por `CRMContext`.
+- **Ventajas**: Transición instantánea entre vistas complejas (Kanban, Drawer lateral, Copilot flotante) sin recarga de página; preservación de estados en memoria (filtros, búsquedas, registros editándose).
+- **Desventajas originales**: Falta de deep-linking directo por URL (si el usuario recargaba, volvía al dashboard predeterminado salvo que se guardara en `localStorage`).
+
+### B. Patrón de 'Remix ClientumOS' (File-System & Nested Routes)
+- **Mecanismo**: Enrutamiento basado en rutas HTTP URL anidadas (`/crm/pipeline`, `/communication/whatsapp`, `/erp/facturacion`).
+- **Ventajas**: Deep-linking natural, soporte SEO nativo para el portal público, URLs compartibles por los agentes de venta.
+- **Desventajas**: Pérdida de estado efímero al alternar rápidamente entre herramientas en modo SPA de alta densidad sin un state manager global.
+
+### C. Estrategia Canónica Unificada (Arquitectura Híbrida en ClientumOS)
+1. **Portal Público**: Enrutamiento por rutas semánticas (`src/components/public/publicRoutes.ts`), soportando URLs como `/producto/crm`, `/precios`, `/industrias/distribuidoras` con sincronización en `window.location.pathname` y navegación por `pushState`.
+2. **Shell Privado**: Tab-registry canónico sincronizado con el navegador (`navigate(tab)` en `src/lib/navigation.ts` y `activeTab` en `CRMContext`), que mapea cada pestaña a una ruta canónica identificable.
+3. **Route Registry Centralizado**: Mapeo estricto que elimina rutas redundantes y proporciona aliases tolerantes a fallos.
+
+---
+
+## 4. Matriz Comparativa: Componentes Duplicados vs. Canónicos
+
+| Función / Dominio | Componente en `crm-full` | Componente en `twenty-crm` | Componente en `remix-twenty-crm` | Resolución Canónica en ClientumOS |
+| :--- | :--- | :--- | :--- | :--- |
+| **Prospección B2B** | `mapsProspecting` / Scraper | N/A | N/A | `src/components/commercial/ModuleProspeccionMaps.tsx` |
+| **Modelado de Datos** | N/A | `CustomSchemaEngine` | N/A | `src/components/custom/CustomObjectsView.tsx` |
+| **Importación CSV** | Importador simple | `CSVStudio` | N/A | `src/components/csv/CSVStudioView.tsx` |
+| **Propuestas & PDF** | N/A | N/A | `BrochureBuilder` | `src/components/commercial/Propuestas.tsx` |
+| **Correo / Webmail** | N/A | N/A | `CloudflareWebmail` | `src/components/webmail/WebmailInboxView.tsx` |
+| **WhatsApp & Audio** | N/A | N/A | `WhisperTranscriber` | `src/components/whatsapp/WhatsAppView.tsx` |
+| **Planes & Checkout** | N/A | `StripeBilling` (Legacy) | `MercadoPagoCheckout` | `src/components/billing/PlatformBillingView.tsx` (Mercado Pago ARS) |
+| **Facturación** | N/A | `InvoicingMock` | N/A | `src/components/erp/ErpView.tsx` (AFIP Factura A/B/C con CAE) |
+| **Centro de Módulos** | `featureHub` | N/A | `ecosystemHub` | `src/components/workspace/UnifiedControlHub.tsx` |
+
+---
+
+## 5. Inventario Completo de Rutas Activas en la Aplicación
 
 La aplicación opera bajo un modelo híbrido: **Portal Público Institucional / Comercial** (para adquisición y conversión) y **Shell Privado ClientumOS** (para la gestión operativa autenticada de la PyME).
 
@@ -49,6 +114,7 @@ La aplicación opera bajo un modelo híbrido: **Portal Público Institucional / 
 | `/tienda` \| `/tienda/central` | Catálogo digital y tienda de aplicaciones del ecosistema |
 | `/dominios` | Gestor de dominios personalizados y DNS |
 | `/legal` \| `/privacidad` \| `/terminos` | Documentos legales y términos de servicio |
+| Aliases Unificados | `/empresa`, `/clientes`, `/ecosistema`, `/partners`, `/alianzas`, `/afiliados`, `/empleo`, `/trabajo`, `/carreras` |
 
 ### B. Rutas y Tabs del Shell Privado (`src/types.ts` & `CRMContext.tsx`)
 | Identificador de Tab | Ruta Semántica | Vista / Componente Canónico |
@@ -66,11 +132,11 @@ La aplicación opera bajo un modelo híbrido: **Portal Público Institucional / 
 | `messages` | `/communication/mensajes` | `MessagesView.tsx` (Mensajería directa) |
 | `webmail` | `/communication/webmail` | `WebmailInboxView.tsx` (Bandeja Cloudflare Webmail) |
 | `chatbot` | `/communication/bots` | `ChatbotView.tsx` (Configuración de bots de atención) |
-| `campaigns` | `/communication/campanas` | `PowerSuiteView.tsx` (defaultModule="campaigns") |
+| `campaigns` | `/communication/campanas` | `PowerSuiteView.tsx` (Campañas masivas WhatsApp) |
 | `agenteOS` | `/ai/agentes` | `AgenteOSView.tsx` (14 roles autónomos ejecutables) |
 | `aiAssistant` | `/ai/copilot` | `AICopilotModal.tsx` & Copilot Gemini flotante |
 | `workflows` | `/ai/flujos` | `WorkflowsView.tsx` (Automatizaciones DAG) |
-| `gtmStrategy` | `/ai/estrategia` | `PowerSuiteView.tsx` (defaultModule="gtm") |
+| `gtmStrategy` | `/ai/estrategia` | `PowerSuiteView.tsx` (Estrategias GTM & Copy) |
 | `erp` | `/erp/facturacion` | `ErpView.tsx` (Facturación electrónica AFIP con CAE) |
 | `operations` | `/erp/operaciones` | `OperationsView.tsx` (Gestión de órdenes y entregas) |
 | `payments` | `/erp/cobros` | `PlatformBillingView.tsx` (Suscripciones Mercado Pago) |
@@ -94,23 +160,10 @@ La aplicación opera bajo un modelo híbrido: **Portal Público Institucional / 
 
 ---
 
-## 3. Comparación: 'ClientumCRM' vs 'Remix ClientumOS' y Detección de Duplicados
+## 6. Arquitectura Técnica del Componente Sidebar Único Global
 
-| Criterio | ClientumCRM (Base Tradicional) | Remix ClientumOS (Visión Unificada) | Estado de Unificación |
-| :--- | :--- | :--- | :--- |
-| **Alcance** | CRM relacional centrado en contactos, empresas y Kanban. | Sistema Operativo PyME integral (CRM + WhatsApp + AFIP + IA + Pagos). | **Unificado en ClientumOS** |
-| **Identidad Visual** | "Clientum CRM" · Espacio Comercial HQ. | "ClientumOS" · Sistema Operativo PyME. | **Canónico: ClientumOS** |
-| **Prospección** | Submódulo dentro de PowerSuite (`mapsProspecting`). | Módulo interactivo directo con Google Maps (`googleMaps`). | **Duplicado resuelto:** Estandarizado en `googleMaps` con `ModuleProspeccionMaps.tsx`. |
-| **Catálogo Digital** | `ecommerce` (vista básica de tienda). | `tiendaDigital` (catálogo integrado con WhatsApp). | **Duplicado resuelto:** Consolidado en `tiendaDigital`. |
-| **Cobros & Suscripción** | `subscriptions` (tabla de planes estática). | `payments` (integración nativa con Mercado Pago). | **Duplicado resuelto:** Unificado en `payments` con `PlatformBillingView.tsx`. |
-| **Centro de Módulos** | `featureHub` (catálogo estático). | `ecosystemHub` (Unified Control Hub interactivo). | **Duplicado resuelto:** Consolidado en `ecosystemHub` (`UnifiedControlHub.tsx`). |
-| **Rutas Web Duplicadas** | `/precios` vs `/planes`<br>`/casos` vs `/casos-de-exito`<br>`/about` vs `/nosotros` vs `/empresa`<br>`/partners` vs `/alianzas`<br>`/empleo` vs `/trabajo` | Variantes semánticas registradas en el Route Registry. | **Resuelto:** Unificado en `publicRoutes.ts` mediante mapeo semántico tolerante. |
-
----
-
-## 4. Diseño del Componente Sidebar Único (Basado en el Prompt Maestro para Replit)
-
-El nuevo `Sidebar` unificado reemplaza las implementaciones fragmentadas previas y establece una **jerarquía estricta de 6 bloques funcionales**:
+### A. Jerarquía de Navegación Propuesta ('Prompt Maestro')
+El componente `src/components/layout/Sidebar.tsx` canónico unifica todas las variantes anteriores y estructura la navegación en **6 secciones jerárquicas**:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -163,7 +216,7 @@ El nuevo `Sidebar` unificado reemplaza las implementaciones fragmentadas previas
 │   ├─ Gestor de Dominios & DNS                           │
 │   └─ Ajustes de Empresa & AFIP                          │
 ├─────────────────────────────────────────────────────────┤
-│ [✨ Clientum Copilot (Gemini 3.6)]                      │
+│ [✨ Clientum Copilot (Gemini 3.8)]                      │
 │ "¿Qué negocios debería priorizar hoy?"                  │
 ├─────────────────────────────────────────────────────────┤
 │ ▼ CUENTAS CLAVE: GAMAN ($180k) · Ferretería ($120k)...  │
@@ -172,44 +225,104 @@ El nuevo `Sidebar` unificado reemplaza las implementaciones fragmentadas previas
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Características Clave de la Arquitectura del Sidebar
-1. **Identidad Canónica**: Encabezado con logotipo corporativo, insignia azul `OS` y subtítulo `"Sistema Operativo PyME"`.
-2. **Acción Rápida**: Botón de creación inmediata de oportunidades (`+`), buscador global accesible mediante atajo de teclado (`⌘K`) y botón de apertura del portal público.
-3. **Tarjeta de Acceso Rápido al Copilot**: Widget de Gemini 3.6 que dispara directamente el análisis del día con las recomendaciones comerciales de impacto prioritario.
-4. **Sub-ítems Desplegables**: Cada elemento secundario cuenta con acordeón interactivo y memoria de estado colapsado para maximizar el espacio vertical.
-5. **Insignias Vivas**: Notificaciones numéricas en tiempo real (correos de Webmail no leídos, tareas pendientes de hoy, estado `LIVE` de WhatsApp).
+### B. Cambios Estructurales en Archivos de Layout
+
+Para consolidar el Sidebar global y erradicar las implementaciones paralelas:
+
+1. **`src/components/app/PrivateEnvironment.tsx`**:
+   - Se estableció como el contenedor maestro del shell autenticado:
+     ```tsx
+     <div className="clientum-light-dashboard flex h-[100dvh] min-h-screen w-screen overflow-hidden bg-[var(--bg-canvas)]">
+       <Sidebar />
+       <MainContent />
+     </div>
+     ```
+   - Elimina cualquier segundo Sidebar o drawer anidado duplicado dentro de las vistas hijas (`PowerSuiteView`, `WorkspaceView`), garantizando que solo exista una instancia activa en el DOM.
+
+2. **`src/components/layout/Navbar.tsx`**:
+   - Actúa en simbiosis con el Sidebar mediante `toggleMobileSidebar()` para pantallas reducidas o móviles.
+   - Centraliza el selector de empresa activa (*Tenant switcher*), búsqueda global (*Command Palette*), alertas de vencimiento AFIP y botón de nuevo registro.
+
+3. **`src/context/CRMContext.tsx`**:
+   - Administra el estado unificado `activeTab`, persistiendo la última vista activa en `localStorage`.
+   - Provee las funciones de acceso rápido `setActiveTab`, `openNewRecordModal` y `openAICopilot` invocables desde cualquier ítem del Sidebar.
 
 ---
 
-## 5. Matriz de Componentes: Canónicos, Migración y Legacy
+## 7. Hoja de Ruta para la Unificación Definitiva
 
-### A. Componentes Canónicos (Conservar y Consolidar)
-- `src/components/dashboard/ExecutiveDashboardView.tsx`: Resumen Ejecutivo con los 5 KPIs requeridos ($582k pipeline, $54k cerrado, 32,4% conversión, 27d ciclo, 5 alertas), tareas prioritarias y tratos sin seguimiento.
-- `src/components/opportunities/KanbanView.tsx`: Pipeline de 5 etapas con tarjetas de 4 líneas (Empresa + servicio, Monto en ARS, Probabilidad %, Próximo paso + fecha), drag & drop y apertura del RecordDrawer.
-- `src/components/layout/Sidebar.tsx`: Sidebar único con las 6 secciones integradas según el diseño de Replit.
-- `src/components/layout/Navbar.tsx`: Barra superior con switch de empresa, buscador, alertas de vencimiento y botón de nuevo negocio.
-- `src/components/common/RecordDrawer.tsx`: Drawer lateral unificado para visualización y edición rápida de cualquier registro.
-- `src/components/commercial/ModuleProspeccionMaps.tsx`: Extractor de prospección B2B sobre Google Maps.
-- `src/components/whatsapp/WhatsAppView.tsx`: Bandeja de mensajería omnicanal de WhatsApp.
-- `src/components/erp/ErpView.tsx`: Facturación electrónica AFIP con CAE y cuenta corriente.
-- `src/components/ai/AgenteOSView.tsx` & `AICopilotModal.tsx`: Organigrama de 14 agentes y Copilot de decisiones.
-- `src/components/billing/PlatformBillingView.tsx`: Checkout de suscripciones con Mercado Pago en ARS.
-- `src/components/public/PublicSite.tsx`: Sitio público de alta conversión con formulario blindado con guardado en backend antes del redirect a WhatsApp.
+### Fase 1: Limpieza y Desacople de Legacy (Completada)
+- [x] Consolidación del route registry en `src/components/public/publicRoutes.ts` con mapeo de rutas tolerante a fallos.
+- [x] Deprecación de llamadas externas incompatibles o servicios no adaptados al mercado argentino.
+- [x] Migración del pipeline de datos hacia modelos locales auténticos (CUITs válidos, montos en ARS, razones sociales representativas).
 
-### B. Componentes a Migrar / Unificar
-- `src/components/power/PowerSuiteView.tsx`: Se mantiene como delegado de módulos auxiliares (MEDDIC, portal, campañas) mientras sus interfaces directas se exponen en las secciones respectivas.
-- `src/data/initialData.ts`: Población completa con datos auténticamente locales (GAMAN, Ferretería El Oeste, Distribuidora Patagónica, Corralón Sur, Vinoteca Valle Andino) con CUITs y montos representativos.
+### Fase 2: Unificación del Sidebar y Navegación Canónica (Completada)
+- [x] Implementación de la jerarquía de 6 secciones en `src/components/layout/Sidebar.tsx`.
+- [x] Normalización de badges de estado en vivo (`LIVE` para WhatsApp, `CAE` para AFIP, contador de tareas pendientes).
+- [x] Inclusión del widget directivo *"¿Qué negocios debería priorizar hoy?"* con activación inmediata del Copilot.
 
-### C. Estado Legacy / Deprecado
-- Rutas duplicadas de prospección (`mapsProspecting`) quedan redirigidas a `googleMaps`.
-- Rutas duplicadas de catálogo (`ecommerce`) quedan consolidadas en `tiendaDigital`.
-- Componentes de demostración genéricos de SaaS internacional (Stripe, Linear, Supabase) reemplazados completamente por el stack comercial argentino (AFIP, Mercado Pago, WhatsApp).
+### Fase 3: Estandarización de Vistas Principales (Completada)
+- [x] **Resumen Ejecutivo**: 5 KPIs directivos ($582k pipeline, $54k vendido, 32,4% conversión, 27d ciclo con selector y 5 alertas prioritarias).
+- [x] **Pipeline Kanban**: Tarjetas de 4 líneas con información operativa completa y apertura rápida del `RecordDrawer`.
+- [x] **Captura Pública Blindada**: Persistencia en base de datos local y Firebase antes de redireccionar a WhatsApp para garantizar tasa cero de pérdida de leads.
+
+### Fase 4: Certificación de Compilación y Calidad Continua
+- [x] Validación estricta con TypeScript (`npm run lint` / `tsc --noEmit`).
+- [x] Verificación de empaquetado de producción (`npm run build`).
+- [x] Sincronización transparente con Firestore y tolerancia a desconexión (*Offline-First*).
 
 ---
 
-## 6. Verificación de Compilación y Calidad de Código
+## 8. Diagnóstico de Concentración en `server.ts` y Plan de Desacople Modular
 
-El sistema ha sido verificado mediante las herramientas de compilación y análisis estático:
-- **Linter (`npm run lint` / `tsc --noEmit`)**: Completado con 0 errores de TypeScript y coincidencia total de rutas en `PublicRoutePath`.
-- **Compilación (`vite build`)**: Build de producción exitoso con generación de bundles optimizados.
-- **Sincronización Offline**: Cola local persistente con sincronización automática hacia Firebase Firestore cuando la red está disponible.
+### A. Diagnóstico de Concentración Actual
+`server.ts` concentra actualmente más de 3,200 líneas de código integrando:
+1. Configuración de middlewares y parseo de peticiones (Express, json rawBody, CORS, helmet).
+2. Seguridad, criptografía de credenciales (AES-256-GCM) y gestión de API Keys con scopes RBAC.
+3. Gestión de base de datos relacional híbrida (PostgreSQL pool, inicialización DDL y fallback a repositorio local/memoria).
+4. Endpoints de CRM (Contactos, Empresas, Oportunidades, Actividades, Tareas, Desduplicación).
+5. Pasarela de Pagos (Mercado Pago SDK, webhooks, confirmación y suscripciones en ARS).
+6. Integración de IA Generativa (Gemini 3.8 con reintentos exponenciales y fallbacks inteligentes para Copilot, CMO, GTM, Ads y Transcripción).
+7. Automatización de correos (SMTP nodemailer y transaccionales).
+8. Servidor estático y middleware de Vite (modo desarrollo SPA y fallback de producción).
+
+### B. Arquitectura de Dominio Propuesta (`/server/*`)
+Para permitir una migración incremental y segura sin interrumpir la operación actual del sistema:
+
+```
+server/
+├── index.ts               # Punto de entrada orquestador minimalista (express(), middlewares base y listen)
+├── config/                # Variables de entorno validadas, constantes AFIP y Mercado Pago
+│   └── env.ts
+├── db/                    # Capa de datos y persistencia
+│   ├── pool.ts            # Conexión Postgres / Neon Pool con reintentos
+│   ├── schema.sql         # Definición DDL unificada
+│   └── crmRepository.ts   # Operaciones de persistencia CRM, auditoría y evidencia
+├── middleware/            # Interceptores de solicitud
+│   ├── auth.ts            # Validación de Bearer Tokens, API keys y tenancy
+│   ├── rateLimiter.ts     # Control de concurrencia y protección contra abusos
+│   ├── errorHandler.ts    # Captura centralizada de errores y formateo JSON
+│   └── viteMode.ts        # Inyección de Vite middlewares o static dist fallback
+├── services/              # Lógica pura de negocio independiente de HTTP
+│   ├── geminiService.ts   # Cadena de modelos Gemini (3.8-flash, 3.1-flash-lite), prompts y fallback
+│   ├── mercadoPagoService.ts # Generación de preferencias de pago, webhooks e idempotencia
+│   ├── afipService.ts     # Facturación electrónica (Facturas A/B/C) y obtención de CAE
+│   ├── cryptoService.ts   # Cifrado AES-256-GCM de credenciales en reposo
+│   └── mailService.ts     # Envío transaccional vía Nodemailer / SMTP
+└── routes/                # Controladores HTTP agrupados por subdominio
+    ├── crm.routes.ts      # /api/crm/records, /api/crm/duplicates, /api/contacts
+    ├── ai.routes.ts       # /api/ai/copilot, /api/ai/voice-note, /api/ai/transcribe
+    ├── billing.routes.ts  # /api/billing/mercadopago/*
+    ├── auth.routes.ts     # /api/auth/keys, /api/system/credentials
+    └── public.routes.ts   # /api/public/contacts, /api/public/newsletter
+```
+
+### C. Estrategia de Migración Incremental (Sin Interrupción)
+1. **Paso 1: Extracción de Servicios Aislados**:
+   - Mover la lógica de Gemini (`callGeminiWithRetry`, fallbacks) a `server/services/geminiService.ts`.
+   - Mover cifrado y tokens a `server/services/cryptoService.ts`.
+2. **Paso 2: Enrutamiento Modular por Subdominios**:
+   - Montar `app.use("/api/ai", aiRoutes)` y `app.use("/api/billing", billingRoutes)` usando `express.Router()`.
+3. **Paso 3: Preservación de Compatibilidad**:
+   - Cada ruta extraída mantiene exactamente los mismos contratos JSON de entrada y salida, asegurando cero breaking changes con el frontend.
+

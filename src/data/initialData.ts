@@ -547,7 +547,7 @@ export const INITIAL_WORKFLOWS: any[] = [
     runCount: 142,
     nodes: [
       { id: 'n1', type: 'trigger', title: 'New Person Created', description: 'Triggers when a contact or lead enters the CRM', config: { object: 'person' }, icon: 'UserPlus' },
-      { id: 'n2', type: 'action', title: 'Gemini AI Lead Scoring', description: 'Evaluates lead intent and assigns score 0-100', config: { model: 'gemini-2.5-flash' }, icon: 'Sparkles' },
+      { id: 'n2', type: 'action', title: 'Gemini AI Lead Scoring', description: 'Evaluates lead intent and assigns score 0-100', config: { model: 'gemini-3.8-flash' }, icon: 'Sparkles' },
       { id: 'n3', type: 'action', title: 'Send WhatsApp Welcome Message', description: 'Dispatches personalized onboarding message via ClientumCRM', config: { template: 'welcome_lead_es' }, icon: 'MessageSquare' },
       { id: 'n4', type: 'action', title: 'Create SDR Follow-up Task', description: 'Creates a task due in 24 hours for assigned rep', config: { priority: 'High' }, icon: 'CheckSquare' },
     ],

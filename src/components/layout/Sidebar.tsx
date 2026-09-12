@@ -224,7 +224,7 @@ export const Sidebar: React.FC = () => {
       id: 'ai',
       label: 'IA & Agentes Autónomos',
       items: [
-        { id: 'agenteOS', label: 'AgenteOS (14 Roles)', icon: Cpu, badge: '14 IA', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'aiAssistant', label: 'Copilot Gemini 3.6', icon: Sparkles }, { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot }] },
+        { id: 'agenteOS', label: 'AgenteOS (14 Roles)', icon: Cpu, badge: '14 IA', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'aiAssistant', label: 'Copilot Gemini 3.8', icon: Sparkles }, { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot }] },
         { id: 'workflows', label: 'Automatizaciones & Flujos DAG', icon: Workflow },
         { id: 'gtmStrategy', label: 'Estrategias GTM & Copy', icon: Compass },
       ],

@@ -2394,7 +2394,7 @@ async function callGeminiWithRetry(
     config?: any;
     apiKey?: string;
   },
-  modelsToTry: string[] = ["gemini-3.7-flash", "gemini-flash-latest"]
+  modelsToTry: string[] = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"]
 ): Promise<any> {
   const client = getGeminiClient(params.apiKey);
   let lastError: any = null;
@@ -2410,10 +2410,15 @@ async function callGeminiWithRetry(
         return response;
       } catch (err: any) {
         lastError = err;
+        const statusCode = err?.status || err?.code || err?.statusCode;
+        const isTransientOrUnavailable = statusCode === 503 || statusCode === 429 || err?.message?.includes("high demand") || err?.message?.includes("UNAVAILABLE");
         console.warn(`Gemini call attempt ${attempt + 1} with model ${model} failed:`, err?.message || err);
-        // If high demand or transient error, delay 600ms before retrying
-        if (attempt < 1) {
-          await new Promise((resolve) => setTimeout(resolve, 600));
+        // If high demand or transient error, delay before retrying
+        if (attempt < 1 && isTransientOrUnavailable) {
+          await new Promise((resolve) => setTimeout(resolve, 400));
+        } else if (isTransientOrUnavailable) {
+          // If this model is experiencing 503/high demand, break attempt loop to try next model immediately
+          break;
         }
       }
     }
@@ -2455,7 +2460,7 @@ app.post("/api/public-agent", async (req, res) => {
             temperature: 0.4,
           },
         },
-        ["gemini-2.5-flash", "gemini-flash-latest"],
+        ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"],
       );
       const reply = typeof response.text === "string" ? response.text.trim().slice(0, 4000) : "";
       if (reply) {
@@ -3107,7 +3112,7 @@ app.post("/api/ai/transcribe", async (req, res) => {
               temperature: 0.2,
             }
           },
-          ["gemini-2.5-flash", "gemini-flash-latest"]
+          ["gemini-3.5-transcribe", "gemini-3.8-flash", "gemini-3.1-flash-lite"]
         );
         res.json({ text: response.text });
         return;

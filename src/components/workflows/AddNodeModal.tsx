@@ -37,7 +37,7 @@ const NODE_PRESETS: PresetNodeTemplate[] = [
     description: 'Analiza historial de mensajes y asigna un puntaje del 1 al 100.',
     icon: 'Sparkles',
     category: 'ai',
-    config: { model: 'gemini-2.5-flash', threshold: 75 },
+    config: { model: 'gemini-3.8-flash', threshold: 75 },
   },
   {
     type: 'action',
