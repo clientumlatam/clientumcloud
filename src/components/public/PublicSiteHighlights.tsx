@@ -36,7 +36,7 @@ const serviceCards = [
   {
     title: 'Inteligencia Artificial & Bots',
     description: 'Agentes conversacionales que atienden, califican y agendan reuniones 24/7.',
-    detail: 'Gemini 3.6 · WhatsApp · Webhooks',
+    detail: 'Gemini 3.8 · WhatsApp · Webhooks',
     icon: Bot,
     accent: 'emerald',
     path: '/producto/whatsapp-ia' as PublicRoutePath,

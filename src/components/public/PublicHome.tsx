@@ -150,17 +150,17 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
 
               <button
                 onClick={onOpenWizard}
-                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/25 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-sm shadow-2xs flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
               >
-                <Calculator className="w-4 h-4" />
+                <Calculator className="w-4 h-4 text-blue-600" />
                 <span>Calcular Ahorro & ROI</span>
               </button>
 
               <button
                 onClick={onOpenAudit}
-                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/25 flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-sm shadow-2xs flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-98"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-amber-500" />
                 <span>Auditoría Digital 60s</span>
               </button>
             </div>

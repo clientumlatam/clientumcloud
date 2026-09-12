@@ -600,8 +600,8 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             {/* Interactive Search Bar Trigger */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
-              title="Buscar contactos, crear deals... (⌘K / Ctrl+K)"
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
+              title="Buscar módulos, funciones o contactos (⌘K / Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
               <span className="text-[11px]">Buscar...</span>
@@ -610,30 +610,38 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
               </kbd>
             </button>
 
-            {/* Phone Quick Contact Button */}
+            {/* Currency selector quick button */}
             <button
-              onClick={() => handleNavClick('/contacto')}
-              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer shadow-xs"
-              title="Contacto y Llamadas"
+              onClick={onToggleCurrency}
+              className="hidden md:inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[11px] font-bold text-slate-700 transition-colors cursor-pointer"
+              title="Alternar entre Pesos Argentinos (ARS) y Dólares (USD)"
             >
-              <Phone className="w-4 h-4" />
+              {currency === 'ARS' ? 'ARS $' : 'USD $'}
             </button>
 
-            {/* Secondary CTA: Probar Demo */}
-            <button
-              onClick={() => handleNavClick('/contacto')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-all cursor-pointer shadow-xs"
-            >
-              <span>Probar Demo</span>
-            </button>
+            {/* Login Link (Iniciar Sesión) */}
+            {!isAuthenticated && (
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="hidden md:inline-flex items-center px-3.5 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Iniciar Sesión
+              </button>
+            )}
 
-            {/* Primary CTA: dashboard access */}
+            {/* Register / Primary CTA: Crear Cuenta / Ingresar */}
             <button
-              onClick={() => enterApp()}
-              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
+              onClick={() => {
+                if (isAuthenticated) {
+                  enterApp();
+                } else {
+                  setIsAuthModalOpen(true);
+                }
+              }}
+              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-xs tracking-wide shadow-md shadow-slate-900/20 border border-slate-700 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
             >
-              <span>{isAuthenticated ? 'Ir al Dashboard' : 'Ingresar al CRM'}</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <span>{isAuthenticated ? 'Ir al Dashboard' : 'Registrarse Gratis'}</span>
+              <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover:translate-x-0.5 transition-transform" />
             </button>
 
             {/* Mobile Menu Button */}
