@@ -304,8 +304,43 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                 </button>
               </li>
               <li>
-                <button onClick={() => nav('/casos')} className="hover:text-blue-600 transition-colors text-left">
+                <button onClick={() => nav('/auditoria-express')} className="hover:text-blue-600 font-bold transition-colors text-left text-blue-700">
+                  Auditoría Express
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/crm-whatsapp-ia')} className="hover:text-blue-600 transition-colors text-left">
+                  Landing CRM + WhatsApp IA
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/proyectos')} className="hover:text-blue-600 transition-colors text-left">
+                  Proyectos Destacados
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/brochure')} className="hover:text-blue-600 transition-colors text-left">
+                  Brochure Institucional
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/organigrama')} className="hover:text-blue-600 transition-colors text-left">
+                  Organigrama & Sedes
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/casos')} className="hover:text-blue-600 transition-colors text-left font-semibold text-blue-700">
                   Casos de Éxito
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/alianzas')} className="hover:text-blue-600 transition-colors text-left font-semibold text-emerald-700">
+                  Programa de Alianzas
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/trabajo')} className="hover:text-blue-600 transition-colors text-left font-semibold text-purple-700">
+                  Trabajá con Nosotros
                 </button>
               </li>
               <li>

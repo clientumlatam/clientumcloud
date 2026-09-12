@@ -26,6 +26,29 @@ export interface CustomField {
   value?: string | number | boolean;
 }
 
+export interface ContactEnrichmentData {
+  bio?: string;
+  seniority?: string;
+  industry?: string;
+  skills?: string[];
+  socialProfiles?: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+    website?: string;
+  };
+  companyInfo?: {
+    name?: string;
+    domain?: string;
+    size?: string;
+    techStack?: string[];
+    location?: string;
+  };
+  suggestedIcebreakers?: string[];
+  confidenceScore?: number;
+  enrichedAt?: string;
+}
+
 export interface Person {
   id: string;
   firstName: string;
@@ -44,6 +67,8 @@ export interface Person {
   createdAt: string;
   lastActivityDate: string;
   notes?: string;
+  enrichmentStatus?: 'idle' | 'enriching' | 'enriched' | 'failed';
+  enrichmentData?: ContactEnrichmentData;
 }
 
 export interface Company {
@@ -181,7 +206,14 @@ export type ActiveTab =
   | 'rbacRoles'
   | 'auditLogs'
   | 'apiIntegrations'
-  | 'webmail';
+  | 'webmail'
+  | 'erpAvanzado'
+  | 'vscrmSuite'
+  | 'wordpressIntegracion'
+  | 'adminConsole'
+  | 'workspaceIntegrations'
+  | 'dashboardDocs'
+  | 'competitorHub';
 
 export type OpportunityViewMode = 'kanban' | 'table';
 

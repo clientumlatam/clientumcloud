@@ -25,6 +25,7 @@ import {
   TrendingUp,
   WalletCards,
   X,
+  ArrowLeftRight,
 } from 'lucide-react';
 import {
   Area,
@@ -77,6 +78,7 @@ export const ExecutiveDashboardView: React.FC = () => {
 
   const [pipelineFilter, setPipelineFilter] = useState<'Todos los negocios' | Opportunity['type']>('Todos los negocios');
   const [cycleMetricMode, setCycleMetricMode] = useState<'Promedio' | 'Mediana' | 'Por etapa' | 'Por vendedor'>('Promedio');
+  const [showCompetitorBanner, setShowCompetitorBanner] = useState(true);
   const [isPipelineDropdownOpen, setIsPipelineDropdownOpen] = useState(false);
   const [isCycleDropdownOpen, setIsCycleDropdownOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -199,10 +201,10 @@ export const ExecutiveDashboardView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-slate-50 dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 overflow-y-auto select-none font-['Plus_Jakarta_Sans',sans-serif]">
-      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="crm-dashboard flex-1 flex flex-col h-full bg-slate-50 dark:bg-[var(--crm-bg,#040711)] text-slate-900 dark:text-slate-100 overflow-y-auto select-none font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="crm-dashboard__content p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-[#1c2d47]">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="px-2 py-0.5 rounded-md bg-blue-600 text-white font-extrabold text-[10px] tracking-widest font-mono">
@@ -281,10 +283,53 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
         </div>
 
+        {/* Competitor Hub Highlight Banner */}
+        {showCompetitorBanner && (
+          <div className="bg-gradient-to-r from-indigo-900/30 via-slate-900/40 to-blue-900/30 border border-indigo-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center shrink-0">
+                <ArrowLeftRight size={18} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-indigo-300">
+                    Migración 1-Click desde HubSpot o Salesforce
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    Ahorro hasta 82%
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Importa deals y contactos automáticamente, elimina costos punitivos por volumen y suma facturación AFIP nativa.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+              <button
+                type="button"
+                onClick={() => setActiveTab('competitorHub')}
+                className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
+              >
+                <span>Abrir Centro de Migración & TCO</span>
+                <ArrowRight size={13} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCompetitorBanner(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                title="Cerrar aviso"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* 5 High-Impact Executive KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        <div className="crm-kpi-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
           {/* Card 1: Pipeline Activo */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Pipeline Activo
@@ -304,13 +349,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <span className="text-[11px] text-slate-400 dark:text-slate-500">ponderado</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               {activeOpportunities.length} negocios en gestión
             </div>
           </div>
 
           {/* Card 2: Vendido */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Vendido
@@ -329,13 +374,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               Facturación confirmada AFIP
             </div>
           </div>
 
           {/* Card 3: Conversión */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Conversión
@@ -353,13 +398,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <span>↑ 5,8% vs. anterior</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               6 negocios evaluados
             </div>
           </div>
 
           {/* Card 4: Ciclo de Venta con Selector */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Ciclo de Venta
@@ -368,14 +413,14 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsCycleDropdownOpen(!isCycleDropdownOpen)}
-                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-[#1c2d47] bg-slate-100 dark:bg-[#111a2d] text-slate-700 dark:text-slate-200 hover:bg-slate-200 flex items-center gap-1 cursor-pointer"
                   title="Cambiar métrica de ciclo"
                 >
                   <span>{cycleMetricMode}</span>
                   <ChevronDown size={10} />
                 </button>
                 {isCycleDropdownOpen && (
-                  <div className="absolute right-0 mt-1 w-32 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-20">
+                  <div className="absolute right-0 mt-1 w-32 py-1 bg-white dark:bg-[#111a2d] border border-slate-200 dark:border-[#1c2d47] rounded-lg shadow-lg z-20">
                     {(['Promedio', 'Mediana', 'Por etapa', 'Por vendedor'] as const).map((mode) => (
                       <button
                         key={mode}
@@ -433,13 +478,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               Velocidad de cierre PyME
             </div>
           </div>
 
           {/* Card 5: Atención Requerida */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Atención Requerida
@@ -456,7 +501,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 2 estancados · 2 tareas vencidas · 1 sin seguimiento
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
               Requiere acción hoy
             </div>
           </div>
@@ -465,8 +510,8 @@ export const ExecutiveDashboardView: React.FC = () => {
         {/* Actionable Priorities Panel (Atención Prioritaria) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Tareas Críticas y Próximas */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
-            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
                   <CalendarDays size={16} />
@@ -566,8 +611,8 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
 
           {/* Negocios en Riesgo (Deal Rotting) */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
-            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-rose-50 dark:bg-rose-950/50 border border-rose-200/60 dark:border-rose-800/40 flex items-center justify-center text-rose-600 dark:text-rose-400">
                   <ShieldAlert size={16} />
@@ -639,8 +684,8 @@ export const ExecutiveDashboardView: React.FC = () => {
         </div>
 
         {/* Commercial Pipeline Funnel & Stage Breakdown */}
-        <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-slate-800/80">
+        <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-[#1c2d47]">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Layers size={14} className="text-blue-600 dark:text-blue-400" />
@@ -749,10 +794,10 @@ export const ExecutiveDashboardView: React.FC = () => {
         </div>
 
         {/* Analytics & Forecasting Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="crm-analytics-grid grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Ingresos & Tendencia */}
-          <div className="lg:col-span-2 bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="crm-panel lg:col-span-2 bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200/60 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
                   <BarChart3 size={16} />
@@ -823,8 +868,8 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
 
           {/* Distribución por Origen / Tipo */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="crm-panel bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-[#1c2d47]">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                 Distribución de Oportunidades
               </h3>

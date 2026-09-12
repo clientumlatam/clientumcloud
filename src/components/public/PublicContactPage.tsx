@@ -284,6 +284,66 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
 
       </div>
 
+      {/* Preguntas Frecuentes & Confianza (contacto_faq.md) */}
+      <section className="space-y-8 pt-6 border-t border-slate-200">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            Preguntas Frecuentes
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600">
+            Todo lo que necesitas saber antes de comenzar con Clientum.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-2xs">
+            <h3 className="text-sm font-bold text-slate-900">
+              ¿Cuánto demora la implementación del CRM y WhatsApp IA?
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Menos de 48 horas en promedio. Nuestro equipo de onboarding se encarga de la configuración del pipeline, importación de tus contactos desde Excel y conexión del número oficial de WhatsApp.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-2xs">
+            <h3 className="text-sm font-bold text-slate-900">
+              ¿Es compatible con facturación electrónica de AFIP?
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Sí, 100% compatible. Emitimos Facturas A, B y C con CAE oficial y código QR directamente desde el trato comercial mediante el webservice WSFE oficial de AFIP en menos de 2 segundos.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-2xs">
+            <h3 className="text-sm font-bold text-slate-900">
+              ¿Puedo cancelar mi suscripción en cualquier momento?
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Sí, totalmente. No tenemos cláusulas de permanencia forzada ni penalidades de cancelación. Tus datos son siempre de tu propiedad y puedes exportarlos en formato CSV cuando lo desees.
+            </p>
+          </div>
+        </div>
+
+        {/* Confianza y SLA 99.9% */}
+        <div className="p-6 rounded-3xl bg-blue-50/70 border border-blue-200 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xs">
+          <div className="space-y-1 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2 text-blue-900 font-bold text-sm">
+              <Sparkles className="w-4 h-4 text-blue-600" />
+              <span>Infraestructura Segura, Confiable y con Soberanía de Datos</span>
+            </div>
+            <p className="text-xs text-blue-800 max-w-2xl">
+              Cifrado SSL de 256 bits, centros de datos Anycast de alta redundancia, 99.9% de uptime garantizado por SLA y soporte humano directo en tu mismo huso horario.
+            </p>
+          </div>
+          <button
+            onClick={() => onNavigate('/brochure')}
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shrink-0 cursor-pointer shadow-xs transition-all"
+          >
+            Ver Ficha Técnica y SLA
+          </button>
+        </div>
+      </section>
+
     </div>
   );
 };

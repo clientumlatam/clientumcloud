@@ -178,8 +178,9 @@ interface CRMContextType {
   deleteCompany: (id: string) => void;
 
   addPerson: (person: Omit<Person, 'id' | 'createdAt' | 'lastActivityDate'>) => Person;
-  updatePerson: (id: string, updates: Partial<Person>) => void;
+  updatePerson: (id: string, updates: Partial<Person>, silent?: boolean) => void;
   deletePerson: (id: string) => void;
+  enrichContact: (personId: string, manualTrigger?: boolean) => Promise<boolean>;
 
   addTask: (task: Omit<Task, 'id' | 'createdAt'>) => Task;
   updateTask: (id: string, updates: Partial<Task>) => void;
@@ -811,18 +812,40 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     demoSessionRef.current = false;
-    const identityEmail = typeof identity.email === 'string' ? identity.email : '';
+    const identityEmail = typeof identity.email === 'string' ? identity.email.trim() : '';
     const matchingUser = users.find(
       (user) =>
         typeof user?.email === 'string' &&
         user.email.toLowerCase() === identityEmail.toLowerCase(),
     );
+
+    const formatDisplayName = (rawName?: string, rawEmail?: string): string => {
+      if (rawName && rawName.trim()) {
+        return rawName.trim();
+      }
+      if (rawEmail && rawEmail.includes('@')) {
+        const handle = rawEmail.split('@')[0];
+        return handle
+          .split(/[._-]/)
+          .filter(Boolean)
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+          .join(' ');
+      }
+      return 'Usuario Clientum';
+    };
+
+    const computedName = formatDisplayName(identity.name, identityEmail);
+    const computedAvatar =
+      identity.avatar ||
+      matchingUser?.avatar ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(computedName)}&background=2563eb&color=fff`;
+
     const restoredUser: User = {
-      ...(matchingUser || USERS[0]),
       id: identity.id,
-      email: identity.email || matchingUser?.email || USERS[0].email,
-      name: identity.name || matchingUser?.name || identity.email.split('@')[0] || 'Usuario Clientum',
-      avatar: identity.avatar || matchingUser?.avatar || USERS[0].avatar,
+      email: identityEmail || matchingUser?.email || 'usuario@clientum.com.ar',
+      name: computedName,
+      role: matchingUser?.role || 'Administrador',
+      avatar: computedAvatar,
     };
 
     setCurrentUser(restoredUser);
@@ -1120,12 +1143,19 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const login = (email: string, _pass?: string) => {
     demoSessionRef.current = true;
     const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-    const userToSet = found || {
+    const handle = email.split('@')[0];
+    const formattedName = handle
+      .split(/[._-]/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(' ') || 'Usuario Clientum';
+
+    const userToSet: User = found || {
       id: 'usr-' + Date.now(),
-      name: email.split('@')[0].replace('.', ' ').replace(/^./, (c) => c.toUpperCase()),
+      name: formattedName,
       email,
       role: 'Administrador',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formattedName)}&background=2563eb&color=fff`,
     };
     setCurrentUser(userToSet);
     
@@ -1147,12 +1177,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const register = (name: string, email: string, _pass?: string, _company?: string) => {
+    const userDisplayName = name.trim() || 'Usuario Clientum';
     const newUser: User = {
       id: 'usr-' + Date.now(),
-      name,
+      name: userDisplayName,
       email,
       role: 'Administrador',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userDisplayName)}&background=2563eb&color=fff`,
     };
     setCurrentUser(newUser);
 
@@ -1182,6 +1213,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       sessionStorage.removeItem('clientum_is_authenticated');
       localStorage.removeItem('clientum_is_authenticated');
+      localStorage.removeItem('clientum_crm_current_user');
       sessionStorage.setItem('clientum_view_mode', 'public');
     } catch (error) {
       console.warn('Storage access denied', error);
@@ -1615,10 +1647,16 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     showToast(`Contact "${newPerson.firstName} ${newPerson.lastName}" created`, 'success');
+
+    // Auto-trigger background contact enrichment utility when a new lead/contact is added
+    setTimeout(() => {
+      void enrichContact(newPerson.id, false);
+    }, 300);
+
     return newPerson;
   };
 
-  const updatePerson = (id: string, updates: Partial<Person>) => {
+  const updatePerson = (id: string, updates: Partial<Person>, silent = false) => {
     const person = people.find((p) => p.id === id);
     let updatedPerson: Person | null = null;
     setPeople((prev) => prev.map((p) => {
@@ -1633,22 +1671,101 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       void saveUserSubcollectionRecord(currentUser.id, 'people', id, updatedPerson);
     }
 
-    logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
-      action: 'person.update',
-      actionLabel: 'Actualización de Contacto',
-      entityType: 'people',
-      entityId: id,
-      entityName: person ? `${person.firstName} ${person.lastName}` : id,
-      details: `Datos del contacto ${person?.firstName || ''} ${person?.lastName || ''} actualizados.`,
-      severity: 'info',
-      status: 'success',
-    });
+    if (!silent) {
+      logAuditEvent({
+        userId: currentUser.id,
+        userName: currentUser.name,
+        userEmail: currentUser.email,
+        userRole: currentUser.role,
+        action: 'person.update',
+        actionLabel: 'Actualización de Contacto',
+        entityType: 'people',
+        entityId: id,
+        entityName: person ? `${person.firstName} ${person.lastName}` : id,
+        details: `Datos del contacto ${person?.firstName || ''} ${person?.lastName || ''} actualizados.`,
+        severity: 'info',
+        status: 'success',
+      });
 
-    showToast('Contact updated', 'info');
+      showToast('Contact updated', 'info');
+    }
+  };
+
+  const enrichContact = async (personId: string, manualTrigger = false): Promise<boolean> => {
+    const target = people.find((p) => p.id === personId);
+    if (!target) return false;
+
+    updatePerson(personId, { enrichmentStatus: 'enriching' }, true);
+    if (manualTrigger) {
+      showToast(`Buscando inteligencia profesional para ${target.firstName}...`, 'info');
+    }
+
+    try {
+      const response = await fetch('/api/contacts/enrich', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personId: target.id,
+          firstName: target.firstName,
+          lastName: target.lastName,
+          email: target.email,
+          phone: target.phone,
+          jobTitle: target.jobTitle,
+          companyName: target.companyName,
+          city: target.city,
+          country: target.country,
+          linkedin: target.linkedin,
+          notes: target.notes,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Enrichment service responded with ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data && data.enrichment) {
+        const enriched = data.enrichment;
+        const updates: Partial<Person> = {
+          enrichmentStatus: 'enriched',
+          enrichmentData: enriched,
+        };
+
+        if (!target.linkedin && enriched.socialProfiles?.linkedin) {
+          updates.linkedin = enriched.socialProfiles.linkedin;
+        }
+
+        updatePerson(personId, updates, true);
+
+        logAuditEvent({
+          userId: currentUser.id,
+          userName: currentUser.name,
+          userEmail: currentUser.email,
+          userRole: currentUser.role,
+          action: 'person.update',
+          actionLabel: 'Contacto Enriquecido con IA',
+          entityType: 'people',
+          entityId: target.id,
+          entityName: `${target.firstName} ${target.lastName}`,
+          details: `Enriquecimiento profesional completado (${enriched.seniority || 'Profesional'} - ${enriched.industry || 'B2B'}). Confianza: ${enriched.confidenceScore || 88}%.`,
+          severity: 'info',
+          status: 'success',
+        });
+
+        showToast(`✨ Contacto enriquecido: ${target.firstName} ${target.lastName} (${enriched.seniority || 'Profesional'})`, 'success');
+        return true;
+      } else {
+        updatePerson(personId, { enrichmentStatus: 'failed' }, true);
+        return false;
+      }
+    } catch (err) {
+      console.warn('Contact enrichment background task error:', err);
+      updatePerson(personId, { enrichmentStatus: 'failed' }, true);
+      if (manualTrigger) {
+        showToast(`No se pudo enriquecer el perfil de ${target.firstName}`, 'error');
+      }
+      return false;
+    }
   };
 
   const deletePerson = (id: string) => {
@@ -3028,6 +3145,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addPerson,
         updatePerson,
         deletePerson,
+        enrichContact,
         addTask,
         updateTask,
         deleteTask,

@@ -57,6 +57,10 @@ import {
   ExternalLink,
   Cpu,
   Radio,
+  BookOpen,
+  ShieldAlert,
+  HardDrive,
+  ArrowLeftRight,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
@@ -456,6 +460,7 @@ const EXTENDED_CATALOG_MODULES: ExtendedCatalogModule[] = [
   { id: 'propuestas', title: 'Propuestas & Presupuestos', description: 'Crea, personaliza y comparte presupuestos en PDF con firma digital.', group: 'Gestión comercial', icon: FileCheck, tone: 'emerald', badge: 'PDF' },
   { id: 'meddic', title: 'Lead Scoring MEDDIC', description: 'Prioriza oportunidades con una evaluación B2B estructurada.', group: 'Gestión comercial', icon: Target, tone: 'violet', badge: 'IA' },
   { id: 'googleMaps', title: 'Prospección Mapa B2B', description: 'Busca empresas y prospectos por ciudad, zona y categoría.', group: 'Gestión comercial', icon: MapPin, tone: 'cyan', badge: 'Maps' },
+  { id: 'competitorHub', title: 'vs HubSpot / Salesforce', description: 'Migración en 1 clic, calculadora TCO de ahorro (82%) y battlecards de venta.', group: 'Gestión comercial', icon: ArrowLeftRight, tone: 'indigo', badge: 'Ahorro 82%' },
   { id: 'whatsapp', title: 'Bandeja Omnicanal', description: 'Centraliza WhatsApp Business API, correo y live chat.', group: 'Comunicación', icon: Inbox, tone: 'emerald', badge: 'LIVE' },
   { id: 'messages', title: 'Mensajes Internos', description: 'Gestión de conversaciones y respuestas del equipo.', group: 'Comunicación', icon: MessageSquare, tone: 'blue' },
   { id: 'webmail', title: 'Webmail Corporativo', description: 'Correo corporativo IMAP/SMTP y sincronización de hilos.', group: 'Comunicación', icon: Mail, tone: 'cyan' },
@@ -487,6 +492,12 @@ const EXTENDED_CATALOG_MODULES: ExtendedCatalogModule[] = [
   { id: 'saasTheme', title: 'Temas & Marca SaaS', description: 'Personalización de paletas e identidad visual.', group: 'Power Suite', icon: Sparkles, tone: 'violet' },
   { id: 'segments', title: 'Segmentación Avanzada', description: 'Agrupación de clientes por comportamiento y volumen.', group: 'Power Suite', icon: Users2, tone: 'amber' },
   { id: 'brochure', title: 'Brochures Comerciales', description: 'Materiales ejecutivos y folletos de presentación.', group: 'Power Suite', icon: FileSpreadsheet, tone: 'blue' },
+  { id: 'erpAvanzado', title: 'ERP Inventario & Gastos', description: 'Control de inventario multialmacén, gastos y auditoría de comprobantes AFIP.', group: 'Operaciones & finanzas', icon: Layers, tone: 'amber', badge: 'ERP' },
+  { id: 'vscrmSuite', title: 'VS CRM & ERP Suite', description: 'Control de proyectos, time tracking de horas y liquidación financiera de servicios.', group: 'Operaciones & finanzas', icon: Briefcase, tone: 'indigo', badge: 'Suite' },
+  { id: 'wordpressIntegracion', title: 'WordPress & WooCommerce', description: 'Sincronización de catálogo de productos, pedidos online y webhooks.', group: 'Operaciones & finanzas', icon: Globe, tone: 'emerald', badge: 'Woo' },
+  { id: 'workspaceIntegrations', title: 'Google Workspace & Drive', description: 'Google Drive, sincronización de Gmail, plantillas HTML y Google Meet.', group: 'Comunicación', icon: HardDrive, tone: 'cyan', badge: 'Google' },
+  { id: 'adminConsole', title: 'Consola y Auditoría General', description: 'Supervisión ejecutiva, consumo de tokens Gemini, auditoría de seguridad y RBAC.', group: 'Datos & configuración', icon: ShieldAlert, tone: 'amber', badge: 'Admin' },
+  { id: 'dashboardDocs', title: 'Documentación Dashboard (18)', description: 'Directorio técnico y funcional de los 18 módulos canónicos extraídos del dashboard.', group: 'Datos & configuración', icon: BookOpen, tone: 'blue', badge: '18 Docs' },
   { id: 'customObjects', title: 'Custom Objects Studio', description: 'Estructuras y esquemas de base de datos personalizados.', group: 'Datos & configuración', icon: Database, tone: 'cyan' },
   { id: 'csvStudio', title: 'Importador / Exportador CSV', description: 'Ingesta y respaldo masivo de registros comerciales.', group: 'Datos & configuración', icon: FileSpreadsheet, tone: 'emerald' },
   { id: 'domainManager', title: 'Gestor de Dominios', description: 'DNS, zonas y dominios web corporativos.', group: 'Datos & configuración', icon: Globe, tone: 'blue' },

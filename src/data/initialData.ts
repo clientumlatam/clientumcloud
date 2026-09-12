@@ -134,6 +134,38 @@ export const INITIAL_PEOPLE: Person[] = [
     createdAt: '2026-02-15T09:30:00Z',
     lastActivityDate: '2026-09-10T10:00:00Z',
     notes: 'Prioridad alta: Necesitan integración total de WhatsApp multiagente conectada al pipeline y emisión de facturas AFIP.',
+    enrichmentStatus: 'enriched',
+    enrichmentData: {
+      bio: 'Socio Fundador en GAMAN Software & Automatizaciones. Especialista en modernización tecnológica B2B, automatización de embudos comerciales y despliegue de infraestructuras SaaS.',
+      seniority: 'C-Level / Co-Founder',
+      industry: 'Tecnología & Software SaaS',
+      skills: [
+        'Automatización Comercial',
+        'Integración AFIP & ERP',
+        'WhatsApp Business API',
+        'Estrategia de Ventas B2B',
+        'Liderazgo Tecnológico'
+      ],
+      socialProfiles: {
+        linkedin: 'https://linkedin.com/in/matiasgomez-gaman',
+        twitter: 'https://x.com/matiasgomez_tech',
+        github: 'https://github.com/matias-gaman',
+        website: 'https://gamansoftware.com.ar'
+      },
+      companyInfo: {
+        name: 'GAMAN Software & Automatizaciones',
+        domain: 'gamansoftware.com.ar',
+        size: '15-50 empleados',
+        techStack: ['Node.js', 'React', 'Docker', 'Mercado Pago', 'PostgreSQL'],
+        location: 'Buenos Aires, Argentina'
+      },
+      suggestedIcebreakers: [
+        'Hola Matías, estuve viendo el crecimiento de GAMAN en soluciones de automatización. Creemos que conectar su flujo de ventas directamente a WhatsApp y facturación automática les daría una ventaja enorme.',
+        'Estimado Matías, como socio fundador sabemos que la velocidad de respuesta comercial es crítica. ¿Tenés 5 minutos para ver cómo optimizar el pipeline de GAMAN?'
+      ],
+      confidenceScore: 94,
+      enrichedAt: '2026-09-10T10:05:00Z'
+    }
   },
   {
     id: 'p2',
@@ -153,6 +185,37 @@ export const INITIAL_PEOPLE: Person[] = [
     createdAt: '2026-03-01T12:00:00Z',
     lastActivityDate: '2026-09-11T14:30:00Z',
     notes: 'Pidió cotización de 5 puestos de ventas de mostrador y seguimiento automático de presupuestos por WhatsApp.',
+    enrichmentStatus: 'enriched',
+    enrichmentData: {
+      bio: 'Gerente General con más de 15 años liderando cadenas de suministro, logística de mostrador y compras mayoristas en el rubro ferretero e industrial.',
+      seniority: 'Gerencia General / C-Level',
+      industry: 'Distribución & Ferretería Industrial',
+      skills: [
+        'Compras Mayoristas',
+        'Gestión de Inventario & SKU',
+        'Negociación de Proveedores',
+        'Venta de Mostrador',
+        'Finanzas Comerciales'
+      ],
+      socialProfiles: {
+        linkedin: 'https://linkedin.com/in/robertobenitez-eloeste',
+        twitter: 'https://x.com/rbenitez_oeste',
+        website: 'https://ferreteriaeloeste.com.ar'
+      },
+      companyInfo: {
+        name: 'Ferretería El Oeste SRL',
+        domain: 'ferreteriaeloeste.com.ar',
+        size: '30-80 empleados',
+        techStack: ['ERP Tango', 'WhatsApp', 'Facturación AFIP', 'Point of Sale'],
+        location: 'Neuquén, Argentina'
+      },
+      suggestedIcebreakers: [
+        'Hola Roberto, sé que en Ferretería El Oeste el seguimiento de cotizaciones a clientes industriales es clave para que no se enfríen. ¿Coordinamos una demo rápida de seguimiento automático por WhatsApp?',
+        'Estimado Roberto, implementar la emisión directa de presupuestos y comprobantes AFIP en los 5 mostradores les ahorraría hasta 15 minutos por operación.'
+      ],
+      confidenceScore: 91,
+      enrichedAt: '2026-09-11T14:32:00Z'
+    }
   },
   {
     id: 'p3',

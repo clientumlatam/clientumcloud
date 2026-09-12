@@ -1,6 +1,6 @@
 {
-  "name": "ClientumOS",
-  "description": "Sistema operativo comercial para PyMEs argentinas: CRM, WhatsApp, IA, Facturación AFIP, Cobros Mercado Pago y Automatización.",
+  "name": "Remix 2ClientumCRM",
+  "description": "Modern open-source CRM for Argentine SMBs featuring pipeline Kanban boards, customizable record tables, WhatsApp integration, activity timeline, contact intelligence, and AI deal copilot.",
   "requestFramePermissions": [
     "microphone"
   ],

@@ -287,6 +287,62 @@ export const ROUTE_REGISTRY: Record<string, RouteDefinition> = {
     isPrivate: true,
     aliases: ['/app/settings', '/settings'],
   },
+
+  // Rutas Módulos Canónicos de Documentación (dashboard_docs)
+  erpAvanzado: {
+    id: 'erpAvanzado',
+    path: '/erp/avanzado',
+    label: 'ERP Inventario & Gastos',
+    category: 'erp',
+    description: 'Subsistema ERP avanzado: inventario multialmacén, control de gastos y facturas',
+    isPrivate: true,
+    aliases: ['/app/erp-avanzado', '/erp/stock-gastos'],
+  },
+  vscrmSuite: {
+    id: 'vscrmSuite',
+    path: '/erp/vscrm',
+    label: 'VS CRM & ERP Suite',
+    category: 'erp',
+    description: 'Control unificado de proyectos, registro de horas trabajadas y gastos de equipo',
+    isPrivate: true,
+    aliases: ['/app/vscrm', '/erp/proyectos-horas'],
+  },
+  wordpressIntegracion: {
+    id: 'wordpressIntegracion',
+    path: '/erp/wordpress',
+    label: 'WordPress & WooCommerce',
+    category: 'erp',
+    description: 'Sincronización de catálogo, pedidos y automatizaciones con WooCommerce',
+    isPrivate: true,
+    aliases: ['/app/wordpress', '/erp/woocommerce'],
+  },
+  workspaceIntegrations: {
+    id: 'workspaceIntegrations',
+    path: '/communication/workspace',
+    label: 'Google Workspace & Drive',
+    category: 'comunicacion',
+    description: 'Drive, Gmail, plantillas HTML, SMTP verificado y reuniones de Calendar',
+    isPrivate: true,
+    aliases: ['/app/workspace', '/communication/drive'],
+  },
+  adminConsole: {
+    id: 'adminConsole',
+    path: '/admin/consola',
+    label: 'Consola y Auditoría General',
+    category: 'admin',
+    description: 'Supervisión ejecutiva de plataforma, rendimiento de operadores y seguridad RBAC',
+    isPrivate: true,
+    aliases: ['/app/admin-console', '/admin/auditoria'],
+  },
+  dashboardDocs: {
+    id: 'dashboardDocs',
+    path: '/admin/docs',
+    label: 'Documentación Dashboard (18 MDs)',
+    category: 'admin',
+    description: 'Índice de los 18 módulos canónicos de especificación técnica del Dashboard',
+    isPrivate: true,
+    aliases: ['/app/docs', '/dashboard/docs'],
+  },
 };
 
 /**

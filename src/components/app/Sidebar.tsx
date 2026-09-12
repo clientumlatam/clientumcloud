@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Home,
   Calendar,
@@ -37,6 +37,11 @@ import {
   Boxes,
   Sun,
   Moon,
+  BookOpen,
+  ShieldAlert,
+  Layers,
+  HardDrive,
+  ArrowLeftRight,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -44,6 +49,7 @@ import { ActiveTab } from '../../types';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { ClientumNavyIcon } from '../common/ClientumNavyIcons';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
+import { UserProfileModal } from '../auth/UserProfileModal';
 
 interface SidebarNavItem {
   id: ActiveTab;
@@ -76,6 +82,7 @@ export const Sidebar: React.FC = () => {
     setIsMobileSidebarOpen,
     exitToPublicSite,
     logout,
+    currentUser,
   } = useCRM();
 
   const { resolvedTheme, toggleTheme } = useTheme();
@@ -90,6 +97,41 @@ export const Sidebar: React.FC = () => {
   });
 
   const [activeConfigModule, setActiveConfigModule] = useState<string | null>(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const userDisplayName = useMemo(() => {
+    if (currentUser?.name && currentUser.name.trim()) {
+      return currentUser.name.trim();
+    }
+    if (currentUser?.email) {
+      const handle = currentUser.email.split('@')[0];
+      return handle
+        .split(/[._-]/)
+        .filter(Boolean)
+        .map((p) => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase())
+        .join(' ');
+    }
+    return 'Usuario Clientum';
+  }, [currentUser?.name, currentUser?.email]);
+
+  const userInitials = useMemo(() => {
+    if (currentUser?.name && currentUser.name.trim()) {
+      const parts = currentUser.name.trim().split(/\s+/).filter(Boolean);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+    if (currentUser?.email) {
+      const handle = currentUser.email.split('@')[0];
+      const parts = handle.split(/[._-]/).filter(Boolean);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return handle.slice(0, 2).toUpperCase();
+    }
+    return 'CL';
+  }, [currentUser?.name, currentUser?.email]);
 
   const toggleSubmenu = (itemId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -143,6 +185,13 @@ export const Sidebar: React.FC = () => {
         },
         { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck },
         { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin },
+        {
+          id: 'competitorHub',
+          label: 'vs HubSpot / Salesforce',
+          icon: ArrowLeftRight,
+          badge: 'Ahorro 82%',
+          badgeColor: 'bg-emerald-600 text-white font-bold',
+        },
       ],
     },
     {
@@ -163,6 +212,7 @@ export const Sidebar: React.FC = () => {
         },
         { id: 'chatbot', label: 'Bots & Atención Automática', icon: Bot },
         { id: 'campaigns', label: 'Campañas Masivas WhatsApp', icon: Send },
+        { id: 'workspaceIntegrations', label: 'Google Workspace & Drive', icon: HardDrive },
       ],
     },
     {
@@ -198,6 +248,9 @@ export const Sidebar: React.FC = () => {
             { id: 'operations', label: 'Operaciones internas', icon: FolderKanban },
           ],
         },
+        { id: 'erpAvanzado', label: 'ERP Inventario & Gastos', icon: Layers },
+        { id: 'vscrmSuite', label: 'VS CRM & Proyectos Suite', icon: Briefcase },
+        { id: 'wordpressIntegracion', label: 'WordPress & WooCommerce', icon: Globe },
         { id: 'payments', label: 'Cobros Mercado Pago & Planes', icon: CreditCard },
         { id: 'tiendaDigital', label: 'Tienda Digital WhatsApp', icon: Store },
         { id: 'campusLMS', label: 'Campus Academia LMS', icon: GraduationCap },
@@ -208,6 +261,8 @@ export const Sidebar: React.FC = () => {
       label: 'Administración & Sistema',
       categoryIcon: 'admin',
       items: [
+        { id: 'dashboardDocs', label: 'Documentación Dashboard (18)', icon: BookOpen, badge: '18 Docs', badgeColor: 'bg-blue-600 text-white font-bold' },
+        { id: 'adminConsole', label: 'Consola y Auditoría General', icon: ShieldAlert },
         {
           id: 'customObjects',
           label: 'Estructura de Datos',
@@ -253,12 +308,12 @@ export const Sidebar: React.FC = () => {
           isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${
           resolvedTheme === 'dark'
-            ? 'border-slate-800/90 bg-[#0B0F17] text-slate-200'
+            ? 'border-[#1c2d47] bg-[#060a14] text-slate-100'
             : 'border-slate-200/90 bg-white text-slate-800'
         }`}
       >
         {/* Encabezado del Sistema */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-slate-200/80 dark:border-slate-800/80">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-slate-200/80 dark:border-[#1c2d47]">
           <button
             onClick={() => setActiveTab('dashboard')}
             className="flex items-center gap-2.5 text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md p-1"
@@ -269,7 +324,7 @@ export const Sidebar: React.FC = () => {
               <span className="block font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
                 ClientumOS
               </span>
-              <span className="block text-[10px] font-medium text-slate-500 dark:text-slate-400">
+              <span className="block text-[10px] font-medium text-slate-500 dark:text-slate-300">
                 Sistema Operativo PyME
               </span>
             </div>
@@ -286,12 +341,12 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Acceso a Buscador y Portal Público */}
-        <div className="space-y-1.5 border-b p-3 border-slate-200/80 dark:border-slate-800/80">
+        <div className="space-y-1.5 border-b p-3 border-slate-200/80 dark:border-[#1c2d47]">
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
             className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-xs font-medium transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
               resolvedTheme === 'dark'
-                ? 'border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                ? 'border-[#1c2d47] bg-[#0a0f1d] text-slate-200 hover:border-[#2d436a] hover:text-white'
                 : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:text-slate-900'
             }`}
           >
@@ -299,7 +354,7 @@ export const Sidebar: React.FC = () => {
               <Search className="h-3.5 w-3.5" />
               <span>Buscar en todo el CRM...</span>
             </span>
-            <kbd className="rounded bg-slate-200/60 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <kbd className="rounded bg-slate-200/60 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-[#142034] dark:text-slate-200">
               ⌘K
             </kbd>
           </button>
@@ -317,14 +372,14 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Lista Jerárquica de Secciones */}
-        <div className="flex-1 space-y-4 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
+        <div className="flex-1 space-y-4 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-[#1c2d47]">
           {navSections.map((section) => {
             const isCollapsed = collapsedSections[section.label];
             return (
               <div key={section.id} className="space-y-1">
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                  className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
                   onClick={() =>
                     setCollapsedSections((prev) => ({
                       ...prev,
@@ -365,14 +420,14 @@ export const Sidebar: React.FC = () => {
                               className={`flex flex-1 items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-semibold transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
                                 active
                                   ? 'bg-blue-600 text-white shadow-xs font-bold'
-                                  : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/70'
+                                  : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-[#0e1626] dark:hover:text-white'
                               }`}
                             >
                               <IconComponent
                                 className={`h-4 w-4 shrink-0 ${
                                   active
                                     ? 'text-white'
-                                    : 'text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-slate-100'
+                                    : 'text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white'
                                 }`}
                               />
                               <span className="truncate">{item.label}</span>
@@ -383,7 +438,7 @@ export const Sidebar: React.FC = () => {
                                     item.badgeColor ||
                                     (active
                                       ? 'bg-white/20 text-white'
-                                      : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300')
+                                      : 'bg-slate-200 text-slate-700 dark:bg-[#111a2d] dark:text-slate-200')
                                   }`}
                                 >
                                   {item.badge}
@@ -412,7 +467,7 @@ export const Sidebar: React.FC = () => {
 
                           {/* Subitems anidados */}
                           {hasSub && isExpanded && (
-                            <div className="ml-5 space-y-0.5 border-l-2 pl-2 border-slate-200 dark:border-slate-800">
+                            <div className="ml-5 space-y-0.5 border-l-2 pl-2 border-slate-200 dark:border-[#1c2d47]">
                               {item.subItems!.map((sub) => {
                                 const subActive = activeTab === sub.id;
                                 const SubIcon = sub.icon;
@@ -424,7 +479,7 @@ export const Sidebar: React.FC = () => {
                                     className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
                                       subActive
                                         ? 'bg-blue-100 text-blue-900 font-bold dark:bg-blue-950/60 dark:text-blue-300'
-                                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/50'
+                                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-[#0e1626] dark:hover:text-white'
                                     }`}
                                   >
                                     <SubIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" />
@@ -445,7 +500,7 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Acceso Rápido al Copilot Gemini */}
-        <div className="border-t p-3 border-slate-200/80 dark:border-slate-800/80">
+        <div className="border-t p-3 border-slate-200/80 dark:border-[#1c2d47]">
           <div className="rounded-xl border border-blue-200/80 bg-gradient-to-br from-blue-50/80 to-indigo-50/50 p-2.5 dark:border-blue-900/50 dark:from-blue-950/30 dark:to-indigo-950/20">
             <div className="flex items-center justify-between mb-1">
               <span className="flex items-center gap-1.5 text-xs font-bold text-blue-950 dark:text-blue-200">
@@ -456,7 +511,7 @@ export const Sidebar: React.FC = () => {
                 IA
               </span>
             </div>
-            <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-400 mb-2">
+            <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-300 mb-2">
               Optimiza el pipeline comercial y prioriza tratos de alto valor.
             </p>
             <button
@@ -470,8 +525,8 @@ export const Sidebar: React.FC = () => {
 
         {/* Cuentas Clave */}
         {opportunities.length > 0 && (
-          <div className="border-t px-3 py-2 border-slate-200/80 dark:border-slate-800/80">
-            <span className="block text-[10px] font-bold tracking-wider uppercase text-slate-400 mb-1">
+          <div className="border-t px-3 py-2 border-slate-200/80 dark:border-[#1c2d47]">
+            <span className="block text-[10px] font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-1">
               Cuentas Clave
             </span>
             <div className="space-y-1">
@@ -479,7 +534,7 @@ export const Sidebar: React.FC = () => {
                 <button
                   key={opp.id}
                   onClick={() => setSelectedRecord({ type: 'opportunity', id: opp.id })}
-                  className="flex w-full items-center justify-between rounded px-2 py-1 text-left text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60"
+                  className="flex w-full items-center justify-between rounded px-2 py-1 text-left text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-[#0e1626]"
                 >
                   <span className="truncate">{opp.name || opp.title}</span>
                   <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
@@ -492,44 +547,73 @@ export const Sidebar: React.FC = () => {
         )}
 
         {/* Perfil & Controles de Usuario */}
-        <div className="flex items-center justify-between border-t p-3 border-slate-200/80 dark:border-slate-800/80">
-          <div className="flex items-center gap-2 truncate">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs">
-              FG
+        <div className="flex items-center justify-between border-t p-3 border-slate-200/80 dark:border-[#1c2d47]">
+          <button
+            onClick={() => setIsProfileModalOpen(true)}
+            className="flex items-center gap-2 truncate text-left group hover:opacity-90 transition-opacity cursor-pointer flex-1 min-w-0 mr-1.5"
+            title="Ver y editar perfil de usuario"
+          >
+            {currentUser?.avatar ? (
+              <img
+                src={currentUser.avatar}
+                alt={userDisplayName}
+                className="h-8 w-8 shrink-0 rounded-full object-cover border border-slate-300 dark:border-slate-700 shadow-xs"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  const sibling = e.currentTarget.nextElementSibling;
+                  if (sibling) (sibling as HTMLElement).style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div
+              className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs shadow-xs ${
+                currentUser?.avatar ? 'hidden' : 'flex'
+              }`}
+            >
+              {userInitials}
             </div>
-            <div className="truncate">
-              <span className="block truncate text-xs font-bold text-slate-900 dark:text-white">
-                Fernando G.
+            <div className="truncate min-w-0">
+              <span className="block truncate text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+                {userDisplayName}
               </span>
-              <span className="block text-[10px] text-slate-400">Admin</span>
+              <span className="block truncate text-[10px] text-slate-400">
+                {currentUser?.role || 'Admin'}
+              </span>
             </div>
-          </div>
+          </button>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               onClick={toggleTheme}
               aria-label={`Cambiar a modo ${resolvedTheme === 'dark' ? 'claro' : 'oscuro'}`}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
-              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
             </button>
             <button
               onClick={() => setActiveTab('settings')}
               aria-label="Abrir ajustes"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <Settings className="h-4 w-4" />
             </button>
             <button
               onClick={() => logout()}
               aria-label="Cerrar sesión"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
+              title="Cerrar sesión"
             >
               <LogOut className="h-4 w-4" />
             </button>
           </div>
         </div>
       </aside>
+
+      {/* Modal de Perfil de Usuario */}
+      <UserProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
 
       {/* Modal de Credenciales si se solicita */}
       {activeConfigModule && (

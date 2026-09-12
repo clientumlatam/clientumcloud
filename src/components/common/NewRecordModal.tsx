@@ -6,6 +6,8 @@ import {
   Users2,
   CheckSquare,
   Plus,
+  Sparkles,
+  Phone,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -383,15 +385,27 @@ export const NewRecordModal: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-slate-400 mb-1">Email Address</label>
-                <input
-                  type="email"
-                  value={personEmail}
-                  onChange={(e) => setPersonEmail(e.target.value)}
-                  placeholder="name@company.com"
-                  className="w-full bg-[#181d29] text-xs text-white px-3 py-2 rounded-lg border border-[#2b3345] focus:outline-none focus:border-blue-500"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={personEmail}
+                    onChange={(e) => setPersonEmail(e.target.value)}
+                    placeholder="name@company.com"
+                    className="w-full bg-[#181d29] text-xs text-white px-3 py-2 rounded-lg border border-[#2b3345] focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1">WhatsApp / Phone</label>
+                  <input
+                    type="tel"
+                    value={personPhone}
+                    onChange={(e) => setPersonPhone(e.target.value)}
+                    placeholder="+54 9 11 1234-5678"
+                    className="w-full bg-[#181d29] text-xs text-white px-3 py-2 rounded-lg border border-[#2b3345] focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -432,6 +446,19 @@ export const NewRecordModal: React.FC = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Background enrichment feature banner */}
+              <div className="p-3 rounded-xl bg-gradient-to-r from-indigo-950/40 to-blue-950/20 border border-indigo-500/20 flex items-start gap-2.5 text-xs text-slate-300">
+                <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-semibold text-white block text-xs">
+                    Enriquecimiento Automático en Segundo Plano
+                  </span>
+                  <span className="text-[11px] text-slate-400 leading-normal">
+                    Al crear el contacto, la utilidad en segundo plano consultará y completará automáticamente seniority, presencia en LinkedIn, tecnologías inferidas y sugerencias de apertura comercial.
+                  </span>
+                </div>
               </div>
             </div>
           )}

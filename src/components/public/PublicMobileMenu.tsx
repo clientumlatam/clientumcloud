@@ -13,6 +13,8 @@ import {
   Sparkles,
   Store,
   Zap,
+  Handshake,
+  Users,
 } from 'lucide-react';
 import { PublicRoutePath, INDUSTRIES_SUBNAV } from './publicRoutes';
 
@@ -146,6 +148,8 @@ export const PublicMobileMenu: React.FC<PublicMobileMenuProps> = ({
           {[
             ['/precios', 'Planes & Precios'],
             ['/casos', 'Casos de Éxito & Clientes'],
+            ['/alianzas', 'Programa de Alianzas'],
+            ['/trabajo', 'Trabajá con Nosotros'],
             ['/academia', 'Academia LMS Clientum'],
             ['/servicios', 'Servicios de Implementación'],
             ['/tienda/central', 'Tienda Digital Oficial'],
@@ -158,6 +162,8 @@ export const PublicMobileMenu: React.FC<PublicMobileMenuProps> = ({
               className="flex w-full items-center gap-2 rounded-xl bg-slate-50 p-2.5 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100"
             >
               {path === '/casos' ? <Award className="h-4 w-4 text-blue-600" aria-hidden="true" /> : null}
+              {path === '/alianzas' ? <Handshake className="h-4 w-4 text-emerald-600" aria-hidden="true" /> : null}
+              {path === '/trabajo' ? <Users className="h-4 w-4 text-purple-600" aria-hidden="true" /> : null}
               {path === '/servicios' ? <Briefcase className="h-4 w-4 text-blue-600" aria-hidden="true" /> : null}
               {path === '/tienda/central' ? <Store className="h-4 w-4 text-emerald-600" aria-hidden="true" /> : null}
               {path === '/dominios' ? <Globe className="h-4 w-4 text-blue-600" aria-hidden="true" /> : null}

@@ -11,6 +11,7 @@ const allowedRootFiles = new Set([
   '.gitignore',
   '.npmrc',
   '.replit',
+  'README.md',
   'bun.lock',
   'firebase-applet-config.json',
   'firebase-blueprint.json',

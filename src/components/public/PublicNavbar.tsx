@@ -27,6 +27,8 @@ import {
   Car,
   Phone,
   MapPin,
+  Handshake,
+  Users,
 } from 'lucide-react';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { useCRM } from '../../context/CRMContext';
@@ -522,7 +524,33 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                     </div>
                     <div>
                       <div className="font-bold text-xs text-slate-900 group-hover:text-blue-700">Casos de Éxito Reales</div>
-                      <div className="text-[11px] text-slate-500">Métricas y testimonios verificados de clientes.</div>
+                      <div className="text-[11px] text-slate-500">14 proyectos, métricas y testimonios por industria.</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => handleNavClick('/alianzas')}
+                    className="w-full p-2.5 rounded-xl hover:bg-emerald-50 text-left flex items-start gap-2.5 group cursor-pointer transition-colors"
+                  >
+                    <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-700 shrink-0">
+                      <Handshake className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-slate-900 group-hover:text-emerald-700">Programa de Alianzas</div>
+                      <div className="text-[11px] text-slate-500">Afiliados con 30% recurrente & partners de implementación.</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => handleNavClick('/trabajo')}
+                    className="w-full p-2.5 rounded-xl hover:bg-purple-50 text-left flex items-start gap-2.5 group cursor-pointer transition-colors"
+                  >
+                    <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700 shrink-0">
+                      <Users className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-slate-900 group-hover:text-purple-700">Trabajá con Nosotros</div>
+                      <div className="text-[11px] text-slate-500">Posiciones abiertas 100% remotas desde Argentina.</div>
                     </div>
                   </button>
 

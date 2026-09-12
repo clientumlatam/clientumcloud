@@ -106,6 +106,12 @@ const suiteModules: Array<{ label: string; tab: ActiveTab }> = [
   { label: 'Gemini Copilot', tab: 'aiAssistant' },
   { label: 'Broadcast', tab: 'campaigns' },
   { label: 'Analytics & BI', tab: 'analytics' },
+  { label: 'ERP Inventario & Gastos', tab: 'erpAvanzado' },
+  { label: 'VS CRM Suite', tab: 'vscrmSuite' },
+  { label: 'WordPress & Woo', tab: 'wordpressIntegracion' },
+  { label: 'Google Workspace', tab: 'workspaceIntegrations' },
+  { label: 'Consola Admin', tab: 'adminConsole' },
+  { label: 'Doc 18 Módulos', tab: 'dashboardDocs' },
 ];
 
 export const DashboardOperationsStrip: React.FC<DashboardOperationsStripProps> = ({ onNavigate }) => (

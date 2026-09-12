@@ -24,6 +24,11 @@ import {
   Square,
   Disc,
   FileText,
+  Linkedin,
+  Globe,
+  RefreshCw,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -49,6 +54,7 @@ export const RecordDrawer: React.FC = () => {
     deleteCompany,
     updatePerson,
     deletePerson,
+    enrichContact,
     updateTask,
     deleteTask,
     addActivity,
@@ -837,7 +843,8 @@ export const RecordDrawer: React.FC = () => {
               )}
 
               {person && (
-                <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-[#1e2330]">
+                <>
+                  <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-[#1e2330]">
                   <h3 className="text-xs font-semibold text-white mb-2">Contact Information</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
@@ -877,8 +884,182 @@ export const RecordDrawer: React.FC = () => {
                       className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                     />
                   </div>
+                  <div>
+                    <label className="text-[11px] text-slate-400">Phone / WhatsApp</label>
+                    <input
+                      type="tel"
+                      value={person.phone || ''}
+                      onChange={(e) => updatePerson(person.id, { phone: e.target.value })}
+                      placeholder="+54 9 11 1234-5678"
+                      className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                    />
+                  </div>
                 </div>
-              )}
+
+                {/* B2B Intelligence & Contact Enrichment Section */}
+                <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-indigo-500/30">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-white">Inteligencia & Redes Sociales</h4>
+                        <span className="text-[10px] text-slate-400">Enriquecimiento automático en background</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => enrichContact(person.id, true)}
+                      disabled={person.enrichmentStatus === 'enriching'}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-[10px] font-medium transition-all disabled:opacity-50 cursor-pointer"
+                    >
+                      <RefreshCw className={`w-3 h-3 ${person.enrichmentStatus === 'enriching' ? 'animate-spin' : ''}`} />
+                      <span>{person.enrichmentStatus === 'enriching' ? 'Analizando...' : 'Re-enriquecer'}</span>
+                    </button>
+                  </div>
+
+                  {person.enrichmentStatus === 'enriching' && (
+                    <div className="p-3 rounded-lg bg-indigo-950/20 border border-indigo-500/20 text-center text-xs text-indigo-300">
+                      <div className="inline-flex items-center gap-2">
+                        <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                        <span>Consultando background API para extraer perfil social, seniority e icebreakers...</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {person.enrichmentStatus === 'enriched' && person.enrichmentData && (
+                    <div className="space-y-2.5 text-xs">
+                      {/* Bio */}
+                      <div className="bg-[#171b26] p-2.5 rounded-lg border border-[#222736]">
+                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                          Perfil Profesional Detectado
+                        </span>
+                        <p className="text-slate-200 text-xs leading-relaxed">
+                          {person.enrichmentData.bio}
+                        </p>
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {person.enrichmentData.seniority && (
+                          <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 text-[10px] font-medium">
+                            {person.enrichmentData.seniority}
+                          </span>
+                        )}
+                        {person.enrichmentData.industry && (
+                          <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20 text-[10px] font-medium">
+                            {person.enrichmentData.industry}
+                          </span>
+                        )}
+                        {person.enrichmentData.confidenceScore && (
+                          <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] font-medium">
+                            {person.enrichmentData.confidenceScore}% confianza
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Social Links */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                        {(person.enrichmentData.socialProfiles?.linkedin || person.linkedin) && (
+                          <a
+                            href={
+                              (person.enrichmentData.socialProfiles?.linkedin || person.linkedin || '').startsWith('http')
+                                ? person.enrichmentData.socialProfiles?.linkedin || person.linkedin
+                                : `https://${person.enrichmentData.socialProfiles?.linkedin || person.linkedin}`
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center justify-between p-2 rounded bg-[#181d2c] hover:bg-[#1f2538] border border-[#252c3e] text-blue-400 text-[11px] transition-colors"
+                          >
+                            <div className="flex items-center gap-1.5 truncate">
+                              <Linkedin className="w-3.5 h-3.5 shrink-0" />
+                              <span className="truncate font-medium">LinkedIn</span>
+                            </div>
+                            <ExternalLink className="w-3 h-3 shrink-0 opacity-70" />
+                          </a>
+                        )}
+
+                        {(person.enrichmentData.socialProfiles?.website || person.enrichmentData.companyInfo?.domain) && (
+                          <a
+                            href={
+                              (person.enrichmentData.socialProfiles?.website || person.enrichmentData.companyInfo?.domain || '').startsWith('http')
+                                ? person.enrichmentData.socialProfiles?.website || person.enrichmentData.companyInfo?.domain
+                                : `https://${person.enrichmentData.socialProfiles?.website || person.enrichmentData.companyInfo?.domain}`
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center justify-between p-2 rounded bg-[#181d2c] hover:bg-[#1f2538] border border-[#252c3e] text-emerald-400 text-[11px] transition-colors"
+                          >
+                            <div className="flex items-center gap-1.5 truncate">
+                              <Globe className="w-3.5 h-3.5 shrink-0" />
+                              <span className="truncate font-medium">Web</span>
+                            </div>
+                            <ExternalLink className="w-3 h-3 shrink-0 opacity-70" />
+                          </a>
+                        )}
+                      </div>
+
+                      {/* Skills */}
+                      {person.enrichmentData.skills && person.enrichmentData.skills.length > 0 && (
+                        <div className="pt-1">
+                          <span className="text-[10px] text-slate-400 block mb-1">Competencias clave:</span>
+                          <div className="flex flex-wrap gap-1">
+                            {person.enrichmentData.skills.map((s, idx) => (
+                              <span key={idx} className="px-2 py-0.5 rounded bg-[#1b2130] text-slate-300 border border-[#283248] text-[10px]">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Icebreaker */}
+                      {person.enrichmentData.suggestedIcebreakers && person.enrichmentData.suggestedIcebreakers.length > 0 && (
+                        <div className="bg-[#171b26] p-2.5 rounded-lg border border-[#222736] space-y-1.5">
+                          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
+                            Rompehielos Comercial Sugerido
+                          </span>
+                          <p className="text-xs italic text-slate-300">
+                            "{person.enrichmentData.suggestedIcebreakers[0]}"
+                          </p>
+                          <div className="flex justify-end pt-1">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(person.enrichmentData!.suggestedIcebreakers![0]);
+                                showToast('Rompehielos copiado al portapapeles', 'info');
+                              }}
+                              className="flex items-center gap-1 px-2 py-1 rounded bg-[#20273a] hover:bg-[#28324a] text-slate-300 text-[10px] font-medium transition-colors"
+                            >
+                              <Copy className="w-3 h-3" />
+                              <span>Copiar</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(!person.enrichmentStatus || person.enrichmentStatus === 'idle' || person.enrichmentStatus === 'failed') && (
+                    <div className="text-center py-2">
+                      <p className="text-[11px] text-slate-400 mb-2">
+                        Obtén seniority, bio profesional y canales sociales con 1 clic.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => enrichContact(person.id, true)}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs transition-colors shadow-sm inline-flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Sparkles className="w-3 h-3" />
+                        <span>Enriquecer Contacto Ahora</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
             </div>
           )}
 

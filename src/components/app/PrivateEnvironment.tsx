@@ -58,6 +58,13 @@ import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
 import { TutorialOnboardingModal } from '../common/TutorialOnboardingModal';
 import { TrialBanner } from '../billing/TrialBanner';
 import { MercadoPagoSubscriptionModal } from '../billing/MercadoPagoSubscriptionModal';
+import { VscrmSuitePage } from '../dashboard/VscrmSuitePage';
+import { ErpAvanzadoDashboardPage } from '../dashboard/ErpAvanzadoDashboardPage';
+import { WordPressIntegracionPage } from '../dashboard/WordPressIntegracionPage';
+import { AdminConsoleDashboardPage } from '../dashboard/AdminConsoleDashboardPage';
+import { GoogleWorkspaceDashboardPage } from '../dashboard/GoogleWorkspaceDashboardPage';
+import { DashboardDocsExplorerPage } from '../dashboard/DashboardDocsExplorerPage';
+import { CompetitorHubView } from '../competitor/CompetitorHubView';
 
 const MainContent: React.FC = () => {
   const {
@@ -151,6 +158,13 @@ const MainContent: React.FC = () => {
         )}
         {activeTab === 'settings' && <SettingsView />}
         {activeTab === 'webmail' && <WebmailInboxView />}
+        {activeTab === 'erpAvanzado' && <ErpAvanzadoDashboardPage />}
+        {activeTab === 'vscrmSuite' && <VscrmSuitePage />}
+        {activeTab === 'wordpressIntegracion' && <WordPressIntegracionPage />}
+        {activeTab === 'adminConsole' && <AdminConsoleDashboardPage />}
+        {activeTab === 'workspaceIntegrations' && <GoogleWorkspaceDashboardPage />}
+        {activeTab === 'dashboardDocs' && <DashboardDocsExplorerPage />}
+        {activeTab === 'competitorHub' && <CompetitorHubView />}
       </main>
 
       <RecordDrawer />

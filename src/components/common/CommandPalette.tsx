@@ -24,6 +24,7 @@ import {
   Globe,
   Tag,
   Zap,
+  BookOpen,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
@@ -540,6 +541,21 @@ export const CommandPalette: React.FC = () => {
         onSelect: () => {
           ensureInApp();
           setActiveTab('settings');
+        },
+      },
+      {
+        id: 'nav-dashboard-docs',
+        category: 'Navigation',
+        type: 'navigation',
+        title: 'Documentación del Dashboard (18 Módulos Canónicos)',
+        subtitle: 'Especificación técnica completa de vistas, controladores y arquitectura',
+        icon: BookOpen,
+        iconColor: 'bg-blue-600 text-white',
+        badge: '18 Docs',
+        badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+        onSelect: () => {
+          ensureInApp();
+          setActiveTab('dashboardDocs');
         },
       }
     );

@@ -27,6 +27,11 @@ import { WhatsAppSimulatorModal } from './WhatsAppSimulatorModal';
 import { ExpressAuditModal } from './ExpressAuditModal';
 import { PublicSessionBanner } from './PublicSessionBanner';
 import { PublicRoutePath } from './publicRoutes';
+import { PublicAuditExpressPage } from './PublicAuditExpressPage';
+import { PublicBrochurePage } from './PublicBrochurePage';
+import { PublicOrganigramaPage } from './PublicOrganigramaPage';
+import { PublicCrmWhatsappIaPage } from './PublicCrmWhatsappIaPage';
+import { PublicProjectsPage } from './PublicProjectsPage';
 
 export const PublicSite: React.FC = () => {
   // Support both direct public URLs and the hash-based navigation used by
@@ -139,8 +144,62 @@ export const PublicSite: React.FC = () => {
     }
 
     // 7. Case Studies
-    if (currentPath === '/casos' || currentPath === '/casos-de-exito') {
+    if (currentPath === '/casos' || currentPath === '/casos-de-exito' || currentPath === '/casos-exito') {
       return <PublicCaseStudiesPage onNavigate={handleNavigate} />;
+    }
+
+    // 7b. Featured Projects & Portfolio
+    if (currentPath === '/proyectos') {
+      return (
+        <PublicProjectsPage
+          onNavigate={handleNavigate}
+          onOpenSimulator={() => setIsWhatsAppSimOpen(true)}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
+    }
+
+    // 7c. Auditoría Express de Madurez Digital
+    if (currentPath === '/auditoria-express' || currentPath === '/diagnostico') {
+      return (
+        <PublicAuditExpressPage
+          onNavigate={handleNavigate}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
+    }
+
+    // 7d. Brochure Corporativo & Ficha Técnica
+    if (currentPath === '/brochure' || currentPath === '/ficha-tecnica') {
+      return <PublicBrochurePage onNavigate={handleNavigate} />;
+    }
+
+    // 7e. Organigrama & Sedes Regionales
+    if (currentPath === '/organigrama' || currentPath === '/equipo' || currentPath === '/sedes') {
+      return <PublicOrganigramaPage onNavigate={handleNavigate} />;
+    }
+
+    // 7f. Specialized CRM + WhatsApp IA Landing
+    if (currentPath === '/crm-whatsapp-ia') {
+      return (
+        <PublicCrmWhatsappIaPage
+          onNavigate={handleNavigate}
+          onOpenSimulator={() => setIsWhatsAppSimOpen(true)}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
+    }
+
+    // 7g. Cotizador Interactivo
+    if (currentPath === '/cotizador') {
+      return (
+        <PublicPricingPage
+          currency={currency}
+          onToggleCurrency={() => setCurrency((c) => (c === 'ARS' ? 'USD' : 'ARS'))}
+          onNavigate={handleNavigate}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
     }
 
     // 8. Resources & Blog
@@ -169,7 +228,7 @@ export const PublicSite: React.FC = () => {
     }
 
     // 10. DNS & Domains Tool
-    if (currentPath === '/dominios') {
+    if (currentPath === '/dominios' || currentPath === '/cloudflare') {
       return (
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-4">
@@ -206,7 +265,7 @@ export const PublicSite: React.FC = () => {
     }
 
     // 11d. Careers & Jobs
-    if (currentPath === '/empleo' || currentPath === '/trabajo' || currentPath === '/carreras') {
+    if (currentPath === '/empleo' || currentPath === '/trabajo' || currentPath === '/carreras' || currentPath === '/trabaja-con-nosotros') {
       return <PublicCareersPage onNavigate={handleNavigate} />;
     }
 

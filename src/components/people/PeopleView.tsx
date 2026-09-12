@@ -19,11 +19,13 @@ import { Person } from '../../types';
 import { SavedViewsBar } from '../common/SavedViewsBar';
 import { QuickCSVImportModal } from '../csv/QuickCSVImportModal';
 import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
+import { ContactEnrichmentModal } from './ContactEnrichmentModal';
 
 export const PeopleView: React.FC = () => {
   const {
     people,
     deletePerson,
+    enrichContact,
     setSelectedRecord,
     openNewRecordModal,
     openAICopilot,
@@ -38,6 +40,7 @@ export const PeopleView: React.FC = () => {
   const [viewStyle, setViewStyle] = useState<'cards' | 'table'>('cards');
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [whatsAppPerson, setWhatsAppPerson] = useState<Person | null>(null);
+  const [enrichmentPerson, setEnrichmentPerson] = useState<Person | null>(null);
 
   const filteredPeople = people.filter((person) => {
     if (filterState.search) {
@@ -147,6 +150,24 @@ export const PeopleView: React.FC = () => {
                         {person.firstName} {person.lastName}
                       </h3>
                       <p className="text-xs text-slate-400 truncate">{person.jobTitle}</p>
+                      {person.enrichmentStatus === 'enriched' && person.enrichmentData ? (
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEnrichmentPerson(person);
+                          }}
+                          className="mt-1 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 text-[10px] w-fit font-medium transition-colors"
+                          title="Ver inteligencia social y profesional enriquecida"
+                        >
+                          <Sparkles className="w-3 h-3 text-indigo-400 shrink-0" />
+                          <span className="truncate max-w-[130px]">{person.enrichmentData.seniority || 'IA Enriquecido'}</span>
+                        </div>
+                      ) : person.enrichmentStatus === 'enriching' ? (
+                        <div className="mt-1 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] w-fit font-medium animate-pulse">
+                          <Sparkles className="w-3 h-3 text-amber-400 animate-spin" />
+                          <span>Enriqueciendo...</span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
@@ -197,6 +218,31 @@ export const PeopleView: React.FC = () => {
                 </span>
 
                 <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    id={`person-enrich-btn-${person.id}`}
+                    onClick={() => {
+                      if (person.enrichmentStatus === 'enriched') {
+                        setEnrichmentPerson(person);
+                      } else {
+                        void enrichContact(person.id, true);
+                      }
+                    }}
+                    className={`p-1 rounded transition-colors ${
+                      person.enrichmentStatus === 'enriched'
+                        ? 'text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10'
+                        : person.enrichmentStatus === 'enriching'
+                        ? 'text-amber-400 animate-pulse'
+                        : 'text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10'
+                    }`}
+                    title={
+                      person.enrichmentStatus === 'enriched'
+                        ? 'Ver inteligencia social y profesional'
+                        : 'Enriquecer contacto en segundo plano'
+                    }
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                  </button>
+
                   <button
                     id={`person-whatsapp-${person.id}`}
                     onClick={() => setWhatsAppPerson(person)}
@@ -254,8 +300,9 @@ export const PeopleView: React.FC = () => {
                 <th className="px-3 py-2.5 font-semibold text-slate-300">Company</th>
                 <th className="px-3 py-2.5 font-semibold text-slate-300">Email</th>
                 <th className="px-3 py-2.5 font-semibold text-slate-300">Status</th>
+                <th className="px-3 py-2.5 font-semibold text-slate-300">Inteligencia IA</th>
                 <th className="px-3 py-2.5 font-semibold text-slate-300">Owner</th>
-                <th className="w-16 px-3 py-2.5 text-right">Actions</th>
+                <th className="w-20 px-3 py-2.5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#191e2a]">
@@ -287,9 +334,48 @@ export const PeopleView: React.FC = () => {
                       {p.status}
                     </span>
                   </td>
+                  <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+                    {p.enrichmentStatus === 'enriched' && p.enrichmentData ? (
+                      <button
+                        onClick={() => setEnrichmentPerson(p)}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 transition-colors"
+                        title="Ver detalles de enriquecimiento"
+                      >
+                        <Sparkles className="w-2.5 h-2.5 text-indigo-400" />
+                        <span>{p.enrichmentData.seniority || 'Enriquecido'}</span>
+                      </button>
+                    ) : p.enrichmentStatus === 'enriching' ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] text-amber-400 animate-pulse font-medium">
+                        <Sparkles className="w-2.5 h-2.5 animate-spin" />
+                        <span>Analizando...</span>
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => void enrichContact(p.id, true)}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] text-slate-400 hover:text-indigo-300 hover:bg-indigo-950/30 transition-colors"
+                        title="Ejecutar enriquecimiento"
+                      >
+                        <Sparkles className="w-2.5 h-2.5" />
+                        <span>Enriquecer</span>
+                      </button>
+                    )}
+                  </td>
                   <td className="px-3 py-2.5 text-slate-400">{p.assignedTo}</td>
                   <td className="px-3 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => {
+                          if (p.enrichmentStatus === 'enriched') {
+                            setEnrichmentPerson(p);
+                          } else {
+                            void enrichContact(p.id, true);
+                          }
+                        }}
+                        className="p-1 rounded text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors"
+                        title="Inteligencia de contacto"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </button>
                       <button
                         id={`table-whatsapp-person-${p.id}`}
                         onClick={() => setWhatsAppPerson(p)}
@@ -321,6 +407,17 @@ export const PeopleView: React.FC = () => {
       <QuickCSVImportModal
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}
+      />
+
+      {/* Contact Enrichment Intelligence Modal */}
+      <ContactEnrichmentModal
+        person={enrichmentPerson}
+        isOpen={!!enrichmentPerson}
+        onClose={() => setEnrichmentPerson(null)}
+        onOpenWhatsApp={(p, msg) => {
+          setEnrichmentPerson(null);
+          setWhatsAppPerson(p);
+        }}
       />
 
       {/* Quick WhatsApp Action Modal */}
