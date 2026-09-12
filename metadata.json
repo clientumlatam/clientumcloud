@@ -1,6 +1,6 @@
 {
-  "name": "Remix Remix Remix ClientumCRM",
-  "description": "Modern open-source CRM for Argentine SMBs featuring 7-day free trial, Mercado Pago plan subscriptions, pipeline Kanban boards, customizable record tables, WhatsApp integration, activity timeline, contact intelligence, and AI deal copilot.",
+  "name": "ClientumOS",
+  "description": "Sistema operativo comercial para PyMEs argentinas: CRM, WhatsApp, IA, Facturación AFIP, Cobros Mercado Pago y Automatización.",
   "requestFramePermissions": [
     "microphone"
   ],

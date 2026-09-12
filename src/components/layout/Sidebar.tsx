@@ -193,7 +193,7 @@ export const Sidebar: React.FC = () => {
   const navigationSections: SidebarSection[] = [
     {
       id: 'dashboard',
-      label: 'Panel de control & análisis',
+      label: 'Inicio & Control',
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
         { id: 'ecosystemHub', label: 'Unified Control Hub', icon: Boxes, badge: '15 Apps · Activo', badgeColor: 'bg-blue-600 text-white font-bold' },
@@ -204,48 +204,48 @@ export const Sidebar: React.FC = () => {
       id: 'sales',
       label: 'Ventas & Clientes',
       items: [
+        { id: 'opportunities', label: 'Pipeline de Negocios', icon: Briefcase, badge: 'Kanban', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300', subItems: [{ id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target }] },
         { id: 'people', label: 'Contactos & Empresas', icon: Users2, badge: people.length, subItems: [{ id: 'companies', label: 'Empresas', icon: Building2, badge: companies.length }] },
-        { id: 'opportunities', label: 'Pipeline de Negocios', icon: Briefcase, badge: 'Kanban', badgeColor: 'bg-blue-100 text-blue-800', subItems: [{ id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target }] },
-        { id: 'tasks', label: 'Actividades & Agenda', icon: CheckSquare, badge: tasks.filter((task) => task.status !== 'Completed').length, badgeColor: 'bg-amber-100 text-amber-800', subItems: [{ id: 'calendar', label: 'Calendario', icon: Calendar }, { id: 'activityInbox', label: 'Notas y llamadas', icon: Inbox, badge: activities.length, badgeColor: 'bg-violet-100 text-violet-800' }] },
-        { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck, badge: 'PDF', badgeColor: 'bg-emerald-100 text-emerald-800' },
-        { id: 'googleMaps', label: 'Prospección Mapa B2B', icon: MapPin, badge: 'Maps', badgeColor: 'bg-blue-100 text-blue-800' },
+        { id: 'tasks', label: 'Actividades & Agenda', icon: CheckSquare, badge: tasks.filter((task) => task.status !== 'Completed').length, badgeColor: 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300', subItems: [{ id: 'calendar', label: 'Calendario', icon: Calendar }, { id: 'activityInbox', label: 'Notas y llamadas', icon: Inbox, badge: activities.length, badgeColor: 'bg-violet-100 dark:bg-violet-950/60 text-violet-800 dark:text-violet-300' }] },
+        { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck, badge: 'PDF', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' },
+        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin, badge: 'Maps', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' },
       ],
     },
     {
       id: 'communication',
       label: 'Centro de Comunicación',
       items: [
-        { id: 'whatsapp', label: 'Bandeja Omnicanal', icon: Inbox, badge: 'LIVE', badgeColor: 'bg-emerald-100 text-emerald-800 font-bold', subItems: [{ id: 'messages', label: 'Mensajes', icon: MessageSquare, badge: 12, badgeColor: 'bg-blue-100 text-blue-800' }, { id: 'webmail', label: 'Webmail Cloudflare', icon: Mail, badge: unreadWebmailCount > 0 ? unreadWebmailCount : 'GTM', badgeColor: unreadWebmailCount > 0 ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 text-slate-700 font-semibold' }] },
+        { id: 'whatsapp', label: 'Bandeja Omnicanal WhatsApp', icon: Inbox, badge: 'LIVE', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold', subItems: [{ id: 'messages', label: 'Mensajes directos', icon: MessageSquare, badge: 12, badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' }, { id: 'webmail', label: 'Webmail Cloudflare', icon: Mail, badge: unreadWebmailCount > 0 ? unreadWebmailCount : 'GTM', badgeColor: unreadWebmailCount > 0 ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold' }] },
         { id: 'chatbot', label: 'Bots & Atención Automática', icon: Bot },
-        { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
+        { id: 'campaigns', label: 'Campañas Masivas WhatsApp', icon: Send },
       ],
     },
     {
       id: 'ai',
-      label: 'IA & Automatización',
+      label: 'IA & Agentes Autónomos',
       items: [
-        { id: 'agenteOS', label: 'Agentes & Copilot', icon: Cpu, badge: '14', badgeColor: 'bg-blue-100 text-blue-800 font-bold', subItems: [{ id: 'aiAssistant', label: 'Asistente Gemini', icon: Sparkles }, { id: 'sdrOutreach', label: 'Agente SDR Outreach', icon: Bot }] },
-        { id: 'workflows', label: 'Automatizaciones & Flujos', icon: Workflow },
-        { id: 'gtmStrategy', label: 'Estrategias GTM', icon: Compass },
+        { id: 'agenteOS', label: 'AgenteOS (14 Roles)', icon: Cpu, badge: '14 IA', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'aiAssistant', label: 'Copilot Gemini 3.6', icon: Sparkles }, { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot }] },
+        { id: 'workflows', label: 'Automatizaciones & Flujos DAG', icon: Workflow },
+        { id: 'gtmStrategy', label: 'Estrategias GTM & Copy', icon: Compass },
       ],
     },
     {
       id: 'operations',
-      label: 'Operaciones & Finanzas',
+      label: 'ERP & Operaciones PyME',
       items: [
-        { id: 'erp', label: 'Facturación AFIP & ERP', icon: Receipt, badge: 'CAE', badgeColor: 'bg-blue-100 text-blue-800 font-bold', subItems: [{ id: 'operations', label: 'Operaciones internas', icon: FolderKanban, badge: 'Nuevo', badgeColor: 'bg-emerald-100 text-emerald-800 font-bold' }] },
-        { id: 'payments', label: 'Suscripción Clientum', icon: CreditCard, configurable: false },
-        { id: 'tiendaDigital', label: 'Tienda Digital WhatsApp', icon: Store, badge: 'Catálogo', badgeColor: 'bg-emerald-100 text-emerald-800' },
-        { id: 'campusLMS', label: 'Campus Academia LMS', icon: GraduationCap, badge: 'LMS', badgeColor: 'bg-purple-100 text-purple-800' },
+        { id: 'erp', label: 'Facturación AFIP & CAE', icon: Receipt, badge: 'CAE', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'operations', label: 'Operaciones internas', icon: FolderKanban, badge: 'Nuevo', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold' }] },
+        { id: 'payments', label: 'Cobros Mercado Pago & Planes', icon: CreditCard, configurable: false },
+        { id: 'tiendaDigital', label: 'Tienda Digital WhatsApp', icon: Store, badge: 'Catálogo', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' },
+        { id: 'campusLMS', label: 'Campus Academia LMS', icon: GraduationCap, badge: 'LMS', badgeColor: 'bg-purple-100 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300' },
       ],
     },
     {
       id: 'system',
-      label: 'Sistema & Configuración',
+      label: 'Administración & Sistema',
       items: [
         { id: 'customObjects', label: 'Estructura de Datos', icon: Database, subItems: [{ id: 'csvStudio', label: 'Importar / Exportar CSV', icon: FileSpreadsheet }] },
-        { id: 'domainManager', label: 'Gestor de Dominios', icon: Globe },
-        { id: 'settings', label: 'Ajustes Generales', icon: Settings },
+        { id: 'domainManager', label: 'Gestor de Dominios & DNS', icon: Globe },
+        { id: 'settings', label: 'Ajustes de Empresa & AFIP', icon: Settings },
       ],
     },
   ];
@@ -272,7 +272,7 @@ export const Sidebar: React.FC = () => {
             id="sidebar-brand-container"
             onClick={exitToPublicSite}
             className="flex items-center gap-2.5 min-w-0 cursor-pointer select-none group"
-            title="ClientumCRM - Ir al Sitio Público"
+            title="ClientumOS - Ir al Sitio Público"
           >
             {/* Professional Minimalist Brand Logo Placeholder */}
             <div
@@ -294,12 +294,12 @@ export const Sidebar: React.FC = () => {
                   Clientum
                 </span>
                 <span className="font-extrabold text-xs text-blue-400 tracking-tight">
-                  CRM
+                  OS
                 </span>
                 <ChevronDown className="w-3 h-3 text-slate-400 ml-1 group-hover:text-slate-200 transition-colors" />
               </div>
               <span className="text-[11px] text-slate-400 truncate mt-0.5 font-medium">
-                Espacio Comercial HQ
+                Sistema Operativo PyME
               </span>
             </div>
           </div>
@@ -472,7 +472,7 @@ export const Sidebar: React.FC = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 logout();
-                showToast('Has cerrado sesión en ClientumCRM', 'info');
+                showToast('Has cerrado sesión en ClientumOS', 'info');
               }}
               className="p-1.5 rounded-md text-slate-400 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
               title="Cerrar Sesión"

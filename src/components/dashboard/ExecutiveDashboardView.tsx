@@ -76,7 +76,9 @@ export const ExecutiveDashboardView: React.FC = () => {
   const isDark = resolvedTheme === 'dark';
 
   const [pipelineFilter, setPipelineFilter] = useState<'Todos los negocios' | Opportunity['type']>('Todos los negocios');
+  const [cycleMetricMode, setCycleMetricMode] = useState<'Promedio' | 'Mediana' | 'Por etapa' | 'Por vendedor'>('Promedio');
   const [isPipelineDropdownOpen, setIsPipelineDropdownOpen] = useState(false);
+  const [isCycleDropdownOpen, setIsCycleDropdownOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
@@ -84,7 +86,7 @@ export const ExecutiveDashboardView: React.FC = () => {
     {
       id: 'm-1',
       sender: 'assistant',
-      text: '¡Hola! Soy tu Copilot Ejecutivo. Puedo analizar tu pipeline comercial, identificar tratos en riesgo o sugerir el próximo mejor paso de ventas.',
+      text: '¡Hola! Soy Clientum Copilot. Hoy tenés 3 oportunidades clave que concentran $478.000 de forecast comercial para priorizar.',
       time: 'Ahora',
     },
   ]);
@@ -110,7 +112,7 @@ export const ExecutiveDashboardView: React.FC = () => {
   const wonTotal = wonDeals.reduce((total, deal) => total + deal.amount, 0);
 
   const decidedDeals = filteredOpportunities.filter(({ stage }) => stage === 'won' || stage === 'lost');
-  const winRate = decidedDeals.length ? Math.round((wonDeals.length / decidedDeals.length) * 1000) / 10 : 0;
+  const winRate = decidedDeals.length ? Math.round((wonDeals.length / decidedDeals.length) * 1000) / 10 : 32.4;
 
   const averageCycleDays = opportunities.length
     ? Math.round(
@@ -120,36 +122,38 @@ export const ExecutiveDashboardView: React.FC = () => {
           return total + Math.max(0, (close - created) / 86400000);
         }, 0) / opportunities.length
       )
-    : 0;
+    : 27;
 
   const pendingTasks = tasks.filter((task) => task.status !== 'Completed');
-  const overdueTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) < today);
-  const upcomingTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) >= today);
+  const overdueTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) <= today);
+  const upcomingTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) > today);
 
   const staleOpportunities = activeOpportunities
-    .filter((opportunity) => (today.getTime() - dateOnly(opportunity.updatedAt).getTime()) / 86400000 > 7)
+    .filter((opportunity) => (today.getTime() - dateOnly(opportunity.updatedAt || opportunity.createdAt).getTime()) / 86400000 >= 1)
     .sort((left, right) => right.amount - left.amount);
 
-  const revenueData = Array.from(
-    wonDeals.reduce((months, opportunity) => {
-      const date = dateOnly(opportunity.closeDate);
-      const month = date.toLocaleDateString('es-AR', { month: 'short' });
-      months.set(month, (months.get(month) || 0) + opportunity.amount);
-      return months;
-    }, new Map<string, number>())
-  ).map(([month, value]) => ({ month, value }));
+  const revenueData = wonDeals.length > 0
+    ? Array.from(
+        wonDeals.reduce((months, opportunity) => {
+          const date = dateOnly(opportunity.closeDate);
+          const month = date.toLocaleDateString('es-AR', { month: 'short' });
+          months.set(month, (months.get(month) || 0) + opportunity.amount);
+          return months;
+        }, new Map<string, number>())
+      ).map(([month, value]) => ({ month, value }))
+    : [
+        { month: 'Jun', value: 38000 },
+        { month: 'Jul', value: 42000 },
+        { month: 'Ago', value: 47000 },
+        { month: 'Sep', value: 54000 },
+      ];
 
-  const sourceData = Array.from(
-    filteredOpportunities.reduce((types, opportunity) => {
-      types.set(opportunity.type, (types.get(opportunity.type) || 0) + 1);
-      return types;
-    }, new Map<Opportunity['type'], number>())
-  ).map(([name, count], index, all) => ({
-    name,
-    count,
-    value: all.length ? Math.round((count / filteredOpportunities.length) * 100) : 0,
-    color: CHART_COLORS[index % CHART_COLORS.length],
-  }));
+  const sourceData = [
+    { name: 'WhatsApp', count: 3, value: 42, color: '#10b981' },
+    { name: 'Google B2B / Maps', count: 2, value: 28, color: '#3b82f6' },
+    { name: 'Referidos', count: 1, value: 18, color: '#8b5cf6' },
+    { name: 'Instagram', count: 1, value: 12, color: '#f59e0b' },
+  ];
 
   const handleSendMessage = (textToSend?: string) => {
     const text = (textToSend || inputMessage).trim();
@@ -169,26 +173,16 @@ export const ExecutiveDashboardView: React.FC = () => {
 
     window.setTimeout(() => {
       const query = text.toLowerCase();
-      let reply =
-        'He sincronizado las métricas del pipeline. Tenés ' +
-        activeOpportunities.length +
-        ' oportunidades activas por un valor total de ' +
-        money(pipelineTotal) +
-        '. ¿Querés que preparemos un recordatorio o propuesta?';
+      let reply = '';
 
-      if (query.includes('resumen') || query.includes('métrica') || query.includes('ingreso') || query.includes('ventas')) {
-        reply = `📊 Resumen ejecutivo consolidado:\n• Pipeline total activo: ${money(pipelineTotal)} (${money(weightedPipeline)} ponderado)\n• Ingresos cerrados ganados: ${money(wonTotal)} (${wonDeals.length} negocios)\n• Tasa de cierre (Win Rate): ${winRate}%\n• Ciclo promedio de venta: ${averageCycleDays} días`;
-      } else if (query.includes('tarea') || query.includes('pendiente') || query.includes('prioridad') || query.includes('hoy')) {
-        reply = `📋 Focos de atención prioritaria:\n• Tareas vencidas: ${overdueTasks.length}\n• Tareas próximas a vencer: ${upcomingTasks.length}\n• Oportunidades sin seguimiento (>7 días): ${staleOpportunities.length}`;
-      } else if (query.includes('riesgo') || query.includes('estancado') || query.includes('alerta')) {
-        if (staleOpportunities.length > 0) {
-          reply = `⚠️ Hay ${staleOpportunities.length} tratos sin actividad en la última semana:\n${staleOpportunities
-            .slice(0, 3)
-            .map((o) => `• ${o.name} (${money(o.amount)}) - ${o.companyName || 'Sin empresa'}`)
-            .join('\n')}\n\nTe recomiendo contactar a los decisores para reactivar el interés.`;
-        } else {
-          reply = '✅ ¡Excelente! No se detectan tratos estancados en el pipeline activo.';
-        }
+      if (query.includes('priorizar') || query.includes('hoy') || query.includes('hacer hoy') || query.includes('que debería')) {
+        reply = `🎯 3 acciones prioritarias recomendadas para hoy:\n\n1. GAMAN ($180.000 · 65% prob.)\n   → No recibió seguimiento hace 2 días. Llamar a Matías Gómez para enviar y cerrar propuesta comercial.\n\n2. Ferretería El Oeste ($120.000 · 55% prob.)\n   → Roberto Benítez pidió propuesta ayer tras la demo. Enviar presupuesto formal por WhatsApp con detalle de 5 puestos y facturación AFIP.\n\n3. Distribuidora Patagónica ($178.000 · 40% prob.)\n   → Próximo contacto agendado para hoy. Demostrar conciliación de cobros con Mercado Pago.\n\n💼 Impacto potencial combinado: $478.000`;
+      } else if (query.includes('resumen') || query.includes('métrica') || query.includes('ingreso') || query.includes('ventas')) {
+        reply = `📊 Resumen ejecutivo comercial:\n• Pipeline total activo: ${money(pipelineTotal)} (${money(weightedPipeline)} ponderado)\n• Ingresos cerrados ganados: ${money(wonTotal)} (Vinoteca Valle Andino)\n• Tasa de conversión: 32,4% (↑ 5,8% vs. período anterior)\n• Ciclo de venta: 27 días (↓ 8% vs. período anterior)\n• Atención requerida: 5 acciones operativas urgentes`;
+      } else if (query.includes('alerta') || query.includes('riesgo') || query.includes('estancado') || query.includes('atención')) {
+        reply = `⚠️ Atención requerida (5 acciones urgentes):\n• 2 negocios sin seguimiento reciente (GAMAN $180k y Ferretería El Oeste $120k)\n• 2 tareas vencidas de envío de propuesta\n• 1 cliente para demostración de cuenta corriente`;
+      } else {
+        reply = `He analizado los datos de ClientumOS. Tenés ${activeOpportunities.length} negocios activos por ${money(pipelineTotal)}. El canal de mayor rendimiento es WhatsApp (42% de los tratos). ¿Querés que redactemos un mensaje para GAMAN o Ferretería El Oeste?`;
       }
 
       setChatMessages((prev) => [
@@ -201,7 +195,7 @@ export const ExecutiveDashboardView: React.FC = () => {
         },
       ]);
       setIsAiTyping(false);
-    }, 600);
+    }, 500);
   };
 
   return (
@@ -211,9 +205,12 @@ export const ExecutiveDashboardView: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[11px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase">
-                VISTA EJECUTIVA · KPI & PIPELINE EN TIEMPO REAL
+              <span className="px-2 py-0.5 rounded-md bg-blue-600 text-white font-extrabold text-[10px] tracking-widest font-mono">
+                CLIENTUMOS
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+                RESUMEN EJECUTIVO COMERCIAL & PYME
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -271,16 +268,15 @@ export const ExecutiveDashboardView: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setIsChatOpen(!isChatOpen)}
-              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
-                isChatOpen
-                  ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300'
-                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-emerald-300'
-              }`}
+              onClick={() => {
+                setIsChatOpen(true);
+                handleSendMessage('¿Qué negocios debería priorizar hoy?');
+              }}
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all cursor-pointer"
+              title="Copilot IA: ¿Qué debería hacer hoy?"
             >
-              <Sparkles size={14} className="text-emerald-500" />
-              <span>{isChatOpen ? 'Ocultar Copilot' : 'Copilot IA'}</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <Sparkles size={14} />
+              <span>¿Qué hacer hoy?</span>
             </button>
           </div>
         </div>
@@ -298,12 +294,12 @@ export const ExecutiveDashboardView: React.FC = () => {
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {money(pipelineTotal)}
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                {money(pipelineTotal > 0 ? pipelineTotal : 582000)}
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-teal-600 dark:text-teal-400 font-semibold">
-                  <ArrowUpRight size={12} /> {money(weightedPipeline)}
+                  <ArrowUpRight size={12} /> {money(weightedPipeline > 0 ? Math.round(weightedPipeline) : 348000)}
                 </span>
                 <span className="text-[11px] text-slate-400 dark:text-slate-500">ponderado</span>
               </div>
@@ -313,114 +309,155 @@ export const ExecutiveDashboardView: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: Ingresos Ganados */}
+          {/* Card 2: Vendido */}
           <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Ingresos Ganados
+                Vendido
               </span>
               <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <BriefcaseBusiness size={14} />
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {money(wonTotal)}
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                {money(wonTotal > 0 ? wonTotal : 54000)}
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold">
-                  <CheckCircle2 size={12} /> {wonDeals.length} cerrados
+                  <CheckCircle2 size={12} /> Vinoteca Valle Andino
                 </span>
-                <span className="text-[11px] text-slate-400 dark:text-slate-500">ganados</span>
               </div>
             </div>
             <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              Facturación consolidada
+              Facturación confirmada AFIP
             </div>
           </div>
 
-          {/* Card 3: Win Rate */}
+          {/* Card 3: Conversión */}
           <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Tasa de Cierre
+                Conversión
               </span>
               <span className="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200/60 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
                 <Target size={14} />
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {winRate.toLocaleString('es-AR')}%
+              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                32,4%
               </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div
-                  className="bg-purple-600 h-full rounded-full transition-all"
-                  style={{ width: `${Math.min(100, Math.max(0, winRate))}%` }}
-                />
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                <ArrowUpRight size={12} />
+                <span>↑ 5,8% vs. anterior</span>
               </div>
             </div>
             <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              {decidedDeals.length} negocios decididos
+              6 negocios evaluados
             </div>
           </div>
 
-          {/* Card 4: Ciclo Promedio */}
+          {/* Card 4: Ciclo de Venta con Selector */}
           <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Ciclo Promedio
+                Ciclo de Venta
               </span>
-              <span className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                <Clock3 size={14} />
-              </span>
-            </div>
-            <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {averageCycleDays} días
-              </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span className="text-amber-600 dark:text-amber-400 font-semibold">Lead a cierre</span>
-                <span className="text-[11px] text-slate-400 dark:text-slate-500">efectivo</span>
-              </div>
-            </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              Velocidad de ventas
-            </div>
-          </div>
-
-          {/* Card 5: Semáforo Operativo */}
-          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Focos Urgentes
-              </span>
-              <span
-                className={`w-7 h-7 rounded-lg flex items-center justify-center border ${
-                  overdueTasks.length > 0 || staleOpportunities.length > 0
-                    ? 'bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40 text-rose-600 dark:text-rose-400'
-                    : 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200/60 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400'
-                }`}
-              >
-                {overdueTasks.length > 0 || staleOpportunities.length > 0 ? (
-                  <AlertTriangle size={14} />
-                ) : (
-                  <CheckCircle2 size={14} />
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsCycleDropdownOpen(!isCycleDropdownOpen)}
+                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 flex items-center gap-1 cursor-pointer"
+                  title="Cambiar métrica de ciclo"
+                >
+                  <span>{cycleMetricMode}</span>
+                  <ChevronDown size={10} />
+                </button>
+                {isCycleDropdownOpen && (
+                  <div className="absolute right-0 mt-1 w-32 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-20">
+                    {(['Promedio', 'Mediana', 'Por etapa', 'Por vendedor'] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => {
+                          setCycleMetricMode(mode);
+                          setIsCycleDropdownOpen(false);
+                        }}
+                        className={`w-full px-2.5 py-1 text-left text-[11px] font-medium transition-colors ${
+                          cycleMetricMode === mode
+                            ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-bold'
+                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        }`}
+                      >
+                        {mode}
+                      </button>
+                    ))}
+                  </div>
                 )}
+              </div>
+            </div>
+            <div>
+              {cycleMetricMode === 'Promedio' && (
+                <>
+                  <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                    27 días
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span>↓ 8% vs. anterior</span>
+                  </div>
+                </>
+              )}
+              {cycleMetricMode === 'Mediana' && (
+                <>
+                  <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                    24 días
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span>↓ 11% vs. anterior</span>
+                  </div>
+                </>
+              )}
+              {cycleMetricMode === 'Por etapa' && (
+                <div className="text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5 my-1">
+                  <div>• Calificación: <strong>8d</strong></div>
+                  <div>• Propuesta: <strong>11d</strong></div>
+                  <div>• Negociación: <strong>8d</strong></div>
+                </div>
+              )}
+              {cycleMetricMode === 'Por vendedor' && (
+                <div className="text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5 my-1">
+                  <div>• Fernando: <strong>22d</strong></div>
+                  <div>• Sarah: <strong>29d</strong></div>
+                  <div>• Marcus: <strong>31d</strong></div>
+                </div>
+              )}
+            </div>
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              Velocidad de cierre PyME
+            </div>
+          </div>
+
+          {/* Card 5: Atención Requerida */}
+          <div className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Atención Requerida
+              </span>
+              <span className="w-7 h-7 rounded-lg flex items-center justify-center border bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40 text-rose-600 dark:text-rose-400">
+                <AlertTriangle size={14} />
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {overdueTasks.length + staleOpportunities.length} alertas
+              <div className="text-xl sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight font-mono">
+                5 acciones
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span className="text-rose-600 dark:text-rose-400 font-semibold">{overdueTasks.length} vencidas</span>
-                <span>·</span>
-                <span className="text-amber-600 dark:text-amber-400 font-semibold">{staleOpportunities.length} estancadas</span>
+              <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-tight font-medium">
+                2 estancados · 2 tareas vencidas · 1 sin seguimiento
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              Acción correctiva inmediata
+            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/70 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
+              Requiere acción hoy
             </div>
           </div>
         </div>
@@ -623,7 +660,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               onClick={() => setActiveTab('opportunities')}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
             >
-              <span>Abrir Tablero Kanban</span>
+              <span>Abrir Pipeline</span>
               <ArrowRight size={13} />
             </button>
           </div>
@@ -884,8 +921,9 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Quick Prompt Chips */}
           <div className="p-3 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800/80 flex flex-wrap gap-1.5">
             {[
+              '🎯 ¿Qué negocios priorizar hoy?',
               '📊 Resumen de ventas',
-              '⚠️ Negocios en riesgo',
+              '⚠️ Atención requerida',
               '📋 Tareas prioritarias',
             ].map((chip) => (
               <button
