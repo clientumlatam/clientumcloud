@@ -22,6 +22,8 @@ const courses: Course[] = [
   { id: 'marketing-principiantes', title: 'Marketing Digital para Principiantes', duration: '3 semanas', level: 'Principiante', badge: 'NUEVA COHORTE' },
 ];
 
+import { PublicRoutePath } from './publicRoutes';
+
 export const PublicAcademyLanding: React.FC<{ onNavigate: (path: string) => void }> = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState<'catalog' | 'dashboard'>('catalog');
 

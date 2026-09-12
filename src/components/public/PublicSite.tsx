@@ -223,8 +223,8 @@ export const PublicSite: React.FC = () => {
     }
 
     // 11e. Academy
-    if (currentPath === '/academia') {
-      return <PublicAcademyLanding onNavigate={handleNavigate} />;
+    if (currentPath === ('/academia' as PublicRoutePath)) {
+      return <PublicAcademyLanding onNavigate={(path) => handleNavigate(path as PublicRoutePath)} />;
     }
 
     // 12. Contact & Demo Request
