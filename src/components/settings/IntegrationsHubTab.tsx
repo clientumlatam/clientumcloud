@@ -279,7 +279,7 @@ export const IntegrationsHubTab: React.FC = () => {
                 </span>
                 <div className="text-white font-medium truncate">{googleCalendarSync.calendarEmail}</div>
                 <div className="text-[11px] text-slate-400">
-                  Último sync: {new Date(googleCalendarSync.lastSyncAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  Último sync: {googleCalendarSync.lastSyncAt ? new Date(googleCalendarSync.lastSyncAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
                 </div>
               </div>
 

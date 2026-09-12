@@ -42,7 +42,7 @@ export const SavedViewsBar: React.FC<SavedViewsBarProps> = ({ target }) => {
     const created = addSavedView({
       name: viewName,
       target,
-      rules: filterState.priority !== 'all' ? [{ id: 'r1', field: 'priority', operator: 'equals', value: filterState.priority }] : [],
+      rules: filterState.priority && filterState.priority !== 'all' ? [{ id: 'r1', field: 'priority', operator: 'equals', value: String(filterState.priority) }] : [],
     });
 
     setActiveViewId(created.id);

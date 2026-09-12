@@ -37,7 +37,7 @@ export const TasksView: React.FC = () => {
       const q = filterState.search.toLowerCase();
       const matchTitle = task.title.toLowerCase().includes(q);
       const matchTarget = (task.targetName || '').toLowerCase().includes(q);
-      const matchOwner = task.assignedTo.toLowerCase().includes(q);
+      const matchOwner = (task.assignedTo || '').toLowerCase().includes(q);
       if (!matchTitle && !matchTarget && !matchOwner) return false;
     }
     return true;

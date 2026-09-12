@@ -252,9 +252,9 @@ export const ActivityInboxView: React.FC = () => {
                 </div>
               ) : filteredItems.map((item) => {
                 const isTask = item.kind === 'task';
-                const activity = isTask ? null : item.data;
-                const Icon = isTask ? CheckCircle2 : getActivityIcon(activity.type);
-                const color = isTask ? 'text-blue-300 bg-blue-400/10 border-blue-400/20' : getActivityColor(activity.type);
+                const activity = isTask ? null : (item.data as any);
+                const Icon = isTask ? CheckCircle2 : getActivityIcon(activity?.type);
+                const color = isTask ? 'text-blue-300 bg-blue-400/10 border-blue-400/20' : getActivityColor(activity?.type);
                 const isCompleted = isTask && item.data.status === 'Completed';
 
                 return (
@@ -283,7 +283,7 @@ export const ActivityInboxView: React.FC = () => {
                             <Check className="h-3 w-3" /> {isCompleted ? 'Completada' : 'Marcar como hecha'}
                           </button>
                         ) : (
-                          <span className="rounded-md bg-[#1a2030] px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">{activity.type === 'stage_change' ? 'Cambio de etapa' : activity.type}</span>
+                          <span className="rounded-md bg-[#1a2030] px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">{activity?.type === 'stage_change' ? 'Cambio de etapa' : activity?.type}</span>
                         )}
                         {item.target && <button onClick={() => openTarget(item)} className="flex items-center gap-1 px-1 py-1 text-[11px] font-semibold text-slate-500 hover:text-slate-200">Ver registro <ChevronRight className="h-3 w-3" /></button>}
                       </div>

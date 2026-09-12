@@ -59,7 +59,7 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
       skipEmptyLines: true,
       complete: (results) => {
         if (results.data && results.data.length > 0) {
-          const rawHeaders = results.meta.fields || Object.keys(results.data[0]);
+          const rawHeaders = results.meta.fields || Object.keys((results.data[0] as object) || {});
           setHeaders(rawHeaders);
           setParsedRows(results.data);
 

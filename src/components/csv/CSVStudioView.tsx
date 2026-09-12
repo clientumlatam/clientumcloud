@@ -151,7 +151,7 @@ export const CSVStudioView: React.FC = () => {
         applyParsedRows(results.data as any[], results.meta.fields || []);
         showToast(`Parsed ${results.data.length} rows successfully`, 'success');
       },
-      error: (error) => {
+      error: (error: Error) => {
         showToast(`Error: ${error.message}`, 'error');
       }
     });

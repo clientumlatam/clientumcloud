@@ -34,6 +34,8 @@ import { PublicRoutePath } from './publicRoutes';
 import { PublicPlatformMap } from './PublicPlatformMap';
 import { PublicSiteHighlights } from './PublicSiteHighlights';
 import { PublicDashboardShowcase } from './PublicDashboardShowcase';
+import { SolutionSelectorWidget } from './SolutionSelectorWidget';
+import { RealTeamsSection } from './RealTeamsSection';
 
 interface PublicHomeProps {
   onNavigate: (path: PublicRoutePath) => void;
@@ -585,6 +587,9 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
         </div>
       </section>
 
+      {/* 5.1 INTERACTIVE SOLUTION SELECTOR */}
+      <SolutionSelectorWidget onNavigate={onNavigate} onOpenWizard={onOpenWizard} />
+
       {/* 6. PLATFORM MAP FROM THE CLIENTUMOS DOCUMENTATION */}
       <PublicPlatformMap
         onNavigate={onNavigate}
@@ -645,7 +650,10 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
         </div>
       </section>
 
-      {/* 8. REAL CLIENT CASE STUDIES & TESTIMONIALS */}
+      {/* 8. REAL TEAMS IN ACTION ACROSS ARGENTINA */}
+      <RealTeamsSection onNavigate={onNavigate} onOpenWizard={onOpenWizard} />
+
+      {/* 8.1 REAL CLIENT CASE STUDIES & TESTIMONIALS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">

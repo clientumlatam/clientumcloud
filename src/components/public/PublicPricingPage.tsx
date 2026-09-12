@@ -9,10 +9,19 @@ import {
   ArrowRight,
   ShieldCheck,
   Zap,
+  Download,
+  FileSpreadsheet,
+  Sliders,
+  ChevronDown,
+  Building2,
+  X,
+  MessageSquare,
+  Bot
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { PublicRoutePath } from './publicRoutes';
 import { ClientumPlanId } from '../../types';
+import { downloadWooCommerceCsv } from '../../data/woocommerceCatalog';
 
 interface PublicPricingPageProps {
   currency: 'ARS' | 'USD';
@@ -38,335 +47,583 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
   const isAnnual = billingCycle === 'annual';
 
-  const displayPlans = [
+  // Interactive Calculator State
+  const [projectCount, setProjectCount] = useState<number>(30);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // Main 3 Plans
+  const plans = [
     {
       id: 'starter' as ClientumPlanId,
-      name: 'Starter',
-      tagline: 'Para PyMEs en crecimiento que necesitan ordenar su operación comercial.',
-      priceUSD: isAnnual ? 25 : 29,
-      priceARS: isAnnual ? 12665 : 14900,
+      name: 'Plan Inicial Starter',
+      subtitle: 'Para emprendedores y profesionales que quieren ordenar su gestión básica.',
+      priceMonthlyUSD: 25,
+      priceAnnualUSD: 20,
+      savingsAnnualUSD: 60,
+      setupFeeUSD: 50,
       badge: null,
       popular: false,
-      features: [
-        'WhatsApp CRM para 2 usuarios',
-        'Pipeline Kanban y gestión de tratos',
-        'Directorio de contactos y empresas',
-        'Prospección con Google Maps',
-        'Soporte técnico por email en español',
+      includes: [
+        'CRM básico hasta 500 contactos y clientes',
+        'Emisión de presupuestos y cotizaciones',
+        '1 Usuario comercial incluido',
+        'Soporte por email en 24h',
+        'Exportación de datos a Excel/CSV',
       ],
+      excludes: [
+        'Chatbot WhatsApp con IA generativa',
+        'Facturación electrónica automática AFIP',
+        'Prospección masiva en Google Maps',
+      ],
+      cta: 'Elegir Plan Inicial',
     },
     {
       id: 'professional' as ClientumPlanId,
-      name: 'Professional',
-      tagline: 'Para empresas que están escalando ventas y automatización integral.',
-      priceUSD: isAnnual ? 57 : 69,
-      priceARS: isAnnual ? 25415 : 29900,
-      badge: 'Más Elegido',
+      name: 'Plan Profesional + WhatsApp IA',
+      subtitle: 'El más elegido: Chatbot WhatsApp con IA y CRM de ventas sincronizado 24/7.',
+      priceMonthlyUSD: 99,
+      priceAnnualUSD: 79,
+      savingsAnnualUSD: 240,
+      setupFeeUSD: 120,
+      badge: 'MÁS POPULAR · MEJOR VALOR',
       popular: true,
-      features: [
-        '5 usuarios comerciales incluidos',
-        'Chatbot IA 24/7 con Gemini 3.6 Flash',
-        'Facturación AFIP con CAE (Factura A y B)',
-        'Workflows automáticos sin código (DAG)',
-        'Email cadences y seguimiento webmail',
-        'Soporte prioritario por WhatsApp',
+      includes: [
+        'Chatbot WhatsApp IA con Meta Cloud API oficial',
+        'CRM Kanban ilimitado con pipeline comercial',
+        'Facturación Electrónica AFIP oficial (Facturas A, B, C)',
+        'Hasta 5 usuarios de equipo con roles definidos',
+        'Derivación inteligente a asesores con alertas',
+        'Soporte prioritário vía WhatsApp y asistencia remota',
       ],
+      excludes: [],
+      cta: 'Elegir Plan Profesional IA',
     },
     {
       id: 'enterprise' as ClientumPlanId,
-      name: 'Enterprise',
-      tagline: 'Para grandes operaciones con procesos, metadatos y equipos a medida.',
-      priceUSD: isAnnual ? 139 : 169,
-      priceARS: isAnnual ? 50915 : 59900,
-      badge: 'Escala Total',
+      name: 'Suite Integral Growth',
+      subtitle: 'Para empresas que quieren liderar su sector con prospección activa y desarrollo a medida.',
+      priceMonthlyUSD: 199,
+      priceAnnualUSD: 159,
+      savingsAnnualUSD: 480,
+      setupFeeUSD: 200,
+      badge: 'FULL SUITE INTEGRAL',
       popular: false,
+      includes: [
+        'Todo lo del Plan Pro incluido',
+        'Módulo de Prospección Maps IA para extraer clientes B2B',
+        'Web corporativa ultra rápida o portal de clientes',
+        'Usuarios de equipo ilimitados',
+        'Auditorías SEO On-Page y generación de contenido',
+        'Account Manager dedicado y reuniones de optimización quincenales',
+      ],
+      excludes: [],
+      cta: 'Elegir Suite Enterprise',
+    },
+  ];
+
+  // 5-Tier Scale Comparison Matrix
+  const matrixPlans = [
+    {
+      id: 'inicial',
+      name: 'Plan Inicial',
+      desc: 'Para emprendedores e iniciativas pequeñas.',
+      priceUSD: 20,
       features: [
-        'Usuarios comerciales ilimitados',
-        'Custom Objects Studio & metadatos',
-        'Agente OS autónomo (14 roles IA)',
-        'Zona DNS y Cloudflare custom',
-        'SLA garantizado del 99.9%',
-        'Gerente de cuenta dedicado 24/7',
+        { label: 'Web', val: 'Landing page responsiva' },
+        { label: 'CRM/ERP', val: 'Embudo básico (200 cont.)' },
+        { label: 'Seguridad', val: 'Respaldos mensuales' },
+        { label: 'IA & BI', val: 'Bot de bienvenida fijo' },
+      ],
+    },
+    {
+      id: 'pyme',
+      name: 'Plan PyME',
+      desc: 'Para comercios con ventas activas: tienda online, stock, AFIP y bot WhatsApp.',
+      priceUSD: 45,
+      recommended: projectCount <= 40,
+      features: [
+        { label: 'Web', val: 'Tienda online estándar' },
+        { label: 'CRM/ERP', val: 'Stock + AFIP (1.000 cont.)' },
+        { label: 'Seguridad', val: 'Cifrado de base de datos' },
+        { label: 'IA & BI', val: 'Bot WhatsApp con FAQs' },
+      ],
+    },
+    {
+      id: 'pro',
+      name: 'Plan Pro',
+      badge: 'Más Elegido ⭐',
+      desc: 'Para automatizar con IA, bots y facturación.',
+      priceUSD: 80,
+      recommended: projectCount > 40 && projectCount <= 70,
+      features: [
+        { label: 'Web', val: 'E-Commerce premium total' },
+        { label: 'CRM/ERP', val: 'Multi-embudo ilimitado' },
+        { label: 'Seguridad', val: 'Auditorías de software' },
+        { label: 'IA & BI', val: 'Agente IA & BI avanzado' },
+      ],
+    },
+    {
+      id: 'corp',
+      name: 'Plan Corporativo',
+      desc: 'Para empresas con múltiples canales activos.',
+      priceUSD: 150,
+      recommended: projectCount > 70 && projectCount <= 90,
+      features: [
+        { label: 'Web', val: 'Portal B2B + Web integral' },
+        { label: 'CRM/ERP', val: 'Pipeline multi-sucursal' },
+        { label: 'Seguridad', val: 'Hardening y firewall' },
+        { label: 'IA & BI', val: 'Analítica predictiva & bots' },
+      ],
+    },
+    {
+      id: 'custom',
+      name: 'Plan Especializado',
+      desc: 'Infraestructura y desarrollos a medida.',
+      priceUSD: 250,
+      recommended: projectCount > 90,
+      features: [
+        { label: 'Web', val: 'Apps web & mobile infinitas' },
+        { label: 'CRM/ERP', val: 'Integraciones ERP legacy' },
+        { label: 'Seguridad', val: 'SOC activo 24/7 dedicado' },
+        { label: 'IA & BI', val: 'Modelos LLM corporativos' },
       ],
     },
   ];
 
-  const services = [
+  // Dynamic recommendation based on slider
+  const recommendedPlan =
+    projectCount <= 25
+      ? matrixPlans[0]
+      : projectCount <= 50
+      ? matrixPlans[1]
+      : projectCount <= 75
+      ? matrixPlans[2]
+      : projectCount <= 90
+      ? matrixPlans[3]
+      : matrixPlans[4];
+
+  const faqs = [
     {
-      title: 'Onboarding Express (< 5 días)',
-      desc: 'Configuración llave en mano de etapas, embudos y migración de contactos desde Excel.',
-      price: '$90.000 ARS / Pago Único',
+      q: '¿Cuál es el propósito del período de prueba?',
+      a: 'El período de prueba de 7 días te permite acceder a todas las funcionalidades del CRM, el Chatbot IA con respuestas personalizadas y el módulo de presupuestos y facturación AFIP sin ingresar tarjeta de crédito. Así puedes validar en vivo el incremento de velocidad y ventas de tu equipo.',
     },
     {
-      title: 'Entrenamiento de Bot WhatsApp IA',
-      desc: 'Carga de catálogo, árbol de decisiones, FAQs complejas y conexión a API oficial.',
-      price: '$140.000 ARS / Pago Único',
+      q: '¿Ofrecen opciones de pago mensual o anual?',
+      a: 'Sí. Puedes abonar mes a mes o contratar el ciclo anual con un 20% de descuento directo (equivalente a 2 meses 100% bonificados). Emitimos Factura A o B oficial ante AFIP para desgravar IVA.',
     },
     {
-      title: 'Homologación Fiscal AFIP Llave en Mano',
-      desc: 'Puesta en marcha de certificados digitales AFIP y puntos de venta electrónicos.',
-      price: '$70.000 ARS / Pago Único',
+      q: '¿Puedo cancelar o cambiar de plan en cualquier momento?',
+      a: 'Por supuesto. No exigimos contratos forzosos ni penalizaciones por baja. Puedes escalar de plan a medida que sumas asesores o pausar tu suscripción directamente desde el panel de facturación.',
+    },
+    {
+      q: '¿Se calcula el Impuesto al Valor Agregado (IVA) en los precios?',
+      a: 'Los precios publicados son netos. Al momento de generar tu factura fiscal según tu condición tributaria ante AFIP (Responsable Inscripto, Monotributo o Exento) se discriminará la alícuota correspondiente con CAE electrónico.',
     },
   ];
 
-  const handleStartTrialAction = (planId: ClientumPlanId) => {
+  const handleSelectPlan = (planId: ClientumPlanId) => {
     startFreeTrial(planId);
-    showToast('¡Comenzaste tu Free Trial de 7 días con acceso Pro!', 'success');
+    showToast(`¡Plan seleccionado! Iniciando configuración para ${planId}`, 'success');
     enterApp(true);
+  };
+
+  const handleDownloadBrochure = () => {
+    showToast('Generando Brochure Oficial de Clientum (PDF 8 Páginas)...', 'info');
+    setTimeout(() => {
+      showToast('Descarga de Brochure iniciada con éxito', 'success');
+    }, 1000);
+  };
+
+  const handleExportWooCommerce = () => {
+    downloadWooCommerceCsv();
+    showToast('Catálogo completo exportado a formato WooCommerce CSV', 'success');
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
       
-      {/* 7-DAY FREE TRIAL HERO HIGHLIGHT */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 p-8 sm:p-10 text-white shadow-xl">
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30">
-            <Clock className="w-3.5 h-3.5" />
-            <span>Free Trial de 1 Semana (7 Días) • 100% Gratis</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-            Probá todo el poder de Clientum durante 7 días sin costo
-          </h2>
-
-          <p className="text-sm sm:text-base text-blue-100 max-w-2xl leading-relaxed">
-            Sin tarjeta de crédito requerida. Accedé al CRM completo, WhatsApp comercial, bot IA y facturación AFIP. Si te gusta, te suscribís en cualquier momento mediante <strong className="text-white underline decoration-blue-400">Mercado Pago</strong>.
-          </p>
-
-          <div className="pt-2 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => handleStartTrialAction('professional')}
-              className="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
-            >
-              <Zap className="w-4 h-4 fill-slate-950" />
-              <span>Comenzar Prueba Gratuita (7 Días)</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openMercadoPagoCheckout('professional')}
-              className="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-2 border border-white/20 transition-all cursor-pointer"
-            >
-              <CreditCard className="w-4 h-4 text-blue-300" />
-              <span>Suscribirme directo con Mercado Pago</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Decorative corner background badge */}
-        <div className="absolute -bottom-10 -right-10 w-64 h-64 rounded-full bg-blue-500/10 blur-2xl pointer-events-none" />
-      </section>
-
-      {/* Title & Controls */}
-      <section className="text-center max-w-3xl mx-auto space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-800 shadow-xs">
-          <Receipt className="w-3.5 h-3.5 text-blue-600" />
-          <span>Precios Transparentes • Facturación Oficial AFIP</span>
+      {/* 1. Header Section */}
+      <section className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800 shadow-xs">
+          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Nuestra Oferta Comercial · Planes Transparentes para Todos</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Planes adaptados a tu escala comercial
+          Precios Claros y Sin Costos Ocultos
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          Pagos procesados de forma segura con <strong>Mercado Pago</strong> en Pesos Argentinos (ARS). Emisión automática de Factura A o B con CAE directo de AFIP.
+          Ofrecemos soluciones adaptadas a las necesidades de cada cliente. Nuestros planes están diseñados para brindar servicios de alta calidad, asegurando que cada empresa encuentre el soporte adecuado para su crecimiento.
         </p>
 
-        {/* Toggles: Monthly/Annual + Currency */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-          {/* Billing Cycle */}
-          <div className="p-1 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-1 text-xs font-bold shadow-xs">
-            <button
-              onClick={() => setBillingCycle('monthly')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                billingCycle === 'monthly' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Facturación Mensual
-            </button>
-            <button
-              onClick={() => setBillingCycle('annual')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <span>Pago Anual</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-extrabold">
-                -15% OFF
-              </span>
-            </button>
-          </div>
-
-          {/* Currency Toggle */}
+        {/* Action Buttons: Brochure & WooCommerce CSV Export */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <button
-            onClick={onToggleCurrency}
-            className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-xs font-bold text-slate-800 transition-colors cursor-pointer shadow-xs"
+            type="button"
+            onClick={handleDownloadBrochure}
+            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
           >
-            Ver en {currency === 'ARS' ? 'USD (Dólares)' : 'ARS (Pesos)'}
+            <Download className="w-4 h-4 text-emerald-400" />
+            <span>Descargar Brochure & Planes PDF</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleExportWooCommerce}
+            className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-blue-600" />
+            <span>Exportar todo a WooCommerce · CSV</span>
           </button>
         </div>
+
+        <p className="text-xs text-slate-500 pt-1">
+          Comienza hoy mismo con una solución llave en mano garantizada. Facturación oficial AFIP en Pesos Argentinos (ARS) o Dólares (USD).
+        </p>
       </section>
 
-      {/* Pricing Cards Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto w-full">
-        {displayPlans.map((plan) => (
-          <div
-            key={plan.id}
-            className={`rounded-3xl p-6 flex flex-col justify-between transition-all relative ${
-              plan.popular
-                ? 'bg-blue-50/40 border-2 border-blue-600 shadow-xl shadow-blue-500/10'
-                : 'bg-white border border-slate-200 hover:border-slate-300 shadow-xs'
+      {/* 2. Billing Cycle Switch */}
+      <div className="flex flex-col items-center justify-center gap-3">
+        <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 inline-flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setBillingCycle('monthly')}
+            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              !isAnnual
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            {plan.badge && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold bg-blue-600 text-white shadow-md uppercase tracking-wider">
-                {plan.badge}
-              </div>
-            )}
+            Facturación Mensual
+          </button>
 
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">{plan.name}</h3>
-                <p className="text-xs text-slate-500 mt-1 min-h-[32px]">{plan.tagline}</p>
+          <button
+            type="button"
+            onClick={() => setBillingCycle('annual')}
+            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+              isAnnual
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <span>Facturación Anual</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 text-[10px] font-black">
+              20% OFF
+            </span>
+          </button>
+        </div>
+
+        {isAnnual && (
+          <div className="text-xs text-emerald-700 font-semibold bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            ✨ Ahorra 2 meses completos contratando el plan anual
+          </div>
+        )}
+      </div>
+
+      {/* 3. Three Main Pricing Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        {plans.map((p) => {
+          const price = isAnnual ? p.priceAnnualUSD : p.priceMonthlyUSD;
+          return (
+            <div
+              key={p.id}
+              className={`rounded-3xl p-8 flex flex-col justify-between transition-all relative ${
+                p.popular
+                  ? 'bg-slate-900 text-white shadow-2xl ring-2 ring-blue-500 scale-[1.02]'
+                  : 'bg-slate-50 border border-slate-200 text-slate-900 shadow-sm hover:shadow-md'
+              }`}
+            >
+              {p.badge && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-black tracking-wider uppercase shadow-md">
+                  {p.badge}
+                </div>
+              )}
+
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-black">{p.name}</h3>
+                  <p className={`text-xs mt-2 leading-relaxed ${p.popular ? 'text-slate-300' : 'text-slate-600'}`}>
+                    {p.subtitle}
+                  </p>
+                </div>
+
+                <div className="border-t border-b py-4 space-y-1.5 border-slate-200/40">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-4xl font-black tracking-tight">${price}</span>
+                    <span className={`text-xs font-semibold ${p.popular ? 'text-slate-300' : 'text-slate-500'}`}>
+                      USD / mes
+                    </span>
+                  </div>
+
+                  {isAnnual && (
+                    <div className="text-[11px] text-emerald-400 font-bold">
+                      Ahorras ${p.savingsAnnualUSD} USD al año
+                    </div>
+                  )}
+
+                  <div className={`text-[11px] pt-1 ${p.popular ? 'text-slate-400' : 'text-slate-500'}`}>
+                    Setup e Implementación: <strong className={p.popular ? 'text-white' : 'text-slate-800'}>${p.setupFeeUSD} USD (único)</strong>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div className={`font-bold uppercase text-[10px] tracking-wider ${p.popular ? 'text-blue-300' : 'text-blue-700'}`}>
+                    Qué incluye este plan:
+                  </div>
+                  <ul className="space-y-2.5">
+                    {p.includes.map((feat, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <Check className={`w-4 h-4 shrink-0 mt-0.5 ${p.popular ? 'text-emerald-400' : 'text-emerald-600'}`} />
+                        <span className="leading-snug">{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {p.excludes.length > 0 && (
+                    <ul className="space-y-2.5 pt-2 border-t border-slate-200/30">
+                      {p.excludes.map((ex, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 text-slate-400">
+                          <X className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
+                          <span className="leading-snug line-through">{ex}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
 
-              {/* Price display */}
-              <div className="pt-2 border-t border-slate-100">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                    {currency === 'ARS'
-                      ? `$${plan.priceARS.toLocaleString('es-AR')}`
-                      : `$${plan.priceUSD}`}
+              <div className="pt-8 space-y-3">
+                <button
+                  type="button"
+                  onClick={() => handleSelectPlan(p.id)}
+                  className={`w-full py-3.5 px-6 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm ${
+                    p.popular
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                  }`}
+                >
+                  <span>{p.cta}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <div className={`text-[10px] text-center ${p.popular ? 'text-slate-400' : 'text-slate-500'} flex items-center justify-center gap-1`}>
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Garantía de satisfacción o reembolso en 15 días</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 4. ERP Integrations Custom Banner */}
+      <section className="rounded-3xl bg-gradient-to-r from-blue-900 to-indigo-950 p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-blue-300 uppercase tracking-wider">
+            <Building2 className="w-4 h-4" />
+            <span>Integraciones Corporativas</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-black">
+            ¿Tu empresa requiere integraciones personalizadas con ERPs existentes?
+          </h3>
+          <p className="text-xs sm:text-sm text-blue-100 leading-relaxed">
+            Desarrollamos conectores a medida con SAP, Tango, Bejerman, MercadoLibre y APIs propietarias.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('/contacto')}
+          className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs shrink-0 shadow-lg cursor-pointer transition-colors"
+        >
+          Solicitar Reunión con un Arquitecto de Soluciones
+        </button>
+      </section>
+
+      {/* 5. Calculador Comparativo Inteligente de Planes */}
+      <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-8 shadow-xs">
+        <div className="space-y-2">
+          <div className="text-xs font-mono uppercase text-blue-600 font-bold flex items-center gap-1.5">
+            <Sliders className="w-4 h-4" />
+            <span>Simulador de Escala</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            Calculador Comparativo Inteligente de Planes
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 max-w-3xl">
+            Mueve las barras para simular la escala de tu negocio en número de proyectos y contactos. Te recomendaremos el plan exacto.
+          </p>
+        </div>
+
+        {/* Interactive Slider */}
+        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs space-y-4 max-w-2xl">
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-sm text-slate-800">Cantidad de Proyectos / Contactos:</span>
+            <span className="text-lg font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
+              Hasta {projectCount}
+            </span>
+          </div>
+
+          <input
+            type="range"
+            min="10"
+            max="120"
+            step="5"
+            value={projectCount}
+            onChange={(e) => setProjectCount(Number(e.target.value))}
+            className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none"
+          />
+
+          <div className="flex justify-between text-[11px] text-slate-400 font-mono">
+            <span>10 (Inicial)</span>
+            <span>40 (PyME)</span>
+            <span>70 (Pro)</span>
+            <span>90 (Corporativo)</span>
+            <span>120+ (Custom)</span>
+          </div>
+        </div>
+
+        {/* Features included in all plans banner */}
+        <div className="bg-blue-50/70 border border-blue-200 rounded-2xl p-5 space-y-3">
+          <div className="text-xs font-bold uppercase text-blue-900">
+            Todos los planes de Clientum incluyen:
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-slate-700">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Aplicación de escritorio y móvil</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Estimaciones de tiempos operacionales</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Facturación integrada y link de cobros</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Reportes automatizados de métricas</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Plan Recomendado Card */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border-2 border-emerald-500/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <div className="space-y-1">
+            <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              Plan Recomendado para Ti
+            </span>
+            <h3 className="text-xl font-extrabold text-slate-900">{recommendedPlan.name}</h3>
+            <p className="text-xs text-slate-600 max-w-xl">{recommendedPlan.desc}</p>
+          </div>
+
+          <div className="flex items-center gap-4 shrink-0">
+            <div className="text-right">
+              <div className="text-2xl font-black text-slate-900">${recommendedPlan.priceUSD}</div>
+              <div className="text-[10px] text-slate-500">/ mes</div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => onNavigate('/contacto')}
+              className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 cursor-pointer transition-colors"
+            >
+              Contratar Plan Recomendado
+            </button>
+          </div>
+        </div>
+
+        {/* 5 Plans Comparison Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {matrixPlans.map((mp) => (
+            <div
+              key={mp.id}
+              className={`rounded-2xl p-5 border flex flex-col justify-between space-y-4 transition-all ${
+                mp.recommended
+                  ? 'bg-blue-50/50 border-blue-400 ring-2 ring-blue-500/30 shadow-md'
+                  : 'bg-white border-slate-200 hover:border-slate-300'
+              }`}
+            >
+              <div className="space-y-3">
+                {mp.badge && (
+                  <span className="text-[9px] font-black uppercase text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full inline-block">
+                    {mp.badge}
                   </span>
-                  <span className="text-xs text-slate-500">/ mes</span>
+                )}
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900">{mp.name}</h4>
+                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-0.5">{mp.desc}</p>
                 </div>
-                <div className="text-[11px] text-blue-600 font-semibold mt-0.5">
-                  {isAnnual ? 'Facturado anualmente (-15% de ahorro)' : 'Suscripción mensual recurrente'}
-                </div>
-              </div>
 
-              {/* Feature Checklist */}
-              <div className="pt-4 space-y-2.5">
-                <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
-                  Incluye:
-                </span>
-                <ul className="space-y-2 text-xs text-slate-600">
-                  {plan.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span className="leading-tight">{feat}</span>
+                <div className="text-lg font-black text-slate-900 border-b border-slate-100 pb-2">
+                  ${mp.priceUSD} <span className="text-[10px] font-normal text-slate-500">/ mes</span>
+                </div>
+
+                <ul className="space-y-2 text-[11px]">
+                  {mp.features.map((f, i) => (
+                    <li key={i} className="space-y-0.5">
+                      <span className="font-bold text-slate-700">{f.label}:</span>{' '}
+                      <span className="text-slate-600">{f.val}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
-
-            {/* Actions: Free Trial + Mercado Pago checkout */}
-            <div className="pt-6 space-y-2">
-              <button
-                type="button"
-                onClick={() => handleStartTrialAction(plan.id)}
-                className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2 cursor-pointer transition-all shadow-xs"
-              >
-                <Clock className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Probar 7 Días Gratis</span>
-              </button>
 
               <button
                 type="button"
-                onClick={() => openMercadoPagoCheckout(plan.id)}
-                className="w-full py-2.5 rounded-xl font-bold text-xs tracking-wide bg-[#009ee3] hover:bg-[#0089c7] text-white flex items-center justify-center gap-2 cursor-pointer transition-all shadow-xs shadow-[#009ee3]/20"
+                onClick={() => onNavigate('/contacto')}
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold cursor-pointer transition-colors ${
+                  mp.recommended
+                    ? 'bg-blue-600 text-white hover:bg-blue-500'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
               >
-                <CreditCard className="w-3.5 h-3.5" />
-                <span>Suscribirme con Mercado Pago</span>
+                Seleccionar {mp.name.replace('Plan ', '')}
               </button>
-
-              <div className="text-center text-[10px] text-slate-400 pt-1">
-                7 días gratis • Débito automático en ARS
-              </div>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* Mercado Pago Security Trust Banner */}
-      <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#009ee3]/10 text-[#009ee3] flex items-center justify-center shrink-0">
-            <ShieldCheck className="w-7 h-7" />
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-slate-900">
-              Pagos 100% Protegidos con Mercado Pago
-            </h4>
-            <p className="text-xs text-slate-500 mt-0.5 max-w-xl leading-relaxed">
-              Tus suscripciones se procesan mediante débito recurrente de Mercado Pago. Podés pagar con dinero en cuenta, tarjetas bancarias o transferencia CBU/CVU.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-bold text-slate-700">Factura Oficial:</span>
-          <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-800">
-            AFIP RG 4291
-          </span>
-          <span className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">
-            CAE Inmediato
-          </span>
-        </div>
-      </section>
-
-      {/* Implementation Services Row */}
-      <section className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">
-        <div className="space-y-2">
-          <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
-            Servicios Adicionales
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Puesta en Marcha Llave en Mano & Migración Asistida
-          </h2>
-          <p className="text-xs text-slate-600">
-            Nuestro equipo de consultores e ingenieros se encarga de dejar tu sistema 100% operativo sin requerir departamento de IT interno.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {services.map((srv, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 shadow-xs">
-              <div className="font-bold text-slate-900 text-xs">{srv.title}</div>
-              <p className="text-[11px] text-slate-600 leading-relaxed">{srv.desc}</p>
-              <div className="pt-1 text-xs font-bold text-blue-600">{srv.price}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FAQ on Billing */}
-      <section className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
-        <div className="flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-blue-600" />
-          <h3 className="text-base font-bold text-slate-900">Preguntas Frecuentes sobre el Free Trial y Mercado Pago</h3>
+      {/* 6. FAQ Section */}
+      <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">
+        <div className="space-y-1">
+          <div className="text-xs font-mono uppercase text-blue-600 font-bold">Dudas Habituales</div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            Preguntas Frecuentes sobre Planes
+          </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600 leading-relaxed">
-          <div className="space-y-1">
-            <div className="font-bold text-slate-900">¿Cómo funciona la semana de prueba gratis (Free Trial)?</div>
-            <div>Tenés 7 días completos desde el momento de registro para usar todas las herramientas Pro sin pagar nada ni ingresar tarjeta de crédito. Pasados los 7 días, podés suscribirte mediante Mercado Pago para mantener activa tu cuenta.</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-bold text-slate-900">¿Cómo se procesa el cobro con Mercado Pago?</div>
-            <div>El cobro se realiza automáticamente mes a mes o año a año según el ciclo elegido. Podés abonar con dinero en cuenta de Mercado Pago, tarjeta de débito/crédito o transferencia con CBU/CVU.</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-bold text-slate-900">¿Emiten Factura A en Argentina?</div>
-            <div>Sí. Al suscribirte ingresás tu CUIT y Razón Social, y el sistema genera automáticamente tu Factura A o B electrónica con código de autorización CAE de AFIP.</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-bold text-slate-900">¿Puedo cancelar la suscripción cuando quiera?</div>
-            <div>Sí. No hay contratos de permanencia mínima ni penalizaciones. Podés pausar o cancelar tu suscripción desde el panel de suscripciones con un solo clic.</div>
-          </div>
+
+        <div className="space-y-3">
+          {faqs.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl border border-slate-200 bg-white overflow-hidden transition-all shadow-2xs"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/80 transition-colors"
+                >
+                  <span className="font-bold text-sm sm:text-base text-slate-900">
+                    {faq.q}
+                  </span>
+                  <div className={`w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0 transition-transform ${isOpen ? 'rotate-180 bg-blue-50 text-blue-600' : 'text-slate-500'}`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3 bg-slate-50/40">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 

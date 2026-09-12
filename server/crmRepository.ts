@@ -19,13 +19,13 @@ const isCrmEntityType = (value: string): value is CrmEntityType =>
   CRM_ENTITY_TYPES.includes(value as CrmEntityType);
 
 export async function listCrmRecords(pool: Pool | null, tenantId: string): Promise<Record<CrmEntityType, JsonRecord[]>> {
-  const empty = {
+  const empty: Record<CrmEntityType, JsonRecord[]> = {
     opportunities: [],
     companies: [],
     people: [],
     tasks: [],
     activities: [],
-  } satisfies Record<CrmEntityType, JsonRecord[]>;
+  };
 
   if (!pool) return empty;
 

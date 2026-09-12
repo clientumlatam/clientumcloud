@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { PublicRoutePath } from './publicRoutes';
+import { RealTeamsSection } from './RealTeamsSection';
 
 interface PublicCaseStudiesPageProps {
   onNavigate: (path: PublicRoutePath) => void;
@@ -175,6 +176,9 @@ export const PublicCaseStudiesPage: React.FC<PublicCaseStudiesPageProps> = ({ on
           </div>
         ))}
       </div>
+
+      {/* Equipos Reales en Acción */}
+      <RealTeamsSection onNavigate={onNavigate} />
 
       {/* Bottom CTA */}
       <section className="text-center p-8 rounded-3xl bg-blue-50/80 border border-blue-200 space-y-4 shadow-xs">

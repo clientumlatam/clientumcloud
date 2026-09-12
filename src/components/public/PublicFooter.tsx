@@ -289,6 +289,16 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                 </button>
               </li>
               <li>
+                <button onClick={() => nav('/desarrolladores')} className="hover:text-blue-600 transition-colors text-left font-semibold text-blue-700">
+                  API REST & Webhooks
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('/ayuda')} className="hover:text-blue-600 transition-colors text-left">
+                  Centro de Ayuda & FAQs
+                </button>
+              </li>
+              <li>
                 <button onClick={() => nav('/academia')} className="hover:text-blue-600 transition-colors text-left">
                   Campus Academia LMS
                 </button>

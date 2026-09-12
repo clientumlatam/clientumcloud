@@ -193,7 +193,7 @@ export const PeopleView: React.FC = () => {
               {/* Footer Actions */}
               <div className="mt-3 pt-2.5 border-t border-[#1a1f2c] flex items-center justify-between text-xs text-slate-400">
                 <span className="text-[10px] text-slate-400">
-                  Rep: {person.assignedTo.split(' ')[0]}
+                  Rep: {person.assignedTo ? person.assignedTo.split(' ')[0] : 'Sin asignar'}
                 </span>
 
                 <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>

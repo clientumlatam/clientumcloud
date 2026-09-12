@@ -959,7 +959,7 @@ export const RecordDrawer: React.FC = () => {
           {activeTab === 'quote' && opp && (
             <QuickQuoteDrawerTab
               opp={opp}
-              person={contactForWhatsApp}
+              person={contactForWhatsApp || undefined}
               company={company || companies.find((c) => c.id === opp.companyId)}
               onUpdateDealAmount={(amt) => updateOpportunity(opp.id, { amount: amt })}
               onOpenWhatsApp={() => setIsWhatsAppModalOpen(true)}

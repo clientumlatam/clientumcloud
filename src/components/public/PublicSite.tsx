@@ -9,12 +9,19 @@ import { PublicCaseStudiesPage } from './PublicCaseStudiesPage';
 import { PublicServicesPage } from './PublicServicesPage';
 import { PublicResourcesPage } from './PublicResourcesPage';
 import { PublicCompanyPage } from './PublicCompanyPage';
+import { PublicClientsPage } from './PublicClientsPage';
+import { PublicPartnersPage } from './PublicPartnersPage';
+import { PublicCareersPage } from './PublicCareersPage';
+import { PublicAcademyLanding } from './PublicAcademyLanding';
 import { PublicContactPage } from './PublicContactPage';
 import { PublicLegalPage } from './PublicLegalPage';
 import { IndustryLandingPage } from './IndustryLandingPage';
 import { TiendaDigitalView } from './TiendaDigitalView';
 import { PublicDomainManagerPage } from '../power/PublicDomainManagerPage';
 import { CampusLMSView } from '../power/CampusLMSView';
+import { PublicDeveloperApiView } from './PublicDeveloperApiView';
+import { PublicHelpCenterPage } from './PublicHelpCenterPage';
+import { PublicActivityTicker } from './PublicActivityTicker';
 import { QuoteWizardModal } from './QuoteWizardModal';
 import { WhatsAppSimulatorModal } from './WhatsAppSimulatorModal';
 import { ExpressAuditModal } from './ExpressAuditModal';
@@ -141,6 +148,21 @@ export const PublicSite: React.FC = () => {
       return <PublicResourcesPage onNavigate={handleNavigate} />;
     }
 
+    // 8b. Developer Documentation & REST API
+    if (currentPath === '/desarrolladores' || currentPath === '/api-docs') {
+      return <PublicDeveloperApiView onNavigate={handleNavigate} />;
+    }
+
+    // 8c. Help Center & Support
+    if (currentPath === '/ayuda') {
+      return (
+        <PublicHelpCenterPage
+          onNavigate={handleNavigate}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
+    }
+
     // 9. Campus LMS
     if (currentPath === '/academia') {
       return (
@@ -176,8 +198,33 @@ export const PublicSite: React.FC = () => {
     }
 
     // 11. Company & About Us
-    if (currentPath === '/about' || currentPath === '/nosotros') {
+    if (currentPath === '/empresa' || currentPath === '/about' || currentPath === '/nosotros') {
       return <PublicCompanyPage onNavigate={handleNavigate} />;
+    }
+
+    // 11b. Clients & Regional Ecosystem
+    if (currentPath === '/clientes' || currentPath === '/ecosistema') {
+      return (
+        <PublicClientsPage
+          onNavigate={handleNavigate}
+          onOpenWizard={() => setIsQuoteWizardOpen(true)}
+        />
+      );
+    }
+
+    // 11c. Partners & Alliances
+    if (currentPath === '/partners' || currentPath === '/alianzas' || currentPath === '/afiliados') {
+      return <PublicPartnersPage onNavigate={handleNavigate} />;
+    }
+
+    // 11d. Careers & Jobs
+    if (currentPath === '/empleo' || currentPath === '/trabajo' || currentPath === '/carreras') {
+      return <PublicCareersPage onNavigate={handleNavigate} />;
+    }
+
+    // 11e. Academy
+    if (currentPath === '/academia') {
+      return <PublicAcademyLanding onNavigate={handleNavigate} />;
     }
 
     // 12. Contact & Demo Request
@@ -247,7 +294,9 @@ export const PublicSite: React.FC = () => {
       {/* 3. Global Modular Footer with Full Sitemap */}
       <PublicFooter onNavigate={handleNavigate} />
 
-      {/* 4. Interactive Floating Modals */}
+      {/* 4. Interactive Floating Modals & Live Notification Feed */}
+      <PublicActivityTicker />
+
       <QuoteWizardModal
         isOpen={isQuoteWizardOpen}
         onClose={() => setIsQuoteWizardOpen(false)}
