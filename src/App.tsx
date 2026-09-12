@@ -10,7 +10,7 @@ import { NewRecordModal } from './components/common/NewRecordModal';
 import { RecordDrawer } from './components/common/RecordDrawer';
 import { TrialBanner } from './components/billing/TrialBanner';
 import { MercadoPagoSubscriptionModal } from './components/billing/MercadoPagoSubscriptionModal';
-import { isPrivateAppPath } from './lib/navigation';
+import { isPrivateAppPath } from './lib/router/routeRegistry';
 import { subscribeToAuthState, syncUserProfileToFirestore } from './firebase';
 
 const PrivateEnvironment = React.lazy(() => import('./components/app/PrivateEnvironment').then((module) => ({

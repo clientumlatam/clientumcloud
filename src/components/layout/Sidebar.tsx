@@ -44,6 +44,7 @@ import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
 import { ActiveTab } from '../../types';
 import { ClientumLogo } from '../common/ClientumLogo';
+import { ClientumNavyIcon } from '../common/ClientumNavyIcons';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { moduleNeedsUserCredentials } from '../../data/moduleCredentials';
 
@@ -359,7 +360,26 @@ export const Sidebar: React.FC = () => {
                 onClick={() => setCollapsedSections((previous) => ({ ...previous, [section.label]: !storedCollapsed }))}
                 aria-expanded={!isCollapsed}
               >
-                <span>{section.label}</span>
+                <span className="flex items-center gap-1.5">
+                  {(['sales', 'communication', 'ai', 'operations', 'system'].includes(section.id)) && (
+                    <ClientumNavyIcon
+                      category={
+                        section.id === 'sales'
+                          ? 'sales'
+                          : section.id === 'communication'
+                          ? 'communication'
+                          : section.id === 'ai'
+                          ? 'ai'
+                          : section.id === 'operations'
+                          ? 'erp'
+                          : 'admin'
+                      }
+                      size={14}
+                      className="shrink-0 rounded shadow-xs"
+                    />
+                  )}
+                  <span>{section.label}</span>
+                </span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
               </button>
               {!isCollapsed && <nav className="space-y-0.5">

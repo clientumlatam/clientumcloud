@@ -29,6 +29,9 @@ import {
 
 dotenv.config();
 
+import { crmRouter } from "./src/server/routes/crm.routes";
+import { tenantMiddleware } from "./src/server/middleware/auth";
+
 const app = express();
 const PORT = 3000;
 
@@ -38,6 +41,9 @@ app.use(express.json({
     (request as express.Request & { rawBody?: Buffer }).rawBody = Buffer.from(buffer);
   },
 }));
+
+// Mount modular CRM domain routes
+app.use("/api/crm", tenantMiddleware, crmRouter);
 
 type UserCredentialRecord = {
   updatedAt: string;

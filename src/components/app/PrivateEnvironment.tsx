@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCRM } from '../../context/CRMContext';
-import { Sidebar } from '../layout/Sidebar';
+import { Sidebar } from './Sidebar';
 import { Navbar } from '../layout/Navbar';
 import { KanbanView } from '../opportunities/KanbanView';
 import { TableView } from '../opportunities/TableView';
