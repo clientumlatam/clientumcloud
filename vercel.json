@@ -1,6 +1,16 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/[...path]"
+    },
+    {
+      "source": "/((?!api/|assets/|sw\\.js|favicon\\.svg|robots\\.txt|sitemap\\.xml|og-image).*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(index.html)?",
