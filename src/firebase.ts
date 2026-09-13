@@ -18,6 +18,7 @@ import {
   Auth,
 } from 'firebase/auth';
 import {
+  initializeFirestore,
   getFirestore,
   Firestore,
   doc,
@@ -74,9 +75,19 @@ export const auth: Auth = isLiveFirebaseReady
   : (null as unknown as Auth);
 
 export const db: Firestore = isLiveFirebaseReady
-  ? (appletConfig.firestoreDatabaseId
-      ? getFirestore(app as FirebaseApp, appletConfig.firestoreDatabaseId)
-      : getFirestore(app as FirebaseApp))
+  ? (() => {
+      try {
+        const firestoreSettings = { experimentalAutoDetectLongPolling: true };
+        return appletConfig.firestoreDatabaseId
+          ? initializeFirestore(app as FirebaseApp, firestoreSettings, appletConfig.firestoreDatabaseId)
+          : initializeFirestore(app as FirebaseApp, firestoreSettings);
+      } catch (err) {
+        console.warn('initializeFirestore fallback to getFirestore:', err);
+        return appletConfig.firestoreDatabaseId
+          ? getFirestore(app as FirebaseApp, appletConfig.firestoreDatabaseId)
+          : getFirestore(app as FirebaseApp);
+      }
+    })()
   : (null as unknown as Firestore);
 
 /**
@@ -88,9 +99,8 @@ export async function testFirestoreConnection(): Promise<boolean> {
     await getDocFromServer(doc(db, '_connection_test', 'ping'));
     return true;
   } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.warn('Firebase client is offline. Please check your Firebase configuration.');
-    }
+    // Softly handle connection check note without crashing
+    console.warn('Firestore connection check note (client operating in auto-reconnecting or offline mode):', error);
     return false;
   }
 }
