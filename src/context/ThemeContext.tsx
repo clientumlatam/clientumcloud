@@ -14,20 +14,18 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_STORAGE_KEY = 'clientum_theme';
 
-const getInitialSystemTheme = (): 'light' | 'dark' => {
+export const getSystemThemePreference = (): 'light' | 'dark' => {
   if (typeof window !== 'undefined' && window.matchMedia) {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   return 'light';
 };
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?: ThemeMode }> = ({
-  children,
-  defaultTheme = 'system',
-}) => {
-  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(getInitialSystemTheme);
-
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
+/**
+ * Retrieves persisted theme preference from localStorage or automatically detects OS preference on initial load
+ */
+const getInitialTheme = (defaultFallback?: ThemeMode): ThemeMode => {
+  if (typeof window !== 'undefined') {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.getItem('theme');
       if (saved === 'dark' || saved === 'light' || saved === 'system') {
@@ -36,8 +34,30 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
     } catch {
       // storage unavailable
     }
-    return defaultTheme;
-  });
+
+    // Automatically detect user's OS preference using window.matchMedia('(prefers-color-scheme: dark)') on initial load
+    if (window.matchMedia) {
+      const detectedTheme: ThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, detectedTheme);
+        localStorage.setItem('theme', detectedTheme);
+      } catch {
+        // storage unavailable
+      }
+      return detectedTheme;
+    }
+  }
+  return defaultFallback || 'light';
+};
+
+export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?: ThemeMode }> = ({
+  children,
+  defaultTheme,
+}) => {
+  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(getSystemThemePreference);
+
+  // Initial state with automatic OS preference detection and localStorage persistence layer
+  const [theme, setThemeState] = useState<ThemeMode>(() => getInitialTheme(defaultTheme));
 
   // Calculate resolved theme based on current mode and system OS preference
   const resolvedTheme: 'light' | 'dark' = theme === 'system' ? systemTheme : theme;
@@ -81,7 +101,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
     }
     root.style.colorScheme = resolvedTheme;
 
-    // Persist current theme mode selection
+    // Persist current theme mode selection across refreshes
     try {
       localStorage.setItem(THEME_STORAGE_KEY, theme);
       localStorage.setItem('theme', theme);
@@ -129,10 +149,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
 
   const toggleTheme = useCallback(() => {
     setThemeState((current) => {
-      let next: ThemeMode;
-      if (current === 'light') next = 'dark';
-      else if (current === 'dark') next = 'system';
-      else next = 'light';
+      const currentResolved = current === 'system' ? getSystemThemePreference() : current;
+      const next: ThemeMode = currentResolved === 'dark' ? 'light' : 'dark';
 
       try {
         localStorage.setItem(THEME_STORAGE_KEY, next);
@@ -140,6 +158,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; defaultTheme?:
       } catch {
         // storage unavailable
       }
+
+      try {
+        const authUserStr = localStorage.getItem('clientum_auth_user');
+        if (authUserStr) {
+          const userObj = JSON.parse(authUserStr);
+          if (userObj?.id) {
+            syncWorkspaceToFirestore(userObj.id, { theme: next });
+          }
+        }
+      } catch {
+        // ignore
+      }
+
       return next;
     });
   }, []);

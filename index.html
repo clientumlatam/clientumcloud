@@ -6,6 +6,35 @@
     <meta name="application-name" content="ClientumOS" />
     <meta name="theme-color" content="#0f172a" />
     <link rel="canonical" href="https://clientum.com.ar/" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('clientum_theme') || localStorage.getItem('theme');
+          var isDark = false;
+          if (saved === 'dark') {
+            isDark = true;
+          } else if (saved === 'light') {
+            isDark = false;
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            isDark = true;
+          }
+          var root = document.documentElement;
+          if (isDark) {
+            root.classList.add('dark');
+            root.classList.remove('light');
+            root.setAttribute('data-theme', 'dark');
+            root.setAttribute('data-mode', 'dark');
+            root.style.colorScheme = 'dark';
+          } else {
+            root.classList.add('light');
+            root.classList.remove('dark');
+            root.setAttribute('data-theme', 'light');
+            root.setAttribute('data-mode', 'light');
+            root.style.colorScheme = 'light';
+          }
+        } catch(e) {}
+      })();
+    </script>
     <title>Remix ClientumCRM | Sistema operativo comercial para PyMEs argentinas</title>
     <meta
       name="description"

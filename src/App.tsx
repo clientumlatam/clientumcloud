@@ -169,7 +169,7 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider>
       <CRMProvider>
         <FirebaseAuthBridge />
         <AppContent />
