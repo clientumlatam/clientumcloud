@@ -329,10 +329,16 @@ const requireProductionAuthentication: express.RequestHandler = async (req, res,
   next();
 };
 
-app.get(["/health", "/api/health"], (_req, res) => {
+app.get(["/health", "/api/health", "/api/version", "/api/deploy-version"], (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
   res.json({
     status: "OK",
     service: "clientum-crm",
+    version: process.env.VERCEL_DEPLOYMENT_ID || process.env.VERCEL_GIT_COMMIT_SHA || "v6.0-live",
+    commit: process.env.VERCEL_GIT_COMMIT_SHA || "latest",
+    buildTimestamp: process.env.BUILD_TIMESTAMP || new Date().toISOString(),
     timestamp: new Date().toISOString(),
   });
 });

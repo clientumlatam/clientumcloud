@@ -23,6 +23,71 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'drive' | 'campaigns' | 'calendar'>('drive');
   const [isSyncing, setIsSyncing] = useState(false);
 
+  const [isDriveModalOpen, setIsDriveModalOpen] = useState(false);
+  const [newFileName, setNewFileName] = useState('');
+  const [newFileFolder, setNewFileFolder] = useState('Presupuestos & Cotizaciones');
+
+  const [isTmplModalOpen, setIsTmplModalOpen] = useState(false);
+  const [newTmplName, setNewTmplName] = useState('');
+  const [newTmplSubject, setNewTmplSubject] = useState('');
+
+  const [isCalModalOpen, setIsCalModalOpen] = useState(false);
+  const [newCalTitle, setNewCalTitle] = useState('');
+  const [newCalClient, setNewCalClient] = useState('');
+
+  const handleCreateDriveFile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newFileName.trim()) return;
+    const newFile = {
+      id: `f-${Date.now()}`,
+      name: newFileName.endsWith('.pdf') || newFileName.endsWith('.docx') ? newFileName : `${newFileName}.pdf`,
+      size: '1.2 MB',
+      updated: 'Ahora',
+      folder: newFileFolder
+    };
+    setDriveFiles([newFile, ...driveFiles]);
+    setIsDriveModalOpen(false);
+    setNewFileName('');
+    showToast(`Archivo "${newFile.name}" subido a Google Drive`, 'success');
+    triggerConfetti();
+  };
+
+  const handleCreateTemplate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTmplName.trim() || !newTmplSubject.trim()) return;
+    const newTmpl = {
+      id: `tmpl-${Date.now()}`,
+      name: newTmplName,
+      subject: newTmplSubject,
+      openRate: '100%',
+      sentCount: 1
+    };
+    setEmailTemplates([newTmpl, ...emailTemplates]);
+    setIsTmplModalOpen(false);
+    setNewTmplName('');
+    setNewTmplSubject('');
+    showToast(`Plantilla de email "${newTmpl.name}" guardada`, 'success');
+  };
+
+  const handleCreateCalendarEvent = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCalTitle.trim()) return;
+    const newEvt = {
+      id: `cal-${Date.now()}`,
+      title: newCalTitle,
+      client: newCalClient || 'General',
+      time: '16:00 - 16:30',
+      status: 'Confirmado',
+      meetLink: `meet.google.com/meet-${Math.floor(Math.random()*1000)}`
+    };
+    setCalendarEvents([newEvt, ...calendarEvents]);
+    setIsCalModalOpen(false);
+    setNewCalTitle('');
+    setNewCalClient('');
+    showToast(`Evento "${newEvt.title}" agendado en Google Calendar`, 'success');
+    triggerConfetti();
+  };
+
   const [driveFiles, setDriveFiles] = useState([
     { id: 'f-1', name: 'Presupuesto Comercial - Distribuidora Patagónica.pdf', size: '1.4 MB', updated: 'Hoy 10:20', folder: 'Presupuestos & Cotizaciones' },
     { id: 'f-2', name: 'Contrato Marco de Servicios SaaS ClientumOS.docx', size: '420 KB', updated: 'Ayer', folder: 'Legales & Contratos' },
@@ -116,7 +181,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
               Archivos y Carpetas Sincronizadas en la Nube
             </h2>
             <button
-              onClick={() => showToast('Abriendo selector de archivos para subir a Google Drive...', 'info')}
+              onClick={() => setIsDriveModalOpen(true)}
               className="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -175,7 +240,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
               Plantillas HTML y Secuencias de Correo Comercial
             </h2>
             <button
-              onClick={() => showToast('Abriendo diseñador visual de plantillas HTML...', 'info')}
+              onClick={() => setIsTmplModalOpen(true)}
               className="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -208,10 +273,19 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
       {/* Tab 3: Calendar */}
       {activeTab === 'calendar' && (
         <div className="space-y-4">
-          <h2 className="text-sm font-bold text-white flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-sky-400" />
-            Reuniones y Demos en Google Calendar
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-sky-400" />
+              Reuniones y Demos en Google Calendar
+            </h2>
+            <button
+              onClick={() => setIsCalModalOpen(true)}
+              className="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Agendar Evento
+            </button>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {calendarEvents.map((evt) => (
               <div key={evt.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-2">
@@ -237,6 +311,159 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Drive File Upload Modal */}
+      {isDriveModalOpen && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-[#121622] border border-[#232b3f] rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Folder className="w-4 h-4 text-sky-400" />
+              Subir Archivo a Google Drive
+            </h3>
+            <form onSubmit={handleCreateDriveFile} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Nombre del Archivo</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="ej. Propuesta_Comercial_2026.pdf"
+                  value={newFileName}
+                  onChange={(e) => setNewFileName(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Carpeta de Destino</label>
+                <select
+                  value={newFileFolder}
+                  onChange={(e) => setNewFileFolder(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                >
+                  <option value="Presupuestos & Cotizaciones">Presupuestos & Cotizaciones</option>
+                  <option value="Contratos & NDA">Contratos & NDA</option>
+                  <option value="Manuales & Presentaciones">Manuales & Presentaciones</option>
+                </select>
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsDriveModalOpen(false)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 rounded-lg bg-sky-600 text-white text-xs font-semibold hover:bg-sky-500 cursor-pointer"
+                >
+                  Subir a Drive
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Email Template Modal */}
+      {isTmplModalOpen && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-[#121622] border border-[#232b3f] rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Mail className="w-4 h-4 text-sky-400" />
+              Nueva Plantilla de Correo HTML
+            </h3>
+            <form onSubmit={handleCreateTemplate} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Nombre Interno</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="ej. Bienvenida Nuevos Clientes B2B"
+                  value={newTmplName}
+                  onChange={(e) => setNewTmplName(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Asunto del Email</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="ej. ¡Bienvenido a ClientumCRM! Tu cuenta está lista..."
+                  value={newTmplSubject}
+                  onChange={(e) => setNewTmplSubject(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsTmplModalOpen(false)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 rounded-lg bg-sky-600 text-white text-xs font-semibold hover:bg-sky-500 cursor-pointer"
+                >
+                  Guardar Plantilla
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Calendar Event Modal */}
+      {isCalModalOpen && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-[#121622] border border-[#232b3f] rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-sky-400" />
+              Agendar Demo / Reunión en Google Calendar
+            </h3>
+            <form onSubmit={handleCreateCalendarEvent} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Título de la Reunión</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="ej. Demo Técnica ClientumCRM & API WhatsApp"
+                  value={newCalTitle}
+                  onChange={(e) => setNewCalTitle(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Cliente / Asistentes</label>
+                <input
+                  type="text"
+                  placeholder="ej. Carlos Mendoza (ABEPOL S.R.L.)"
+                  value={newCalClient}
+                  onChange={(e) => setNewCalClient(e.target.value)}
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-sky-500"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCalModalOpen(false)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 rounded-lg bg-sky-600 text-white text-xs font-semibold hover:bg-sky-500 cursor-pointer"
+                >
+                  Agendar Evento
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

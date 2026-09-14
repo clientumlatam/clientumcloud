@@ -1,70 +1,173 @@
-import React from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useCRM } from '../../context/CRMContext';
 import { Sidebar } from './Sidebar';
 import { Navbar } from '../layout/Navbar';
-import { KanbanView } from '../opportunities/KanbanView';
-import { TableView } from '../opportunities/TableView';
-import { ExecutiveDashboardView } from '../dashboard/ExecutiveDashboardView';
-import { CompaniesView } from '../companies/CompaniesView';
-import { PeopleView } from '../people/PeopleView';
-import { TasksView } from '../tasks/TasksView';
-import { ActivityInboxView } from '../activities/ActivityInboxView';
-import { OperationsView } from '../operations/OperationsView';
-import { CalendarView } from '../calendar/CalendarView';
-import { AnalyticsView } from '../analytics/AnalyticsView';
-import { SettingsView } from '../settings/SettingsView';
-import { PowerSuiteView } from '../power/PowerSuiteView';
-import { ErpView } from '../power/ErpView';
-import { RestaurantView } from '../power/RestaurantView';
-import { EcommerceView } from '../power/EcommerceView';
-import { SaaSClusterView } from '../power/SaaSClusterView';
-import { SitesView } from '../power/SitesView';
-import { SaaSThemeView } from '../power/SaaSThemeView';
-import { SubscriptionsView } from '../power/SubscriptionsView';
-import { ContactsView } from '../power/ContactsView';
-import { CustomerSegmentsView } from '../power/CustomerSegmentsView';
-import { ChatbotView } from '../power/ChatbotView';
-import { AutomationView } from '../power/AutomationView';
-import { KnowledgeBaseView } from '../power/KnowledgeBaseView';
-import { WhatsAppView } from '../whatsapp/WhatsAppView';
-import { CustomObjectsView } from '../custom/CustomObjectsView';
-import { WorkflowsView } from '../workflows/WorkflowsView';
-import { CSVStudioView } from '../csv/CSVStudioView';
-import { AgenteOSView } from '../ai/AgenteOSView';
-import { Propuestas } from '../commercial/Propuestas';
-import { CrmFullGoogleMaps } from '../commercial/CrmFullGoogleMaps';
-import { PublicDomainManagerPage } from '../power/PublicDomainManagerPage';
-import { CampusLMSView } from '../power/CampusLMSView';
-import { TiendaDigitalView } from '../public/TiendaDigitalView';
-import { IndustryLandingPage } from '../public/IndustryLandingPage';
-import { QuoteWizardModal } from '../public/QuoteWizardModal';
-import { WhatsAppSimulatorModal } from '../public/WhatsAppSimulatorModal';
-import { ExpressAuditModal } from '../public/ExpressAuditModal';
 import { RecordDrawer } from '../common/RecordDrawer';
 import { CommandPalette } from '../common/CommandPalette';
 import { NewRecordModal } from '../common/NewRecordModal';
 import { AICopilotModal } from '../ai/AICopilotModal';
 import { AuthModal } from '../auth/AuthModal';
 import { UserProfileModal } from '../auth/UserProfileModal';
-import { WebmailInboxView } from '../webmail/WebmailInboxView';
-import { PlatformBillingView } from '../billing/PlatformBillingView';
-import { MessagesView } from '../messages/MessagesView';
 import { ComposeEmailModal } from '../webmail/ComposeEmailModal';
-import { FeatureHubView } from '../features/FeatureHubView';
-import { UnifiedControlHub } from '../workspace/UnifiedControlHub';
 import { ToastContainer } from '../common/ToastContainer';
 import { AICopilotFloating } from '../common/AICopilotFloating';
-import { ModuleProspeccionMaps } from '../commercial/ModuleProspeccionMaps';
 import { TutorialOnboardingModal } from '../common/TutorialOnboardingModal';
 import { TrialBanner } from '../billing/TrialBanner';
 import { MercadoPagoSubscriptionModal } from '../billing/MercadoPagoSubscriptionModal';
-import { VscrmSuitePage } from '../dashboard/VscrmSuitePage';
-import { ErpAvanzadoDashboardPage } from '../dashboard/ErpAvanzadoDashboardPage';
-import { WordPressIntegracionPage } from '../dashboard/WordPressIntegracionPage';
-import { AdminConsoleDashboardPage } from '../dashboard/AdminConsoleDashboardPage';
-import { GoogleWorkspaceDashboardPage } from '../dashboard/GoogleWorkspaceDashboardPage';
-import { DashboardDocsExplorerPage } from '../dashboard/DashboardDocsExplorerPage';
-import { CompetitorHubView } from '../competitor/CompetitorHubView';
+import { useStorageCleanup } from '../../hooks/useStorageCleanup';
+import { initPeriodicStorageCleaner } from '../../utils/storageCleaner';
+
+// Modals dynamically opened via state
+import { QuoteWizardModal } from '../public/QuoteWizardModal';
+import { WhatsAppSimulatorModal } from '../public/WhatsAppSimulatorModal';
+import { ExpressAuditModal } from '../public/ExpressAuditModal';
+
+// Dynamic Route Views with React.lazy and specific chunk names for optimized code-splitting
+const ExecutiveDashboardView = lazy(
+  () => import(/* webpackChunkName: "dashboard-executive" */ '../dashboard/ExecutiveDashboardView').then((m) => ({ default: m.ExecutiveDashboardView }))
+);
+const UnifiedControlHub = lazy(
+  () => import(/* webpackChunkName: "workspace-unified-hub" */ '../workspace/UnifiedControlHub').then((m) => ({ default: m.UnifiedControlHub }))
+);
+const KanbanView = lazy(
+  () => import(/* webpackChunkName: "kanban-view" */ '../opportunities/KanbanView').then((m) => ({ default: m.KanbanView }))
+);
+const TableView = lazy(
+  () => import(/* webpackChunkName: "table-view" */ '../opportunities/TableView').then((m) => ({ default: m.TableView }))
+);
+const CompaniesView = lazy(
+  () => import(/* webpackChunkName: "companies-view" */ '../companies/CompaniesView').then((m) => ({ default: m.CompaniesView }))
+);
+const PeopleView = lazy(
+  () => import(/* webpackChunkName: "people-view" */ '../people/PeopleView').then((m) => ({ default: m.PeopleView }))
+);
+const TasksView = lazy(
+  () => import(/* webpackChunkName: "tasks-view" */ '../tasks/TasksView').then((m) => ({ default: m.TasksView }))
+);
+const ActivityInboxView = lazy(
+  () => import(/* webpackChunkName: "activity-inbox-view" */ '../activities/ActivityInboxView').then((m) => ({ default: m.ActivityInboxView }))
+);
+const OperationsView = lazy(
+  () => import(/* webpackChunkName: "operations-view" */ '../operations/OperationsView').then((m) => ({ default: m.OperationsView }))
+);
+const CalendarView = lazy(
+  () => import(/* webpackChunkName: "calendar-view" */ '../calendar/CalendarView').then((m) => ({ default: m.CalendarView }))
+);
+const AnalyticsView = lazy(
+  () => import(/* webpackChunkName: "analytics-view" */ '../analytics/AnalyticsView').then((m) => ({ default: m.AnalyticsView }))
+);
+const PowerSuiteView = lazy(
+  () => import(/* webpackChunkName: "power-suite-view" */ '../power/PowerSuiteView').then((m) => ({ default: m.PowerSuiteView }))
+);
+const SettingsView = lazy(
+  () => import(/* webpackChunkName: "settings-view" */ '../settings/SettingsView').then((m) => ({ default: m.SettingsView }))
+);
+const ErpView = lazy(
+  () => import(/* webpackChunkName: "erp-view" */ '../power/ErpView').then((m) => ({ default: m.ErpView }))
+);
+const RestaurantView = lazy(
+  () => import(/* webpackChunkName: "restaurant-view" */ '../power/RestaurantView').then((m) => ({ default: m.RestaurantView }))
+);
+const EcommerceView = lazy(
+  () => import(/* webpackChunkName: "ecommerce-view" */ '../power/EcommerceView').then((m) => ({ default: m.EcommerceView }))
+);
+const SaaSClusterView = lazy(
+  () => import(/* webpackChunkName: "saas-cluster-view" */ '../power/SaaSClusterView').then((m) => ({ default: m.SaaSClusterView }))
+);
+const SitesView = lazy(
+  () => import(/* webpackChunkName: "sites-view" */ '../power/SitesView').then((m) => ({ default: m.SitesView }))
+);
+const SaaSThemeView = lazy(
+  () => import(/* webpackChunkName: "saas-theme-view" */ '../power/SaaSThemeView').then((m) => ({ default: m.SaaSThemeView }))
+);
+const SubscriptionsView = lazy(
+  () => import(/* webpackChunkName: "subscriptions-view" */ '../power/SubscriptionsView').then((m) => ({ default: m.SubscriptionsView }))
+);
+const CustomerSegmentsView = lazy(
+  () => import(/* webpackChunkName: "customer-segments-view" */ '../power/CustomerSegmentsView').then((m) => ({ default: m.CustomerSegmentsView }))
+);
+const ChatbotView = lazy(
+  () => import(/* webpackChunkName: "chatbot-view" */ '../power/ChatbotView').then((m) => ({ default: m.ChatbotView }))
+);
+const AutomationView = lazy(
+  () => import(/* webpackChunkName: "automation-view" */ '../power/AutomationView').then((m) => ({ default: m.AutomationView }))
+);
+const KnowledgeBaseView = lazy(
+  () => import(/* webpackChunkName: "knowledge-base-view" */ '../power/KnowledgeBaseView').then((m) => ({ default: m.KnowledgeBaseView }))
+);
+const WhatsAppView = lazy(
+  () => import(/* webpackChunkName: "whatsapp-view" */ '../whatsapp/WhatsAppView').then((m) => ({ default: m.WhatsAppView }))
+);
+const CustomObjectsView = lazy(
+  () => import(/* webpackChunkName: "custom-objects-view" */ '../custom/CustomObjectsView').then((m) => ({ default: m.CustomObjectsView }))
+);
+const WorkflowsView = lazy(
+  () => import(/* webpackChunkName: "workflows-view" */ '../workflows/WorkflowsView').then((m) => ({ default: m.WorkflowsView }))
+);
+const CSVStudioView = lazy(
+  () => import(/* webpackChunkName: "csv-studio-view" */ '../csv/CSVStudioView').then((m) => ({ default: m.CSVStudioView }))
+);
+const AgenteOSView = lazy(
+  () => import(/* webpackChunkName: "agente-os-view" */ '../ai/AgenteOSView').then((m) => ({ default: m.AgenteOSView }))
+);
+const Propuestas = lazy(
+  () => import(/* webpackChunkName: "propuestas-view" */ '../commercial/Propuestas').then((m) => ({ default: m.Propuestas }))
+);
+const ModuleProspeccionMaps = lazy(
+  () => import(/* webpackChunkName: "module-prospeccion-maps" */ '../commercial/ModuleProspeccionMaps').then((m) => ({ default: m.ModuleProspeccionMaps }))
+);
+const PublicDomainManagerPage = lazy(
+  () => import(/* webpackChunkName: "public-domain-manager-page" */ '../power/PublicDomainManagerPage').then((m) => ({ default: m.PublicDomainManagerPage }))
+);
+const CampusLMSView = lazy(
+  () => import(/* webpackChunkName: "campus-lms-view" */ '../power/CampusLMSView').then((m) => ({ default: m.CampusLMSView }))
+);
+const TiendaDigitalView = lazy(
+  () => import(/* webpackChunkName: "tienda-digital-view" */ '../public/TiendaDigitalView').then((m) => ({ default: m.TiendaDigitalView }))
+);
+const IndustryLandingPage = lazy(
+  () => import(/* webpackChunkName: "industry-landing-page" */ '../public/IndustryLandingPage').then((m) => ({ default: m.IndustryLandingPage }))
+);
+const WebmailInboxView = lazy(
+  () => import(/* webpackChunkName: "webmail-inbox-view" */ '../webmail/WebmailInboxView').then((m) => ({ default: m.WebmailInboxView }))
+);
+const PlatformBillingView = lazy(
+  () => import(/* webpackChunkName: "platform-billing-view" */ '../billing/PlatformBillingView').then((m) => ({ default: m.PlatformBillingView }))
+);
+const MessagesView = lazy(
+  () => import(/* webpackChunkName: "messages-view" */ '../messages/MessagesView').then((m) => ({ default: m.MessagesView }))
+);
+const ErpAvanzadoDashboardPage = lazy(
+  () => import(/* webpackChunkName: "erp-avanzado-dashboard-page" */ '../dashboard/ErpAvanzadoDashboardPage').then((m) => ({ default: m.ErpAvanzadoDashboardPage }))
+);
+const VscrmSuitePage = lazy(
+  () => import(/* webpackChunkName: "vscrm-suite-page" */ '../dashboard/VscrmSuitePage').then((m) => ({ default: m.VscrmSuitePage }))
+);
+const WordPressIntegracionPage = lazy(
+  () => import(/* webpackChunkName: "wordpress-integracion-page" */ '../dashboard/WordPressIntegracionPage').then((m) => ({ default: m.WordPressIntegracionPage }))
+);
+const AdminConsoleDashboardPage = lazy(
+  () => import(/* webpackChunkName: "admin-console-dashboard-page" */ '../dashboard/AdminConsoleDashboardPage').then((m) => ({ default: m.AdminConsoleDashboardPage }))
+);
+const GoogleWorkspaceDashboardPage = lazy(
+  () => import(/* webpackChunkName: "google-workspace-dashboard-page" */ '../dashboard/GoogleWorkspaceDashboardPage').then((m) => ({ default: m.GoogleWorkspaceDashboardPage }))
+);
+const DashboardDocsExplorerPage = lazy(
+  () => import(/* webpackChunkName: "dashboard-docs-explorer-page" */ '../dashboard/DashboardDocsExplorerPage').then((m) => ({ default: m.DashboardDocsExplorerPage }))
+);
+const CompetitorHubView = lazy(
+  () => import(/* webpackChunkName: "competitor-hub-view" */ '../competitor/CompetitorHubView').then((m) => ({ default: m.CompetitorHubView }))
+);
+
+const ViewFallbackLoader: React.FC = () => (
+  <div className="flex-1 flex flex-col items-center justify-center p-8 min-h-[350px] select-none">
+    <div className="relative flex items-center justify-center w-12 h-12 mb-3">
+      <div className="absolute w-12 h-12 rounded-full border-2 border-blue-500/20 animate-ping" />
+      <div className="w-8 h-8 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
+    </div>
+    <span className="text-xs font-semibold text-slate-500 animate-pulse">Cargando módulo...</span>
+  </div>
+);
 
 const MainContent: React.FC = () => {
   const {
@@ -82,9 +185,13 @@ const MainContent: React.FC = () => {
     setIsMpCheckoutModalOpen,
     selectedCheckoutPlan,
   } = useCRM();
+
   const [isWizardOpen, setIsWizardOpen] = React.useState(false);
   const [isSimulatorOpen, setIsSimulatorOpen] = React.useState(false);
   const [isAuditOpen, setIsAuditOpen] = React.useState(false);
+
+  // Hook for automatic periodic storage cleanup (localStorage & IndexedDB)
+  useStorageCleanup();
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
@@ -105,66 +212,68 @@ const MainContent: React.FC = () => {
       <TrialBanner />
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
-        {activeTab === 'dashboard' && <ExecutiveDashboardView />}
-        {(activeTab === 'ecosystemHub' || activeTab === 'featureHub') && <UnifiedControlHub />}
-        {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
-        {activeTab === 'companies' && <CompaniesView />}
-        {activeTab === 'people' && <PeopleView />}
-        {activeTab === 'tasks' && <TasksView />}
-        {activeTab === 'activityInbox' && <ActivityInboxView />}
-        {activeTab === 'operations' && <OperationsView />}
-        {activeTab === 'calendar' && <CalendarView />}
-        {activeTab === 'analytics' && <AnalyticsView />}
-        {activeTab === 'powerSuite' && <PowerSuiteView />}
-        {activeTab === 'whatsapp' && <WhatsAppView />}
-        {activeTab === 'messages' && <MessagesView />}
-        {activeTab === 'erp' && <ErpView />}
-        {activeTab === 'restaurant' && <RestaurantView />}
-        {activeTab === 'ecommerce' && <EcommerceView />}
-        {activeTab === 'saasCluster' && <SaaSClusterView />}
-        {activeTab === 'sites' && <SitesView />}
-        {activeTab === 'saasTheme' && <SaaSThemeView />}
-        {activeTab === 'subscriptions' && <SubscriptionsView />}
-        {activeTab === 'segments' && <CustomerSegmentsView />}
-        {activeTab === 'chatbot' && <ChatbotView />}
-        {activeTab === 'automation' && <AutomationView />}
-        {activeTab === 'knowledge' && <KnowledgeBaseView />}
-        {activeTab === 'mapsProspecting' && <PowerSuiteView defaultModule="maps" />}
-        {activeTab === 'meddic' && <PowerSuiteView defaultModule="meddic" />}
-        {activeTab === 'campaigns' && <PowerSuiteView defaultModule="campaigns" />}
-        {activeTab === 'aiAssistant' && <PowerSuiteView defaultModule="gemini" />}
-        {activeTab === 'gtmStrategy' && <PowerSuiteView defaultModule="gtm" />}
-        {activeTab === 'sdrOutreach' && <PowerSuiteView defaultModule="sdr" />}
-        {activeTab === 'adCopy' && <PowerSuiteView defaultModule="adcopy" />}
-        {activeTab === 'payments' && <PlatformBillingView />}
-        {activeTab === 'clientPortal' && <PowerSuiteView defaultModule="portal" />}
-        {activeTab === 'seoSuite' && <PowerSuiteView defaultModule="seo" />}
-        {activeTab === 'webDev' && <PowerSuiteView defaultModule="webdev" />}
-        {activeTab === 'customObjects' && <CustomObjectsView />}
-        {activeTab === 'workflows' && <WorkflowsView />}
-        {activeTab === 'csvStudio' && <CSVStudioView />}
-        {activeTab === 'agenteOS' && <AgenteOSView />}
-        {activeTab === 'propuestas' && <Propuestas />}
-        {activeTab === 'googleMaps' && <ModuleProspeccionMaps />}
-        {activeTab === 'domainManager' && <PublicDomainManagerPage />}
-        {activeTab === 'campusLMS' && <CampusLMSView />}
-        {activeTab === 'tiendaDigital' && <TiendaDigitalView />}
-        {activeTab === 'industryLanding' && (
-          <IndustryLandingPage
-            onOpenWizard={() => setIsWizardOpen(true)}
-            onOpenSimulator={() => setIsSimulatorOpen(true)}
-            onBackToHome={() => setActiveTab('dashboard')}
-          />
-        )}
-        {activeTab === 'settings' && <SettingsView />}
-        {activeTab === 'webmail' && <WebmailInboxView />}
-        {activeTab === 'erpAvanzado' && <ErpAvanzadoDashboardPage />}
-        {activeTab === 'vscrmSuite' && <VscrmSuitePage />}
-        {activeTab === 'wordpressIntegracion' && <WordPressIntegracionPage />}
-        {activeTab === 'adminConsole' && <AdminConsoleDashboardPage />}
-        {activeTab === 'workspaceIntegrations' && <GoogleWorkspaceDashboardPage />}
-        {activeTab === 'dashboardDocs' && <DashboardDocsExplorerPage />}
-        {activeTab === 'competitorHub' && <CompetitorHubView />}
+        <Suspense fallback={<ViewFallbackLoader />}>
+          {activeTab === 'dashboard' && <ExecutiveDashboardView />}
+          {(activeTab === 'ecosystemHub' || activeTab === 'featureHub') && <UnifiedControlHub />}
+          {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
+          {activeTab === 'companies' && <CompaniesView />}
+          {activeTab === 'people' && <PeopleView />}
+          {activeTab === 'tasks' && <TasksView />}
+          {activeTab === 'activityInbox' && <ActivityInboxView />}
+          {activeTab === 'operations' && <OperationsView />}
+          {activeTab === 'calendar' && <CalendarView />}
+          {activeTab === 'analytics' && <AnalyticsView />}
+          {activeTab === 'powerSuite' && <PowerSuiteView />}
+          {activeTab === 'whatsapp' && <WhatsAppView />}
+          {activeTab === 'messages' && <MessagesView />}
+          {activeTab === 'erp' && <ErpView />}
+          {activeTab === 'restaurant' && <RestaurantView />}
+          {activeTab === 'ecommerce' && <EcommerceView />}
+          {activeTab === 'saasCluster' && <SaaSClusterView />}
+          {activeTab === 'sites' && <SitesView />}
+          {activeTab === 'saasTheme' && <SaaSThemeView />}
+          {activeTab === 'subscriptions' && <SubscriptionsView />}
+          {activeTab === 'segments' && <CustomerSegmentsView />}
+          {activeTab === 'chatbot' && <ChatbotView />}
+          {activeTab === 'automation' && <AutomationView />}
+          {activeTab === 'knowledge' && <KnowledgeBaseView />}
+          {activeTab === 'mapsProspecting' && <PowerSuiteView defaultModule="maps" />}
+          {activeTab === 'meddic' && <PowerSuiteView defaultModule="meddic" />}
+          {activeTab === 'campaigns' && <PowerSuiteView defaultModule="campaigns" />}
+          {activeTab === 'aiAssistant' && <PowerSuiteView defaultModule="gemini" />}
+          {activeTab === 'gtmStrategy' && <PowerSuiteView defaultModule="gtm" />}
+          {activeTab === 'sdrOutreach' && <PowerSuiteView defaultModule="sdr" />}
+          {activeTab === 'adCopy' && <PowerSuiteView defaultModule="adcopy" />}
+          {activeTab === 'payments' && <PlatformBillingView />}
+          {activeTab === 'clientPortal' && <PowerSuiteView defaultModule="portal" />}
+          {activeTab === 'seoSuite' && <PowerSuiteView defaultModule="seo" />}
+          {activeTab === 'webDev' && <PowerSuiteView defaultModule="webdev" />}
+          {activeTab === 'customObjects' && <CustomObjectsView />}
+          {activeTab === 'workflows' && <WorkflowsView />}
+          {activeTab === 'csvStudio' && <CSVStudioView />}
+          {activeTab === 'agenteOS' && <AgenteOSView />}
+          {activeTab === 'propuestas' && <Propuestas />}
+          {activeTab === 'googleMaps' && <ModuleProspeccionMaps />}
+          {activeTab === 'domainManager' && <PublicDomainManagerPage />}
+          {activeTab === 'campusLMS' && <CampusLMSView />}
+          {activeTab === 'tiendaDigital' && <TiendaDigitalView />}
+          {activeTab === 'industryLanding' && (
+            <IndustryLandingPage
+              onOpenWizard={() => setIsWizardOpen(true)}
+              onOpenSimulator={() => setIsSimulatorOpen(true)}
+              onBackToHome={() => setActiveTab('dashboard')}
+            />
+          )}
+          {activeTab === 'settings' && <SettingsView />}
+          {activeTab === 'webmail' && <WebmailInboxView />}
+          {activeTab === 'erpAvanzado' && <ErpAvanzadoDashboardPage />}
+          {activeTab === 'vscrmSuite' && <VscrmSuitePage />}
+          {activeTab === 'wordpressIntegracion' && <WordPressIntegracionPage />}
+          {activeTab === 'adminConsole' && <AdminConsoleDashboardPage />}
+          {activeTab === 'workspaceIntegrations' && <GoogleWorkspaceDashboardPage />}
+          {activeTab === 'dashboardDocs' && <DashboardDocsExplorerPage />}
+          {activeTab === 'competitorHub' && <CompetitorHubView />}
+        </Suspense>
       </main>
 
       <RecordDrawer />

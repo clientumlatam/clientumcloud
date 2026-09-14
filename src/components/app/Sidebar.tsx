@@ -50,6 +50,8 @@ import { ClientumLogo } from '../common/ClientumLogo';
 import { ClientumNavyIcon } from '../common/ClientumNavyIcons';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { UserProfileModal } from '../auth/UserProfileModal';
+import { DeploymentMonitor } from './DeploymentMonitor';
+import { VersionInfo } from '../common/VersionInfo';
 
 interface SidebarNavItem {
   id: ActiveTab;
@@ -545,6 +547,12 @@ export const Sidebar: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Monitoring & Deployment Info for Internal Support */}
+        <div className="px-3 pt-2 space-y-1.5">
+          <DeploymentMonitor />
+          <VersionInfo />
+        </div>
 
         {/* Perfil & Controles de Usuario */}
         <div className="flex items-center justify-between border-t p-3 border-slate-200/80 dark:border-[#1c2d47]">

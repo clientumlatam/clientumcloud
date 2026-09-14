@@ -39,6 +39,102 @@ export const ErpAvanzadoDashboardPage: React.FC = () => {
     { id: 'FC-A-0001-00000494', client: 'Ferretería Central S.R.L.', cuit: '30-68291049-2', amount: 95000, cae: '74829104829104', status: 'Autorizado AFIP' },
   ]);
 
+  const [isSkuModalOpen, setIsSkuModalOpen] = useState(false);
+  const [newSkuName, setNewSkuName] = useState('');
+  const [newSkuWarehouse, setNewSkuWarehouse] = useState('Casa Central');
+  const [newSkuStock, setNewSkuStock] = useState(10);
+  const [newSkuMinStock, setNewSkuMinStock] = useState(5);
+  const [newSkuPriceMinorista, setNewSkuPriceMinorista] = useState(50000);
+  const [newSkuPriceMayorista, setNewSkuPriceMayorista] = useState(40000);
+
+  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [newExpProvider, setNewExpProvider] = useState('');
+  const [newExpCategory, setNewExpCategory] = useState('Infraestructura Cloud');
+  const [newExpAmount, setNewExpAmount] = useState(15000);
+  const [newExpStatus, setNewExpStatus] = useState<'Pagado' | 'Pendiente'>('Pagado');
+
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [newInvClient, setNewInvClient] = useState('');
+  const [newInvCuit, setNewInvCuit] = useState('');
+  const [newInvAmount, setNewInvAmount] = useState(150000);
+
+  const handleCreateSku = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSkuName.trim()) return;
+    const newItem = {
+      id: `SKU-${(stockItems.length + 1).toString().padStart(3, '0')}`,
+      name: newSkuName,
+      warehouse: newSkuWarehouse,
+      stock: Number(newSkuStock) || 0,
+      minStock: Number(newSkuMinStock) || 5,
+      priceMinorista: Number(newSkuPriceMinorista) || 0,
+      priceMayorista: Number(newSkuPriceMayorista) || 0,
+      status: Number(newSkuStock) <= Number(newSkuMinStock) ? 'Crítico' : 'Óptimo'
+    };
+    setStockItems([newItem, ...stockItems]);
+    setIsSkuModalOpen(false);
+    setNewSkuName('');
+    showToast('Nuevo SKU de inventario registrado exitosamente', 'success');
+    triggerConfetti();
+  };
+
+  const handleCreateExpense = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newExpProvider.trim()) return;
+    const newExp = {
+      id: `EXP-${104 + expenses.length}`,
+      date: 'Hoy',
+      provider: newExpProvider,
+      category: newExpCategory,
+      amount: Number(newExpAmount) || 0,
+      status: newExpStatus
+    };
+    setExpenses([newExp, ...expenses]);
+    setIsExpenseModalOpen(false);
+    setNewExpProvider('');
+    showToast('Nuevo gasto operativo registrado con éxito', 'success');
+  };
+
+  const handleCreateInvoice = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newInvClient.trim()) return;
+    const randomCAE = Array.from({ length: 14 }, () => Math.floor(Math.random() * 10)).join('');
+    const newInv = {
+      id: `FC-A-0001-00000${495 + invoices.length}`,
+      client: newInvClient,
+      cuit: newInvCuit || '30-11223344-9',
+      amount: Number(newInvAmount) || 0,
+      cae: randomCAE,
+      status: 'Autorizado AFIP'
+    };
+    setInvoices([newInv, ...invoices]);
+    setIsInvoiceModalOpen(false);
+    setNewInvClient('');
+    setNewInvCuit('');
+    showToast('Comprobante electrónico emitido y autorizado por AFIP', 'success');
+    triggerConfetti();
+  };
+
+  const handleExportCSV = () => {
+    const csvRows = [
+      ['TIPO', 'ID/COMPROBANTE', 'CONCEPTO/CLIENTE', 'FECHA/ALMACEN', 'MONTO/PRECIO', 'ESTADO'],
+      ...stockItems.map(s => ['INVENTARIO', s.id, s.name, s.warehouse, s.priceMinorista, s.status]),
+      ...expenses.map(e => ['GASTO', e.id, e.provider, e.date, -e.amount, e.status]),
+      ...invoices.map(i => ['FACTURA AFIP', i.id, i.client, i.cuit, i.amount, i.status])
+    ];
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + csvRows.map(e => e.join(',')).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `balance_erp_clientum_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    showToast('Balance consolidado ERP exportado en CSV', 'success');
+  };
+
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-900/40 text-slate-200">
       {/* Header */}

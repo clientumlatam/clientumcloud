@@ -51,42 +51,61 @@ interface Thread {
 }
 
 export const InboxView: React.FC = () => {
-  const { showToast, triggerConfetti } = useCRM();
-  const [threads, setThreads] = useState<Thread[]>([
-    {
-      id: 't-1',
-      name: 'Carlos Mendoza',
-      phone: '+54 9 11 4839-2012',
-      company: 'ABEPOL S.R.L.',
-      mode: 'human',
-      assignedAgent: 'Agustín (Tú)',
-      lastMessage: 'Perfecto, agendemos la reunión para mañana a las 15hs.',
-      time: '14:25',
-      unread: 0,
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      messages: [
-        { id: 'm1', sender: 'agent', text: 'Hola Carlos, ¿pudiste revisar la propuesta comercial?', time: '14:10' },
-        { id: 'm2', sender: 'client', text: 'Sí, la estuvimos analizando con el directorio. Todo OK.', time: '14:20' },
-        { id: 'm3', sender: 'client', text: 'Perfecto, agendemos la reunión para mañana a las 15hs.', time: '14:25' }
-      ]
-    },
-    {
-      id: 't-2',
-      name: 'Mariana Gomez',
-      phone: '+54 9 11 5921-3342',
-      company: 'ACHA PLAST S.A.',
-      mode: 'bot',
-      assignedAgent: 'ClientumCRM AI Bot',
-      lastMessage: '¿Tienen disponibilidad para integración con SAP?',
-      time: 'Ayer',
-      unread: 2,
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      messages: [
-        { id: 'm20', sender: 'bot', text: '¡Hola Mariana! Soy el asistente virtual de ClientumCRM. ¿En qué te ayudo?', time: '09:14' },
-        { id: 'm21', sender: 'client', text: '¿Tienen disponibilidad para integración con SAP?', time: '09:16' }
-      ]
+  const { showToast, triggerConfetti, people } = useCRM();
+  const [threads, setThreads] = useState<Thread[]>(() => {
+    try {
+      const saved = localStorage.getItem('clientum_whatsapp_threads');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error(e);
     }
-  ]);
+    return [
+      {
+        id: 't-1',
+        name: 'Carlos Mendoza',
+        phone: '+54 9 11 4839-2012',
+        company: 'ABEPOL S.R.L.',
+        mode: 'human',
+        assignedAgent: 'Agustín (Tú)',
+        lastMessage: 'Perfecto, agendemos la reunión para mañana a las 15hs.',
+        time: '14:25',
+        unread: 0,
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+        messages: [
+          { id: 'm1', sender: 'agent', text: 'Hola Carlos, ¿pudiste revisar la propuesta comercial?', time: '14:10' },
+          { id: 'm2', sender: 'client', text: 'Sí, la estuvimos analizando con el directorio. Todo OK.', time: '14:20' },
+          { id: 'm3', sender: 'client', text: 'Perfecto, agendemos la reunión para mañana a las 15hs.', time: '14:25' }
+        ]
+      },
+      {
+        id: 't-2',
+        name: 'Mariana Gomez',
+        phone: '+54 9 11 5921-3342',
+        company: 'ACHA PLAST S.A.',
+        mode: 'bot',
+        assignedAgent: 'ClientumCRM AI Bot',
+        lastMessage: '¿Tienen disponibilidad para integración con SAP?',
+        time: 'Ayer',
+        unread: 2,
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        messages: [
+          { id: 'm20', sender: 'bot', text: '¡Hola Mariana! Soy el asistente virtual de ClientumCRM. ¿En qué te ayudo?', time: '09:14' },
+          { id: 'm21', sender: 'client', text: '¿Tienen disponibilidad para integración con SAP?', time: '09:16' }
+        ]
+      }
+    ];
+  });
+
+  const [isNewChatModalOpen, setIsNewChatModalOpen] = useState(false);
+  const [selectedPersonId, setSelectedPersonId] = useState('');
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('clientum_whatsapp_threads', JSON.stringify(threads));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [threads]);
 
   const [selectedThreadId, setSelectedThreadId] = useState<string>('t-1');
   const [inputText, setInputText] = useState('');

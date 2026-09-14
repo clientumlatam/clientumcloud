@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { PublicTopHeader } from './PublicTopHeader';
 import { PublicNavbar } from './PublicNavbar';
 import { PublicFooter } from './PublicFooter';
+import { PublicFloatingChatbot } from './PublicFloatingChatbot';
 import { PublicHome } from './PublicHome';
 import { PublicProductPage } from './PublicProductPage';
 import { PublicCrmLanding } from './PublicCrmLanding';
@@ -316,6 +318,14 @@ export const PublicSite: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between selection:bg-blue-100 selection:text-blue-900">
       
+      {/* 0. Top Bar Banner */}
+      <PublicTopHeader
+        onNavigate={handleNavigate}
+        currency={currency}
+        onToggleCurrency={() => setCurrency((c) => (c === 'ARS' ? 'USD' : 'ARS'))}
+        onOpenAudit={() => setIsExpressAuditOpen(true)}
+      />
+
       {/* 1. Global Modular Navbar */}
       <PublicNavbar
         currentPath={currentPath}
@@ -336,7 +346,14 @@ export const PublicSite: React.FC = () => {
       {/* 3. Global Modular Footer with Full Sitemap */}
       <PublicFooter onNavigate={handleNavigate} />
 
-      {/* 4. Interactive Floating Modals & Live Notification Feed */}
+      {/* 4. Interactive Floating Sales & Support AI Chatbot (Bottom-Right) */}
+      <PublicFloatingChatbot
+        onNavigate={handleNavigate}
+        onOpenSimulator={() => setIsWhatsAppSimOpen(true)}
+        onOpenWizard={() => setIsQuoteWizardOpen(true)}
+      />
+
+      {/* 5. Interactive Floating Modals & Live Notification Feed */}
       <PublicActivityTicker />
 
       <QuoteWizardModal

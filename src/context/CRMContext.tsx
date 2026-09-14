@@ -581,8 +581,30 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ];
   });
 
-  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isOnline, setIsOnline] = useState<boolean>(() => {
+    if (typeof navigator !== 'undefined') {
+      return navigator.onLine;
+    }
+    return true;
+  });
   const [isSyncPending, setIsSyncPending] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
   const [offlinePriorityQueue, setOfflinePriorityQueue] = useState<string[][]>(() => {
     try {
       const saved = localStorage.getItem('clientum_offline_priority_queue');

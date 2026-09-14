@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clientum-crm-offline-v5';
+const CACHE_NAME = 'clientum-crm-v6-deploy';
 
 const urlsToCache = [
   '/',
@@ -26,6 +26,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('[SW] Purgando caché obsoleta de deploy anterior:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -39,6 +40,11 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    caches.keys().then((keys) => {
+      keys.forEach((k) => caches.delete(k));
+    });
+  }
 });
 
 self.addEventListener('fetch', (event) => {
@@ -49,12 +55,13 @@ self.addEventListener('fetch', (event) => {
   if (requestUrl.origin !== self.location.origin) return;
   if (requestUrl.pathname.startsWith('/api/')) return;
 
-  // Estrategia Network-First para HTML y CSS para garantizar que tras un deploy en Vercel se reciba la versión más reciente
-  const isHtmlOrCss = event.request.mode === 'navigate' ||
+  // Estrategia Network-First para HTML, JS, CSS y navegaciones para garantizar la descarga fresca en cada deploy
+  const isCodeAsset = event.request.mode === 'navigate' ||
     event.request.headers.get('accept')?.includes('text/html') ||
+    requestUrl.pathname.endsWith('.js') ||
     requestUrl.pathname.endsWith('.css');
 
-  if (isHtmlOrCss) {
+  if (isCodeAsset) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -83,21 +90,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Para otros assets (imágenes, fuentes, etc.)
+  // Para assets estáticos pesados (imágenes, fuentes)
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      })
-      .catch(() => {
-        return caches.match(event.request);
-      })
+        return networkResponse;
+      }).catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
+    })
   );
 });

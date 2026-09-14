@@ -48,6 +48,70 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
   const [timerSeconds, setTimerSeconds] = useState(1420); // ~23 mins
   const [currentTimerTask, setCurrentTimerTask] = useState('Desarrollo Backend API & Auth');
 
+  const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
+  const [newProjectName, setNewProjectName] = useState('');
+  const [newProjectClient, setNewProjectClient] = useState('');
+  const [newProjectBudget, setNewProjectBudget] = useState(250000);
+  const [newProjectEstimatedHours, setNewProjectEstimatedHours] = useState(40);
+
+  const [isNewTimeLogModalOpen, setIsNewTimeLogModalOpen] = useState(false);
+  const [newTimeProject, setNewTimeProject] = useState('Implementación E-commerce B2B');
+  const [newTimeTask, setNewTimeTask] = useState('');
+  const [newTimeHours, setNewTimeHours] = useState(2);
+  const [newTimeRate, setNewTimeRate] = useState(12000);
+
+  React.useEffect(() => {
+    let interval: any = null;
+    if (isTimerRunning) {
+      interval = setInterval(() => {
+        setTimerSeconds((prev) => prev + 1);
+      }, 1000);
+    } else if (!isTimerRunning && interval) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning]);
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newProjectName.trim() || !newProjectClient.trim()) return;
+    const newPrj: Project = {
+      id: `prj-${104 + projects.length}`,
+      name: newProjectName,
+      client: newProjectClient,
+      budget: Number(newProjectBudget) || 0,
+      spentHours: 0,
+      estimatedHours: Number(newProjectEstimatedHours) || 10,
+      status: 'Activo',
+      deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    };
+    setProjects([newPrj, ...projects]);
+    setIsNewProjectModalOpen(false);
+    setNewProjectName('');
+    setNewProjectClient('');
+    showToast(`Proyecto "${newPrj.name}" creado con éxito`, 'success');
+    triggerConfetti();
+  };
+
+  const handleCreateTimeLog = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTimeTask.trim()) return;
+    const newLog: TimeLog = {
+      id: `tl-${Date.now()}`,
+      project: newTimeProject,
+      task: newTimeTask,
+      operator: 'Alex Morgan',
+      hours: Number(newTimeHours) || 1,
+      ratePerHour: Number(newTimeRate) || 10000,
+      date: 'Hoy',
+      billable: true
+    };
+    setTimeLogs([newLog, ...timeLogs]);
+    setIsNewTimeLogModalOpen(false);
+    setNewTimeTask('');
+    showToast('Horas registradas exitosamente en el proyecto', 'success');
+  };
+
   const [projects, setProjects] = useState<Project[]>([
     {
       id: 'prj-101',
@@ -207,7 +271,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
               Proyectos y Entregables Activos
             </h2>
             <button
-              onClick={() => showToast('Abriendo formulario de nuevo proyecto VS CRM...', 'info')}
+              onClick={() => setIsNewProjectModalOpen(true)}
               className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -379,6 +443,77 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                 Generar Nota de Liquidación
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* New Project Modal */}
+      {isNewProjectModalOpen && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-[#121622] border border-[#232b3f] rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <FolderKanban className="w-4.5 h-4.5 text-blue-400" />
+              Crear Nuevo Proyecto VS CRM
+            </h3>
+            <form onSubmit={handleCreateProject} className="space-y-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Nombre del Proyecto</label>
+                <input
+                  type="text"
+                  required
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                  placeholder="ej. Implementación E-commerce B2B"
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Empresa / Cliente</label>
+                <input
+                  type="text"
+                  required
+                  value={newProjectClient}
+                  onChange={(e) => setNewProjectClient(e.target.value)}
+                  placeholder="ej. Distribuidora del Sur S.A."
+                  className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">Presupuesto ($ ARS)</label>
+                  <input
+                    type="number"
+                    value={newProjectBudget}
+                    onChange={(e) => setNewProjectBudget(Number(e.target.value))}
+                    className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">Horas Estimadas</label>
+                  <input
+                    type="number"
+                    value={newProjectEstimatedHours}
+                    onChange={(e) => setNewProjectEstimatedHours(Number(e.target.value))}
+                    className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsNewProjectModalOpen(false)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-500 cursor-pointer shadow-sm"
+                >
+                  Guardar Proyecto
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

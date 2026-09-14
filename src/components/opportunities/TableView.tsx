@@ -10,10 +10,13 @@ import {
   Square,
   DollarSign,
   ChevronDown,
+  Download,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
 import { Opportunity, StageId } from '../../types';
+import { exportOpportunitiesToCSV } from '../../utils/csvExporter';
+import tableEmptyStateImg from '../../assets/images/table_empty_state_1789360585677.jpg';
 
 type SortField = 'name' | 'amount' | 'stage' | 'probability' | 'companyName' | 'closeDate' | 'priority' | 'assignedTo';
 
@@ -125,6 +128,22 @@ export const TableView: React.FC = () => {
 
   return (
     <div id="clientum-table-container" className="flex-1 flex flex-col bg-[#0d0f14] overflow-hidden">
+      {/* Table Toolbar / Export Header */}
+      <div className="bg-[#11141c] border-b border-[#1e2330] px-4 py-2 flex items-center justify-between text-xs">
+        <div className="text-slate-400 font-mono">
+          Mostrando <strong className="text-slate-200">{sorted.length}</strong> de <strong className="text-slate-200">{opportunities.length}</strong> negocios
+        </div>
+        <button
+          id="table-export-csv-btn"
+          onClick={() => exportOpportunitiesToCSV(sorted, 'ClientumCRM_Pipeline_Tabla')}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-all cursor-pointer shadow-2xs"
+          title="Exportar todos los tratos visibles en la tabla a un archivo CSV"
+        >
+          <Download className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Exportar CSV</span>
+        </button>
+      </div>
+
       {/* Bulk Action Bar when items selected */}
       {selectedIds.length > 0 && (
         <div className="bg-[#181d29] border-b border-blue-500/30 px-4 py-2 flex items-center justify-between gap-3 text-xs">
@@ -260,8 +279,23 @@ export const TableView: React.FC = () => {
           <tbody className="divide-y divide-[#191d28]">
             {sorted.length === 0 ? (
               <tr>
-                <td colSpan={9} className="py-12 text-center text-slate-400 text-xs">
-                  No opportunities match your filter criteria.
+                <td colSpan={9} className="py-16 px-4 text-center">
+                  <div className="max-w-md mx-auto flex flex-col items-center justify-center">
+                    <div className="w-24 h-24 mb-4 rounded-2xl overflow-hidden border border-[#283044] bg-[#12151d] shadow-lg flex items-center justify-center shrink-0">
+                      <img
+                        src={tableEmptyStateImg}
+                        alt="Sin resultados"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-200 mb-1">
+                      No se encontraron negocios
+                    </h3>
+                    <p className="text-xs text-slate-400 max-w-xs leading-relaxed">
+                      Ningún negocio coincide con los criterios de búsqueda o filtros seleccionados en este momento.
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : (

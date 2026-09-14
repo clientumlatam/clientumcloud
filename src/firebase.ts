@@ -77,7 +77,9 @@ export const auth: Auth = isLiveFirebaseReady
 export const db: Firestore = isLiveFirebaseReady
   ? (() => {
       try {
-        const firestoreSettings = { experimentalAutoDetectLongPolling: true };
+        const firestoreSettings = {
+          experimentalAutoDetectLongPolling: true,
+        };
         return appletConfig.firestoreDatabaseId
           ? initializeFirestore(app as FirebaseApp, firestoreSettings, appletConfig.firestoreDatabaseId)
           : initializeFirestore(app as FirebaseApp, firestoreSettings);
@@ -91,20 +93,23 @@ export const db: Firestore = isLiveFirebaseReady
   : (null as unknown as Firestore);
 
 /**
- * Validate connection to Firestore on initial boot.
+ * Validate connection to Firestore on initial boot without throwing unhandled rejection.
  */
 export async function testFirestoreConnection(): Promise<boolean> {
   if (!isLiveFirebaseReady || !db) return false;
   try {
-    await getDocFromServer(doc(db, '_connection_test', 'ping'));
-    return true;
-  } catch (error) {
-    // Softly handle connection check note without crashing
-    console.warn('Firestore connection check note (client operating in auto-reconnecting or offline mode):', error);
+    const checkPromise = getDoc(doc(db, '_connection_test', 'ping')).catch(() => null);
+    const timeoutPromise = new Promise((resolve) =>
+      setTimeout(() => resolve(null), 3000)
+    );
+    const result = await Promise.race([checkPromise, timeoutPromise]);
+    return result !== null;
+  } catch (error: any) {
+    console.log('Firestore initialized in resilient auto-reconnect / offline mode.');
     return false;
   }
 }
-testFirestoreConnection();
+testFirestoreConnection().catch(() => {});
 
 /**
  * Subscribe to the real Firebase session when Firebase is configured.

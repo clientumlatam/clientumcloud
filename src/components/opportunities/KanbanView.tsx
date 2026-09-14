@@ -27,6 +27,7 @@ import {
   PenTool,
   FileCheck,
   Mic,
+  Download,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
@@ -36,6 +37,8 @@ import { LeadCaptureModal } from '../leads/LeadCaptureModal';
 import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
 import { QuoteSignPortalModal } from '../commercial/QuoteSignPortalModal';
 import { VoiceNoteModal } from '../activities/VoiceNoteModal';
+import { exportOpportunitiesToCSV } from '../../utils/csvExporter';
+import kanbanEmptyStageImg from '../../assets/images/kanban_empty_stage_1789360569191.jpg';
 
 export const KanbanView: React.FC = () => {
   const {
@@ -241,6 +244,16 @@ export const KanbanView: React.FC = () => {
           </button>
 
           <button
+            id="kanban-export-csv-btn"
+            onClick={() => exportOpportunitiesToCSV(filteredOpportunities, 'ClientumCRM_Pipeline_Kanban')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 dark:text-emerald-700 border border-emerald-200 shadow-2xs transition-all cursor-pointer"
+            title="Exportar tratos filtrados del tablero a archivo CSV para Excel/Informes"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="hidden md:inline">Exportar CSV</span>
+          </button>
+
+          <button
             id="toggle-kanban-filter-sidebar"
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
@@ -419,8 +432,21 @@ export const KanbanView: React.FC = () => {
                 {/* Column Cards Container */}
                 <div className="p-2 space-y-2.5 overflow-y-auto flex-1 min-h-[140px] custom-scrollbar">
                   {stageOpps.length === 0 ? (
-                    <div className="h-24 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-[11px] text-slate-400 font-medium">
-                      {t('noDealsInStage')}
+                    <div className="py-6 px-3 border border-dashed border-slate-300 rounded-xl bg-white/60 flex flex-col items-center justify-center text-center">
+                      <div className="w-16 h-16 mb-2.5 rounded-lg overflow-hidden border border-slate-200 shadow-2xs bg-slate-50 flex items-center justify-center shrink-0">
+                        <img
+                          src={kanbanEmptyStageImg}
+                          alt="Etapa sin negocios"
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className="text-[11px] font-bold text-slate-700 mb-0.5">
+                        {t('noDealsInStage')}
+                      </p>
+                      <p className="text-[10px] text-slate-400 max-w-[180px]">
+                        Arrastra un trato o crea uno nuevo en esta etapa.
+                      </p>
                     </div>
                   ) : (
                     stageOpps.map((opp) => (
