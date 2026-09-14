@@ -78,13 +78,12 @@ export const db: Firestore = isLiveFirebaseReady
   ? (() => {
       try {
         const firestoreSettings = {
-          experimentalAutoDetectLongPolling: true,
+          experimentalForceLongPolling: true,
         };
         return appletConfig.firestoreDatabaseId
           ? initializeFirestore(app as FirebaseApp, firestoreSettings, appletConfig.firestoreDatabaseId)
           : initializeFirestore(app as FirebaseApp, firestoreSettings);
       } catch (err) {
-        console.warn('initializeFirestore fallback to getFirestore:', err);
         return appletConfig.firestoreDatabaseId
           ? getFirestore(app as FirebaseApp, appletConfig.firestoreDatabaseId)
           : getFirestore(app as FirebaseApp);
@@ -92,20 +91,65 @@ export const db: Firestore = isLiveFirebaseReady
     })()
   : (null as unknown as Firestore);
 
+export enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+export interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId?: string | null;
+    email?: string | null;
+    emailVerified?: boolean | null;
+    isAnonymous?: boolean | null;
+    tenantId?: string | null;
+    providerInfo?: {
+      providerId?: string | null;
+      email?: string | null;
+    }[];
+  };
+}
+
+export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth?.currentUser?.uid,
+      email: auth?.currentUser?.email,
+      emailVerified: auth?.currentUser?.emailVerified,
+      isAnonymous: auth?.currentUser?.isAnonymous,
+      tenantId: auth?.currentUser?.tenantId,
+      providerInfo: auth?.currentUser?.providerData?.map(provider => ({
+        providerId: provider.providerId,
+        email: provider.email,
+      })) || []
+    },
+    operationType,
+    path
+  };
+  console.error('Firestore Error: ', JSON.stringify(errInfo));
+  throw new Error(JSON.stringify(errInfo));
+}
+
 /**
  * Validate connection to Firestore on initial boot without throwing unhandled rejection.
  */
 export async function testFirestoreConnection(): Promise<boolean> {
   if (!isLiveFirebaseReady || !db) return false;
   try {
-    const checkPromise = getDoc(doc(db, '_connection_test', 'ping')).catch(() => null);
-    const timeoutPromise = new Promise((resolve) =>
-      setTimeout(() => resolve(null), 3000)
-    );
-    const result = await Promise.race([checkPromise, timeoutPromise]);
-    return result !== null;
+    await getDocFromServer(doc(db, 'test', 'connection'));
+    return true;
   } catch (error: any) {
-    console.log('Firestore initialized in resilient auto-reconnect / offline mode.');
+    if (error instanceof Error && error.message.includes('the client is offline')) {
+      console.warn("Please check your Firebase configuration.");
+    }
     return false;
   }
 }

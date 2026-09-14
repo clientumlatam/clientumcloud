@@ -14,8 +14,7 @@ import {
   X,
   HardDrive,
 } from 'lucide-react';
-import { db } from '../../firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { isLiveFirebaseReady } from '../../firebase';
 
 export interface SyncStatusIndicatorProps {
   className?: string;
@@ -80,36 +79,9 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
       });
     }
 
-    // Optional Firestore live listener
-    let unsubscribe: (() => void) | null = null;
-    try {
-      if (db) {
-        const testDocRef = doc(db, '_system_health', 'ping');
-        unsubscribe = onSnapshot(
-          testDocRef,
-          { includeMetadataChanges: true },
-          (snapshot) => {
-            const fromCache = snapshot.metadata.fromCache;
-            if (navigator.onLine) {
-              setIsFirestoreConnected(!fromCache || true);
-              setLastSyncTime(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-            }
-          },
-          () => {
-            if (!navigator.onLine) {
-              setIsFirestoreConnected(false);
-            }
-          }
-        );
-      }
-    } catch (e) {
-      // Fallback
-    }
-
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
-      if (unsubscribe) unsubscribe();
     };
   }, []);
 
@@ -119,7 +91,7 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   return (
     <div
       id="sync-status-indicator"
-      className={`relative inline-flex items-center font-['Plus_Jakarta_Sans',sans-serif] ${className}`}
+      className={`relative inline-flex items-center font-['Inter',sans-serif] ${className}`}
     >
       {/* Indicator Pill Button */}
       {!effectiveOnline ? (

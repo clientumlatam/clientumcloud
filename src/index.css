@@ -21,6 +21,42 @@
 }
 
 /* ==========================================================================
+   Paleta Cromática Oficial (Clientum Brand Guidelines)
+   ========================================================================== */
+:root,
+[data-theme="light"],
+.light {
+  --clientum-navy: #022046;
+  --clientum-blue: #002B5C;
+  --clientum-action: #0056B3;
+  --clientum-success: #4CAF50;
+  --clientum-surface: #F5F7FA;
+  --clientum-surface-card: #ffffff;
+  --clientum-surface-border: #e2e8f0;
+  --clientum-ink: #212121;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+[data-theme="dark"],
+.dark {
+  --clientum-navy: #ffffff;
+  --clientum-blue: #60a5fa;
+  --clientum-action: #3b82f6;
+  --clientum-success: #4caf50;
+  --clientum-surface: #040711;
+  --clientum-surface-card: #0d1527;
+  --clientum-surface-border: #1e2e4a;
+  --clientum-ink: #f1f5f9;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background-color: var(--clientum-surface);
+  color: var(--clientum-ink);
+  font-family: var(--font-inter);
+}
+
+/* ==========================================================================
    CLIENTUM CRM DESIGN SYSTEM & MODULAR THEME ENGINE
    Modular CSS Variable System supporting Light, Dark, and System modes
    with High Contrast Ratios (WCAG AAA/AA) and Consistent Spacing Tokens
@@ -30,7 +66,7 @@
 [data-theme="light"],
 .light {
   /* Canvas & Base Surfaces */
-  --bg-canvas: #f8fafc;
+  --bg-canvas: var(--clientum-surface, #F5F7FA);
   --bg-surface: #ffffff;
   --bg-surface-elevated: #ffffff;
   --bg-card: #ffffff;
@@ -41,25 +77,25 @@
   --bg-accent-subtle: #eef1f6;
 
   /* High Contrast Typography */
-  --text-primary: #0f172a;       /* 15.6:1 contrast on white (WCAG AAA) */
-  --text-secondary: #334155;     /* 9.4:1 contrast on white */
-  --text-muted: #475569;         /* 5.9:1 contrast on white */
+  --text-primary: var(--clientum-ink, #212121);       /* Texto Principal Body */
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   --text-inverse: #ffffff;
-  --text-brand: #0a2558;
-  --text-brand-hover: #071b3d;
+  --text-brand: var(--clientum-navy, #022046);        /* Azul Profundo e Institucional */
+  --text-brand-hover: var(--clientum-blue, #002B5C);  /* Azul Corporativo */
 
   /* Border & Divider System */
   --border-subtle: #e2e8f0;
   --border-default: #cbd5e1;
   --border-strong: #94a3b8;
-  --border-focus: #0a2558;
+  --border-focus: var(--clientum-action, #0056B3);
 
-  /* Brand Accents (Logo Palette: Clientum Navy) */
-  --color-primary: #0a2558;
-  --color-primary-hover: #071b3d;
+  /* Brand Accents */
+  --color-primary: var(--clientum-action, #0056B3);   /* Azul de Acción (CTA principales / Barras) */
+  --color-primary-hover: #004494;
   --color-primary-light: #dbe2ec;
   --color-primary-text: #051530;
-  --color-success: #059669;
+  --color-success: var(--clientum-success, #4CAF50);  /* Verde de Éxito */
   --color-warning: #d97706;
   --color-danger: #dc2626;
 
@@ -1715,8 +1751,9 @@ button:focus-visible {
    while those views are gradually modernized.
    ========================================================================== */
 html[data-theme="light"] .clientum-light-dashboard {
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--clientum-surface, #F5F7FA) !important;
+  color: var(--clientum-ink, #212121) !important;
+  font-family: var(--font-inter) !important;
 }
 
 html[data-theme="light"] .clientum-light-dashboard #clientum-sidebar {
@@ -1829,12 +1866,14 @@ html[data-theme="light"] .clientum-light-dashboard textarea::placeholder {
 }
 
 /* Executive dashboard custom surfaces */
+html[data-theme="light"] .clientum-light-dashboard h1,
+html[data-theme="light"] .clientum-light-dashboard h2,
 html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__header h1,
 html[data-theme="light"] .clientum-light-dashboard .crm-stage__title,
 html[data-theme="light"] .clientum-light-dashboard .crm-deal-card h3,
 html[data-theme="light"] .clientum-light-dashboard .crm-panel__title,
 html[data-theme="light"] .clientum-light-dashboard .crm-assistant__identity strong {
-  color: #0f172a;
+  color: var(--clientum-navy, #022046) !important;
 }
 
 html[data-theme="light"] .clientum-light-dashboard .crm-dashboard__header p,

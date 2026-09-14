@@ -65,7 +65,7 @@ interface SidebarNavItem {
 }
 
 interface NavSection {
-  id: 'control' | 'sales' | 'communication' | 'ai' | 'operations' | 'system';
+  id: 'main' | 'control' | 'sales' | 'prospecting' | 'communication' | 'ai' | 'operations' | 'system' | 'admin';
   label: string;
   categoryIcon: 'sales' | 'communication' | 'ai' | 'erp' | 'admin' | null;
   items: SidebarNavItem[];
@@ -145,18 +145,17 @@ export const Sidebar: React.FC = () => {
 
   const navSections: NavSection[] = [
     {
-      id: 'control',
-      label: 'Inicio & Control',
+      id: 'main',
+      label: 'Panel Principal',
       categoryIcon: null,
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
-        { id: 'ecosystemHub', label: 'Unified Control Hub', icon: Boxes, badge: '15 Apps', badgeColor: 'bg-blue-600 text-white font-bold' },
-        { id: 'analytics', label: 'Reportes & BI', icon: BarChart3 },
+        { id: 'analytics', label: 'Reportes & BI', icon: BarChart3, badge: 'BI', badgeColor: 'bg-blue-600 text-white font-bold' },
       ],
     },
     {
       id: 'sales',
-      label: 'Ventas & Clientes',
+      label: 'Gestión Comercial',
       categoryIcon: 'sales',
       items: [
         {
@@ -164,6 +163,7 @@ export const Sidebar: React.FC = () => {
           label: 'Pipeline de Negocios',
           icon: Briefcase,
           badge: 'Kanban',
+          badgeColor: 'bg-blue-600 text-white font-bold',
           subItems: [
             { id: 'opportunities', label: 'Lead Scoring MEDDIC', icon: Target },
           ],
@@ -186,7 +186,6 @@ export const Sidebar: React.FC = () => {
           ],
         },
         { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck },
-        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin },
         {
           id: 'competitorHub',
           label: 'vs HubSpot / Salesforce',
@@ -197,8 +196,23 @@ export const Sidebar: React.FC = () => {
       ],
     },
     {
+      id: 'prospecting',
+      label: 'Prospección & Adquisición',
+      categoryIcon: 'sales',
+      items: [
+        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin, badge: 'Territorio' },
+        {
+          id: 'sdrOutreach' as ActiveTab,
+          label: 'Agente SDR Prospección IA',
+          icon: Bot,
+          badge: 'IA SDR',
+          badgeColor: 'bg-indigo-600 text-white font-bold',
+        },
+      ],
+    },
+    {
       id: 'communication',
-      label: 'Centro de Comunicación',
+      label: 'Canales & Comunicación',
       categoryIcon: 'communication',
       items: [
         {
@@ -209,72 +223,51 @@ export const Sidebar: React.FC = () => {
           badgeColor: 'bg-emerald-500 text-white font-bold',
           subItems: [
             { id: 'messages', label: 'Mensajes directos', icon: Send },
-            { id: 'webmail', label: 'Webmail Cloudflare', icon: Mail },
+            { id: 'webmail', label: 'Webmail & Correo', icon: Mail },
           ],
         },
         { id: 'chatbot', label: 'Bots & Atención Automática', icon: Bot },
-        { id: 'campaigns', label: 'Campañas Masivas WhatsApp', icon: Send },
+        { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
         { id: 'workspaceIntegrations', label: 'Google Workspace & Drive', icon: HardDrive },
       ],
     },
     {
       id: 'ai',
-      label: 'IA & Agentes Autónomos',
+      label: 'Inteligencia Artificial',
       categoryIcon: 'ai',
       items: [
+        {
+          id: 'aiAssistant',
+          label: 'Copilot Gemini Comercial',
+          icon: Sparkles,
+          badge: '3.8 Pro',
+          badgeColor: 'bg-purple-600 text-white font-bold',
+        },
         {
           id: 'agenteOS',
           label: 'AgenteOS (14 Roles)',
           icon: Cpu,
           badge: '14 IA',
           badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold',
-          subItems: [
-            { id: 'aiAssistant', label: 'Copilot Gemini 3.8', icon: Sparkles },
-            { id: 'sdrOutreach' as ActiveTab, label: 'Agente SDR Prospección', icon: Bot },
-          ],
         },
-        { id: 'workflows', label: 'Automatizaciones & Flujos DAG', icon: Workflow },
-        { id: 'gtmStrategy', label: 'Estrategias GTM & Copy', icon: Compass },
-      ],
-    },
-    {
-      id: 'operations',
-      label: 'ERP & Operaciones PyME',
-      categoryIcon: 'erp',
-      items: [
-        {
-          id: 'erp',
-          label: 'Facturación AFIP & CAE',
-          icon: Receipt,
-          subItems: [
-            { id: 'operations', label: 'Operaciones internas', icon: FolderKanban },
-          ],
-        },
-        { id: 'erpAvanzado', label: 'ERP Inventario & Gastos', icon: Layers },
-        { id: 'vscrmSuite', label: 'VS CRM & Proyectos Suite', icon: Briefcase },
-        { id: 'wordpressIntegracion', label: 'WordPress & WooCommerce', icon: Globe },
-        { id: 'payments', label: 'Cobros Mercado Pago & Planes', icon: CreditCard },
-        { id: 'tiendaDigital', label: 'Tienda Digital WhatsApp', icon: Store },
-        { id: 'campusLMS', label: 'Campus Academia LMS', icon: GraduationCap },
+        { id: 'workflows', label: 'Flujos de Automatización', icon: Workflow },
       ],
     },
     {
       id: 'system',
-      label: 'Administración & Sistema',
+      label: 'Administración',
       categoryIcon: 'admin',
       items: [
-        { id: 'dashboardDocs', label: 'Documentación Dashboard (18)', icon: BookOpen, badge: '18 Docs', badgeColor: 'bg-blue-600 text-white font-bold' },
-        { id: 'adminConsole', label: 'Consola y Auditoría General', icon: ShieldAlert },
+        { id: 'settings', label: 'Ajustes de Empresa & Roles', icon: Settings },
         {
           id: 'customObjects',
-          label: 'Estructura de Datos',
+          label: 'Estructura de Datos & CSV',
           icon: Database,
           subItems: [
             { id: 'csvStudio', label: 'Importar / Exportar CSV', icon: FileSpreadsheet },
           ],
         },
-        { id: 'domainManager', label: 'Gestor de Dominios & DNS', icon: Globe },
-        { id: 'settings', label: 'Ajustes de Empresa & AFIP', icon: Settings },
+        { id: 'adminConsole', label: 'Consola y Auditoría', icon: ShieldAlert },
       ],
     },
   ];
@@ -597,6 +590,14 @@ export const Sidebar: React.FC = () => {
               className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
+            </button>
+            <button
+              onClick={() => setActiveTab('dashboardDocs')}
+              aria-label="Documentación de la plataforma"
+              title="Documentación y guías (18 Docs)"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+            >
+              <BookOpen className="h-4 w-4" />
             </button>
             <button
               onClick={() => setActiveTab('settings')}

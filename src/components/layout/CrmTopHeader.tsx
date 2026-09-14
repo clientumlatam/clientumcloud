@@ -87,13 +87,13 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
   return (
     <header
       id="crm-top-header"
-      className="crm-top-header bg-slate-900 border-b border-slate-800 text-slate-100 h-14 px-4 flex items-center justify-between gap-4 shrink-0 z-20 select-none shadow-md"
+      className="crm-top-header bg-[var(--clientum-navy,#022046)] border-b border-[#002B5C] text-slate-100 h-14 px-4 flex items-center justify-between gap-4 shrink-0 z-20 select-none shadow-md font-['Inter',sans-serif]"
     >
       {/* Left: Mobile Toggle & App Branding */}
       <div className="flex items-center gap-3 min-w-0 shrink-0">
         <button
           onClick={toggleMobileSidebar}
-          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 md:hidden transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 md:hidden transition-colors cursor-pointer"
           title="Abrir Menú Lateral"
         >
           <Menu className="w-4 h-4 text-slate-200" />
@@ -106,19 +106,19 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
           className="flex items-center gap-2.5 cursor-pointer select-none group shrink-0 pr-3 border-r border-slate-800"
           title="Clientum CRM - Ir al sitio público"
         >
-          <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-900 border border-blue-400/30 p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+          <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-[var(--clientum-action,#0056B3)] via-[var(--clientum-blue,#002B5C)] to-[var(--clientum-navy,#022046)] border border-blue-400/30 p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
             <ClientumLogo className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col leading-tight">
             <div className="flex items-center gap-1">
-              <span className="text-sm font-extrabold text-white tracking-tight group-hover:text-blue-400 transition-colors">
+              <span className="text-sm font-extrabold text-white tracking-tight group-hover:text-blue-300 transition-colors">
                 Clientum
               </span>
-              <span className="text-sm font-extrabold text-blue-400 tracking-tight">
+              <span className="text-sm font-extrabold text-blue-300 tracking-tight">
                 CRM
               </span>
             </div>
-            <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest hidden sm:inline">
+            <span className="text-[9px] font-semibold text-slate-300 uppercase tracking-widest hidden sm:inline">
               Suite Comercial
             </span>
           </div>

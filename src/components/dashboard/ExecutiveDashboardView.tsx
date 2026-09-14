@@ -202,21 +202,21 @@ export const ExecutiveDashboardView: React.FC = () => {
   };
 
   return (
-    <div className="crm-dashboard flex-1 flex flex-col h-full bg-slate-50 dark:bg-[var(--crm-bg,#040711)] text-slate-900 dark:text-slate-100 overflow-y-auto select-none font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="crm-dashboard flex-1 flex flex-col h-full bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--clientum-ink,#212121)] dark:text-slate-100 overflow-y-auto select-none font-['Inter',sans-serif]">
       <div className="crm-dashboard__content p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-[#1c2d47]">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2 py-0.5 rounded-md bg-blue-600 text-white font-extrabold text-[10px] tracking-widest font-mono">
+              <span className="px-2 py-0.5 rounded-md bg-[var(--clientum-navy,#022046)] text-white font-extrabold text-[10px] tracking-widest font-mono">
                 CLIENTUMOS
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--clientum-success,#4CAF50)] animate-pulse" />
               <span className="text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
                 RESUMEN EJECUTIVO COMERCIAL & PYME
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tracking-tight">
               Resumen ejecutivo
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
@@ -244,7 +244,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                       type="button"
                       className={`w-full px-3.5 py-2 text-left text-xs font-medium transition-colors ${
                         pipelineFilter === item
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold'
+                          ? 'bg-blue-50 dark:bg-blue-900/30 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-semibold'
                           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'
                       }`}
                       onClick={() => {
@@ -263,7 +263,7 @@ export const ExecutiveDashboardView: React.FC = () => {
             <button
               type="button"
               onClick={() => openNewRecordModal('opportunity')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs hover:shadow transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold shadow-xs hover:shadow transition-all cursor-pointer"
             >
               <Plus size={14} />
               <span>Nuevo trato</span>
@@ -275,7 +275,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 setIsChatOpen(true);
                 handleSendMessage('¿Qué negocios debería priorizar hoy?');
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--clientum-navy,#022046)] hover:bg-[#002B5C] text-white shadow-xs transition-all cursor-pointer"
               title="Copilot IA: ¿Qué debería hacer hoy?"
             >
               <Sparkles size={14} />
@@ -286,21 +286,21 @@ export const ExecutiveDashboardView: React.FC = () => {
 
         {/* Competitor Hub Highlight Banner */}
         {showCompetitorBanner && (
-          <div className="bg-gradient-to-r from-indigo-900/30 via-slate-900/40 to-blue-900/30 border border-indigo-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+          <div className="bg-gradient-to-r from-blue-50/80 via-slate-50 to-indigo-50/50 dark:from-indigo-900/30 dark:via-slate-900/40 dark:to-blue-900/30 border border-blue-200/70 dark:border-indigo-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-blue-100/60 dark:bg-indigo-600/20 border border-blue-200 dark:border-indigo-500/40 text-[var(--clientum-action,#0056B3)] dark:text-indigo-400 flex items-center justify-center shrink-0">
                 <ArrowLeftRight size={18} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-indigo-300">
+                  <span className="text-xs font-bold text-[var(--clientum-navy,#022046)] dark:text-indigo-300">
                     Migración 1-Click desde HubSpot o Salesforce
                   </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[var(--clientum-success,#4CAF50)]/15 text-[var(--clientum-success,#4CAF50)] border border-[var(--clientum-success,#4CAF50)]/30">
                     Ahorro hasta 82%
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                   Importa deals y contactos automáticamente, elimina costos punitivos por volumen y suma facturación AFIP nativa.
                 </p>
               </div>
@@ -310,7 +310,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('competitorHub')}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
               >
                 <span>Abrir Centro de Migración & TCO</span>
                 <ArrowRight size={13} />
@@ -318,7 +318,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowCompetitorBanner(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
                 title="Cerrar aviso"
               >
                 <X size={14} />
@@ -335,16 +335,16 @@ export const ExecutiveDashboardView: React.FC = () => {
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Pipeline Activo
               </span>
-              <span className="w-7 h-7 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200/60 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
+              <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/60 dark:border-emerald-800/40 flex items-center justify-center text-[var(--clientum-success,#4CAF50)]">
                 <TrendingUp size={14} />
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+              <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(pipelineTotal > 0 ? pipelineTotal : 582000)}
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span className="inline-flex items-center text-teal-600 dark:text-teal-400 font-semibold">
+                <span className="inline-flex items-center text-[var(--clientum-success,#4CAF50)] font-semibold">
                   <ArrowUpRight size={12} /> {money(weightedPipeline > 0 ? Math.round(weightedPipeline) : 348000)}
                 </span>
                 <span className="text-[11px] text-slate-400 dark:text-slate-500">ponderado</span>
@@ -361,16 +361,16 @@ export const ExecutiveDashboardView: React.FC = () => {
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Vendido
               </span>
-              <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
                 <BriefcaseBusiness size={14} />
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+              <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(wonTotal > 0 ? wonTotal : 54000)}
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold">
+                <span className="inline-flex items-center text-[var(--clientum-action,#0056B3)] font-semibold">
                   <CheckCircle2 size={12} /> Vinoteca Valle Andino
                 </span>
               </div>
@@ -391,10 +391,10 @@ export const ExecutiveDashboardView: React.FC = () => {
               </span>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+              <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 32,4%
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--clientum-success,#4CAF50)] font-semibold">
                 <ArrowUpRight size={12} />
                 <span>↑ 5,8% vs. anterior</span>
               </div>
@@ -446,20 +446,20 @@ export const ExecutiveDashboardView: React.FC = () => {
             <div>
               {cycleMetricMode === 'Promedio' && (
                 <>
-                  <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                  <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                     27 días
                   </div>
-                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--clientum-success,#4CAF50)] font-semibold">
                     <span>↓ 8% vs. anterior</span>
                   </div>
                 </>
               )}
               {cycleMetricMode === 'Mediana' && (
                 <>
-                  <div className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight font-mono">
+                  <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                     24 días
                   </div>
-                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--clientum-success,#4CAF50)] font-semibold">
                     <span>↓ 11% vs. anterior</span>
                   </div>
                 </>
@@ -800,11 +800,11 @@ export const ExecutiveDashboardView: React.FC = () => {
           <div className="crm-panel lg:col-span-2 bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200/60 dark:border-teal-800/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
+                <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
                   <BarChart3 size={16} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white">
                     Ingresos Registrados (Tendencia de Cierres)
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -814,7 +814,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               </div>
               <div className="text-left sm:text-right">
                 <span className="text-[11px] text-slate-400 uppercase font-semibold">Total ganado</span>
-                <div className="text-sm font-bold text-teal-600 dark:text-teal-400 font-mono">
+                <div className="text-sm font-bold text-[var(--clientum-success,#4CAF50)] font-mono">
                   {money(wonTotal)}
                 </div>
               </div>
@@ -825,8 +825,8 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="execRevenueGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#0d9488" stopOpacity={0.3} />
-                      <stop offset="100%" stopColor="#0d9488" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#0056B3" stopOpacity={0.25} />
+                      <stop offset="100%" stopColor="#0056B3" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis
@@ -848,7 +848,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                       backgroundColor: isDark ? '#0f172a' : '#ffffff',
                       borderColor: isDark ? '#1e293b' : '#e2e8f0',
                       borderRadius: '12px',
-                      color: isDark ? '#f8fafc' : '#0f172a',
+                      color: isDark ? '#f8fafc' : '#212121',
                       fontSize: '12px',
                       boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
                     }}
@@ -857,11 +857,11 @@ export const ExecutiveDashboardView: React.FC = () => {
                   <Area
                     type="monotone"
                     dataKey="value"
-                    stroke="#0d9488"
+                    stroke="#0056B3"
                     strokeWidth={2.5}
                     fill="url(#execRevenueGradient)"
                     dot={false}
-                    activeDot={{ r: 4, fill: '#0d9488', stroke: '#ffffff', strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: '#0056B3', stroke: '#ffffff', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>

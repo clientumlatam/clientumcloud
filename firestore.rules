@@ -8,7 +8,13 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    match /test/{docId} {
+      allow read: if true;
+    }
     match /_connection_test/{docId} {
+      allow read: if true;
+    }
+    match /_system_health/{docId} {
       allow read: if true;
     }
 

@@ -39,6 +39,10 @@ import {
   Boxes,
   Sun,
   Moon,
+  BookOpen,
+  ArrowLeftRight,
+  HardDrive,
+  ShieldAlert,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -193,60 +197,58 @@ export const Sidebar: React.FC = () => {
 
   const navigationSections: SidebarSection[] = [
     {
-      id: 'dashboard',
-      label: 'Inicio & Control',
+      id: 'main',
+      label: 'Panel Principal',
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
-        { id: 'ecosystemHub', label: 'Unified Control Hub', icon: Boxes, badge: '15 Apps · Activo', badgeColor: 'bg-blue-600 text-white font-bold' },
-        { id: 'analytics', label: 'Reportes & Analytics', icon: BarChart3, badge: 'BI', badgeColor: 'bg-[#0056B3] text-white font-bold' },
+        { id: 'analytics', label: 'Reportes & BI', icon: BarChart3, badge: 'BI', badgeColor: 'bg-blue-600 text-white font-bold' },
       ],
     },
     {
       id: 'sales',
-      label: 'Ventas & Clientes',
+      label: 'Gestión Comercial',
       items: [
-        { id: 'opportunities', label: 'Pipeline de Negocios', icon: Briefcase, badge: 'Kanban', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300', subItems: [{ id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target }] },
+        { id: 'opportunities', label: 'Pipeline de Negocios', icon: Briefcase, badge: 'Kanban', badgeColor: 'bg-blue-600 text-white font-bold', subItems: [{ id: 'opportunities', label: 'Lead Scoring MEDDIC', icon: Target }] },
         { id: 'people', label: 'Contactos & Empresas', icon: Users2, badge: people.length, subItems: [{ id: 'companies', label: 'Empresas', icon: Building2, badge: companies.length }] },
         { id: 'tasks', label: 'Actividades & Agenda', icon: CheckSquare, badge: tasks.filter((task) => task.status !== 'Completed').length, badgeColor: 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300', subItems: [{ id: 'calendar', label: 'Calendario', icon: Calendar }, { id: 'activityInbox', label: 'Notas y llamadas', icon: Inbox, badge: activities.length, badgeColor: 'bg-violet-100 dark:bg-violet-950/60 text-violet-800 dark:text-violet-300' }] },
-        { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck, badge: 'PDF', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' },
-        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin, badge: 'Maps', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' },
+        { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck },
+        { id: 'competitorHub', label: 'vs HubSpot / Salesforce', icon: ArrowLeftRight, badge: 'Ahorro 82%', badgeColor: 'bg-emerald-600 text-white font-bold' },
+      ],
+    },
+    {
+      id: 'prospecting',
+      label: 'Prospección & Adquisición',
+      items: [
+        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin, badge: 'Territorio', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' },
+        { id: 'sdrOutreach', label: 'Agente SDR Prospección IA', icon: Bot, badge: 'IA SDR', badgeColor: 'bg-indigo-600 text-white font-bold' },
       ],
     },
     {
       id: 'communication',
-      label: 'Centro de Comunicación',
+      label: 'Canales & Comunicación',
       items: [
-        { id: 'whatsapp', label: 'Bandeja Omnicanal WhatsApp', icon: Inbox, badge: 'LIVE', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold', subItems: [{ id: 'messages', label: 'Mensajes directos', icon: MessageSquare, badge: 12, badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' }, { id: 'webmail', label: 'Webmail Cloudflare', icon: Mail, badge: unreadWebmailCount > 0 ? unreadWebmailCount : 'GTM', badgeColor: unreadWebmailCount > 0 ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold' }] },
+        { id: 'whatsapp', label: 'Bandeja Omnicanal WhatsApp', icon: Inbox, badge: 'LIVE', badgeColor: 'bg-emerald-500 text-white font-bold', subItems: [{ id: 'messages', label: 'Mensajes directos', icon: MessageSquare, badge: 12, badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300' }, { id: 'webmail', label: 'Webmail & Correo', icon: Mail, badge: unreadWebmailCount > 0 ? unreadWebmailCount : 'GTM', badgeColor: unreadWebmailCount > 0 ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold' }] },
         { id: 'chatbot', label: 'Bots & Atención Automática', icon: Bot },
-        { id: 'campaigns', label: 'Campañas Masivas WhatsApp', icon: Send },
+        { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
+        { id: 'workspaceIntegrations', label: 'Google Workspace & Drive', icon: HardDrive },
       ],
     },
     {
       id: 'ai',
-      label: 'IA & Agentes Autónomos',
+      label: 'Inteligencia Artificial',
       items: [
-        { id: 'agenteOS', label: 'AgenteOS (14 Roles)', icon: Cpu, badge: '14 IA', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'aiAssistant', label: 'Copilot Gemini 3.8', icon: Sparkles }, { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot }] },
-        { id: 'workflows', label: 'Automatizaciones & Flujos DAG', icon: Workflow },
-        { id: 'gtmStrategy', label: 'Estrategias GTM & Copy', icon: Compass },
-      ],
-    },
-    {
-      id: 'operations',
-      label: 'ERP & Operaciones PyME',
-      items: [
-        { id: 'erp', label: 'Facturación AFIP & CAE', icon: Receipt, badge: 'CAE', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold', subItems: [{ id: 'operations', label: 'Operaciones internas', icon: FolderKanban, badge: 'Nuevo', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold' }] },
-        { id: 'payments', label: 'Cobros Mercado Pago & Planes', icon: CreditCard, configurable: false },
-        { id: 'tiendaDigital', label: 'Tienda Digital WhatsApp', icon: Store, badge: 'Catálogo', badgeColor: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' },
-        { id: 'campusLMS', label: 'Campus Academia LMS', icon: GraduationCap, badge: 'LMS', badgeColor: 'bg-purple-100 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300' },
+        { id: 'aiAssistant', label: 'Copilot Gemini Comercial', icon: Sparkles, badge: '3.8 Pro', badgeColor: 'bg-purple-600 text-white font-bold' },
+        { id: 'agenteOS', label: 'AgenteOS (14 Roles)', icon: Cpu, badge: '14 IA', badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold' },
+        { id: 'workflows', label: 'Flujos de Automatización', icon: Workflow },
       ],
     },
     {
       id: 'system',
-      label: 'Administración & Sistema',
+      label: 'Administración',
       items: [
-        { id: 'customObjects', label: 'Estructura de Datos', icon: Database, subItems: [{ id: 'csvStudio', label: 'Importar / Exportar CSV', icon: FileSpreadsheet }] },
-        { id: 'domainManager', label: 'Gestor de Dominios & DNS', icon: Globe },
-        { id: 'settings', label: 'Ajustes de Empresa & AFIP', icon: Settings },
+        { id: 'settings', label: 'Ajustes de Empresa & Roles', icon: Settings },
+        { id: 'customObjects', label: 'Estructura de Datos & CSV', icon: Database, subItems: [{ id: 'csvStudio', label: 'Importar / Exportar CSV', icon: FileSpreadsheet }] },
+        { id: 'adminConsole', label: 'Consola y Auditoría', icon: ShieldAlert },
       ],
     },
   ];
@@ -475,6 +477,17 @@ export const Sidebar: React.FC = () => {
               title={resolvedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
             >
               {resolvedTheme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+            </button>
+            <button
+              id="sidebar-docs-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveTab('dashboardDocs');
+              }}
+              className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Documentación y guías (18 Docs)"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
             </button>
             <button
               id="sidebar-schema-btn"

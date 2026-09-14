@@ -40,21 +40,21 @@ export const AdminConsoleDashboardPage: React.FC = () => {
   ]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-900/40 text-slate-200">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-slate-800 dark:text-slate-200 transition-colors">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
               Consola Ejecutiva
             </span>
-            <span className="text-xs text-slate-500">admin_console_dashboard.md</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500">admin_console_dashboard.md</span>
           </div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2.5">
-            <ShieldAlert className="w-6 h-6 text-amber-400" />
+          <h1 className="text-xl font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2.5">
+            <ShieldAlert className="w-6 h-6 text-amber-500 dark:text-amber-400" />
             Consola de Administración y Auditoría General
           </h1>
-          <p className="text-xs text-slate-400 mt-1 max-w-3xl">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-3xl">
             Panel de supervisión ejecutiva para auditar estadísticas de la plataforma, el rendimiento de operadores, consumo de IA y la seguridad de accesos RBAC.
           </p>
         </div>
@@ -65,7 +65,7 @@ export const AdminConsoleDashboardPage: React.FC = () => {
               showToast('Ejecutando escaneo general de integridad y tokens...', 'info');
               setTimeout(() => showToast('Escaneo finalizado: Todo el clúster en verde.', 'success'), 1200);
             }}
-            className="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer"
+            className="px-3 py-2 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-xs"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Auditar Sistema</span>
@@ -74,7 +74,7 @@ export const AdminConsoleDashboardPage: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         {[
           { id: 'stats', label: '1. Admin Stats & Métricas', icon: BarChart3 },
           { id: 'users', label: '2. Usuarios & Roles (RBAC)', icon: Users },
@@ -88,8 +88,8 @@ export const AdminConsoleDashboardPage: React.FC = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-amber-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[var(--clientum-blue,#002B5C)] text-white shadow-xs font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -103,25 +103,25 @@ export const AdminConsoleDashboardPage: React.FC = () => {
       {activeTab === 'stats' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-1">
-              <div className="text-[11px] text-slate-400 font-medium">Usuarios Activos Mensuales</div>
-              <div className="text-2xl font-bold text-white">18 operadores</div>
-              <div className="text-[10px] text-emerald-400 font-semibold">+14% vs mes anterior</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] space-y-1 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Usuarios Activos Mensuales</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">18 operadores</div>
+              <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">+14% vs mes anterior</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-1">
-              <div className="text-[11px] text-slate-400 font-medium">Llamadas a Gemini 2.5 Flash</div>
-              <div className="text-2xl font-bold text-white">48.290 tokens</div>
-              <div className="text-[10px] text-indigo-400 font-semibold">Costo mensual: $ 4.20 USD</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] space-y-1 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Llamadas a Gemini 2.5 Flash</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">48.290 tokens</div>
+              <div className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Costo mensual: $ 4.20 USD</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-1">
-              <div className="text-[11px] text-slate-400 font-medium">Disponibilidad del Sistema</div>
-              <div className="text-2xl font-bold text-emerald-400">99.98%</div>
-              <div className="text-[10px] text-slate-400">Zero downtime reportado</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] space-y-1 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Disponibilidad del Sistema</div>
+              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">99.98%</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">Zero downtime reportado</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-1">
-              <div className="text-[11px] text-slate-400 font-medium">Volumen Transaccional</div>
-              <div className="text-2xl font-bold text-white">$ 14.8M ARS</div>
-              <div className="text-[10px] text-emerald-400 font-semibold">Mercado Pago + Facturas AFIP</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] space-y-1 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Volumen Transaccional</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">$ 14.8M ARS</div>
+              <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Mercado Pago + Facturas AFIP</div>
             </div>
           </div>
         </div>
@@ -131,21 +131,21 @@ export const AdminConsoleDashboardPage: React.FC = () => {
       {activeTab === 'users' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white flex items-center gap-2">
-              <Users className="w-4 h-4 text-amber-400" />
+            <h2 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2">
+              <Users className="w-4 h-4 text-amber-500 dark:text-amber-400" />
               Gestión de Operadores y Asignación de Roles
             </h2>
             <button
               onClick={() => showToast('Abriendo modal para invitar nuevo operador...', 'info')}
-              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-xs"
             >
               + Invitar Operador
             </button>
           </div>
 
-          <div className="bg-slate-800/40 border border-slate-700/60 rounded-xl overflow-hidden">
+          <div className="bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] rounded-xl overflow-hidden shadow-xs">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-800 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-700">
+              <thead className="bg-slate-50 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-700">
                 <tr>
                   <th className="p-3">Operador</th>
                   <th className="p-3">Email</th>
@@ -155,23 +155,23 @@ export const AdminConsoleDashboardPage: React.FC = () => {
                   <th className="p-3 text-right">Acción</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {usersList.map((u) => (
-                  <tr key={u.id} className="hover:bg-slate-800/30">
-                    <td className="p-3 font-semibold text-white">{u.name}</td>
-                    <td className="p-3 font-mono text-slate-400">{u.email}</td>
+                  <tr key={u.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="p-3 font-semibold text-slate-900 dark:text-white">{u.name}</td>
+                    <td className="p-3 font-mono text-slate-500 dark:text-slate-400">{u.email}</td>
                     <td className="p-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/30">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
                         {u.role}
                       </span>
                     </td>
-                    <td className="p-3 text-slate-400">{u.lastLogin}</td>
+                    <td className="p-3 text-slate-500 dark:text-slate-400">{u.lastLogin}</td>
                     <td className="p-3 text-center">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                           u.status === 'Activo'
-                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                            : 'bg-slate-700 text-slate-400 border-slate-600'
+                            ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
+                            : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-600'
                         }`}
                       >
                         {u.status}
@@ -180,7 +180,7 @@ export const AdminConsoleDashboardPage: React.FC = () => {
                     <td className="p-3 text-right">
                       <button
                         onClick={() => showToast(`Editando permisos para ${u.name}`, 'info')}
-                        className="text-xs text-amber-400 hover:underline cursor-pointer"
+                        className="text-xs text-amber-600 dark:text-amber-400 hover:underline cursor-pointer font-medium"
                       >
                         Editar Permisos
                       </button>
@@ -197,31 +197,31 @@ export const AdminConsoleDashboardPage: React.FC = () => {
       {activeTab === 'logs' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-emerald-400" />
+            <h2 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
               Trazabilidad y Registros de Auditoría
             </h2>
-            <span className="text-xs text-slate-400">Inmutabilidad garantizada por SHA-256</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Inmutabilidad garantizada por SHA-256</span>
           </div>
 
-          <div className="bg-slate-800/40 border border-slate-700/60 rounded-xl overflow-hidden font-mono text-xs">
-            <div className="divide-y divide-slate-800">
+          <div className="bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] rounded-xl overflow-hidden font-mono text-xs shadow-xs">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {auditLogs.map((log) => (
-                <div key={log.id} className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-800/30">
+                <div key={log.id} className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
                   <div className="flex items-center gap-3">
-                    <span className="text-slate-500 text-[11px]">{log.timestamp}</span>
-                    <span className="text-indigo-400">{log.user}</span>
-                    <span className="text-slate-200">{log.action}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-[11px]">{log.timestamp}</span>
+                    <span className="text-indigo-600 dark:text-indigo-400 font-semibold">{log.user}</span>
+                    <span className="text-slate-800 dark:text-slate-200">{log.action}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-slate-500 text-[11px]">{log.ip}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-[11px]">{log.ip}</span>
                     <span
                       className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                         log.severity === 'danger'
-                          ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                          ? 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-500/30'
                           : log.severity === 'warning'
-                          ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                          : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                          ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30'
+                          : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
                       }`}
                     >
                       {log.severity.toUpperCase()}
@@ -236,28 +236,28 @@ export const AdminConsoleDashboardPage: React.FC = () => {
 
       {/* Tab 4: System Config */}
       {activeTab === 'config' && (
-        <div className="p-5 bg-slate-800/40 border border-slate-700/60 rounded-xl space-y-4">
-          <h2 className="text-sm font-bold text-white flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-amber-400" />
+        <div className="p-5 bg-white dark:bg-[#0D1527] border border-slate-200 dark:border-[#1E2E4A] rounded-xl space-y-4 shadow-xs">
+          <h2 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2">
+            <Sliders className="w-4 h-4 text-amber-500 dark:text-amber-400" />
             Parámetros Globales del Servidor
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-slate-800/70 border border-slate-700 space-y-2">
-              <div className="text-xs font-bold text-white">Autenticación de 2 Factores (2FA) Obligatoria</div>
-              <p className="text-xs text-slate-400">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Autenticación de 2 Factores (2FA) Obligatoria</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 Requiere que todos los administradores y vendedores validen su sesión con una app TOTP (Google Authenticator).
               </p>
               <button
                 onClick={() => showToast('Política 2FA aplicada a toda la organización.', 'success')}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-semibold cursor-pointer"
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-semibold cursor-pointer shadow-xs transition-colors"
               >
                 Habilitar para Todos
               </button>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-800/70 border border-slate-700 space-y-2">
-              <div className="text-xs font-bold text-white">Backup Automático de Base de Datos</div>
-              <p className="text-xs text-slate-400">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Backup Automático de Base de Datos</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 Copia diaria de seguridad cifrada enviada a Cloud Storage con retención histórica de 90 días.
               </p>
               <button
@@ -265,7 +265,7 @@ export const AdminConsoleDashboardPage: React.FC = () => {
                   showToast('Backup inmediato disparado hacia Cloud Storage...', 'info');
                   triggerConfetti();
                 }}
-                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-semibold cursor-pointer"
+                className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded text-xs font-semibold cursor-pointer shadow-xs transition-colors"
               >
                 Ejecutar Backup Ahora
               </button>

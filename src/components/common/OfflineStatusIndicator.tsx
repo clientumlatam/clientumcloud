@@ -11,8 +11,6 @@ import {
   X,
   Smartphone,
 } from 'lucide-react';
-import { db } from '../../firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
 
 export const OfflineStatusIndicator: React.FC<{
   className?: string;
@@ -65,7 +63,7 @@ export const OfflineStatusIndicator: React.FC<{
   };
 
   return (
-    <div className={`relative inline-flex items-center select-none font-['Plus_Jakarta_Sans',sans-serif] ${className}`}>
+    <div className={`relative inline-flex items-center select-none font-['Inter',sans-serif] ${className}`}>
       {/* Trigger Pill / Indicator Button */}
       {effectiveOffline ? (
         <button

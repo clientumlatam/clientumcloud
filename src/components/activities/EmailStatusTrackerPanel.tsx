@@ -213,7 +213,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
   };
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-[#090F1E] p-4 text-slate-200 shadow-md font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="rounded-xl border border-slate-800 bg-[#090F1E] p-4 text-slate-200 shadow-md font-['Inter',sans-serif]">
       {/* Header Bar */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
         <div className="flex items-center gap-2">

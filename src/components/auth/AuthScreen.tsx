@@ -118,7 +118,7 @@ export const AuthScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-[#07090e] text-slate-200 flex flex-col justify-between overflow-x-hidden selection:bg-blue-600 selection:text-white font-['Plus_Jakarta_Sans',sans-serif] relative">
+    <div className="min-h-screen w-screen bg-[#07090e] text-slate-200 flex flex-col justify-between overflow-x-hidden selection:bg-blue-600 selection:text-white font-['Inter',sans-serif] relative">
       {/* Ambient background glows */}
       <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />

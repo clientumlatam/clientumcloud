@@ -118,8 +118,8 @@ export const CrmTopNavBar: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                  ? 'bg-[var(--clientum-blue,#002B5C)] text-white shadow-xs font-bold'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-[var(--clientum-navy,#022046)] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
@@ -200,7 +200,7 @@ export const CrmTopNavBar: React.FC = () => {
               onClick={() => setViewMode('kanban')}
               className={`p-1 rounded text-xs transition-all flex items-center gap-1 cursor-pointer ${
                 viewMode === 'kanban'
-                  ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-bold shadow-2xs'
+                  ? 'bg-white dark:bg-slate-900 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-bold shadow-2xs'
                   : 'text-slate-600 dark:text-slate-400'
               }`}
               title="Vista Tablero"
@@ -212,7 +212,7 @@ export const CrmTopNavBar: React.FC = () => {
               onClick={() => setViewMode('table')}
               className={`p-1 rounded text-xs transition-all flex items-center gap-1 cursor-pointer ${
                 viewMode === 'table'
-                  ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-bold shadow-2xs'
+                  ? 'bg-white dark:bg-slate-900 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-bold shadow-2xs'
                   : 'text-slate-600 dark:text-slate-400'
               }`}
               title="Vista Tabla"
