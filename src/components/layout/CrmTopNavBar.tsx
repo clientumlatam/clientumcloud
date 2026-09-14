@@ -40,7 +40,7 @@ const CRM_MODULE_TABS: NavModuleTab[] = [
   { id: 'whatsapp', label: 'WhatsApp Omnicanal', icon: MessageSquare, badge: 'IA', badgeColor: 'bg-emerald-500 text-white' },
   { id: 'erp', label: 'ERP AFIP CAE', icon: Receipt },
   { id: 'mapsProspecting', label: 'Prospección Maps', icon: MapPin },
-  { id: 'analytics', label: 'Analíticas & BI', icon: BarChart3 },
+  { id: 'analytics', label: 'Reports & Analytics', icon: BarChart3, badge: 'BI', badgeColor: 'bg-blue-600 text-white font-bold' },
   { id: 'agenteOS', label: 'Agentes IA', icon: Bot, badge: '14', badgeColor: 'bg-blue-600 text-white' },
   { id: 'settings', label: 'Ajustes', icon: Settings },
 ];

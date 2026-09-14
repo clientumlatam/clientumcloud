@@ -23,14 +23,35 @@ import {
 import { PublicRoutePath } from './publicRoutes';
 import { CLIENTUM_SERVICES, CLIENTUM_PLANS, CLIENTUM_BROCHURE_METRICS } from '../../data/clientumCatalog';
 import { useCRM } from '../../context/CRMContext';
+import { generateBrochurePDF } from '../../utils/BrochureGenerator';
+import { BrochurePreviewDrawer } from './BrochurePreviewDrawer';
+import { Eye } from 'lucide-react';
 
 interface PublicBrochurePageProps {
   onNavigate: (path: PublicRoutePath) => void;
 }
 
 export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNavigate }) => {
-  const { enterApp } = useCRM();
+  const { enterApp, showToast, triggerConfetti } = useCRM();
   const [currency, setCurrency] = useState<'ARS' | 'USD'>('ARS');
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    try {
+      setIsGeneratingPdf(true);
+      showToast('Generando dossier corporativo en formato PDF...', 'info');
+      const { download } = await generateBrochurePDF({ currency });
+      download(`ClientumCRM-Brochure-${currency}-2026.pdf`);
+      triggerConfetti();
+      showToast('Brochure descargado exitosamente.', 'success');
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      showToast('Error al exportar el PDF. Utilice la opción de impresión del navegador.', 'error');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   const handlePrint = () => {
     if (typeof window !== 'undefined') {
@@ -47,7 +68,7 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
           <FileText className="w-4 h-4 text-blue-600" />
           <span>Ficha Técnica y Folleto Corporativo Oficial • ClientumOS v2.4</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={() => setCurrency(currency === 'ARS' ? 'USD' : 'ARS')}
             className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-700 hover:bg-white transition-colors cursor-pointer"
@@ -55,11 +76,29 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
             Ver en {currency === 'ARS' ? 'USD' : 'ARS'}
           </button>
           <button
+            type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+            title="Previsualizar PDF en el navegador"
+          >
+            <Eye className="w-3.5 h-3.5 text-blue-600" />
+            <span>Previsualizar PDF</span>
+          </button>
+          <button
+            onClick={handleDownloadPDF}
+            disabled={isGeneratingPdf}
+            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer disabled:opacity-50"
+            title="Descargar Dossier Completo en PDF"
+          >
+            <Download className="w-3.5 h-3.5 text-cyan-400" />
+            <span>{isGeneratingPdf ? 'Generando...' : 'Descargar PDF'}</span>
+          </button>
+          <button
             onClick={handlePrint}
             className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-all cursor-pointer"
           >
             <Printer className="w-4 h-4" />
-            <span>Imprimir / Guardar en PDF</span>
+            <span>Imprimir</span>
           </button>
         </div>
       </div>
@@ -273,6 +312,12 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
         </div>
       </div>
 
+      {/* Side Drawer Component for PDF Preview */}
+      <BrochurePreviewDrawer
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        initialCurrency={currency}
+      />
     </div>
   );
 };

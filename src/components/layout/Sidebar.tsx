@@ -198,7 +198,7 @@ export const Sidebar: React.FC = () => {
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
         { id: 'ecosystemHub', label: 'Unified Control Hub', icon: Boxes, badge: '15 Apps · Activo', badgeColor: 'bg-blue-600 text-white font-bold' },
-        { id: 'analytics', label: 'Reportes & BI', icon: BarChart3 },
+        { id: 'analytics', label: 'Reportes & Analytics', icon: BarChart3, badge: 'BI', badgeColor: 'bg-[#0056B3] text-white font-bold' },
       ],
     },
     {

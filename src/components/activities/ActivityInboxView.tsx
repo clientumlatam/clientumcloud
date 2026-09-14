@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { Activity, Company, Opportunity, Person, Task } from '../../types';
+import { EmailStatusTrackerPanel } from './EmailStatusTrackerPanel';
 
 type ActivityFilter = 'all' | 'pending' | 'notes' | 'calls' | 'meetings' | 'emails';
 type LinkedRecord = { type: 'opportunity' | 'company' | 'person'; id: string; name: string } | null;
@@ -294,20 +295,24 @@ export const ActivityInboxView: React.FC = () => {
             </div>
           </section>
 
-          <aside className="h-fit rounded-xl border border-[#1e2330] bg-[#11141c] p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <MessageSquareText className="h-4 w-4 text-violet-300" />
-              <h2 className="text-sm font-semibold text-white">Qué aporta esta vista</h2>
-            </div>
-            <ul className="space-y-3 text-xs leading-relaxed text-slate-400">
-              <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Une comunicaciones y tareas en una cronología accionable.</li>
-              <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Mantiene cada interacción vinculada a empresa, contacto o negocio.</li>
-              <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Permite filtrar pendientes, llamadas, reuniones, notas y correos.</li>
-            </ul>
-            <div className="mt-4 border-t border-[#1e2330] pt-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Acciones rápidas</p>
-              <button onClick={() => openNewRecordModal('task')} className="mt-2 flex w-full items-center justify-between rounded-lg border border-[#2b3348] px-3 py-2 text-left text-xs font-semibold text-slate-300 hover:border-blue-400/40 hover:text-white">Crear seguimiento <Plus className="h-3.5 w-3.5 text-blue-400" /></button>
-              <button onClick={() => setIsLogOpen(true)} className="mt-2 flex w-full items-center justify-between rounded-lg border border-[#2b3348] px-3 py-2 text-left text-xs font-semibold text-slate-300 hover:border-blue-400/40 hover:text-white">Añadir nota o llamada <NotebookPen className="h-3.5 w-3.5 text-emerald-400" /></button>
+          <aside className="h-fit space-y-4">
+            <EmailStatusTrackerPanel />
+
+            <div className="rounded-xl border border-[#1e2330] bg-[#11141c] p-4">
+              <div className="mb-3 flex items-center gap-2">
+                <MessageSquareText className="h-4 w-4 text-violet-300" />
+                <h2 className="text-sm font-semibold text-white">Qué aporta esta vista</h2>
+              </div>
+              <ul className="space-y-3 text-xs leading-relaxed text-slate-400">
+                <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Une comunicaciones y tareas en una cronología accionable.</li>
+                <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Mantiene cada interacción vinculada a empresa, contacto o negocio.</li>
+                <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" /> Permite filtrar pendientes, llamadas, reuniones, notas y correos.</li>
+              </ul>
+              <div className="mt-4 border-t border-[#1e2330] pt-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Acciones rápidas</p>
+                <button onClick={() => openNewRecordModal('task')} className="mt-2 flex w-full items-center justify-between rounded-lg border border-[#2b3348] px-3 py-2 text-left text-xs font-semibold text-slate-300 hover:border-blue-400/40 hover:text-white">Crear seguimiento <Plus className="h-3.5 w-3.5 text-blue-400" /></button>
+                <button onClick={() => setIsLogOpen(true)} className="mt-2 flex w-full items-center justify-between rounded-lg border border-[#2b3348] px-3 py-2 text-left text-xs font-semibold text-slate-300 hover:border-blue-400/40 hover:text-white">Añadir nota o llamada <NotebookPen className="h-3.5 w-3.5 text-emerald-400" /></button>
+              </div>
             </div>
           </aside>
         </div>

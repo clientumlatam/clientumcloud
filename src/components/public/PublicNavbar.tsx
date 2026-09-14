@@ -36,6 +36,7 @@ import { PublicRoutePath, PRODUCT_SUBNAV, INDUSTRIES_SUBNAV } from './publicRout
 import { PublicSearchDialog } from './PublicSearchDialog';
 import { PUBLIC_SEARCH_ITEMS } from './publicNavData';
 import { PublicMobileMenu } from './PublicMobileMenu';
+import { OfflineStatusIndicator } from '../common/OfflineStatusIndicator';
 
 interface PublicNavbarProps {
   currentPath: string;
@@ -624,7 +625,9 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
 
           {/* Quick Search, Auth & Action Buttons */}
           <div className="flex items-center gap-2.5">
-            
+            {/* Service Worker Offline Status Indicator */}
+            <OfflineStatusIndicator />
+
             {/* Interactive Search Bar Trigger */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}

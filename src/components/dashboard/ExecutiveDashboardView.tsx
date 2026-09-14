@@ -43,6 +43,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { Opportunity, StageId } from '../../types';
 import { STAGES } from '../../data/initialData';
 import { DashboardOperationsStrip } from './DashboardOperationsStrip';
+import { MailAnalyticsPanel } from '../mail/MailAnalyticsPanel';
 
 const CHART_COLORS = ['#0d9488', '#2563eb', '#7c3aed', '#d97706', '#64748b'];
 
@@ -929,6 +930,11 @@ export const ExecutiveDashboardView: React.FC = () => {
               Ver reporte analítico detallado <ArrowRight size={12} />
             </button>
           </div>
+        </div>
+
+        {/* Transactional Email Analytics Panel (Recharts 30 days) */}
+        <div className="mt-8">
+          <MailAnalyticsPanel defaultTimeRange="30d" />
         </div>
 
         {/* Dashboard Operations Strip */}

@@ -16,12 +16,17 @@ import {
   Lock,
   Clock,
   Terminal,
+  Download,
+  FileText,
+  Eye,
 } from 'lucide-react';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { CLIENTUM_BROCHURE_METRICS } from '../../data/clientumCatalog';
 import { useCRM } from '../../context/CRMContext';
 import { PublicRoutePath } from './publicRoutes';
 import { trackAnalyticsEvent } from '../../lib/analytics';
+import { generateBrochurePDF } from '../../utils/BrochureGenerator';
+import { BrochurePreviewDrawer } from './BrochurePreviewDrawer';
 
 interface PublicFooterProps {
   onNavigate: (path: PublicRoutePath) => void;
@@ -32,6 +37,25 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDownloadingBrochure, setIsDownloadingBrochure] = useState(false);
+  const [isPreviewDrawerOpen, setIsPreviewDrawerOpen] = useState(false);
+
+  const handleDownloadBrochure = async () => {
+    try {
+      setIsDownloadingBrochure(true);
+      showToast('Generando dossier corporativo en PDF...', 'info');
+      const { download } = await generateBrochurePDF({ currency: 'ARS' });
+      download('ClientumCRM-Brochure-Corporativo-2026.pdf');
+      trackAnalyticsEvent('brochure_download');
+      triggerConfetti();
+      showToast('Brochure descargado exitosamente.', 'success');
+    } catch (err) {
+      console.error('Error generating brochure PDF:', err);
+      showToast('No se pudo generar el brochure en este momento.', 'error');
+    } finally {
+      setIsDownloadingBrochure(false);
+    }
+  };
 
   // Resolved build time string for support team debugging
   const buildTime =
@@ -190,6 +214,16 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                 <span>Acceder a la Demo en Vivo</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
+              <button
+                id="footer-download-brochure-btn"
+                onClick={handleDownloadBrochure}
+                disabled={isDownloadingBrochure}
+                aria-label="Descargar Brochure Corporativo en PDF"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 border border-slate-700 hover:border-sky-500/40 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+              >
+                <Download className="w-3.5 h-3.5 shrink-0" />
+                <span>{isDownloadingBrochure ? 'Generando...' : 'Descargar Brochure (PDF)'}</span>
+              </button>
             </div>
           </div>
 
@@ -341,6 +375,25 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                   Brochure Institucional
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => setIsPreviewDrawerOpen(true)}
+                  className="hover:text-cyan-300 font-semibold text-cyan-400 transition-colors text-left flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Eye className="w-3 h-3 text-cyan-400" />
+                  <span>Previsualizar Brochure</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleDownloadBrochure}
+                  disabled={isDownloadingBrochure}
+                  className="hover:text-sky-400 font-semibold text-sky-400 transition-colors text-left flex items-center gap-1.5"
+                >
+                  <Download className="w-3 h-3 text-sky-400" />
+                  <span>Descargar PDF</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -411,6 +464,11 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* Brochure PDF Preview Side Drawer */}
+      <BrochurePreviewDrawer
+        isOpen={isPreviewDrawerOpen}
+        onClose={() => setIsPreviewDrawerOpen(false)}
+      />
     </footer>
   );
 };

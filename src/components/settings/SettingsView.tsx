@@ -26,6 +26,7 @@ import {
   Workflow,
   Bug,
   BookOpen,
+  Mail,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { CustomField, Language } from '../../types';
@@ -34,6 +35,7 @@ import { AuditLogsTab } from './AuditLogsTab';
 import { IntegrationsHubTab } from './IntegrationsHubTab';
 import { ThemeModeSettings } from './ThemeModeSettings';
 import { EcosystemReposHubTab } from './EcosystemReposHubTab';
+import { MailSettings } from './MailSettings';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -57,7 +59,7 @@ export const SettingsView: React.FC = () => {
     showToast,
   } = useCRM();
 
-  const [activeSubTab, setActiveSubTab] = useState<'roles' | 'audit' | 'integrations' | 'appearance' | 'schema' | 'members' | 'ecosystem' | 'data'>('roles');
+  const [activeSubTab, setActiveSubTab] = useState<'roles' | 'audit' | 'integrations' | 'mail' | 'appearance' | 'schema' | 'members' | 'ecosystem' | 'data'>('roles');
 
   useEffect(() => {
     try {
@@ -207,6 +209,22 @@ export const SettingsView: React.FC = () => {
         </button>
 
         <button
+          id="tab-settings-mail"
+          onClick={() => setActiveSubTab('mail')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
+            activeSubTab === 'mail'
+              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Mail className="w-3.5 h-3.5 text-sky-400" />
+          <span>Correo & Resend API</span>
+          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-sky-500/20 text-sky-400 font-mono">
+            SMTP/Resend
+          </span>
+        </button>
+
+        <button
           id="tab-settings-appearance"
           onClick={() => setActiveSubTab('appearance')}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
@@ -283,6 +301,9 @@ export const SettingsView: React.FC = () => {
 
       {/* SUBTAB: TWO-WAY INTEGRATIONS HUB */}
       {activeSubTab === 'integrations' && <IntegrationsHubTab />}
+
+      {/* SUBTAB: CORREO & RESEND API CONFIGURATION */}
+      {activeSubTab === 'mail' && <MailSettings />}
 
       {/* SUBTAB 0: APPEARANCE, THEME & LANGUAGE */}
       {activeSubTab === 'appearance' && (
