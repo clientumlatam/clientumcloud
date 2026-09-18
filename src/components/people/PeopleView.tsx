@@ -113,6 +113,38 @@ export const PeopleView: React.FC = () => {
           </button>
 
           <button
+            id="export-csv-btn"
+            onClick={() => {
+              const headers = ['ID', 'Nombre', 'Apellido', 'Email', 'Teléfono', 'Empresa', 'Cargo', 'Estado', 'Ciudad'];
+              const rows = filteredPeople.map((p) => [
+                p.id,
+                `"${p.firstName}"`,
+                `"${p.lastName}"`,
+                `"${p.email}"`,
+                `"${p.phone}"`,
+                `"${p.companyName || ''}"`,
+                `"${p.jobTitle || ''}"`,
+                `"${p.status}"`,
+                `"${p.city || ''}"`,
+              ]);
+              const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+              const encodedUri = encodeURI(csvContent);
+              const link = document.createElement('a');
+              link.setAttribute('href', encodedUri);
+              link.setAttribute('download', `clientum_contacts_export_${new Date().toISOString().slice(0, 10)}.csv`);
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              showToast(`Exportados ${filteredPeople.length} contactos a CSV con éxito`, 'success');
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--bg-muted)] hover:bg-[var(--border-subtle)] text-[var(--text-primary)] border border-[var(--border-subtle)] text-xs font-semibold shadow-xs transition-all cursor-pointer"
+            title="Exportar lista filtrada de contactos como CSV"
+          >
+            <FileUp className="w-3.5 h-3.5 text-blue-400 rotate-180" />
+            <span>Exportar CSV</span>
+          </button>
+
+          <button
             id="add-person-btn"
             onClick={() => openNewRecordModal('person')}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md transition-all cursor-pointer"

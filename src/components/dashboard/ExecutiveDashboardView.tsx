@@ -43,7 +43,10 @@ import { useTheme } from '../../context/ThemeContext';
 import { Opportunity, StageId } from '../../types';
 import { STAGES } from '../../data/initialData';
 import { DashboardOperationsStrip } from './DashboardOperationsStrip';
+import { RevenueChart } from '../analytics/RevenueChart';
 import { MailAnalyticsPanel } from '../mail/MailAnalyticsPanel';
+import { QuickCaptureModal } from '../common/QuickCaptureModal';
+import { Mic } from 'lucide-react';
 
 const CHART_COLORS = ['#0d9488', '#2563eb', '#7c3aed', '#d97706', '#64748b'];
 
@@ -83,6 +86,7 @@ export const ExecutiveDashboardView: React.FC = () => {
   const [isPipelineDropdownOpen, setIsPipelineDropdownOpen] = useState(false);
   const [isCycleDropdownOpen, setIsCycleDropdownOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -507,6 +511,9 @@ export const ExecutiveDashboardView: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Revenue Trend Chart */}
+        <RevenueChart />
 
         {/* Actionable Priorities Panel (Atención Prioritaria) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -1044,6 +1051,24 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Quick Capture Floating Action Button */}
+      <button
+        id="quick-capture-fab"
+        onClick={() => setIsQuickCaptureOpen(true)}
+        className="fixed bottom-6 right-20 z-40 flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-4 py-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-400/30 font-medium text-xs"
+        title="Captura Rápida de Lead por Voz"
+      >
+        <span className="flex h-2.5 w-2.5 rounded-full bg-white animate-ping" />
+        <Mic className="h-4 w-4" />
+        <span>Captura por Voz</span>
+      </button>
+
+      {/* Quick Capture Modal */}
+      <QuickCaptureModal
+        isOpen={isQuickCaptureOpen}
+        onClose={() => setIsQuickCaptureOpen(false)}
+      />
     </div>
   );
 };

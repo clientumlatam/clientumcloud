@@ -28,6 +28,7 @@ import { Language } from '../../types';
 import { ClientumLogo } from '../common/ClientumLogo';
 import { ConnectivityIndicator } from '../common/ConnectivityIndicator';
 import { FollowupRemindersDropdown } from '../common/FollowupRemindersDropdown';
+import { NotificationCenter } from '../notifications/NotificationCenter';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 interface CrmTopHeaderProps {
@@ -218,7 +219,7 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
             )}
           </button>
 
-          <FollowupRemindersDropdown
+          <NotificationCenter
             isOpen={isRemindersOpen}
             onClose={() => setIsRemindersOpen(false)}
           />

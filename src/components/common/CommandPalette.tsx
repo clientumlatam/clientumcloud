@@ -25,16 +25,17 @@ import {
   Tag,
   Zap,
   BookOpen,
+  FolderKanban,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
 
-export type CommandCategory = 'all' | 'contacts' | 'deals' | 'actions' | 'companies' | 'tasks' | 'navigation';
+export type CommandCategory = 'all' | 'contacts' | 'deals' | 'projects' | 'actions' | 'companies' | 'tasks' | 'navigation';
 
 interface CommandItem {
   id: string;
-  category: 'Actions' | 'Opportunities' | 'People' | 'Companies' | 'Tasks' | 'Navigation';
-  type: 'action' | 'deal' | 'contact' | 'company' | 'task' | 'navigation';
+  category: 'Actions' | 'Opportunities' | 'People' | 'Companies' | 'Tasks' | 'Projects' | 'Navigation';
+  type: 'action' | 'deal' | 'contact' | 'company' | 'task' | 'project' | 'navigation';
   title: string;
   subtitle?: string;
   badge?: string;
@@ -429,6 +430,33 @@ export const CommandPalette: React.FC = () => {
       });
     });
 
+    // --- 6. PROJECTS SEARCH (Proyectos y Operaciones) ---
+    const projectsList = [
+      { id: 'PRJ-028', name: 'Implementación Clientum Sales OS', client: 'Stripe Payments', owner: 'Fernando Díaz', status: 'En curso', progress: 68 },
+      { id: 'PRJ-027', name: 'Migración de catálogo y stock', client: 'Raycast', owner: 'Sarah Chen', status: 'Planificación', progress: 18 },
+      { id: 'PRJ-024', name: 'Integración de API Gateway', client: 'Supabase Inc.', owner: 'Marcus Vance', status: 'Bloqueado', progress: 42 },
+      { id: 'PRJ-022', name: 'Implementación E-commerce B2B', client: 'Vercel Inc.', owner: 'Elena Rostova', status: 'En curso', progress: 85 },
+    ];
+
+    projectsList.forEach((prj) => {
+      list.push({
+        id: `project-${prj.id}`,
+        category: 'Projects',
+        type: 'project',
+        title: `Proyecto: ${prj.name}`,
+        subtitle: `Cliente: ${prj.client} • Responsable: ${prj.owner} • Estado: ${prj.status} (${prj.progress}% avance)`,
+        icon: FolderKanban,
+        iconColor: 'bg-teal-900/50 text-teal-300 border border-teal-500/30',
+        badge: `${prj.progress}% Proyectos`,
+        badgeColor: 'bg-teal-500/20 text-teal-300 border-teal-500/30',
+        onSelect: () => {
+          ensureInApp();
+          setActiveTab('operations');
+          showToast(`Navegando al proyecto: ${prj.name}`, 'info');
+        },
+      });
+    });
+
     // --- 6. NAVIGATION ITEMS ---
     list.push(
       {
@@ -585,6 +613,7 @@ export const CommandPalette: React.FC = () => {
       all: items.length,
       contacts: items.filter((i) => i.category === 'People').length,
       deals: items.filter((i) => i.category === 'Opportunities').length,
+      projects: items.filter((i) => i.category === 'Projects').length,
       actions: items.filter((i) => i.category === 'Actions').length,
       companies: items.filter((i) => i.category === 'Companies').length,
       tasks: items.filter((i) => i.category === 'Tasks').length,
@@ -601,6 +630,8 @@ export const CommandPalette: React.FC = () => {
       result = result.filter((i) => i.category === 'People');
     } else if (activeCategory === 'deals') {
       result = result.filter((i) => i.category === 'Opportunities');
+    } else if (activeCategory === 'projects') {
+      result = result.filter((i) => i.category === 'Projects');
     } else if (activeCategory === 'actions') {
       result = result.filter((i) => i.category === 'Actions');
     } else if (activeCategory === 'companies') {
@@ -784,6 +815,19 @@ export const CommandPalette: React.FC = () => {
             <Briefcase className="w-3.5 h-3.5" />
             <span>Deals</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.deals}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('projects')}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
+              activeCategory === 'projects'
+                ? 'bg-blue-600 text-white shadow-xs'
+                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <FolderKanban className="w-3.5 h-3.5" />
+            <span>Proyectos</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.projects}</span>
           </button>
 
           <button

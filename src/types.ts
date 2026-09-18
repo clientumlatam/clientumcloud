@@ -117,6 +117,12 @@ export interface Opportunity {
   contactPhone?: string;
 }
 
+export interface Subtask {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -128,6 +134,7 @@ export interface Task {
   targetType?: 'opportunity' | 'company' | 'person';
   targetId?: string;
   targetName?: string;
+  subtasks?: Subtask[];
   createdAt: string;
   completedAt?: string;
 }
