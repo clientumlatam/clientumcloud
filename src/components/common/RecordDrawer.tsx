@@ -112,7 +112,7 @@ const DebouncedTextarea: React.FC<DebouncedTextareaProps> = ({
   return <textarea {...props} value={localValue} onChange={handleChange} onBlur={handleBlur} />;
 };
 
-export const RecordDrawer: React.FC = () => {
+export const RecordDrawer: React.FC = React.memo(() => {
   const {
     selectedRecord,
     setSelectedRecord,
@@ -1250,4 +1250,4 @@ export const RecordDrawer: React.FC = () => {
       </motion.div>
     </div>
   );
-};
+});

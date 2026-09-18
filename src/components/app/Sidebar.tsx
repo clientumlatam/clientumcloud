@@ -74,7 +74,7 @@ interface NavSection {
   items: SidebarNavItem[];
 }
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC = React.memo(() => {
   const {
     activeTab,
     setActiveTab,
@@ -645,4 +645,4 @@ export const Sidebar: React.FC = () => {
       )}
     </>
   );
-};
+});

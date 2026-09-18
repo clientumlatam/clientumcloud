@@ -47,7 +47,10 @@ import {
   seedUserSubcollectionsIfEmpty,
   subscribeToAuthState,
   syncUserProfileToFirestore,
+  db,
+  isLiveFirebaseReady,
 } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import { INITIAL_WEBMAIL_EMAILS } from '../data/webmailInitialData';
 import {
   INITIAL_ACTIVITIES,
@@ -302,6 +305,219 @@ interface CRMContextType {
 }
 
 const CRMContext = createContext<CRMContextType | undefined>(undefined);
+
+export interface AuthContextType {
+  currentUser: User;
+  users: User[];
+  isAuthenticated: boolean;
+  isAuthReady: boolean;
+  gmailAccessToken: string | null;
+  setGmailAccessToken: (token: string | null) => void;
+  isAuthModalOpen: boolean;
+  setIsAuthModalOpen: (open: boolean) => void;
+  isProfileModalOpen: boolean;
+  setIsProfileModalOpen: (open: boolean) => void;
+  updateCurrentUser: (updates: Partial<User>) => void;
+  login: (email: string, pass: string) => void;
+  register: (name: string, email: string, pass: string, company: string) => void;
+  logout: () => void;
+  syncClerkAuth: (identity: { id: string; email: string; name: string; avatar?: string | null } | null) => void;
+  resetPassword: (email: string) => void;
+  roles: RoleDefinition[];
+  currentRole: RoleDefinition;
+  addRole: (role: Omit<RoleDefinition, 'id' | 'createdAt'>) => RoleDefinition;
+  updateRole: (id: string, updates: Partial<RoleDefinition>) => void;
+  deleteRole: (id: string) => boolean;
+  duplicateRole: (id: string) => RoleDefinition;
+  assignUserRole: (userId: string, roleNameOrSlug: string) => void;
+  addUser: (user: Omit<User, 'id'>) => User;
+  updateUser: (id: string, updates: Partial<User>) => void;
+  deleteUser: (id: string) => void;
+  hasPermission: (resource: PermissionResource, action: PermissionAction) => boolean;
+  checkPermissionOrWarn: (resource: PermissionResource, action: PermissionAction, resourceLabel?: string) => boolean;
+}
+
+export interface CRMDataContextType {
+  opportunities: Opportunity[];
+  companies: Company[];
+  people: Person[];
+  tasks: Task[];
+  activities: Activity[];
+  customObjects: CustomObjectDefinition[];
+  workflows: WorkflowRule[];
+  savedViews: SavedView[];
+  invoices: Invoice[];
+  inventory: InventoryItem[];
+  expenses: ExpenseItem[];
+  addOpportunity: (opp: Omit<Opportunity, 'id' | 'createdAt' | 'updatedAt'>) => Opportunity;
+  updateOpportunity: (id: string, updates: Partial<Opportunity>) => void;
+  deleteOpportunity: (id: string) => void;
+  moveOpportunityStage: (id: string, newStage: StageId) => void;
+  addCompany: (comp: Omit<Company, 'id' | 'createdAt'>) => Company;
+  updateCompany: (id: string, updates: Partial<Company>) => void;
+  deleteCompany: (id: string) => void;
+  addPerson: (person: Omit<Person, 'id' | 'createdAt' | 'lastActivityDate'>) => Person;
+  updatePerson: (id: string, updates: Partial<Person>, silent?: boolean) => void;
+  deletePerson: (id: string) => void;
+  enrichContact: (personId: string, manualTrigger?: boolean) => Promise<boolean>;
+  addTask: (task: Omit<Task, 'id' | 'createdAt'>) => Task;
+  updateTask: (id: string, updates: Partial<Task>) => void;
+  deleteTask: (id: string) => void;
+  toggleTaskStatus: (id: string) => void;
+  addActivity: (activity: Omit<Activity, 'id' | 'createdAt'>) => Activity;
+  deleteActivity: (id: string) => void;
+  addCustomObject: (obj: Omit<CustomObjectDefinition, 'id' | 'createdAt' | 'fields' | 'records'>) => CustomObjectDefinition;
+  addCustomFieldToObject: (objectId: string, field: Omit<CustomObjectField, 'id'>) => void;
+  addRecordToCustomObject: (objectId: string, record: Record<string, any>) => void;
+  deleteRecordFromCustomObject: (objectId: string, recordId: string) => void;
+  addWorkflow: (wf: Omit<WorkflowRule, 'id' | 'runCount'>) => WorkflowRule;
+  updateWorkflow: (wf: WorkflowRule) => void;
+  toggleWorkflow: (id: string) => void;
+  deleteWorkflow: (id: string) => void;
+  addSavedView: (view: Omit<SavedView, 'id'>) => SavedView;
+  deleteSavedView: (id: string) => void;
+  importCSVData: (target: 'opportunities' | 'companies' | 'people', items: any[]) => number;
+  lastImport: { id: string; target: 'opportunities' | 'companies' | 'people'; count: number } | null;
+  undoLastImport: () => Promise<boolean>;
+  refreshCrmData: () => Promise<boolean>;
+  addInvoice: (inv: Omit<Invoice, 'id' | 'createdAt'>) => Invoice;
+  updateInvoiceStatus: (id: string, status: InvoiceStatus) => void;
+  deleteInvoice: (id: string) => void;
+  addInventoryItem: (item: Omit<InventoryItem, 'id'>) => InventoryItem;
+  updateInventoryStock: (id: string, deltaQuantity: number) => void;
+  deleteInventoryItem: (id: string) => void;
+  addExpense: (exp: Omit<ExpenseItem, 'id'>) => ExpenseItem;
+  deleteExpense: (id: string) => void;
+  exportFullWorkspaceJSON: () => void;
+  resetToDemoData: () => void;
+  loadClientumLeads: () => void;
+  exportOpportunitiesCSV: () => void;
+  googleCalendarSync: GoogleCalendarSyncState;
+  updateCalendarSync: (updates: Partial<GoogleCalendarSyncState>) => void;
+  syncGoogleCalendarNow: () => Promise<{ success: boolean; syncedCount: number }>;
+  slackIntegration: SlackIntegrationState;
+  updateSlackIntegration: (updates: Partial<SlackIntegrationState>) => void;
+  sendSlackTestMessage: (channel?: string, eventType?: string) => Promise<boolean>;
+  apiKeys: APIKey[];
+  createAPIKey: (name: string, scopes: string[], ownerUserId?: string) => APIKey;
+  revokeAPIKey: (id: string) => void;
+  webhooks: WebhookConfig[];
+  addWebhook: (wh: Omit<WebhookConfig, 'id' | 'createdAt' | 'deliverySuccessCount' | 'deliveryFailureCount'>) => WebhookConfig;
+  updateWebhook: (id: string, updates: Partial<WebhookConfig>) => void;
+  deleteWebhook: (id: string) => void;
+  triggerTestWebhook: (id: string) => Promise<{ status: number; message: string }>;
+  webmailEmails: WebmailEmail[];
+  sendWebmailEmail: (email: Omit<WebmailEmail, 'id' | 'timestamp' | 'messageId' | 'direction'>) => Promise<boolean>;
+  markWebmailEmailAsRead: (id: string, isRead?: boolean) => void;
+  deleteWebmailEmail: (id: string) => void;
+  toggleWebmailStar: (id: string) => void;
+  isOnline: boolean;
+  isSyncPending: boolean;
+  offlinePriorityQueue: string[][];
+  ecosystemModuleOrder: string[];
+  setEcosystemModuleOrder: (order: string[]) => void;
+}
+
+export interface UIContextType {
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
+  viewMode: OpportunityViewMode;
+  setViewMode: (mode: OpportunityViewMode) => void;
+  selectedRecord: { type: 'opportunity' | 'company' | 'person' | 'task'; id: string } | null;
+  setSelectedRecord: (record: { type: 'opportunity' | 'company' | 'person' | 'task'; id: string } | null) => void;
+  filterState: FilterState;
+  setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
+  resetFilters: () => void;
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: TranslationKey) => string;
+  isMobileSidebarOpen: boolean;
+  setIsMobileSidebarOpen: (open: boolean) => void;
+  toggleMobileSidebar: () => void;
+  isCommandPaletteOpen: boolean;
+  setIsCommandPaletteOpen: (open: boolean) => void;
+  isNewRecordModalOpen: boolean;
+  setIsNewRecordModalOpen: (open: boolean) => void;
+  newRecordType: 'opportunity' | 'company' | 'person' | 'task';
+  setNewRecordType: (type: 'opportunity' | 'company' | 'person' | 'task') => void;
+  openNewRecordModal: (type?: 'opportunity' | 'company' | 'person' | 'task') => void;
+  isAICopilotModalOpen: boolean;
+  setIsAICopilotModalOpen: (open: boolean) => void;
+  aiCopilotContext: { type?: string; id?: string; name?: string; initialPrompt?: string; [key: string]: any } | null;
+  openAICopilot: (context?: { type?: string; id?: string; name?: string; initialPrompt?: string; [key: string]: any }) => void;
+  trialSubscription: TrialSubscriptionState;
+  startFreeTrial: (plan?: ClientumPlanId) => void;
+  upgradeSubscription: (plan: ClientumPlanId, billingCycle?: 'monthly' | 'annual', mpInfo?: any) => Promise<boolean>;
+  isMpCheckoutModalOpen: boolean;
+  setIsMpCheckoutModalOpen: (open: boolean) => void;
+  selectedCheckoutPlan: ClientumPlanId;
+  setSelectedCheckoutPlan: (plan: ClientumPlanId) => void;
+  openMercadoPagoCheckout: (plan?: ClientumPlanId) => void;
+  toasts: ToastMessage[];
+  showToast: (message: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+  removeToast: (id: string) => void;
+  triggerConfetti: () => void;
+  isComposeEmailModalOpen: boolean;
+  setIsComposeEmailModalOpen: (open: boolean) => void;
+  composeEmailDefaults: Partial<WebmailEmail> | null;
+  openComposeEmailModal: (defaults?: Partial<WebmailEmail>) => void;
+  closeComposeEmailModal: () => void;
+  auditLogs: AuditLogEntry[];
+  logAuditEvent: (entry: Omit<AuditLogEntry, 'id' | 'timestamp' | 'ipAddress' | 'userAgent'> & { ipAddress?: string; userAgent?: string }) => void;
+  clearAuditLogs: () => void;
+  exportAuditCSV: () => void;
+  exportAuditJSON: () => void;
+  securityAnomalies: SecurityAnomaly[];
+  dismissAnomaly: (id: string) => void;
+  resolveAnomaly: (id: string, actionNote?: string) => void;
+  triggerSecurityScan: () => void;
+}
+
+export interface ERPContextType {
+  invoices: Invoice[];
+  inventory: InventoryItem[];
+  expenses: ExpenseItem[];
+  addInvoice: (inv: Omit<Invoice, 'id' | 'createdAt'>) => Invoice;
+  updateInvoiceStatus: (id: string, status: InvoiceStatus) => void;
+  deleteInvoice: (id: string) => void;
+  addInventoryItem: (item: Omit<InventoryItem, 'id'>) => InventoryItem;
+  updateInventoryStock: (id: string, deltaQuantity: number) => void;
+  deleteInventoryItem: (id: string) => void;
+  addExpense: (exp: Omit<ExpenseItem, 'id'>) => ExpenseItem;
+  deleteExpense: (id: string) => void;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const CRMDataContext = createContext<CRMDataContextType | undefined>(undefined);
+export const UIContext = createContext<UIContextType | undefined>(undefined);
+export const ERPContext = createContext<ERPContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within a CRMProvider');
+  return context;
+};
+
+export const useERP = () => {
+  const context = useContext(ERPContext);
+  if (!context) throw new Error('useERP must be used within a CRMProvider');
+  return context;
+};
+
+export const useCRMData = () => {
+  const context = useContext(CRMDataContext);
+  if (!context) throw new Error('useCRMData must be used within a CRMProvider');
+  return context;
+};
+
+export const useUI = () => {
+  const context = useContext(UIContext);
+  if (!context) throw new Error('useUI must be used within a CRMProvider');
+  return context;
+};
 
 const STORAGE_KEYS = {
   OPPORTUNITIES: 'clientum_crm_opportunities',
@@ -1105,6 +1321,24 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const lastSyncedTasks = useRef<Task[] | null>(null);
   const lastSyncedActivities = useRef<Activity[] | null>(null);
 
+  // Helper function to perform granular updates to Firestore using 'setDoc' with 'merge: true' targeting specific collections
+  const granularSyncToFirestore = useCallback(async (
+    userId: string,
+    collectionName: 'opportunities' | 'companies' | 'people' | 'tasks' | 'activities',
+    items: any[]
+  ) => {
+    if (!isLiveFirebaseReady || !db || !userId) return;
+    try {
+      const collectionDocRef = doc(db, 'users', userId, 'collections', collectionName);
+      await setDoc(collectionDocRef, {
+        items,
+        updatedAt: new Date().toISOString(),
+      }, { merge: true });
+    } catch (error) {
+      console.warn(`Granular Firestore update failed for ${collectionName}:`, error);
+    }
+  }, []);
+
   // Persist the complete core snapshot after local mutations. Debouncing
   // prevents a compound action (deal + activity + audit) from issuing a
   // request for every individual state update.
@@ -1158,7 +1392,15 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       void (async () => {
         try {
           // Sync ONLY the changed fields directly to Firestore with { merge: true }
-          await syncWorkspaceToFirestore(currentUser.id, changedFields);
+          for (const key of Object.keys(changedFields)) {
+            if (['opportunities', 'companies', 'people', 'tasks', 'activities'].includes(key)) {
+              await granularSyncToFirestore(
+                currentUser.id,
+                key as any,
+                changedFields[key]
+              );
+            }
+          }
 
           // Update tracking refs to match current values
           if (changedFields.opportunities) lastSyncedOpps.current = changedFields.opportunities;
@@ -3653,10 +3895,395 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ]
   );
 
+  const authValue = useMemo<AuthContextType>(
+    () => ({
+      currentUser,
+      users,
+      isAuthenticated,
+      isAuthReady,
+      gmailAccessToken,
+      setGmailAccessToken,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      isProfileModalOpen,
+      setIsProfileModalOpen,
+      updateCurrentUser,
+      login,
+      register,
+      logout,
+      resetPassword,
+      syncClerkAuth,
+      roles,
+      currentRole,
+      addRole,
+      updateRole,
+      deleteRole,
+      duplicateRole,
+      assignUserRole,
+      addUser,
+      updateUser,
+      deleteUser,
+      hasPermission,
+      checkPermissionOrWarn,
+    }),
+    [
+      currentUser,
+      users,
+      isAuthenticated,
+      isAuthReady,
+      gmailAccessToken,
+      setGmailAccessToken,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      isProfileModalOpen,
+      setIsProfileModalOpen,
+      updateCurrentUser,
+      login,
+      register,
+      logout,
+      resetPassword,
+      syncClerkAuth,
+      roles,
+      currentRole,
+      addRole,
+      updateRole,
+      deleteRole,
+      duplicateRole,
+      assignUserRole,
+      addUser,
+      updateUser,
+      deleteUser,
+      hasPermission,
+      checkPermissionOrWarn,
+    ]
+  );
+
+  const crmDataValue = useMemo<CRMDataContextType>(
+    () => ({
+      opportunities,
+      companies,
+      people,
+      tasks,
+      activities,
+      customObjects,
+      workflows,
+      savedViews,
+      invoices,
+      inventory,
+      expenses,
+      addOpportunity,
+      updateOpportunity,
+      deleteOpportunity,
+      moveOpportunityStage,
+      addCompany,
+      updateCompany,
+      deleteCompany,
+      addPerson,
+      updatePerson,
+      deletePerson,
+      enrichContact,
+      addTask,
+      updateTask,
+      deleteTask,
+      toggleTaskStatus,
+      addActivity,
+      deleteActivity,
+      addCustomObject,
+      addCustomFieldToObject,
+      addRecordToCustomObject,
+      deleteRecordFromCustomObject,
+      addWorkflow,
+      updateWorkflow,
+      toggleWorkflow,
+      deleteWorkflow,
+      addSavedView,
+      deleteSavedView,
+      importCSVData,
+      lastImport,
+      undoLastImport,
+      refreshCrmData,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+      exportFullWorkspaceJSON,
+      resetToDemoData,
+      loadClientumLeads,
+      exportOpportunitiesCSV,
+      googleCalendarSync,
+      updateCalendarSync,
+      syncGoogleCalendarNow,
+      slackIntegration,
+      updateSlackIntegration,
+      sendSlackTestMessage,
+      apiKeys,
+      createAPIKey,
+      revokeAPIKey,
+      webhooks,
+      addWebhook,
+      updateWebhook,
+      deleteWebhook,
+      triggerTestWebhook,
+      webmailEmails,
+      sendWebmailEmail,
+      markWebmailEmailAsRead,
+      deleteWebmailEmail,
+      toggleWebmailStar,
+      isOnline,
+      isSyncPending,
+      offlinePriorityQueue,
+      ecosystemModuleOrder,
+      setEcosystemModuleOrder,
+    }),
+    [
+      opportunities,
+      companies,
+      people,
+      tasks,
+      activities,
+      customObjects,
+      workflows,
+      savedViews,
+      invoices,
+      inventory,
+      expenses,
+      addOpportunity,
+      updateOpportunity,
+      deleteOpportunity,
+      moveOpportunityStage,
+      addCompany,
+      updateCompany,
+      deleteCompany,
+      addPerson,
+      updatePerson,
+      deletePerson,
+      enrichContact,
+      addTask,
+      updateTask,
+      deleteTask,
+      toggleTaskStatus,
+      addActivity,
+      deleteActivity,
+      addCustomObject,
+      addCustomFieldToObject,
+      addRecordToCustomObject,
+      deleteRecordFromCustomObject,
+      workflows,
+      addWorkflow,
+      updateWorkflow,
+      toggleWorkflow,
+      deleteWorkflow,
+      savedViews,
+      addSavedView,
+      deleteSavedView,
+      importCSVData,
+      lastImport,
+      undoLastImport,
+      refreshCrmData,
+      resetToDemoData,
+      loadClientumLeads,
+      exportOpportunitiesCSV,
+      invoices,
+      inventory,
+      expenses,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+      exportFullWorkspaceJSON,
+      googleCalendarSync,
+      updateCalendarSync,
+      syncGoogleCalendarNow,
+      slackIntegration,
+      updateSlackIntegration,
+      sendSlackTestMessage,
+      apiKeys,
+      createAPIKey,
+      revokeAPIKey,
+      webhooks,
+      addWebhook,
+      updateWebhook,
+      deleteWebhook,
+      triggerTestWebhook,
+      webmailEmails,
+      sendWebmailEmail,
+      markWebmailEmailAsRead,
+      deleteWebmailEmail,
+      toggleWebmailStar,
+      ecosystemModuleOrder,
+      setEcosystemModuleOrder,
+      isOnline,
+      isSyncPending,
+      offlinePriorityQueue,
+    ]
+  );
+
+  const uiValue = useMemo<UIContextType>(
+    () => ({
+      activeTab,
+      setActiveTab,
+      viewMode,
+      setViewMode,
+      selectedRecord,
+      setSelectedRecord,
+      filterState,
+      setFilterState,
+      resetFilters,
+      theme,
+      setTheme,
+      toggleTheme,
+      language,
+      setLanguage,
+      t,
+      isMobileSidebarOpen,
+      setIsMobileSidebarOpen,
+      toggleMobileSidebar,
+      isCommandPaletteOpen,
+      setIsCommandPaletteOpen,
+      isNewRecordModalOpen,
+      setIsNewRecordModalOpen,
+      newRecordType,
+      setNewRecordType,
+      openNewRecordModal,
+      isAICopilotModalOpen,
+      setIsAICopilotModalOpen,
+      aiCopilotContext,
+      openAICopilot,
+      trialSubscription,
+      startFreeTrial,
+      upgradeSubscription,
+      isMpCheckoutModalOpen,
+      setIsMpCheckoutModalOpen,
+      selectedCheckoutPlan,
+      setSelectedCheckoutPlan,
+      openMercadoPagoCheckout,
+      toasts,
+      showToast,
+      removeToast,
+      triggerConfetti,
+      isComposeEmailModalOpen,
+      setIsComposeEmailModalOpen,
+      composeEmailDefaults,
+      openComposeEmailModal,
+      closeComposeEmailModal,
+      auditLogs,
+      logAuditEvent,
+      clearAuditLogs,
+      exportAuditCSV,
+      exportAuditJSON,
+      securityAnomalies,
+      dismissAnomaly,
+      resolveAnomaly,
+      triggerSecurityScan,
+    }),
+    [
+      activeTab,
+      setActiveTab,
+      viewMode,
+      setViewMode,
+      selectedRecord,
+      setSelectedRecord,
+      filterState,
+      setFilterState,
+      resetFilters,
+      theme,
+      setTheme,
+      toggleTheme,
+      language,
+      setLanguage,
+      t,
+      isMobileSidebarOpen,
+      setIsMobileSidebarOpen,
+      toggleMobileSidebar,
+      isCommandPaletteOpen,
+      setIsCommandPaletteOpen,
+      isNewRecordModalOpen,
+      setIsNewRecordModalOpen,
+      newRecordType,
+      setNewRecordType,
+      openNewRecordModal,
+      isAICopilotModalOpen,
+      setIsAICopilotModalOpen,
+      aiCopilotContext,
+      openAICopilot,
+      trialSubscription,
+      startFreeTrial,
+      upgradeSubscription,
+      isMpCheckoutModalOpen,
+      setIsMpCheckoutModalOpen,
+      selectedCheckoutPlan,
+      setSelectedCheckoutPlan,
+      openMercadoPagoCheckout,
+      toasts,
+      showToast,
+      removeToast,
+      triggerConfetti,
+      auditLogs,
+      logAuditEvent,
+      clearAuditLogs,
+      exportAuditCSV,
+      exportAuditJSON,
+      securityAnomalies,
+      dismissAnomaly,
+      resolveAnomaly,
+      triggerSecurityScan,
+      isComposeEmailModalOpen,
+      setIsComposeEmailModalOpen,
+      composeEmailDefaults,
+      openComposeEmailModal,
+      closeComposeEmailModal,
+    ]
+  );
+
+  const erpValue = useMemo<ERPContextType>(
+    () => ({
+      invoices,
+      inventory,
+      expenses,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+    }),
+    [
+      invoices,
+      inventory,
+      expenses,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+    ]
+  );
+
   return (
-    <CRMContext.Provider value={contextValue}>
-      {children}
-    </CRMContext.Provider>
+    <AuthContext.Provider value={authValue}>
+      <CRMDataContext.Provider value={crmDataValue}>
+        <UIContext.Provider value={uiValue}>
+          <ERPContext.Provider value={erpValue}>
+            <CRMContext.Provider value={contextValue}>
+              {children}
+            </CRMContext.Provider>
+          </ERPContext.Provider>
+        </UIContext.Provider>
+      </CRMDataContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

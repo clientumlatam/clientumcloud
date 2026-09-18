@@ -5,12 +5,18 @@ import { ToastContainer } from './components/common/ToastContainer';
 import { AuthModal } from './components/auth/AuthModal';
 import { PublicSite } from './components/public/PublicSite';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { CommandPalette } from './components/common/CommandPalette';
 import { NewRecordModal } from './components/common/NewRecordModal';
-import { RecordDrawer } from './components/common/RecordDrawer';
 import { TrialBanner } from './components/billing/TrialBanner';
 import { MercadoPagoSubscriptionModal } from './components/billing/MercadoPagoSubscriptionModal';
 import { isPrivateAppPath } from './lib/router/routeRegistry';
+
+const CommandPalette = lazy(() => import('./components/common/CommandPalette').then((module) => ({
+  default: module.CommandPalette,
+})));
+
+const RecordDrawer = lazy(() => import('./components/common/RecordDrawer').then((module) => ({
+  default: module.RecordDrawer,
+})));
 
 const PrivateEnvironment = lazy(() => import('./components/app/PrivateEnvironment').then((module) => ({
   default: module.PrivateEnvironment,
@@ -62,9 +68,13 @@ const AppContent: React.FC = () => {
     <div data-theme={resolvedTheme} className="min-h-screen w-screen overflow-x-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
       <TrialBanner />
       <PublicSite />
-      <CommandPalette />
+      <Suspense fallback={null}>
+        <CommandPalette />
+      </Suspense>
       <NewRecordModal />
-      <RecordDrawer />
+      <Suspense fallback={null}>
+        <RecordDrawer />
+      </Suspense>
       <AuthModal />
       <MercadoPagoSubscriptionModal
         isOpen={isMpCheckoutModalOpen}
