@@ -25,7 +25,7 @@ import {
   resolveCrmDuplicate,
   undoCrmImportBatch,
   upsertCrmRecords,
-} from "./server/crmRepository";
+} from "./server/crmRepository.js";
 
 dotenv.config();
 
