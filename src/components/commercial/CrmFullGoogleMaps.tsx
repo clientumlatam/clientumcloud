@@ -304,7 +304,7 @@ export const CrmFullGoogleMaps: React.FC = () => {
           <div className="sm:col-span-4">
             <label className="text-[11px] text-slate-400 block mb-1 font-medium">Ciudad / Localidad / Coordenadas</label>
             <div className="relative">
-              <MapPin className="w-4 h-4 text-slate-500 absolute left-2.5 top-2.5" />
+              <MapPin className="w-4 h-4 text-[var(--text-muted)] absolute left-2.5 top-2.5" />
               <input
                 type="text"
                 value={city}
@@ -414,15 +414,15 @@ export const CrmFullGoogleMaps: React.FC = () => {
 
                 <div className="text-[11px] text-slate-400 space-y-1">
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3 h-3 text-slate-500" />
+                    <MapPin className="w-3 h-3 text-[var(--text-muted)]" />
                     <span>{selectedLead.address}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Phone className="w-3 h-3 text-slate-500" />
+                    <Phone className="w-3 h-3 text-[var(--text-muted)]" />
                     <span>{selectedLead.phone}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Globe className="w-3 h-3 text-slate-500" />
+                    <Globe className="w-3 h-3 text-[var(--text-muted)]" />
                     <span className="text-cyan-400">{selectedLead.website}</span>
                   </div>
                 </div>
@@ -487,16 +487,16 @@ export const CrmFullGoogleMaps: React.FC = () => {
                           {lead.niche}
                         </span>
                         <span className="text-[10px] text-amber-400 font-bold flex items-center gap-0.5">
-                          ★ {lead.rating} <span className="text-slate-500">({lead.reviewsCount})</span>
+                          ★ {lead.rating} <span className="text-[var(--text-muted)]">({lead.reviewsCount})</span>
                         </span>
                       </div>
 
                       <div className="text-[11px] text-slate-400 flex flex-wrap gap-x-4 gap-y-1">
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-slate-500" /> {lead.address}
+                          <MapPin className="w-3 h-3 text-[var(--text-muted)]" /> {lead.address}
                         </span>
                         <span className="flex items-center gap-1 text-slate-300">
-                          <Phone className="w-3 h-3 text-slate-500" /> {lead.phone}
+                          <Phone className="w-3 h-3 text-[var(--text-muted)]" /> {lead.phone}
                         </span>
                       </div>
                     </div>

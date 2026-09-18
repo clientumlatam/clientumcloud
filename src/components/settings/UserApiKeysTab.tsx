@@ -230,7 +230,7 @@ export const UserApiKeysTab: React.FC = () => {
                 <img src={user.avatar} alt="" className="h-7 w-7 rounded-full object-cover" />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-xs font-semibold">{user.name}</span>
-                  <span className="block truncate text-[10px] text-slate-500">{user.role}</span>
+                  <span className="block truncate text-[10px] text-[var(--text-muted)]">{user.role}</span>
                 </span>
                 <span className="rounded-full bg-[#1e2434] px-1.5 py-0.5 font-mono text-[10px] text-blue-300">{count}</span>
               </button>
@@ -281,7 +281,7 @@ export const UserApiKeysTab: React.FC = () => {
                 <UserRound className="h-4 w-4 text-blue-400" />
                 Tokens de {selectedUser.name}
               </h4>
-              <p className="mt-0.5 text-[11px] text-slate-500">{selectedUser.email} · {activeKeyCount} activas</p>
+              <p className="mt-0.5 text-[11px] text-[var(--text-muted)]">{selectedUser.email} · {activeKeyCount} activas</p>
             </div>
             <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-1 text-[10px] font-mono text-blue-300">
               user_id: {selectedUser.id}
@@ -290,9 +290,9 @@ export const UserApiKeysTab: React.FC = () => {
 
           {userKeys.length === 0 ? (
             <div className="rounded-lg border border-dashed border-[#2b354c] bg-[#0e121a] px-4 py-8 text-center">
-              <KeyRound className="mx-auto h-6 w-6 text-slate-600" />
+              <KeyRound className="mx-auto h-6 w-6 text-[var(--text-secondary)]" />
               <p className="mt-2 text-xs font-medium text-slate-300">Este usuario todavía no tiene API Keys</p>
-              <p className="mt-1 text-[11px] text-slate-500">Crea un token y asigna solo los módulos que necesita.</p>
+              <p className="mt-1 text-[11px] text-[var(--text-muted)]">Crea un token y asigna solo los módulos que necesita.</p>
             </div>
           ) : (
             <div className="divide-y divide-[#1e2434]">
@@ -348,13 +348,13 @@ export const UserApiKeysTab: React.FC = () => {
             <Layers3 className="h-4 w-4 text-purple-400" />
             Módulos disponibles
           </h4>
-          <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+          <p className="mt-1 text-[11px] leading-relaxed text-[var(--text-muted)]">
             Cada token puede limitarse a los módulos del menú avanzado.
           </p>
           <div className="mt-3 space-y-3">
             {MODULE_GROUPS.map((group) => (
               <div key={group.label}>
-                <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{group.label}</p>
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">{group.label}</p>
                 <div className="flex flex-wrap gap-1">
                   {group.items.map((item) => (
                     <span key={item.id} className="rounded border border-[#253047] bg-[#0e121a] px-1.5 py-1 text-[10px] text-slate-400">

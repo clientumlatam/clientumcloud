@@ -84,13 +84,13 @@ export const DeploymentMonitor: React.FC<DeploymentMonitorProps> = ({
           <div className="mt-2 pt-2 border-t border-slate-800 space-y-1.5 font-mono text-[11px] text-slate-400 animate-fadeIn">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3 text-slate-500" /> Compilación:
+                <Clock className="w-3 h-3 text-[var(--text-muted)]" /> Compilación:
               </span>
               <span className="text-slate-200">{buildTimestamp}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-slate-500" /> Firestore DB:
+                <Cpu className="w-3 h-3 text-[var(--text-muted)]" /> Firestore DB:
               </span>
               <span className={isFirestoreConnected ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
                 {isFirestoreConnected ? 'Conectado' : 'Caché Offline'}
@@ -98,7 +98,7 @@ export const DeploymentMonitor: React.FC<DeploymentMonitorProps> = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-slate-500" /> Entorno:
+                <ShieldCheck className="w-3 h-3 text-[var(--text-muted)]" /> Entorno:
               </span>
               <span className="text-blue-400">Cloud Run / Vercel Edge</span>
             </div>

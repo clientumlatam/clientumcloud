@@ -7,6 +7,11 @@ export const INITIAL_INVOICES: Invoice[] = [
     clientName: 'ABEPOL S.R.L.',
     clientEmail: 'compras@abepol.com.ar',
     clientAddress: 'Av. Industrial 4500, San Martín, Buenos Aires',
+    cuit: '30-71048291-8',
+    invoiceType: 'Factura A',
+    puntoDeVenta: '0004-AFIP Central',
+    cae: '76298102847291',
+    caeExpires: '2026-09-30',
     issueDate: '2026-08-10',
     dueDate: '2026-08-25',
     status: 'Paid',
@@ -27,6 +32,11 @@ export const INITIAL_INVOICES: Invoice[] = [
     clientName: 'ACHA PLAST S.A.',
     clientEmail: 'administracion@achaplast.com',
     clientAddress: 'Ruta 8 Km 54, Pilar, Buenos Aires',
+    cuit: '33-69812450-9',
+    invoiceType: 'Factura A',
+    puntoDeVenta: '0004-AFIP Central',
+    cae: '76319401928412',
+    caeExpires: '2026-09-15',
     issueDate: '2026-08-18',
     dueDate: '2026-09-02',
     status: 'Sent',
@@ -46,6 +56,11 @@ export const INITIAL_INVOICES: Invoice[] = [
     clientName: 'Verion ICSA',
     clientEmail: 'facturacion@verion.com.ar',
     clientAddress: 'Av. del Libertador 1200, Vicente López',
+    cuit: '30-55418293-2',
+    invoiceType: 'Factura B',
+    puntoDeVenta: '0004-AFIP Central',
+    cae: '76401928471629',
+    caeExpires: '2026-09-20',
     issueDate: '2026-08-22',
     dueDate: '2026-09-05',
     status: 'Draft',
@@ -58,6 +73,30 @@ export const INITIAL_INVOICES: Invoice[] = [
     totalAmount: 8900.00,
     notes: 'Borrador de comprobante previo a revisión con Finanzas.',
     createdAt: '2026-08-22T09:15:00.000Z'
+  },
+  {
+    id: 'INV-2026-004',
+    opportunityId: 'opp-4',
+    clientName: 'Distribuidora San Telmo SRL',
+    clientEmail: 'cobranzas@santelmo-dist.com.ar',
+    clientAddress: 'Defensa 840, CABA',
+    cuit: '30-68192841-4',
+    invoiceType: 'Factura A',
+    puntoDeVenta: '0004-AFIP Central',
+    cae: '76110293847192',
+    caeExpires: '2026-08-20',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-16',
+    status: 'Overdue',
+    items: [
+      { id: 'item-1', description: 'Licencia ClientumCRM + 4x Lectores Rugerizados', quantity: 1, unitPrice: 18181.81, total: 18181.81 }
+    ],
+    subtotal: 18181.81,
+    taxRate: 21,
+    taxAmount: 3818.19,
+    totalAmount: 22000.00,
+    notes: 'Comprobante vencido (mora de 32 días). Primer aviso enviado por WhatsApp.',
+    createdAt: '2026-08-01T11:00:00.000Z'
   }
 ];
 
@@ -72,7 +111,15 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     unitPrice: 1200.00,
     description: 'Suscripción anual para despliegues empresariales con soporte.',
     linkedDealsCount: 12,
-    lastRestocked: '2026-08-01'
+    lastRestocked: '2026-08-01',
+    warehouseLocation: {
+      warehouse: 'Depósito Central San Martín',
+      aisle: 'Pasillo Digital-A',
+      rack: 'Servidor SSD-01',
+      shelf: 'Nivel Cloud',
+      bin: 'Sector Licencias'
+    },
+    warehouseLocationString: 'Depósito Central San Martín · Pasillo Digital-A · Servidor SSD-01'
   },
   {
     id: 'inv-2',
@@ -84,7 +131,14 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     unitPrice: 150.00,
     description: 'Paquete de créditos de mensajería para WhatsApp Business Cloud.',
     linkedDealsCount: 28,
-    lastRestocked: '2026-07-20'
+    lastRestocked: '2026-07-20',
+    warehouseLocation: {
+      warehouse: 'Depósito Cloud AWS',
+      aisle: 'Pasillo Gateways',
+      rack: 'Cluster Meta-API',
+      shelf: 'Instancia Prod-03'
+    },
+    warehouseLocationString: 'Depósito Cloud AWS · Cluster Meta-API · Instancia Prod-03'
   },
   {
     id: 'inv-3',
@@ -96,7 +150,14 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     unitPrice: 850.00,
     description: 'Cupos mensuales de horas de ingeniería para onboarding de clientes.',
     linkedDealsCount: 6,
-    lastRestocked: '2026-08-10'
+    lastRestocked: '2026-08-10',
+    warehouseLocation: {
+      warehouse: 'Oficina Central Puerto Madero',
+      aisle: 'Piso 7 - Consultoría',
+      rack: 'Equipo Onboarding',
+      shelf: 'Módulo Ingenieros'
+    },
+    warehouseLocationString: 'Oficina Central Puerto Madero · Piso 7 · Equipo Onboarding'
   },
   {
     id: 'inv-4',
@@ -108,7 +169,15 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     unitPrice: 340.00,
     description: 'Escáner rugerizado IP67 para control de inventario en planta.',
     linkedDealsCount: 3,
-    lastRestocked: '2026-06-15'
+    lastRestocked: '2026-06-15',
+    warehouseLocation: {
+      warehouse: 'Depósito Central San Martín',
+      aisle: 'Pasillo B-4',
+      rack: 'Estantería Industrial 08',
+      shelf: 'Nivel 2',
+      bin: 'Caja A-14'
+    },
+    warehouseLocationString: 'Depósito Central San Martín · Pasillo B-4 · Estantería 08 · Nivel 2 · Caja A-14'
   },
   {
     id: 'inv-5',
@@ -120,7 +189,14 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     unitPrice: 450.00,
     description: 'Monitoreo preventivo y respaldos automatizados en Cloud Run / Cloud SQL.',
     linkedDealsCount: 18,
-    lastRestocked: '2026-08-05'
+    lastRestocked: '2026-08-05',
+    warehouseLocation: {
+      warehouse: 'Datacenter Dock Sud',
+      aisle: 'Pasillo C-1',
+      rack: 'Rack HP-Blade 44',
+      shelf: 'Nivel 4'
+    },
+    warehouseLocationString: 'Datacenter Dock Sud · Pasillo C-1 · Rack HP-Blade 44'
   }
 ];
 

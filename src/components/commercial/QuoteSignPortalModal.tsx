@@ -186,7 +186,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
       id="quote-sign-portal-modal"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/70 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto"
     >
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col my-auto max-h-[92vh]">
+      <div className="relative w-full max-w-3xl bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-[var(--border-subtle)] overflow-hidden flex flex-col my-auto max-h-[92vh]">
         {/* Top Notification Bar */}
         <div className="bg-slate-900 text-white px-5 py-3 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-2">
@@ -232,19 +232,19 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
         </div>
 
         {/* Document Body (Client Facing Portal) */}
-        <div className="p-6 overflow-y-auto space-y-6 text-xs bg-slate-50/50">
+        <div className="p-6 overflow-y-auto space-y-6 text-xs bg-[var(--bg-muted)]/50">
           {/* Document Header */}
-          <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row justify-between gap-4">
+          <div className="p-5 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-xs flex flex-col sm:flex-row justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
                   C
                 </div>
-                <span className="text-base font-extrabold tracking-tight text-slate-900">
+                <span className="text-base font-extrabold tracking-tight text-[var(--text-primary)]">
                   Clientum CRM
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 Soluciones Comerciales & Software de Gestión
               </p>
               <p className="text-[11px] text-slate-400">info@clientum.app • www.clientum.app</p>
@@ -254,40 +254,40 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               <span className="inline-block px-2.5 py-1 rounded-lg font-mono font-bold text-xs bg-blue-50 text-blue-700 border border-blue-200">
                 COT-2026-{opportunity?.id.slice(-4) || '9012'}
               </span>
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 Fecha de Emisión: <strong>{new Date().toLocaleDateString('es-AR')}</strong>
               </p>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-[var(--text-muted)]">
                 Validez de Oferta: <strong>15 días corridos</strong>
               </p>
             </div>
           </div>
 
           {/* Client Recipient Details */}
-          <div className="p-4 bg-white rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-4 bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 Preparado para:
               </span>
-              <p className="text-xs font-bold text-slate-900 mt-0.5">
+              <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">
                 {opportunity?.contactName || 'Responsable de Compras'}
               </p>
-              <p className="text-xs text-slate-600">{opportunity?.companyName || 'Empresa Cliente'}</p>
+              <p className="text-xs text-[var(--text-secondary)]">{opportunity?.companyName || 'Empresa Cliente'}</p>
             </div>
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 Proyecto / Propuesta:
               </span>
               <p className="text-xs font-bold text-blue-700 mt-0.5">{opportunity?.name}</p>
-              <p className="text-xs text-slate-500">Condición de Pago: Transferencia 50% anticipo</p>
+              <p className="text-xs text-[var(--text-muted)]">Condición de Pago: Transferencia 50% anticipo</p>
             </div>
           </div>
 
           {/* Items Table */}
-          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+          <div className="bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] overflow-hidden shadow-xs">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-600">
+                <tr className="bg-[var(--bg-muted)] border-b border-[var(--border-subtle)] text-[11px] font-bold text-[var(--text-secondary)]">
                   <th className="p-3">Descripción</th>
                   <th className="p-3 text-center">Cant.</th>
                   <th className="p-3 text-right">Precio Unit.</th>
@@ -295,14 +295,14 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                   <th className="p-3 text-right">Subtotal</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
+              <tbody className="divide-y divide-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
                 {currentItems.map((it, idx) => (
                   <tr key={idx}>
-                    <td className="p-3 font-medium text-slate-900">{it.description}</td>
+                    <td className="p-3 font-medium text-[var(--text-primary)]">{it.description}</td>
                     <td className="p-3 text-center">{it.quantity}</td>
                     <td className="p-3 text-right font-mono">${it.unitPrice.toLocaleString()}</td>
                     <td className="p-3 text-right font-mono">{it.discount}%</td>
-                    <td className="p-3 text-right font-mono font-bold text-slate-900">
+                    <td className="p-3 text-right font-mono font-bold text-[var(--text-primary)]">
                       ${(it.quantity * it.unitPrice * (1 - it.discount / 100)).toLocaleString()}
                     </td>
                   </tr>
@@ -311,18 +311,18 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
             </table>
 
             {/* Totals Breakdown */}
-            <div className="p-4 bg-slate-50/70 border-t border-slate-200 flex justify-end">
+            <div className="p-4 bg-[var(--bg-muted)]/70 border-t border-[var(--border-subtle)] flex justify-end">
               <div className="w-64 space-y-1.5 text-xs">
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-[var(--text-secondary)]">
                   <span>Subtotal Neto:</span>
                   <span className="font-mono font-semibold">${Math.round(subtotal).toLocaleString()} USD</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-[var(--text-secondary)]">
                   <span>IVA Estimado (21%):</span>
                   <span className="font-mono font-semibold">${Math.round(tax).toLocaleString()} USD</span>
                 </div>
-                <div className="h-px bg-slate-200 my-1" />
-                <div className="flex justify-between text-slate-900 font-bold text-sm">
+                <div className="h-px bg-[var(--bg-muted)] my-1" />
+                <div className="flex justify-between text-[var(--text-primary)] font-bold text-sm">
                   <span>Total Final:</span>
                   <span className="font-mono text-blue-700 font-extrabold">
                     ${Math.round(total).toLocaleString()} USD
@@ -343,7 +343,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                 El acuerdo comercial ha sido ratificado formalmente. El estado del negocio en el CRM ha cambiado automáticamente a <strong>Ganado (Won)</strong> y se ha notificado al equipo comercial.
               </p>
               {signatureCertificate && (
-                <div className="p-3 bg-white/80 rounded-xl border border-emerald-200 text-[11px] font-mono text-slate-700 space-y-1">
+                <div className="p-3 bg-[var(--bg-card)]/80 rounded-xl border border-emerald-200 text-[11px] font-mono text-[var(--text-secondary)] space-y-1">
                   <div><strong>Firmante:</strong> {signerName}</div>
                   <div><strong>Certificado Hash:</strong> {signatureCertificate.hash}</div>
                   <div><strong>Marca Temporal:</strong> {signatureCertificate.timestamp}</div>
@@ -351,21 +351,21 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               )}
             </div>
           ) : (
-            <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div className="p-5 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                     <PenTool className="w-4 h-4 text-blue-600" />
                     <span>Firma Digital & Ratificación del Acuerdo</span>
                   </h4>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-[var(--text-muted)]">
                     Dibuja tu firma a continuación para formalizar la aceptación de la propuesta
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={clearSignature}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer"
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)] cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Borrar</span>
@@ -375,7 +375,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               {/* Signer Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] mb-1">
                     Nombre y Apellido *
                   </label>
                   <input
@@ -383,11 +383,11 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                     value={signerName}
                     onChange={(e) => setSignerName(e.target.value)}
                     placeholder="Ej: Ing. Martín Gómez"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full rounded-lg border border-[var(--border-subtle)] px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] mb-1">
                     DNI / CUIT / Pasaporte
                   </label>
                   <input
@@ -395,11 +395,11 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                     value={signerIdNumber}
                     onChange={(e) => setSignerIdNumber(e.target.value)}
                     placeholder="Ej: 34.890.123"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full rounded-lg border border-[var(--border-subtle)] px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] mb-1">
                     Email Corporativo
                   </label>
                   <input
@@ -407,13 +407,13 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                     value={signerEmail}
                     onChange={(e) => setSignerEmail(e.target.value)}
                     placeholder="martin@empresa.com"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full rounded-lg border border-[var(--border-subtle)] px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
               </div>
 
               {/* Signature Canvas */}
-              <div className="relative border-2 border-dashed border-slate-300 rounded-xl bg-slate-50/50 p-1">
+              <div className="relative border-2 border-dashed border-[var(--border-default)] rounded-xl bg-[var(--bg-muted)]/50 p-1">
                 <canvas
                   ref={canvasRef}
                   width={600}
@@ -425,7 +425,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                   onTouchStart={startDrawing}
                   onTouchMove={draw}
                   onTouchEnd={stopDrawing}
-                  className="w-full h-[140px] bg-white rounded-lg cursor-crosshair touch-none"
+                  className="w-full h-[140px] bg-[var(--bg-card)] rounded-lg cursor-crosshair touch-none"
                 />
                 {!hasDrawn && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-slate-400 text-xs font-medium">
@@ -435,12 +435,12 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               </div>
 
               {/* Agreement Checkbox */}
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-700">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[var(--text-secondary)]">
                 <input
                   type="checkbox"
                   checked={agreedTerms}
                   onChange={(e) => setAgreedTerms(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
+                  className="mt-0.5 rounded border-[var(--border-default)] text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
                 />
                 <span>
                   He revisado y acepto en su totalidad los términos, alcances técnicos y condiciones de pago detallados en esta cotización.
@@ -461,14 +461,14 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 shrink-0">
+        <div className="p-4 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-muted)] shrink-0">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span className="text-[11px]">Transacción cifrada y certificada por Clientum CRM</span>
           </div>
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
           >
             Cerrar
           </button>

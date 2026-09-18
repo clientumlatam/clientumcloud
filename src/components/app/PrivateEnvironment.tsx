@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useCRM } from '../../context/CRMContext';
 import { Sidebar } from './Sidebar';
 import { Navbar } from '../layout/Navbar';
@@ -165,7 +165,7 @@ const ViewFallbackLoader: React.FC = () => (
       <div className="absolute w-12 h-12 rounded-full border-2 border-blue-500/20 animate-ping" />
       <div className="w-8 h-8 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
     </div>
-    <span className="text-xs font-semibold text-slate-500 animate-pulse">Cargando módulo...</span>
+    <span className="text-xs font-semibold text-[var(--text-muted)] animate-pulse">Cargando módulo...</span>
   </div>
 );
 
@@ -186,9 +186,9 @@ const MainContent: React.FC = () => {
     selectedCheckoutPlan,
   } = useCRM();
 
-  const [isWizardOpen, setIsWizardOpen] = React.useState(false);
-  const [isSimulatorOpen, setIsSimulatorOpen] = React.useState(false);
-  const [isAuditOpen, setIsAuditOpen] = React.useState(false);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
 
   // Hook for automatic periodic storage cleanup (localStorage & IndexedDB)
   useStorageCleanup();
@@ -213,7 +213,7 @@ const MainContent: React.FC = () => {
 
       <main className="crm-main-content flex-1 flex flex-col min-h-0 overflow-hidden relative">
         <Suspense fallback={<ViewFallbackLoader />}>
-          {activeTab === 'dashboard' && <ExecutiveDashboardView />}
+          {(activeTab === 'dashboard' || activeTab === 'userDashboard') && <ExecutiveDashboardView />}
           {(activeTab === 'ecosystemHub' || activeTab === 'featureHub') && <UnifiedControlHub />}
           {activeTab === 'opportunities' && (viewMode === 'kanban' ? <KanbanView /> : <TableView />)}
           {activeTab === 'companies' && <CompaniesView />}

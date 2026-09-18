@@ -620,7 +620,7 @@ export const WorkflowsView: React.FC = () => {
         {/* Left Sidebar: Workflow List */}
         <div className="w-72 border-r border-[#182032] bg-[#0a0d14] p-3 flex flex-col gap-2 shrink-0 overflow-y-auto">
           <div className="flex items-center justify-between px-2 pt-1 pb-2">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[var(--text-muted)]">
               Flujos Activos ({workflows.length})
             </span>
           </div>
@@ -658,9 +658,9 @@ export const WorkflowsView: React.FC = () => {
                   {wf.description}
                 </p>
 
-                <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1.5 border-t border-[#1a2233]">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] pt-1.5 border-t border-[#1a2233]">
                   <span className="flex items-center gap-1 font-mono">
-                    <Clock className="w-3 h-3 text-slate-500" />
+                    <Clock className="w-3 h-3 text-[var(--text-muted)]" />
                     {wf.nodes.length} etapas
                   </span>
                   <span className="uppercase text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#171e2e] text-slate-300">
@@ -841,14 +841,14 @@ export const WorkflowsView: React.FC = () => {
                           Etapa {stage.index + 1}
                         </span>
                       </div>
-                      <span className="text-[9px] font-mono text-slate-500">
+                      <span className="text-[9px] font-mono text-[var(--text-muted)]">
                         {stage.nodeIds.length} {stage.nodeIds.length === 1 ? 'bloque' : 'bloques'}
                       </span>
                     </div>
                     <p className="text-[10px] font-semibold text-slate-300 truncate">
                       {stage.name}
                     </p>
-                    <p className="text-[9px] text-slate-500 truncate">
+                    <p className="text-[9px] text-[var(--text-muted)] truncate">
                       {stage.subtitle}
                     </p>
                   </div>
@@ -946,7 +946,7 @@ export const WorkflowsView: React.FC = () => {
                   </span>
                   <button
                     onClick={() => setSimulationLogs([])}
-                    className="text-[10px] text-slate-500 hover:text-slate-300 cursor-pointer"
+                    className="text-[10px] text-[var(--text-muted)] hover:text-slate-300 cursor-pointer"
                   >
                     Limpiar
                   </button>
@@ -962,11 +962,11 @@ export const WorkflowsView: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="flex-1 flex items-center justify-center p-8 text-center text-slate-500">
+          <div className="flex-1 flex items-center justify-center p-8 text-center text-[var(--text-muted)]">
             <div>
-              <Workflow className="w-12 h-12 mx-auto text-slate-600 mb-3" />
+              <Workflow className="w-12 h-12 mx-auto text-[var(--text-secondary)] mb-3" />
               <h3 className="text-sm font-bold text-slate-300">Ningún flujo seleccionado</h3>
-              <p className="text-xs text-slate-500 mt-1">Selecciona un flujo del panel lateral o crea uno nuevo.</p>
+              <p className="text-xs text-[var(--text-muted)] mt-1">Selecciona un flujo del panel lateral o crea uno nuevo.</p>
             </div>
           </div>
         )}

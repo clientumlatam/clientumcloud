@@ -163,6 +163,7 @@ export interface Activity {
 
 export type ActiveTab = 
   | 'dashboard'
+  | 'userDashboard'
   | 'ecosystemHub'
   | 'featureHub'
   | 'opportunities' 
@@ -338,6 +339,11 @@ export interface Invoice {
   clientName: string;
   clientEmail?: string;
   clientAddress?: string;
+  cuit?: string;
+  invoiceType?: 'Factura A' | 'Factura B' | 'Factura C';
+  puntoDeVenta?: string;
+  cae?: string;
+  caeExpires?: string;
   issueDate: string;
   dueDate: string;
   status: InvoiceStatus;
@@ -348,6 +354,14 @@ export interface Invoice {
   totalAmount: number;
   notes?: string;
   createdAt: string;
+}
+
+export interface WarehouseLocation {
+  warehouse: string;
+  aisle?: string;
+  rack?: string;
+  shelf?: string;
+  bin?: string;
 }
 
 export interface InventoryItem {
@@ -361,6 +375,8 @@ export interface InventoryItem {
   description?: string;
   linkedDealsCount?: number;
   lastRestocked?: string;
+  warehouseLocation?: WarehouseLocation;
+  warehouseLocationString?: string;
 }
 
 export interface ExpenseItem {

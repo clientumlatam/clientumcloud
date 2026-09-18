@@ -140,7 +140,7 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
       id="automations-manager-modal"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
     >
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-2xl bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-[var(--border-subtle)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="px-5 py-4 bg-gradient-to-r from-slate-900 to-blue-950 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -161,7 +161,7 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -184,23 +184,23 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
                 key={rule.id}
                 className={`p-4 rounded-xl border transition-all ${
                   rule.isActive
-                    ? 'bg-white border-slate-200/90 shadow-2xs hover:border-blue-300'
-                    : 'bg-slate-50 border-slate-200 opacity-60'
+                    ? 'bg-[var(--bg-card)] border-[var(--border-subtle)]/90 shadow-2xs hover:border-blue-300'
+                    : 'bg-[var(--bg-muted)] border-[var(--border-subtle)] opacity-60'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-bold text-xs text-slate-900">{rule.name}</h4>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-600">
+                      <h4 className="font-bold text-xs text-[var(--text-primary)]">{rule.name}</h4>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[var(--bg-muted)] text-[var(--text-secondary)]">
                         {rule.runsCount} ejecuciones
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500 mt-0.5">{rule.description}</p>
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5">{rule.description}</p>
 
                     {/* Trigger -> Action Formula */}
-                    <div className="mt-2.5 p-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-2 text-[11px]">
-                      <div className="flex items-center gap-1 font-semibold text-slate-700">
+                    <div className="mt-2.5 p-2 rounded-lg bg-[var(--bg-muted)] border border-[var(--border-subtle)] flex items-center gap-2 text-[11px]">
+                      <div className="flex items-center gap-1 font-semibold text-[var(--text-secondary)]">
                         <Clock className="w-3 h-3 text-blue-600 shrink-0" />
                         <span className="truncate">Si: {rule.trigger}</span>
                       </div>
@@ -221,19 +221,19 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
                         onChange={() => toggleRule(rule.id)}
                         className="sr-only peer"
                       />
-                      <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                      <div className="w-9 h-5 bg-[var(--bg-muted)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[var(--bg-card)] after:border-[var(--border-default)] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>
 
                     <button
                       onClick={() => handleTestRule(rule)}
                       disabled={testingRuleId === rule.id}
-                      className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] transition-colors cursor-pointer"
                       title="Probar ejecución de esta automatización ahora"
                     >
                       {testingRuleId === rule.id ? (
                         <RefreshCw className="w-3 h-3 animate-spin text-blue-600" />
                       ) : (
-                        <Play className="w-3 h-3 text-slate-500" />
+                        <Play className="w-3 h-3 text-[var(--text-muted)]" />
                       )}
                       <span>Probar</span>
                     </button>
@@ -245,8 +245,8 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs">
-          <span className="text-slate-500 text-[11px]">
+        <div className="px-5 py-3.5 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <span className="text-[var(--text-muted)] text-[11px]">
             Los triggers se disparan en tiempo real con cada movimiento del pipeline.
           </span>
           <button

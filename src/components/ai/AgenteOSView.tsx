@@ -494,15 +494,15 @@ export const AgenteOSView: React.FC = () => {
 
                   <div className="mt-3 pt-2.5 border-t border-[#1a233a] grid grid-cols-3 gap-2 text-[10px] text-slate-400">
                     <div>
-                      <span className="block text-slate-500">Depto.</span>
+                      <span className="block text-[var(--text-muted)]">Depto.</span>
                       <span className="font-semibold text-slate-300">{agent.department}</span>
                     </div>
                     <div>
-                      <span className="block text-slate-500">Tareas</span>
+                      <span className="block text-[var(--text-muted)]">Tareas</span>
                       <span className="font-semibold text-cyan-400">{agent.tasksExecuted}</span>
                     </div>
                     <div>
-                      <span className="block text-slate-500">Latencia</span>
+                      <span className="block text-[var(--text-muted)]">Latencia</span>
                       <span className="font-semibold text-amber-400">{agent.latencyMs}ms</span>
                     </div>
                   </div>
@@ -615,7 +615,7 @@ export const AgenteOSView: React.FC = () => {
                   <div key={dept} className="p-3 rounded-xl bg-[#111726] border border-[#1c273e] flex flex-col sm:flex-row sm:items-center gap-3">
                     <div className="w-28 shrink-0">
                       <span className="text-xs font-bold text-white block">{dept}</span>
-                      <span className="text-[10px] text-slate-500">{deptAgents.length} agentes</span>
+                      <span className="text-[10px] text-[var(--text-muted)]">{deptAgents.length} agentes</span>
                     </div>
 
                     <div className="flex flex-wrap gap-2 flex-1">
@@ -799,7 +799,7 @@ export const AgenteOSView: React.FC = () => {
 
             {/* Quick Task Chips */}
             <div className="py-2.5 space-y-1.5">
-              <span className="text-[10px] text-slate-500 font-semibold block uppercase">
+              <span className="text-[10px] text-[var(--text-muted)] font-semibold block uppercase">
                 Tareas Pre-armadas
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -831,7 +831,7 @@ export const AgenteOSView: React.FC = () => {
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[9px] text-slate-500 mt-0.5 px-1">{msg.time}</span>
+                  <span className="text-[9px] text-[var(--text-muted)] mt-0.5 px-1">{msg.time}</span>
                 </div>
               ))}
               {isExecuting && (

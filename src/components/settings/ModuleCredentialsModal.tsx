@@ -182,7 +182,7 @@ export const ModuleCredentialsModal: React.FC<ModuleCredentialsModalProps> = ({ 
               <p className="mt-1 max-w-xl text-xs leading-relaxed text-slate-400">{definition.description}</p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="rounded-lg p-1.5 text-slate-500 hover:bg-white/5 hover:text-white" aria-label="Cerrar configuración">
+          <button type="button" onClick={onClose} className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--bg-card)]/5 hover:text-white" aria-label="Cerrar configuración">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -220,7 +220,7 @@ export const ModuleCredentialsModal: React.FC<ModuleCredentialsModalProps> = ({ 
                       </span>
                     </div>
                     <code className="mt-1 block truncate text-[9px] text-blue-200/65">{configuration.key}</code>
-                    <p className="mt-1 text-[9px] leading-relaxed text-slate-500">{configuration.description}</p>
+                    <p className="mt-1 text-[9px] leading-relaxed text-[var(--text-muted)]">{configuration.description}</p>
                   </div>
                 ))}
               </div>
@@ -231,14 +231,14 @@ export const ModuleCredentialsModal: React.FC<ModuleCredentialsModalProps> = ({ 
             <div className="rounded-xl border border-dashed border-[#304762] bg-[#0a1321] p-5 text-center">
               <ShieldCheck className="mx-auto h-7 w-7 text-cyan-300/70" />
               <p className="mt-2 text-sm font-semibold text-white">{definition.note || 'No requiere una API key externa'}</p>
-              <p className="mt-1 text-xs text-slate-500">Podés asignar una API Key REST interna con scope para este módulo.</p>
+              <p className="mt-1 text-xs text-[var(--text-muted)]">Podés asignar una API Key REST interna con scope para este módulo.</p>
             </div>
           ) : (
             <form onSubmit={handleSave} className="space-y-3">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xs font-semibold text-white">Credenciales del proveedor</h3>
-                  <p className="mt-0.5 text-[10px] text-slate-500">Completá solo los campos que correspondan a tu cuenta.</p>
+                  <p className="mt-0.5 text-[10px] text-[var(--text-muted)]">Completá solo los campos que correspondan a tu cuenta.</p>
                 </div>
                 {isLoading && <RefreshCw className="h-4 w-4 animate-spin text-cyan-300" />}
               </div>
@@ -265,10 +265,10 @@ export const ModuleCredentialsModal: React.FC<ModuleCredentialsModalProps> = ({ 
                         onChange={(event) => setValues((previous) => ({ ...previous, [credentialField.id]: event.target.value }))}
                         placeholder={isConfigured(credentialField.id) ? '•••••••••••• (guardada)' : credentialField.placeholder}
                         autoComplete="new-password"
-                        className="w-full rounded-lg border border-[#29415c] bg-[#0a1321] px-3 py-2 text-xs text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/10"
+                        className="w-full rounded-lg border border-[#29415c] bg-[#0a1321] px-3 py-2 text-xs text-white outline-none placeholder:text-[var(--text-secondary)] focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/10"
                       />
                     )}
-                    {credentialField.description && <span className="mt-1 block text-[10px] leading-relaxed text-slate-500">{credentialField.description}</span>}
+                    {credentialField.description && <span className="mt-1 block text-[10px] leading-relaxed text-[var(--text-muted)]">{credentialField.description}</span>}
                   </label>
                 ))}
               </div>

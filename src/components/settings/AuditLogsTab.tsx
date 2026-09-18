@@ -392,7 +392,7 @@ export const AuditLogsTab: React.FC = () => {
                       <div>
                         {new Date(log.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
                       </div>
-                      <div className="text-[10px] text-slate-500">
+                      <div className="text-[10px] text-[var(--text-muted)]">
                         {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                       </div>
                     </td>
@@ -433,7 +433,7 @@ export const AuditLogsTab: React.FC = () => {
                     {/* IP & Location */}
                     <td className="py-3 px-3 text-[11px] whitespace-nowrap">
                       <div className="font-mono text-slate-300">{log.ipAddress || '181.46.139.84'}</div>
-                      <div className="text-[10px] text-slate-500">{log.location || 'Buenos Aires, AR'}</div>
+                      <div className="text-[10px] text-[var(--text-muted)]">{log.location || 'Buenos Aires, AR'}</div>
                     </td>
 
                     {/* Severity */}
@@ -488,7 +488,7 @@ export const AuditLogsTab: React.FC = () => {
             {/* Grid Metadata */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="bg-[#0e121a] border border-[#1e2434] rounded-lg p-3 space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-semibold block">
                   Actor Responsable
                 </span>
                 <div className="text-white font-semibold">{selectedLog.userName}</div>
@@ -497,12 +497,12 @@ export const AuditLogsTab: React.FC = () => {
               </div>
 
               <div className="bg-[#0e121a] border border-[#1e2434] rounded-lg p-3 space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-semibold block">
                   Contexto de Red & Seguridad
                 </span>
                 <div className="text-slate-200 font-mono text-[11px]">IP: {selectedLog.ipAddress || '181.46.139.84'}</div>
                 <div className="text-slate-400 text-[11px]">Ubicación: {selectedLog.location || 'Buenos Aires, AR'}</div>
-                <div className="text-slate-500 text-[10px] truncate" title={selectedLog.userAgent}>
+                <div className="text-[var(--text-muted)] text-[10px] truncate" title={selectedLog.userAgent}>
                   UA: {selectedLog.userAgent || 'Clientum WebApp'}
                 </div>
               </div>
@@ -510,7 +510,7 @@ export const AuditLogsTab: React.FC = () => {
 
             {/* Event Description */}
             <div className="bg-[#0e121a] border border-[#1e2434] rounded-lg p-3.5 space-y-1.5 text-xs">
-              <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold block">
+              <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-semibold block">
                 Detalle Completo del Evento
               </span>
               <p className="text-slate-200 leading-relaxed">{selectedLog.details}</p>
@@ -519,7 +519,7 @@ export const AuditLogsTab: React.FC = () => {
             {/* Diff Viewer if present */}
             {selectedLog.diff && selectedLog.diff.length > 0 && (
               <div className="bg-[#0e121a] border border-[#1e2434] rounded-lg p-3.5 space-y-2 text-xs">
-                <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-semibold block">
                   Diferencias de Estado (Diff de Datos)
                 </span>
                 <div className="space-y-1.5">
@@ -529,7 +529,7 @@ export const AuditLogsTab: React.FC = () => {
                       <span className="line-through text-rose-400 bg-rose-950/30 px-1.5 py-0.2 rounded">
                         {String(d.oldValue ?? 'null')}
                       </span>
-                      <ChevronRight className="w-3 h-3 text-slate-500" />
+                      <ChevronRight className="w-3 h-3 text-[var(--text-muted)]" />
                       <span className="text-emerald-400 bg-emerald-950/30 px-1.5 py-0.2 rounded">
                         {String(d.newValue ?? 'null')}
                       </span>

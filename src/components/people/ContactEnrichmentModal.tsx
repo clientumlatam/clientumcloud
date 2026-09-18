@@ -193,7 +193,7 @@ export const ContactEnrichmentModal: React.FC<ContactEnrichmentModalProps> = ({
                     <Briefcase className="w-3.5 h-3.5 text-blue-400" />
                     Resumen Profesional
                   </span>
-                  <span className="text-[10px] text-slate-500">
+                  <span className="text-[10px] text-[var(--text-muted)]">
                     Actualizado: {enrichment.enrichedAt ? new Date(enrichment.enrichedAt).toLocaleDateString() : 'Reciente'}
                   </span>
                 </div>

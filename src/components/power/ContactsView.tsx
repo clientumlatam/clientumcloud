@@ -20,7 +20,7 @@ export const ContactsView: React.FC = () => {
 
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-500" />
+          <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-[var(--text-muted)]" />
           <input
             type="text"
             value={searchTerm}

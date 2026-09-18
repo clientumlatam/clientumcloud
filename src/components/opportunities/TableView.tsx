@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   ArrowUpDown,
   Building2,
@@ -16,6 +16,7 @@ import { useCRM } from '../../context/CRMContext';
 import { STAGES } from '../../data/initialData';
 import { Opportunity, StageId } from '../../types';
 import { exportOpportunitiesToCSV } from '../../utils/csvExporter';
+import { TableRow } from './TableRow';
 import tableEmptyStateImg from '../../assets/images/table_empty_state_1789360585677.jpg';
 
 type SortField = 'name' | 'amount' | 'stage' | 'probability' | 'companyName' | 'closeDate' | 'priority' | 'assignedTo';
@@ -94,10 +95,37 @@ export const TableView: React.FC = () => {
     }
   };
 
-  const toggleSelectRow = (id: string, e: React.MouseEvent) => {
+  const toggleSelectRow = useCallback((id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
-  };
+  }, []);
+
+  const handleSelectRecord = useCallback((id: string) => {
+    setSelectedRecord({ type: 'opportunity', id });
+  }, [setSelectedRecord]);
+
+  const handleMoveStage = useCallback((id: string, stage: StageId) => {
+    moveOpportunityStage(id, stage);
+  }, [moveOpportunityStage]);
+
+  const handleDeleteOpportunity = useCallback((id: string, name: string) => {
+    if (confirm(`Delete "${name}"?`)) {
+      deleteOpportunity(id);
+    }
+  }, [deleteOpportunity]);
+
+  const handleOpenAICopilot = useCallback((opp: Opportunity) => {
+    openAICopilot({
+      type: 'deal',
+      id: opp.id,
+      name: opp.name,
+      initialPrompt: language === 'es'
+        ? `Proporciona un informe ejecutivo y pronóstico de probabilidad para "${opp.name}".`
+        : language === 'pt'
+        ? `Forneça um relatório executivo e previsão de probabilidade para "${opp.name}".`
+        : `Provide an executive brief and probability forecast for "${opp.name}".`,
+    });
+  }, [language, openAICopilot]);
 
   const handleBulkDelete = () => {
     if (confirm(`Delete ${selectedIds.length} selected deal(s)?`)) {
@@ -113,7 +141,7 @@ export const TableView: React.FC = () => {
     showToast(`Updated stage for ${selectedIds.length} deals`, 'success');
   };
 
-  const getPriorityBadge = (priority: string) => {
+  const getPriorityBadge = useCallback((priority: string) => {
     switch (priority) {
       case 'Critical':
         return 'text-rose-400 bg-rose-500/10 border-rose-500/20';
@@ -124,7 +152,7 @@ export const TableView: React.FC = () => {
       default:
         return 'text-slate-400 bg-slate-500/10 border-slate-500/20';
     }
-  };
+  }, []);
 
   return (
     <div id="clientum-table-container" className="flex-1 flex flex-col bg-[#0d0f14] overflow-hidden">
@@ -299,132 +327,19 @@ export const TableView: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              sorted.map((opp) => {
-                const stageConf = STAGES.find((s) => s.id === opp.stage);
-                const isSelected = selectedIds.includes(opp.id);
-
-                return (
-                  <tr
-                    key={opp.id}
-                    id={`table-row-${opp.id}`}
-                    onClick={() => setSelectedRecord({ type: 'opportunity', id: opp.id })}
-                    className={`hover:bg-[#141822] cursor-pointer transition-colors group ${
-                      isSelected ? 'bg-blue-950/20' : ''
-                    }`}
-                  >
-                    {/* Checkbox */}
-                    <td className="px-3 py-2.5">
-                      <button
-                        onClick={(e) => toggleSelectRow(opp.id, e)}
-                        className="text-slate-400 hover:text-slate-200 p-0.5"
-                      >
-                        {isSelected ? (
-                          <CheckSquare className="w-4 h-4 text-blue-400" />
-                        ) : (
-                          <Square className="w-4 h-4 text-slate-400 group-hover:text-slate-400" />
-                        )}
-                      </button>
-                    </td>
-
-                    {/* Deal Name */}
-                    <td className="px-3 py-2.5 font-medium text-slate-100 group-hover:text-blue-400 transition-colors">
-                      <div className="font-semibold text-xs text-white truncate max-w-xs">{opp.name}</div>
-                      {opp.tags.length > 0 && (
-                        <div className="text-[10px] text-slate-400 truncate mt-0.5">
-                          {opp.tags.join(', ')}
-                        </div>
-                      )}
-                    </td>
-
-                    {/* Amount */}
-                    <td className="px-3 py-2.5 font-mono font-bold text-slate-100 whitespace-nowrap">
-                      ${opp.amount.toLocaleString()}
-                    </td>
-
-                    {/* Stage Dropdown */}
-                    <td className="px-3 py-2.5 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                      <select
-                        value={opp.stage}
-                        onChange={(e) => moveOpportunityStage(opp.id, e.target.value as StageId)}
-                        className="bg-[#1a1f2b] text-slate-200 text-xs px-2 py-1 rounded-md border border-[#2b3345] hover:border-blue-500/50 cursor-pointer focus:outline-none"
-                        style={{ borderLeftColor: stageConf?.color, borderLeftWidth: '3px' }}
-                      >
-                        {STAGES.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.name} ({s.probability}%)
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-
-                    {/* Company */}
-                    <td className="px-3 py-2.5 text-slate-300 hidden sm:table-cell truncate max-w-[140px]">
-                      {opp.companyName ? (
-                        <span className="flex items-center gap-1.5">
-                          <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
-                          <span className="truncate">{opp.companyName}</span>
-                        </span>
-                      ) : (
-                        <span className="text-slate-400">—</span>
-                      )}
-                    </td>
-
-                    {/* Priority */}
-                    <td className="px-3 py-2.5 hidden md:table-cell">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${getPriorityBadge(opp.priority)}`}>
-                        {opp.priority}
-                      </span>
-                    </td>
-
-                    {/* Close Date */}
-                    <td className="px-3 py-2.5 font-mono text-[11px] text-slate-400 hidden lg:table-cell whitespace-nowrap">
-                      {opp.closeDate}
-                    </td>
-
-                    {/* Owner */}
-                    <td className="px-3 py-2.5 text-slate-300 hidden xl:table-cell whitespace-nowrap">
-                      <span className="text-[11px] text-slate-400">{opp.assignedTo}</span>
-                    </td>
-
-                    {/* Actions */}
-                    <td className="px-3 py-2.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          id={`table-ai-btn-${opp.id}`}
-                          onClick={() =>
-                            openAICopilot({
-                              type: 'deal',
-                              id: opp.id,
-                              name: opp.name,
-                              initialPrompt: language === 'es'
-                                ? `Proporciona un informe ejecutivo y pronóstico de probabilidad para "${opp.name}".`
-                                : language === 'pt'
-                                ? `Forneça um relatório executivo e previsão de probabilidade para "${opp.name}".`
-                                : `Provide an executive brief and probability forecast for "${opp.name}".`,
-                            })
-                          }
-                          className="p-1 rounded text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors"
-                          title="AI Deal Brief"
-                        >
-                          <Sparkles className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          id={`table-delete-btn-${opp.id}`}
-                          onClick={() => {
-                            if (confirm(`Delete "${opp.name}"?`)) {
-                              deleteOpportunity(opp.id);
-                            }
-                          }}
-                          className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+              sorted.map((opp) => (
+                <TableRow
+                  key={opp.id}
+                  opp={opp}
+                  isSelected={selectedIds.includes(opp.id)}
+                  onToggleSelect={toggleSelectRow}
+                  onSelectRecord={handleSelectRecord}
+                  onMoveStage={handleMoveStage}
+                  onDelete={handleDeleteOpportunity}
+                  onOpenAICopilot={handleOpenAICopilot}
+                  getPriorityBadge={getPriorityBadge}
+                />
+              ))
             )}
           </tbody>
         </table>

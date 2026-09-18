@@ -146,7 +146,7 @@ export const CustomObjectsView: React.FC = () => {
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Left Sidebar: List of Objects */}
         <div className="w-64 border-r border-[#1e222d] bg-[#0c0e14] p-3 flex flex-col gap-2 shrink-0 overflow-y-auto">
-          <div className="text-[10px] uppercase font-semibold tracking-wider text-slate-500 px-2 pt-1 pb-2">
+          <div className="text-[10px] uppercase font-semibold tracking-wider text-[var(--text-muted)] px-2 pt-1 pb-2">
             Workspace Schema
           </div>
 
@@ -164,13 +164,13 @@ export const CustomObjectsView: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-indigo-400' : 'text-slate-500'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-indigo-400' : 'text-[var(--text-muted)]'}`} />
                   <div className="min-w-0">
                     <div className="truncate font-medium">{obj.pluralName}</div>
-                    <div className="text-[10px] text-slate-500 truncate">{obj.records.length} records</div>
+                    <div className="text-[10px] text-[var(--text-muted)] truncate">{obj.records.length} records</div>
                   </div>
                 </div>
-                <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'text-indigo-400 translate-x-0.5' : 'text-slate-600'}`} />
+                <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'text-indigo-400 translate-x-0.5' : 'text-[var(--text-secondary)]'}`} />
               </button>
             );
           })}
@@ -241,7 +241,7 @@ export const CustomObjectsView: React.FC = () => {
                   {/* Search bar */}
                   <div className="flex items-center justify-between gap-4">
                     <div className="relative flex-1 max-w-sm">
-                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                       <input
                         type="text"
                         placeholder={`Search ${activeObject.pluralName}...`}
@@ -299,7 +299,7 @@ export const CustomObjectsView: React.FC = () => {
                               <td className="px-4 py-3 text-right">
                                 <button
                                   onClick={() => deleteRecordFromCustomObject(activeObject.id, rec.id)}
-                                  className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                  className="p-1 rounded text-[var(--text-muted)] hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                   title="Delete record"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
@@ -309,7 +309,7 @@ export const CustomObjectsView: React.FC = () => {
                           ))
                         ) : (
                           <tr>
-                            <td colSpan={activeObject.fields.length + 2} className="px-4 py-8 text-center text-slate-500">
+                            <td colSpan={activeObject.fields.length + 2} className="px-4 py-8 text-center text-[var(--text-muted)]">
                               No records found for this custom object.
                             </td>
                           </tr>

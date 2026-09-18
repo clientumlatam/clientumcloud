@@ -334,7 +334,7 @@ export const CSVStudioView: React.FC = () => {
                   className="w-full h-32 border-2 border-dashed border-[#222736] rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500/50 transition-colors bg-[#090b0e]"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <Upload className="w-6 h-6 text-slate-500 mb-2" />
+                  <Upload className="w-6 h-6 text-[var(--text-muted)] mb-2" />
                   <span className="text-xs text-slate-400">Click to upload CSV</span>
                 </div>
                 <input 
@@ -460,16 +460,16 @@ export const CSVStudioView: React.FC = () => {
                 </table>
               </div>
               {parsedRows.length > 5 && (
-                <p className="text-[11px] text-slate-500 text-center italic">
+                <p className="text-[11px] text-[var(--text-muted)] text-center italic">
                   Showing first 5 of {parsedRows.length} rows...
                 </p>
               )}
             </div>
           ) : (
             <div className="p-12 rounded-xl border border-dashed border-[#23293a] bg-[#0d0f14]/50 flex flex-col items-center justify-center text-center">
-              <Table className="w-10 h-10 text-slate-600 mb-3" />
+              <Table className="w-10 h-10 text-[var(--text-secondary)] mb-3" />
               <h3 className="text-sm font-semibold text-slate-300">No CSV Data Parsed Yet</h3>
-              <p className="text-xs text-slate-500 max-w-sm mt-1">
+              <p className="text-xs text-[var(--text-muted)] max-w-sm mt-1">
                 Upload a CSV file or paste content on the left panel and click &quot;Validate&quot; to review the mapped table before importing.
               </p>
             </div>
@@ -485,7 +485,7 @@ export const CSVStudioView: React.FC = () => {
             </div>
             <div>
               <h2 className="text-sm font-bold text-white">Data quality & duplicate review</h2>
-              <p className="text-xs text-slate-500">Find duplicate contacts by email/phone and companies by domain/name.</p>
+              <p className="text-xs text-[var(--text-muted)]">Find duplicate contacts by email/phone and companies by domain/name.</p>
             </div>
           </div>
           <button
@@ -514,10 +514,10 @@ export const CSVStudioView: React.FC = () => {
                   <div>
                     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
                       <span className="font-semibold">{displayRecordName(candidate.primary)}</span>
-                      <span className="text-slate-600">↔</span>
+                      <span className="text-[var(--text-secondary)]">↔</span>
                       <span className="font-semibold">{displayRecordName(candidate.duplicate)}</span>
                     </div>
-                    <p className="text-[11px] text-slate-500 mt-1">
+                    <p className="text-[11px] text-[var(--text-muted)] mt-1">
                       Coinciden por {candidate.matchField}: <span className="text-slate-300">{candidate.matchValue}</span>
                     </p>
                   </div>

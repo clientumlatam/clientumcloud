@@ -253,7 +253,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
     >
       <div
         id="voice-note-modal-container"
-        className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-xl bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-[var(--border-subtle)] overflow-hidden flex flex-col max-h-[90vh]"
       >
         {/* Header */}
         <div className="px-5 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between">
@@ -275,7 +275,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -284,7 +284,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
         {/* Modal Body */}
         <div className="p-5 overflow-y-auto space-y-4 text-xs">
           {/* Record Control Area */}
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col items-center justify-center gap-3">
+          <div className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-muted)]/70 flex flex-col items-center justify-center gap-3">
             {isRecording ? (
               <div className="flex flex-col items-center gap-2 animate-pulse">
                 <div className="w-14 h-14 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-lg shadow-rose-500/30 ring-8 ring-rose-100">
@@ -294,7 +294,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   <span className="text-rose-600 font-mono font-bold text-base">
                     {formatTimer(recordingDuration)}
                   </span>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
                     Grabando... Habla libremente sobre los puntos de la reunión
                   </p>
                 </div>
@@ -316,7 +316,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   <Mic className="w-7 h-7" />
                 </button>
                 <div className="text-center">
-                  <p className="text-xs font-bold text-slate-800">
+                  <p className="text-xs font-bold text-[var(--text-primary)]">
                     Presiona para comenzar a grabar
                   </p>
                   <p className="text-[11px] text-slate-400">
@@ -329,7 +329,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
 
           {/* Transcript / Textarea */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-slate-600">
+            <div className="flex items-center justify-between text-[var(--text-secondary)]">
               <label className="font-semibold text-xs flex items-center gap-1.5">
                 <FileText className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Transcripción / Notas de la Reunión:</span>
@@ -346,7 +346,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
               onChange={(e) => setTranscript(e.target.value)}
               placeholder="Ej: Acabo de terminar llamada con Juan. Le gustó la propuesta pero necesita 15% de descuento en el plan anual. Quedé en enviarle la cotización ajustada y confirmar demo el jueves a las 15hs..."
               rows={3}
-              className="w-full rounded-xl border border-slate-200 p-3 text-xs text-slate-800 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full rounded-xl border border-[var(--border-subtle)] p-3 text-xs text-[var(--text-primary)] bg-[var(--bg-card)] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             />
           </div>
 
@@ -357,7 +357,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
               disabled={isProcessing || !transcript.trim()}
               className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer ${
                 isProcessing || !transcript.trim()
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                  ? 'bg-[var(--bg-muted)] text-slate-400 cursor-not-allowed'
                   : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
               }`}
             >
@@ -370,11 +370,11 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
 
           {/* Structured Analysis Results */}
           {analysis && (
-            <div className="space-y-3 pt-2 border-t border-slate-100 animate-in fade-in-50 duration-200">
+            <div className="space-y-3 pt-2 border-t border-[var(--border-subtle)] animate-in fade-in-50 duration-200">
               {/* Summary Card */}
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 space-y-2">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)]/90 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-slate-800 flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-[var(--text-primary)] flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                     <span>Resumen Ejecutivo</span>
                   </span>
@@ -397,7 +397,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                     <span>{analysis.sentiment}</span>
                   </span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">{analysis.summary}</p>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{analysis.summary}</p>
               </div>
 
               {/* Commitments & Next Steps */}
@@ -408,7 +408,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   </span>
                   <ul className="space-y-1">
                     {analysis.commitments.map((com, i) => (
-                      <li key={i} className="flex items-start gap-1.5 text-slate-700 text-xs">
+                      <li key={i} className="flex items-start gap-1.5 text-[var(--text-secondary)] text-xs">
                         <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
                         <span>{com}</span>
                       </li>
@@ -424,10 +424,10 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                     <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider block">
                       Próxima Tarea Recomendada
                     </span>
-                    <p className="text-xs font-bold text-slate-900 truncate mt-0.5">
+                    <p className="text-xs font-bold text-[var(--text-primary)] truncate mt-0.5">
                       {analysis.suggestedTask.title}
                     </p>
-                    <span className="text-[10px] text-slate-500">
+                    <span className="text-[10px] text-[var(--text-muted)]">
                       Plazo: En {analysis.suggestedTask.dueDays} días • Prioridad{' '}
                       {analysis.suggestedTask.priority}
                     </span>
@@ -448,9 +448,9 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
 
               {/* Follow-up draft */}
               {analysis.followupDraft && (
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)]">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-bold text-slate-800">
+                    <span className="text-xs font-bold text-[var(--text-primary)]">
                       Borrador de Mensaje de Seguimiento (WhatsApp / Email):
                     </span>
                     <button
@@ -461,7 +461,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                       <span>{hasCopiedDraft ? 'Copiado' : 'Copiar'}</span>
                     </button>
                   </div>
-                  <p className="text-xs text-slate-600 italic bg-white p-2 rounded-lg border border-slate-200/80">
+                  <p className="text-xs text-[var(--text-secondary)] italic bg-[var(--bg-card)] p-2 rounded-lg border border-[var(--border-subtle)]/80">
                     "{analysis.followupDraft}"
                   </p>
                 </div>
@@ -471,10 +471,10 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <div className="px-5 py-3.5 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex items-center justify-between">
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200/70 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-muted)]/70 transition-colors cursor-pointer"
           >
             Cancelar
           </button>

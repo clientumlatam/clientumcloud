@@ -284,7 +284,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
                 </p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-[#182033] flex items-center justify-between text-[10px] text-slate-500">
+              <div className="mt-3 pt-2 border-t border-[#182033] flex items-center justify-between text-[10px] text-[var(--text-muted)]">
                 <span>Tipo: {preset.type.toUpperCase()}</span>
                 {preset.branchLabel && (
                   <span className="text-cyan-400 font-mono">Bifurcación: {preset.branchLabel}</span>

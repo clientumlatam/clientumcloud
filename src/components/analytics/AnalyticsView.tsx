@@ -55,7 +55,7 @@ export const AnalyticsView: React.FC = () => {
   return (
     <div id="clientum-analytics-container" className="flex-1 flex flex-col h-full bg-[#F5F7FA] dark:bg-[#0B1120] overflow-y-auto select-none transition-colors duration-200">
       {/* Top Switcher Bar */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 shrink-0">
+      <div className="bg-[var(--bg-card)] dark:bg-slate-900 border-b border-[var(--border-subtle)] dark:border-slate-800 px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 shrink-0">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -64,12 +64,12 @@ export const AnalyticsView: React.FC = () => {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeSubTab === 'reports'
                 ? 'bg-[#0056B3] text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
             }`}
           >
             <LayoutDashboard className="w-3.5 h-3.5" />
             <span>Reports & Analytics</span>
-            <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${activeSubTab === 'reports' ? 'bg-white/20 text-white' : 'bg-blue-100 dark:bg-blue-950 text-[#0056B3] dark:text-blue-400'}`}>
+            <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${activeSubTab === 'reports' ? 'bg-[var(--bg-card)]/20 text-white' : 'bg-blue-100 dark:bg-blue-950 text-[#0056B3] dark:text-blue-400'}`}>
               Ventas
             </span>
           </button>
@@ -81,7 +81,7 @@ export const AnalyticsView: React.FC = () => {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               activeSubTab === 'operations'
                 ? 'bg-[#0056B3] text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
             }`}
           >
             <Inbox className="w-3.5 h-3.5" />
@@ -104,13 +104,13 @@ export const AnalyticsView: React.FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{t('analyticsDashboard')}</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <h2 className="text-lg font-bold text-[var(--text-primary)] dark:text-white">{t('analyticsDashboard')}</h2>
+              <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
                 {t('analyticsSubtitle')}
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-amber-600 dark:text-amber-400 font-medium">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 text-xs text-amber-600 dark:text-amber-400 font-medium">
                 <Flame className="w-4 h-4 fill-amber-400 text-amber-500 animate-pulse" />
                 <span>5 Day Streak 🔥</span>
               </div>
@@ -120,13 +120,13 @@ export const AnalyticsView: React.FC = () => {
           {/* KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             {/* Pipeline Value */}
-            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[var(--text-muted)] dark:text-slate-400 mb-2">
                 <span className="text-xs font-medium">{t('totalPipelineValue')}</span>
                 <DollarSign className="w-4 h-4 text-blue-500" />
               </div>
               <div>
-                <div className="text-xl font-bold font-mono text-slate-900 dark:text-white">
+                <div className="text-xl font-bold font-mono text-[var(--text-primary)] dark:text-white">
                   ${totalPipelineValue.toLocaleString()}
                 </div>
                 <div className="text-[11px] text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1">
@@ -137,13 +137,13 @@ export const AnalyticsView: React.FC = () => {
             </div>
 
             {/* Weighted Forecast */}
-            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[var(--text-muted)] dark:text-slate-400 mb-2">
                 <span className="text-xs font-medium">{t('weightedPipeline')}</span>
                 <Target className="w-4 h-4 text-purple-500" />
               </div>
               <div>
-                <div className="text-xl font-bold font-mono text-slate-900 dark:text-white">
+                <div className="text-xl font-bold font-mono text-[var(--text-primary)] dark:text-white">
                   ${Math.round(weightedPipeline).toLocaleString()}
                 </div>
                 <div className="text-[11px] text-purple-600 dark:text-purple-400 mt-1">
@@ -153,8 +153,8 @@ export const AnalyticsView: React.FC = () => {
             </div>
 
             {/* Closed Won Revenue */}
-            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[var(--text-muted)] dark:text-slate-400 mb-2">
                 <span className="text-xs font-medium">{t('closedWonRevenue')}</span>
                 <Award className="w-4 h-4 text-emerald-500" />
               </div>
@@ -169,13 +169,13 @@ export const AnalyticsView: React.FC = () => {
             </div>
 
             {/* Avg Deal Size */}
-            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[var(--text-muted)] dark:text-slate-400 mb-2">
                 <span className="text-xs font-medium">{t('averageDealSize')}</span>
                 <TrendingUp className="w-4 h-4 text-amber-500" />
               </div>
               <div>
-                <div className="text-xl font-bold font-mono text-slate-900 dark:text-white">
+                <div className="text-xl font-bold font-mono text-[var(--text-primary)] dark:text-white">
                   ${avgDealSize.toLocaleString()}
                 </div>
                 <div className="text-[11px] text-slate-400 mt-1">
@@ -201,8 +201,8 @@ export const AnalyticsView: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Stage Distribution & Funnel Bar */}
-            <div className="lg:col-span-2 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <h3 className="text-xs font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+            <div className="lg:col-span-2 p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)] dark:text-white mb-3 flex items-center gap-2">
                 <BarChart className="w-4 h-4 text-blue-500" />
                 Stage Distribution & Deal Velocity
               </h3>
@@ -224,15 +224,15 @@ export const AnalyticsView: React.FC = () => {
                             className="w-2.5 h-2.5 rounded-full"
                             style={{ backgroundColor: stage.color }}
                           />
-                          <span className="text-slate-700 dark:text-slate-300 font-medium">{t(`stage_${stage.id}` as any) || stage.name}</span>
+                          <span className="text-[var(--text-secondary)] dark:text-slate-300 font-medium">{t(`stage_${stage.id}` as any) || stage.name}</span>
                           <span className="text-slate-400 text-[11px]">({stageOpps.length} {t('dealCount')})</span>
                         </div>
-                        <span className="font-mono text-slate-900 dark:text-slate-200 font-semibold">
+                        <span className="font-mono text-[var(--text-primary)] dark:text-slate-200 font-semibold">
                           ${stageSum.toLocaleString()}
                         </span>
                       </div>
 
-                      <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-[var(--bg-muted)] dark:bg-slate-800 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-500"
                           style={{
@@ -248,8 +248,8 @@ export const AnalyticsView: React.FC = () => {
             </div>
 
             {/* Rep Leaderboard */}
-            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <h3 className="text-xs font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)] dark:text-white mb-3 flex items-center gap-2">
                 <Award className="w-4 h-4 text-amber-500" />
                 Sales Rep Leaderboard
               </h3>
@@ -258,7 +258,7 @@ export const AnalyticsView: React.FC = () => {
                 {repStats.map((stat, idx) => (
                   <div
                     key={stat.user.id}
-                    className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3"
+                    className="p-2.5 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800/60 border border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-between gap-3"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="w-5 font-mono text-xs font-bold text-slate-400 text-center">
@@ -267,10 +267,10 @@ export const AnalyticsView: React.FC = () => {
                       <img
                         src={stat.user.avatar}
                         alt=""
-                        className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                        className="w-7 h-7 rounded-full object-cover border border-[var(--border-subtle)] dark:border-slate-700"
                       />
                       <div className="min-w-0">
-                        <div className="text-xs font-semibold text-slate-900 dark:text-white truncate">
+                        <div className="text-xs font-semibold text-[var(--text-primary)] dark:text-white truncate">
                           {stat.user.name}
                         </div>
                         <div className="text-[10px] text-slate-400 truncate">

@@ -81,7 +81,7 @@ export const TrialBanner: React.FC = () => {
             type="button"
             onClick={() => setIsDismissed(true)}
             aria-label="Cerrar aviso"
-            className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>

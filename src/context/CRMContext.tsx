@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Activity,
@@ -45,6 +45,8 @@ import {
   saveUserSubcollectionRecord,
   deleteUserSubcollectionRecord,
   seedUserSubcollectionsIfEmpty,
+  subscribeToAuthState,
+  syncUserProfileToFirestore,
 } from '../firebase';
 import { INITIAL_WEBMAIL_EMAILS } from '../data/webmailInitialData';
 import {
@@ -342,7 +344,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved === 'es' || saved === 'pt' || saved === 'en' ? (saved as Language) : 'en';
   });
 
-  const setLanguage = (newLang: Language) => {
+  const showToastRef = useRef<((message: string, type?: 'success' | 'info' | 'warning' | 'error') => void) | null>(null);
+
+  const setLanguage = useCallback((newLang: Language) => {
     setLanguageState(newLang);
     localStorage.setItem(STORAGE_KEYS.LANGUAGE, newLang);
     const langNames: Record<Language, string> = {
@@ -355,25 +359,25 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       es: `Idioma cambiado a ${langNames[newLang]}`,
       pt: `Idioma alterado para ${langNames[newLang]}`,
     };
-    showToast(toastMsgs[newLang], 'info');
-  };
+    showToastRef.current?.(toastMsgs[newLang], 'info');
+  }, []);
 
-  const t = (key: TranslationKey): string => {
+  const t = useCallback((key: TranslationKey): string => {
     return getTranslation(key, language);
-  };
+  }, [language]);
 
-  const setTheme = (newTheme: ThemeMode) => {
+  const setTheme = useCallback((newTheme: ThemeMode) => {
     setContextTheme(newTheme);
-  };
+  }, [setContextTheme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     toggleContextTheme();
     const next = resolvedTheme === 'dark' ? 'light' : 'dark';
-    showToast(
+    showToastRef.current?.(
       next === 'light' ? 'Modo Claro activado' : 'Modo Oscuro activado',
       'info'
     );
-  };
+  }, [resolvedTheme, toggleContextTheme]);
   const [opportunities, setOpportunities] = useState<Opportunity[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.OPPORTUNITIES);
     return saved ? ensureUniqueIds(JSON.parse(saved), 'opp') : INITIAL_OPPORTUNITIES;
@@ -618,22 +622,22 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('clientum_offline_priority_queue', JSON.stringify(offlinePriorityQueue));
   }, [offlinePriorityQueue]);
 
-  const setEcosystemModuleOrder = (newOrder: string[]) => {
+  const setEcosystemModuleOrder = useCallback((newOrder: string[]) => {
     setEcosystemModuleOrderState(newOrder);
     localStorage.setItem('clientum_ecosystem_module_order', JSON.stringify(newOrder));
 
     if (!navigator.onLine) {
       setIsSyncPending(true);
       setOfflinePriorityQueue((prev) => [...prev, newOrder]);
-      showToast('⚠️ Sin conexión: Cambio de prioridad guardado en cola offline para sincronización con Firebase', 'warning');
+      showToastRef.current?.('⚠️ Sin conexión: Cambio de prioridad guardado en cola offline para sincronización con Firebase', 'warning');
     } else {
       setIsSyncPending(true);
       setTimeout(() => {
         setIsSyncPending(false);
       }, 900);
     }
-  };
-  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  }, []);
+  const [activeTab, setActiveTab] = useState<ActiveTab>('opportunities');
   const [viewMode, setViewMode] = useState<OpportunityViewMode>('kanban');
   const [selectedRecord, setSelectedRecord] = useState<{ type: 'opportunity' | 'company' | 'person' | 'task'; id: string } | null>(null);
 
@@ -648,7 +652,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Modals & Palettes & Mobile Nav
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const toggleMobileSidebar = () => setIsMobileSidebarOpen((prev) => !prev);
+  const toggleMobileSidebar = useCallback(() => setIsMobileSidebarOpen((prev) => !prev), []);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNewRecordModalOpen, setIsNewRecordModalOpen] = useState(false);
   const [newRecordType, setNewRecordType] = useState<'opportunity' | 'company' | 'person' | 'task'>('opportunity');
@@ -657,20 +661,17 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isPublicSiteVisible, setIsPublicSiteVisible] = useState<boolean>(() => {
     try {
       const mode = sessionStorage.getItem('clientum_view_mode');
-      if (typeof window !== 'undefined' && isPrivateAppPath(window.location.pathname)) {
-        return false;
-      }
-      if (mode === 'app') return false;
-      return true; // Show public site at the beginning by default
+      if (mode === 'public') return true;
+      return false; // Default directly into the CRM application workspace
     } catch (e) {
-      return true;
+      return false;
     }
   });
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthReady, setIsAuthReady] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthReady, setIsAuthReady] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
-  const demoSessionRef = useRef(false);
+  const demoSessionRef = useRef(true);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [gmailAccessToken, setGmailAccessToken] = useState<string | null>(null);
 
@@ -790,7 +791,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   } | null>(null);
   const importBatchPersistenceRef = useRef<Promise<void> | null>(null);
 
-  const refreshCrmData = async (): Promise<boolean> => {
+  const refreshCrmData = useCallback(async (): Promise<boolean> => {
     if (!isAuthReady || !isAuthenticated || !currentUser.id) return false;
     try {
       const response = await fetch('/api/crm/bootstrap', {
@@ -818,7 +819,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.warn('Persistent CRM refresh unavailable:', error);
       return false;
     }
-  };
+  }, [isAuthReady, isAuthenticated, currentUser]);
 
   const syncClerkAuth = useCallback((identity: { id: string; email: string; name: string; avatar?: string | null } | null) => {
     if (!identity) {
@@ -879,6 +880,62 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAuthenticated(true);
     setIsAuthReady(true);
   }, [users]);
+
+  // Centralized Firebase Authentication listener to avoid duplicate state synchronizations
+  useEffect(() => {
+    let lastUserId: string | null | undefined = undefined;
+
+    const unsubscribe = subscribeToAuthState((fbUser) => {
+      try {
+        const userId = fbUser?.uid || null;
+
+        if (lastUserId === userId && lastUserId !== undefined) {
+          return;
+        }
+        const previousUserId = lastUserId;
+        lastUserId = userId;
+
+        if (fbUser) {
+          Promise.resolve(
+            syncUserProfileToFirestore({
+              uid: fbUser.uid,
+              email: fbUser.email,
+              displayName: fbUser.displayName,
+              photoURL: fbUser.photoURL,
+              providerId: fbUser.providerData?.[0]?.providerId || 'google.com',
+            })
+          ).catch((err) => {
+            console.warn('Non-fatal error syncing profile to Firestore:', err);
+          });
+        }
+
+        syncClerkAuth(
+          fbUser
+            ? {
+                id: fbUser.uid,
+                email: fbUser.email || '',
+                name: fbUser.displayName || fbUser.email?.split('@')[0] || 'Usuario Clientum',
+                avatar: fbUser.photoURL || null,
+              }
+            : null
+        );
+
+        if (fbUser && isAuthModalOpen && previousUserId !== fbUser.uid) {
+          setIsAuthModalOpen(false);
+          setIsPublicSiteVisible(false);
+          navigateEnvironment('/app');
+        }
+      } catch (error) {
+        console.error('Centralized Firebase Auth error:', error);
+        syncClerkAuth(null);
+        lastUserId = null;
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [isAuthModalOpen, syncClerkAuth]);
 
   // Online / Offline & Background Batching Sync Queue for Module Priority & Workspace State
   useEffect(() => {
@@ -1122,17 +1179,17 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isComposeEmailModalOpen, setIsComposeEmailModalOpen] = useState(false);
   const [composeEmailDefaults, setComposeEmailDefaults] = useState<Partial<WebmailEmail> | null>(null);
 
-  const openComposeEmailModal = (defaults?: Partial<WebmailEmail>) => {
+  const openComposeEmailModal = useCallback((defaults?: Partial<WebmailEmail>) => {
     setComposeEmailDefaults(defaults || null);
     setIsComposeEmailModalOpen(true);
-  };
+  }, []);
 
-  const closeComposeEmailModal = () => {
+  const closeComposeEmailModal = useCallback(() => {
     setIsComposeEmailModalOpen(false);
     setComposeEmailDefaults(null);
-  };
+  }, []);
 
-  const enterApp = (force = false) => {
+  const enterApp = useCallback((force = false) => {
     if (!isAuthenticated && !force) {
       setIsAuthModalOpen(true);
       return;
@@ -1143,26 +1200,26 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       sessionStorage.setItem('clientum_view_mode', 'app');
     } catch (e) {}
-  };
+  }, [isAuthenticated]);
 
-  const openPublicSite = () => {
+  const openPublicSite = useCallback(() => {
     setIsPublicSiteVisible(true);
     navigateEnvironment('/');
     try {
       sessionStorage.setItem('clientum_view_mode', 'public');
     } catch (e) {}
-  };
+  }, []);
   const exitToPublicSite = openPublicSite;
 
-  const updateCurrentUser = (updates: Partial<User>) => {
+  const updateCurrentUser = useCallback((updates: Partial<User>) => {
     setCurrentUser((prev) => {
       const updated = { ...prev, ...updates };
       localStorage.setItem('clientum_crm_current_user', JSON.stringify(updated));
       return updated;
     });
-  };
+  }, []);
 
-  const login = (email: string, _pass?: string) => {
+  const login = useCallback((email: string, _pass?: string) => {
     demoSessionRef.current = true;
     const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
     const handle = email.split('@')[0];
@@ -1196,9 +1253,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAuthModalOpen(false);
     setIsPublicSiteVisible(false);
     navigateEnvironment('/app');
-  };
+  }, [users]);
 
-  const register = (name: string, email: string, _pass?: string, _company?: string) => {
+  const register = useCallback((name: string, email: string, _pass?: string, _company?: string) => {
     const userDisplayName = name.trim() || 'Usuario Clientum';
     const newUser: User = {
       id: 'usr-' + Date.now(),
@@ -1225,9 +1282,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAuthModalOpen(false);
     setIsPublicSiteVisible(false);
     navigateEnvironment('/app');
-  };
+  }, [startFreeTrial]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     demoSessionRef.current = false;
     void firebaseSignOut();
     setIsAuthenticated(false);
@@ -1242,12 +1299,12 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     setIsAuthModalOpen(false);
     setIsPublicSiteVisible(true);
-  };
+  }, []);
 
-  const resetPassword = (email: string) => {
+  const resetPassword = useCallback((email: string) => {
     // Record password recovery simulation in logs
     console.log(`Password reset link dispatched for ClientumCRM account: ${email}`);
-  };
+  }, []);
   
   // Toast notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -1330,19 +1387,21 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => window.removeEventListener('keydown', handleKeyDown, true);
   }, [isCommandPaletteOpen, isNewRecordModalOpen, isAICopilotModalOpen]);
 
-  const showToast = (message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info') => {
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info') => {
     const id = 'toast-' + Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       removeToast(id);
     }, 4000);
-  };
+  }, [removeToast]);
 
-  const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
+  showToastRef.current = showToast;
 
-  const triggerConfetti = () => {
+  const triggerConfetti = useCallback(() => {
     try {
       confetti({
         particleCount: 100,
@@ -1353,24 +1412,178 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {
       // fallback if canvas not available
     }
-  };
+  }, []);
 
-  const resetFilters = () => {
+  const resetFilters = useCallback(() => {
     setFilterState(initialFilter);
-  };
+  }, []);
 
-  const openNewRecordModal = (type: 'opportunity' | 'company' | 'person' | 'task' = 'opportunity') => {
+  const openNewRecordModal = useCallback((type: 'opportunity' | 'company' | 'person' | 'task' = 'opportunity') => {
     setNewRecordType(type);
     setIsNewRecordModalOpen(true);
-  };
+  }, []);
 
-  const openAICopilot = (context?: { type?: string; id?: string; name?: string; initialPrompt?: string }) => {
+  const openAICopilot = useCallback((context?: { type?: string; id?: string; name?: string; initialPrompt?: string }) => {
     setAICopilotContext(context || null);
     setIsAICopilotModalOpen(true);
-  };
+  }, []);
+
+  // Tracking refs for stable callback closures
+  const currentUserRef = useRef(currentUser);
+  currentUserRef.current = currentUser;
+
+  const opportunitiesRef = useRef(opportunities);
+  opportunitiesRef.current = opportunities;
+
+  const companiesRef = useRef(companies);
+  companiesRef.current = companies;
+
+  const peopleRef = useRef(people);
+  peopleRef.current = people;
+
+  const tasksRef = useRef(tasks);
+  tasksRef.current = tasks;
+
+  const selectedRecordRef = useRef(selectedRecord);
+  selectedRecordRef.current = selectedRecord;
+
+  const invoicesRef = useRef(invoices);
+  invoicesRef.current = invoices;
+
+  const inventoryRef = useRef(inventory);
+  inventoryRef.current = inventory;
+
+  const expensesRef = useRef(expenses);
+  expensesRef.current = expenses;
+
+  const sendSlackTestMessageRef = useRef<((channel?: string, eventType?: string) => Promise<boolean>) | null>(null);
+  const enrichContactRef = useRef<((personId: string, manualTrigger?: boolean) => Promise<boolean>) | null>(null);
+
+  // RBAC Role Resolution
+  const currentRole: RoleDefinition = React.useMemo(() => {
+    const userRoleStr = (currentUser.role || '').toLowerCase();
+    const found = roles.find(
+      (r) =>
+        r.name.toLowerCase() === userRoleStr ||
+        r.slug.toLowerCase() === userRoleStr ||
+        (userRoleStr.includes('admin') && r.slug === 'admin') ||
+        (userRoleStr.includes('manager') && r.slug === 'sales_manager') ||
+        (userRoleStr.includes('ejecutiv') && r.slug === 'sales_rep') ||
+        (userRoleStr.includes('audit') && r.slug === 'auditor') ||
+        (userRoleStr.includes('sdr') && r.slug === 'sdr')
+    );
+    return found || roles[0] || INITIAL_ROLES[0];
+  }, [currentUser.role, roles]);
+
+  const currentRoleRef = useRef(currentRole);
+  currentRoleRef.current = currentRole;
+
+  // Audit Logging
+  const logAuditEvent = useCallback((
+    entry: Omit<AuditLogEntry, 'id' | 'timestamp' | 'ipAddress' | 'userAgent'> & {
+      ipAddress?: string;
+      userAgent?: string;
+    }
+  ) => {
+    const newLog: AuditLogEntry = {
+      ...entry,
+      id: 'log-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+      timestamp: new Date().toISOString(),
+      ipAddress: entry.ipAddress || '181.46.139.84',
+      userAgent: entry.userAgent || navigator.userAgent || 'Clientum-Web/1.0',
+      location: entry.location || 'Buenos Aires, Argentina',
+    };
+
+    setAuditLogs((prev) => {
+      const updatedLogs = [newLog, ...prev].slice(0, 500); // keep last 500 logs
+      // Check for security anomalies
+      const detected = scanAuditLogsForAnomalies(updatedLogs);
+      if (detected.length > 0) {
+        setSecurityAnomalies((prevAnoms) => {
+          const newAnoms = detected.filter(
+            (d) => !prevAnoms.some((p) => p.title === d.title && p.status === 'active')
+          );
+          if (newAnoms.length > 0) {
+            showToast(`⚠️ Alerta de Seguridad: ${newAnoms[0].title}`, 'warning');
+          }
+          return [...newAnoms, ...prevAnoms];
+        });
+      }
+      return updatedLogs;
+    });
+  }, [showToast]);
+
+  const hasPermission = useCallback((resource: PermissionResource, action: PermissionAction): boolean => {
+    return checkRoleHasPermission(currentRoleRef.current, resource, action);
+  }, []);
+
+  const checkPermissionOrWarn = useCallback((
+    resource: PermissionResource,
+    action: PermissionAction,
+    resourceLabel?: string
+  ): boolean => {
+    const role = currentRoleRef.current;
+    const allowed = checkRoleHasPermission(role, resource, action);
+    if (!allowed) {
+      const actionNames: Record<PermissionAction, string> = {
+        view: 'ver',
+        create: 'crear',
+        edit: 'editar',
+        delete: 'eliminar',
+        export: 'exportar',
+        manage: 'administrar',
+      };
+      const label = resourceLabel || resource;
+      showToast(
+        `Acceso Restringido: Tu rol "${role.name}" no tiene permisos para ${actionNames[action]} ${label}.`,
+        'warning'
+      );
+      const user = currentUserRef.current;
+      logAuditEvent({
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email,
+        userRole: role.name,
+        action: 'security.permission_denied',
+        actionLabel: 'Intento de Acción Denegada por RBAC',
+        entityType: resource,
+        details: `Intento de ${actionNames[action]} en ${label} denegado para el rol ${role.name}.`,
+        severity: 'warning',
+        status: 'denied',
+      });
+      return false;
+    }
+    return true;
+  }, [showToast, logAuditEvent]);
+
+  // CRUD Activity (available to all entities)
+  const addActivity = useCallback((data: Omit<Activity, 'id' | 'createdAt'>): Activity => {
+    const newAct: Activity = {
+      ...data,
+      id: 'act-' + Date.now(),
+      createdAt: new Date().toISOString(),
+    };
+    setActivities((prev) => [newAct, ...prev]);
+
+    const user = currentUserRef.current;
+    if (user.id) {
+      void saveUserSubcollectionRecord(user.id, 'activities', newAct.id, newAct);
+    }
+
+    return newAct;
+  }, []);
+
+  const deleteActivity = useCallback((id: string) => {
+    setActivities((prev) => prev.filter((a) => a.id !== id));
+
+    const user = currentUserRef.current;
+    if (user.id) {
+      void deleteUserSubcollectionRecord(user.id, 'activities', id);
+    }
+  }, []);
 
   // --- CRUD OPPORTUNITY ---
-  const addOpportunity = (data: Omit<Opportunity, 'id' | 'createdAt' | 'updatedAt'>): Opportunity => {
+  const addOpportunity = useCallback((data: Omit<Opportunity, 'id' | 'createdAt' | 'updatedAt'>): Opportunity => {
     const stageConf = STAGES.find((s) => s.id === data.stage);
     const newOpp: Opportunity = {
       ...data,
@@ -1381,43 +1594,44 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setOpportunities((prev) => [newOpp, ...prev]);
 
+    const user = currentUserRef.current;
     // Add activity
     addActivity({
       type: 'stage_change',
       title: 'Created Opportunity',
-      content: `${currentUser.name} created opportunity "${newOpp.name}" ($${newOpp.amount.toLocaleString()})`,
-      author: currentUser.name,
+      content: `${user.name} created opportunity "${newOpp.name}" ($${newOpp.amount.toLocaleString()})`,
+      author: user.name,
       targetType: 'opportunity',
       targetId: newOpp.id,
       meta: { toStage: newOpp.stage },
     });
 
     // Real-time Firestore write
-    if (currentUser.id) {
-      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', newOpp.id, newOpp);
+    if (user.id) {
+      void saveUserSubcollectionRecord(user.id, 'opportunities', newOpp.id, newOpp);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'deal.create',
       actionLabel: 'Creación de Oportunidad Comercial',
       entityType: 'opportunities',
       entityId: newOpp.id,
       entityName: `${newOpp.name} ($${newOpp.amount.toLocaleString()} ${newOpp.currency})`,
-      details: `Oportunidad creada por ${currentUser.name} con monto de $${newOpp.amount.toLocaleString()} y asignada a ${newOpp.assignedTo}.`,
+      details: `Oportunidad creada por ${user.name} con monto de $${newOpp.amount.toLocaleString()} y asignada a ${newOpp.assignedTo}.`,
       severity: 'info',
       status: 'success',
     });
 
     showToast(`Opportunity "${newOpp.name}" created`, 'success');
     return newOpp;
-  };
+  }, [addActivity, logAuditEvent, showToast]);
 
-  const updateOpportunity = (id: string, updates: Partial<Opportunity>) => {
-    const opp = opportunities.find((o) => o.id === id);
+  const updateOpportunity = useCallback((id: string, updates: Partial<Opportunity>) => {
+    const opp = opportunitiesRef.current.find((o) => o.id === id);
     let updatedOpp: Opportunity | null = null;
     setOpportunities((prev) =>
       prev.map((o) => {
@@ -1430,59 +1644,61 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
 
-    if (currentUser.id && updatedOpp) {
-      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', id, updatedOpp);
+    const user = currentUserRef.current;
+    if (user.id && updatedOpp) {
+      void saveUserSubcollectionRecord(user.id, 'opportunities', id, updatedOpp);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'deal.update',
       actionLabel: 'Actualización de Oportunidad',
       entityType: 'opportunities',
       entityId: id,
       entityName: opp?.name || id,
-      details: `Oportunidad "${opp?.name || id}" modificada por ${currentUser.name}. Campos: ${Object.keys(updates).join(', ')}.`,
+      details: `Oportunidad "${opp?.name || id}" modificada por ${user.name}. Campos: ${Object.keys(updates).join(', ')}.`,
       severity: 'info',
       status: 'success',
     });
 
     showToast('Opportunity updated', 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
-  const deleteOpportunity = (id: string) => {
-    const opp = opportunities.find((o) => o.id === id);
+  const deleteOpportunity = useCallback((id: string) => {
+    const opp = opportunitiesRef.current.find((o) => o.id === id);
     setOpportunities((prev) => prev.filter((o) => o.id !== id));
-    if (selectedRecord?.id === id) {
+    if (selectedRecordRef.current?.id === id) {
       setSelectedRecord(null);
     }
 
-    if (currentUser.id) {
-      void deleteUserSubcollectionRecord(currentUser.id, 'opportunities', id);
+    const user = currentUserRef.current;
+    if (user.id) {
+      void deleteUserSubcollectionRecord(user.id, 'opportunities', id);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'deal.delete',
       actionLabel: 'Eliminación de Oportunidad',
       entityType: 'opportunities',
       entityId: id,
       entityName: opp ? `${opp.name} ($${opp.amount.toLocaleString()})` : id,
-      details: `La oportunidad "${opp?.name || id}" fue eliminada del pipeline por ${currentUser.name}.`,
+      details: `La oportunidad "${opp?.name || id}" fue eliminada del pipeline por ${user.name}.`,
       severity: 'warning',
       status: 'success',
     });
 
     showToast(`Opportunity "${opp?.name || id}" removed`, 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
-  const moveOpportunityStage = (id: string, newStage: StageId) => {
-    const opp = opportunities.find((o) => o.id === id);
+  const moveOpportunityStage = useCallback((id: string, newStage: StageId) => {
+    const opp = opportunitiesRef.current.find((o) => o.id === id);
     if (!opp || opp.stage === newStage) return;
 
     const oldStage = opp.stage;
@@ -1504,26 +1720,27 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
 
-    if (currentUser.id && movedOpp) {
-      void saveUserSubcollectionRecord(currentUser.id, 'opportunities', id, movedOpp);
+    const user = currentUserRef.current;
+    if (user.id && movedOpp) {
+      void saveUserSubcollectionRecord(user.id, 'opportunities', id, movedOpp);
     }
 
     // Record activity
     addActivity({
       type: 'stage_change',
       title: `Moved to ${stageConf?.name || newStage}`,
-      content: `${currentUser.name} moved deal from ${oldStage} to ${newStage}`,
-      author: currentUser.name,
+      content: `${user.name} moved deal from ${oldStage} to ${newStage}`,
+      author: user.name,
       targetType: 'opportunity',
       targetId: id,
       meta: { fromStage: oldStage, toStage: newStage },
     });
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'deal.stage_change',
       actionLabel: `Avance de Deal a ${stageConf?.name || newStage}`,
       entityType: 'opportunities',
@@ -1531,7 +1748,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       entityName: opp.name,
       details: `Etapa cambiada de "${oldStage}" a "${newStage}" ($${opp.amount.toLocaleString()}).`,
       diff: [{ field: 'stage', oldValue: oldStage, newValue: newStage }],
-      severity: newStage === 'won' ? 'info' : 'info',
+      severity: 'info',
       status: 'success',
     });
 
@@ -1539,14 +1756,14 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       triggerConfetti();
       showToast(`🎉 Deal Won! $${opp.amount.toLocaleString()} - ${opp.name}`, 'success');
       // Trigger Slack deal won simulation
-      sendSlackTestMessage(undefined, 'deal_won');
+      sendSlackTestMessageRef.current?.(undefined, 'deal_won');
     } else {
       showToast(`Deal moved to ${stageConf?.name}`, 'info');
     }
-  };
+  }, [addActivity, logAuditEvent, showToast, triggerConfetti]);
 
   // --- CRUD COMPANY ---
-  const addCompany = (data: Omit<Company, 'id' | 'createdAt'>): Company => {
+  const addCompany = useCallback((data: Omit<Company, 'id' | 'createdAt'>): Company => {
     const newComp: Company = {
       ...data,
       id: 'c-' + Date.now(),
@@ -1554,15 +1771,16 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setCompanies((prev) => [newComp, ...prev]);
 
-    if (currentUser.id) {
-      void saveUserSubcollectionRecord(currentUser.id, 'companies', newComp.id, newComp);
+    const user = currentUserRef.current;
+    if (user.id) {
+      void saveUserSubcollectionRecord(user.id, 'companies', newComp.id, newComp);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'company.create',
       actionLabel: 'Creación de Empresa',
       entityType: 'companies',
@@ -1575,10 +1793,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     showToast(`Company "${newComp.name}" added`, 'success');
     return newComp;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateCompany = (id: string, updates: Partial<Company>) => {
-    const comp = companies.find((c) => c.id === id);
+  const updateCompany = useCallback((id: string, updates: Partial<Company>) => {
+    const comp = companiesRef.current.find((c) => c.id === id);
     let updatedComp: Company | null = null;
     setCompanies((prev) => prev.map((c) => {
       if (c.id === id) {
@@ -1588,98 +1806,62 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return c;
     }));
 
-    if (currentUser.id && updatedComp) {
-      void saveUserSubcollectionRecord(currentUser.id, 'companies', id, updatedComp);
+    const user = currentUserRef.current;
+    if (user.id && updatedComp) {
+      void saveUserSubcollectionRecord(user.id, 'companies', id, updatedComp);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'company.update',
       actionLabel: 'Actualización de Empresa',
       entityType: 'companies',
       entityId: id,
       entityName: comp?.name || id,
-      details: `Registro de empresa "${comp?.name || id}" editado por ${currentUser.name}.`,
+      details: `Registro de empresa "${comp?.name || id}" editado por ${user.name}.`,
       severity: 'info',
       status: 'success',
     });
 
     showToast('Company updated', 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
-  const deleteCompany = (id: string) => {
-    const comp = companies.find((c) => c.id === id);
+  const deleteCompany = useCallback((id: string) => {
+    const comp = companiesRef.current.find((c) => c.id === id);
     setCompanies((prev) => prev.filter((c) => c.id !== id));
-    if (selectedRecord?.id === id) {
+    if (selectedRecordRef.current?.id === id) {
       setSelectedRecord(null);
     }
 
-    if (currentUser.id) {
-      void deleteUserSubcollectionRecord(currentUser.id, 'companies', id);
+    const user = currentUserRef.current;
+    if (user.id) {
+      void deleteUserSubcollectionRecord(user.id, 'companies', id);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'company.delete',
       actionLabel: 'Eliminación de Empresa',
       entityType: 'companies',
       entityId: id,
       entityName: comp?.name || id,
-      details: `Empresa "${comp?.name || id}" eliminada de la plataforma por ${currentUser.name}.`,
+      details: `Empresa "${comp?.name || id}" eliminada de la plataforma por ${user.name}.`,
       severity: 'warning',
       status: 'success',
     });
 
     showToast(`Company "${comp?.name || id}" removed`, 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
   // --- CRUD PERSON ---
-  const addPerson = (data: Omit<Person, 'id' | 'createdAt' | 'lastActivityDate'>): Person => {
-    const newPerson: Person = {
-      ...data,
-      id: 'p-' + Date.now(),
-      createdAt: new Date().toISOString(),
-      lastActivityDate: new Date().toISOString(),
-    };
-    setPeople((prev) => [newPerson, ...prev]);
-
-    if (currentUser.id) {
-      void saveUserSubcollectionRecord(currentUser.id, 'people', newPerson.id, newPerson);
-    }
-
-    logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
-      action: 'person.create',
-      actionLabel: 'Nuevo Contacto Registrado',
-      entityType: 'people',
-      entityId: newPerson.id,
-      entityName: `${newPerson.firstName} ${newPerson.lastName}`,
-      details: `Contacto ${newPerson.firstName} ${newPerson.lastName} (${newPerson.email || 'Sin email'}) añadido.`,
-      severity: 'info',
-      status: 'success',
-    });
-
-    showToast(`Contact "${newPerson.firstName} ${newPerson.lastName}" created`, 'success');
-
-    // Auto-trigger background contact enrichment utility when a new lead/contact is added
-    setTimeout(() => {
-      void enrichContact(newPerson.id, false);
-    }, 300);
-
-    return newPerson;
-  };
-
-  const updatePerson = (id: string, updates: Partial<Person>, silent = false) => {
-    const person = people.find((p) => p.id === id);
+  const updatePerson = useCallback((id: string, updates: Partial<Person>, silent = false) => {
+    const person = peopleRef.current.find((p) => p.id === id);
     let updatedPerson: Person | null = null;
     setPeople((prev) => prev.map((p) => {
       if (p.id === id) {
@@ -1689,16 +1871,17 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return p;
     }));
 
-    if (currentUser.id && updatedPerson) {
-      void saveUserSubcollectionRecord(currentUser.id, 'people', id, updatedPerson);
+    const user = currentUserRef.current;
+    if (user.id && updatedPerson) {
+      void saveUserSubcollectionRecord(user.id, 'people', id, updatedPerson);
     }
 
     if (!silent) {
       logAuditEvent({
-        userId: currentUser.id,
-        userName: currentUser.name,
-        userEmail: currentUser.email,
-        userRole: currentUser.role,
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email,
+        userRole: user.role,
         action: 'person.update',
         actionLabel: 'Actualización de Contacto',
         entityType: 'people',
@@ -1711,10 +1894,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       showToast('Contact updated', 'info');
     }
-  };
+  }, [logAuditEvent, showToast]);
 
-  const enrichContact = async (personId: string, manualTrigger = false): Promise<boolean> => {
-    const target = people.find((p) => p.id === personId);
+  const enrichContact = useCallback(async (personId: string, manualTrigger = false): Promise<boolean> => {
+    const target = peopleRef.current.find((p) => p.id === personId);
     if (!target) return false;
 
     updatePerson(personId, { enrichmentStatus: 'enriching' }, true);
@@ -1759,11 +1942,12 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         updatePerson(personId, updates, true);
 
+        const user = currentUserRef.current;
         logAuditEvent({
-          userId: currentUser.id,
-          userName: currentUser.name,
-          userEmail: currentUser.email,
-          userRole: currentUser.role,
+          userId: user.id,
+          userName: user.name,
+          userEmail: user.email,
+          userRole: user.role,
           action: 'person.update',
           actionLabel: 'Contacto Enriquecido con IA',
           entityType: 'people',
@@ -1788,24 +1972,66 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       return false;
     }
-  };
+  }, [logAuditEvent, showToast, updatePerson]);
 
-  const deletePerson = (id: string) => {
-    const person = people.find((p) => p.id === id);
-    setPeople((prev) => prev.filter((p) => p.id !== id));
-    if (selectedRecord?.id === id) {
-      setSelectedRecord(null);
-    }
+  enrichContactRef.current = enrichContact;
 
-    if (currentUser.id) {
-      void deleteUserSubcollectionRecord(currentUser.id, 'people', id);
+  const addPerson = useCallback((data: Omit<Person, 'id' | 'createdAt' | 'lastActivityDate'>): Person => {
+    const newPerson: Person = {
+      ...data,
+      id: 'p-' + Date.now(),
+      createdAt: new Date().toISOString(),
+      lastActivityDate: new Date().toISOString(),
+    };
+    setPeople((prev) => [newPerson, ...prev]);
+
+    const user = currentUserRef.current;
+    if (user.id) {
+      void saveUserSubcollectionRecord(user.id, 'people', newPerson.id, newPerson);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
+      action: 'person.create',
+      actionLabel: 'Nuevo Contacto Registrado',
+      entityType: 'people',
+      entityId: newPerson.id,
+      entityName: `${newPerson.firstName} ${newPerson.lastName}`,
+      details: `Contacto ${newPerson.firstName} ${newPerson.lastName} (${newPerson.email || 'Sin email'}) añadido.`,
+      severity: 'info',
+      status: 'success',
+    });
+
+    showToast(`Contact "${newPerson.firstName} ${newPerson.lastName}" created`, 'success');
+
+    // Auto-trigger background contact enrichment utility when a new lead/contact is added
+    setTimeout(() => {
+      void enrichContactRef.current?.(newPerson.id, false);
+    }, 300);
+
+    return newPerson;
+  }, [logAuditEvent, showToast]);
+
+  const deletePerson = useCallback((id: string) => {
+    const person = peopleRef.current.find((p) => p.id === id);
+    setPeople((prev) => prev.filter((p) => p.id !== id));
+    if (selectedRecordRef.current?.id === id) {
+      setSelectedRecord(null);
+    }
+
+    const user = currentUserRef.current;
+    if (user.id) {
+      void deleteUserSubcollectionRecord(user.id, 'people', id);
+    }
+
+    logAuditEvent({
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'person.delete',
       actionLabel: 'Eliminación de Contacto',
       entityType: 'people',
@@ -1817,10 +2043,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     showToast(`Contact "${person?.firstName} ${person?.lastName}" removed`, 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
   // --- CRUD TASK ---
-  const addTask = (data: Omit<Task, 'id' | 'createdAt'>): Task => {
+  const addTask = useCallback((data: Omit<Task, 'id' | 'createdAt'>): Task => {
     const newTask: Task = {
       ...data,
       id: 't-' + Date.now(),
@@ -1828,15 +2054,16 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setTasks((prev) => [newTask, ...prev]);
 
-    if (currentUser.id) {
-      void saveUserSubcollectionRecord(currentUser.id, 'tasks', newTask.id, newTask);
+    const user = currentUserRef.current;
+    if (user.id) {
+      void saveUserSubcollectionRecord(user.id, 'tasks', newTask.id, newTask);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'task.create',
       actionLabel: 'Nueva Tarea Creada',
       entityType: 'tasks',
@@ -1849,10 +2076,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     showToast(`Task created: "${newTask.title}"`, 'success');
     return newTask;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateTask = (id: string, updates: Partial<Task>) => {
-    const task = tasks.find((t) => t.id === id);
+  const updateTask = useCallback((id: string, updates: Partial<Task>) => {
     let updatedTask: Task | null = null;
     setTasks((prev) => prev.map((t) => {
       if (t.id === id) {
@@ -1862,43 +2088,45 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return t;
     }));
 
-    if (currentUser.id && updatedTask) {
-      void saveUserSubcollectionRecord(currentUser.id, 'tasks', id, updatedTask);
+    const user = currentUserRef.current;
+    if (user.id && updatedTask) {
+      void saveUserSubcollectionRecord(user.id, 'tasks', id, updatedTask);
     }
 
     showToast('Task updated', 'info');
-  };
+  }, [showToast]);
 
-  const deleteTask = (id: string) => {
-    const task = tasks.find((t) => t.id === id);
+  const deleteTask = useCallback((id: string) => {
+    const task = tasksRef.current.find((t) => t.id === id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
-    if (selectedRecord?.id === id) {
+    if (selectedRecordRef.current?.id === id) {
       setSelectedRecord(null);
     }
 
-    if (currentUser.id) {
-      void deleteUserSubcollectionRecord(currentUser.id, 'tasks', id);
+    const user = currentUserRef.current;
+    if (user.id) {
+      void deleteUserSubcollectionRecord(user.id, 'tasks', id);
     }
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'task.delete',
       actionLabel: 'Eliminación de Tarea',
       entityType: 'tasks',
       entityId: id,
       entityName: task?.title || id,
-      details: `Tarea "${task?.title || id}" eliminada por ${currentUser.name}.`,
+      details: `Tarea "${task?.title || id}" eliminada por ${user.name}.`,
       severity: 'info',
       status: 'success',
     });
 
     showToast('Task deleted', 'info');
-  };
+  }, [logAuditEvent, showToast]);
 
-  const toggleTaskStatus = (id: string) => {
+  const toggleTaskStatus = useCallback((id: string) => {
     let toggledTask: Task | null = null;
     setTasks((prev) =>
       prev.map((t) => {
@@ -1916,37 +2144,14 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
 
-    if (currentUser.id && toggledTask) {
-      void saveUserSubcollectionRecord(currentUser.id, 'tasks', id, toggledTask);
+    const user = currentUserRef.current;
+    if (user.id && toggledTask) {
+      void saveUserSubcollectionRecord(user.id, 'tasks', id, toggledTask);
     }
-  };
-
-  // --- CRUD ACTIVITY ---
-  const addActivity = (data: Omit<Activity, 'id' | 'createdAt'>): Activity => {
-    const newAct: Activity = {
-      ...data,
-      id: 'act-' + Date.now(),
-      createdAt: new Date().toISOString(),
-    };
-    setActivities((prev) => [newAct, ...prev]);
-
-    if (currentUser.id) {
-      void saveUserSubcollectionRecord(currentUser.id, 'activities', newAct.id, newAct);
-    }
-
-    return newAct;
-  };
-
-  const deleteActivity = (id: string) => {
-    setActivities((prev) => prev.filter((a) => a.id !== id));
-
-    if (currentUser.id) {
-      void deleteUserSubcollectionRecord(currentUser.id, 'activities', id);
-    }
-  };
+  }, []);
 
   // --- CLIENTUM CUSTOM OBJECTS STUDIO ---
-  const addCustomObject = (data: Omit<CustomObjectDefinition, 'id' | 'createdAt' | 'fields' | 'records'>): CustomObjectDefinition => {
+  const addCustomObject = useCallback((data: Omit<CustomObjectDefinition, 'id' | 'createdAt' | 'fields' | 'records'>): CustomObjectDefinition => {
     const newObj: CustomObjectDefinition = {
       ...data,
       id: 'obj-' + Date.now(),
@@ -1959,9 +2164,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCustomObjects((prev) => [...prev, newObj]);
     showToast(`Custom Object "${newObj.pluralName}" created`, 'success');
     return newObj;
-  };
+  }, [showToast]);
 
-  const addCustomFieldToObject = (objectId: string, fieldData: Omit<CustomObjectField, 'id'>) => {
+  const addCustomFieldToObject = useCallback((objectId: string, fieldData: Omit<CustomObjectField, 'id'>) => {
     const newField: CustomObjectField = {
       ...fieldData,
       id: 'f-' + Date.now(),
@@ -1975,9 +2180,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
     showToast(`Added field "${newField.label}" to object schema`, 'info');
-  };
+  }, [showToast]);
 
-  const addRecordToCustomObject = (objectId: string, recordData: Record<string, any>) => {
+  const addRecordToCustomObject = useCallback((objectId: string, recordData: Record<string, any>) => {
     const newRecord = {
       id: 'rec-' + Date.now(),
       createdAt: new Date().toISOString(),
@@ -1992,9 +2197,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
     showToast('Record added to Custom Object', 'success');
-  };
+  }, [showToast]);
 
-  const deleteRecordFromCustomObject = (objectId: string, recordId: string) => {
+  const deleteRecordFromCustomObject = useCallback((objectId: string, recordId: string) => {
     setCustomObjects((prev) =>
       prev.map((obj) => {
         if (obj.id === objectId) {
@@ -2004,10 +2209,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     );
     showToast('Record removed', 'info');
-  };
+  }, [showToast]);
 
   // --- CLIENTUM WORKFLOWS ENGINE ---
-  const addWorkflow = (data: Omit<WorkflowRule, 'id' | 'runCount'>): WorkflowRule => {
+  const addWorkflow = useCallback((data: Omit<WorkflowRule, 'id' | 'runCount'>): WorkflowRule => {
     const newWf: WorkflowRule = {
       ...data,
       id: 'wf-' + Date.now(),
@@ -2016,26 +2221,26 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setWorkflows((prev) => [newWf, ...prev]);
     showToast(`Workflow "${newWf.name}" active`, 'success');
     return newWf;
-  };
+  }, [showToast]);
 
-  const updateWorkflow = (updated: WorkflowRule) => {
+  const updateWorkflow = useCallback((updated: WorkflowRule) => {
     setWorkflows((prev) => prev.map((wf) => (wf.id === updated.id ? updated : wf)));
-  };
+  }, []);
 
-  const toggleWorkflow = (id: string) => {
+  const toggleWorkflow = useCallback((id: string) => {
     setWorkflows((prev) =>
       prev.map((wf) => (wf.id === id ? { ...wf, isActive: !wf.isActive } : wf))
     );
     showToast('Workflow status toggled', 'info');
-  };
+  }, [showToast]);
 
-  const deleteWorkflow = (id: string) => {
+  const deleteWorkflow = useCallback((id: string) => {
     setWorkflows((prev) => prev.filter((wf) => wf.id !== id));
     showToast('Workflow deleted', 'info');
-  };
+  }, [showToast]);
 
   // --- SAVED VIEWS ---
-  const addSavedView = (data: Omit<SavedView, 'id'>): SavedView => {
+  const addSavedView = useCallback((data: Omit<SavedView, 'id'>): SavedView => {
     const newView: SavedView = {
       ...data,
       id: 'sv-' + Date.now(),
@@ -2043,15 +2248,16 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSavedViews((prev) => [...prev, newView]);
     showToast(`Saved view "${newView.name}" created`, 'success');
     return newView;
-  };
+  }, [showToast]);
 
-  const deleteSavedView = (id: string) => {
+  const deleteSavedView = useCallback((id: string) => {
     setSavedViews((prev) => prev.filter((v) => v.id !== id));
     showToast('Saved view removed', 'info');
-  };
+  }, [showToast]);
 
   // --- CSV IMPORT ENGINE ---
-  const importCSVData = (target: 'opportunities' | 'companies' | 'people', items: any[]): number => {
+  const importCSVData = useCallback((target: 'opportunities' | 'companies' | 'people', items: any[]): number => {
+    const user = currentUserRef.current;
     let count = 0;
     let importedRecords: Array<{ id: string; [key: string]: any }> = [];
     if (target === 'opportunities') {
@@ -2065,7 +2271,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         probability: Number(item.probability) || 50,
         companyName: item.companyName || item.company,
         contactName: item.contactName || item.contact,
-        assignedTo: item.assignedTo || currentUser.name,
+        assignedTo: item.assignedTo || user.name,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         priority: item.priority || 'Medium',
@@ -2087,7 +2293,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         healthScore: 85,
         city: item.city || 'Buenos Aires',
         country: item.country || 'Argentina',
-        assignedTo: item.assignedTo || currentUser.name,
+        assignedTo: item.assignedTo || user.name,
         createdAt: new Date().toISOString(),
       }));
       setCompanies((prev) => [...newComps, ...prev]);
@@ -2103,7 +2309,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         jobTitle: item.jobTitle || 'Executive',
         companyName: item.companyName || item.company,
         status: item.status || 'Lead',
-        assignedTo: item.assignedTo || currentUser.name,
+        assignedTo: item.assignedTo || user.name,
         createdAt: new Date().toISOString(),
         lastActivityDate: new Date().toISOString(),
       }));
@@ -2119,10 +2325,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       count,
     };
     setLastImport(batch);
-    if (isCrmRemoteReady && isAuthenticated && currentUser.id && importedRecords.length > 0) {
+    if (isCrmRemoteReady && isAuthenticated && user.id && importedRecords.length > 0) {
       importBatchPersistenceRef.current = (async () => {
         try {
-          const headers = await getClientumAuthJsonHeaders(currentUser);
+          const headers = await getClientumAuthJsonHeaders(user);
           const response = await fetch('/api/crm/import-batches', {
             method: 'POST',
             headers,
@@ -2142,9 +2348,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     triggerConfetti();
     showToast(`Successfully imported ${count} ${target} records!`, 'success');
     return count;
-  };
+  }, [isAuthenticated, isCrmRemoteReady, showToast, triggerConfetti]);
 
-  const undoLastImport = async (): Promise<boolean> => {
+  const undoLastImport = useCallback(async (): Promise<boolean> => {
     const batch = lastImport;
     if (!batch) return false;
 
@@ -2156,10 +2362,11 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPeople((prev) => prev.filter((record) => !batch.recordIds.includes(record.id)));
     }
 
-    if (isCrmRemoteReady && isAuthenticated && currentUser.id) {
+    const user = currentUserRef.current;
+    if (isCrmRemoteReady && isAuthenticated && user.id) {
       try {
         await importBatchPersistenceRef.current;
-        const headers = await getClientumAuthJsonHeaders(currentUser);
+        const headers = await getClientumAuthJsonHeaders(user);
         const response = await fetch(`/api/crm/import-batches/${encodeURIComponent(batch.id)}`, {
           method: 'DELETE',
           headers,
@@ -2176,10 +2383,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setLastImport(null);
     showToast(`Reverted the last import (${batch.count} records)`, 'info');
     return true;
-  };
+  }, [isAuthenticated, isCrmRemoteReady, lastImport, showToast]);
 
   // Reset to initial demo
-  const resetToDemoData = () => {
+  const resetToDemoData = useCallback(() => {
     setOpportunities(INITIAL_OPPORTUNITIES);
     setCompanies(INITIAL_COMPANIES);
     setPeople(INITIAL_PEOPLE);
@@ -2190,10 +2397,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setExpenses(INITIAL_EXPENSES);
     localStorage.clear();
     showToast('CRM & ERP workspace reset to demo data', 'success');
-  };
+  }, [showToast]);
 
   // Load Clientum leads list from B2B CSV dataset
-  const loadClientumLeads = () => {
+  const loadClientumLeads = useCallback(() => {
     setOpportunities(CLIENTUM_OPPORTUNITIES);
     setCompanies(CLIENTUM_COMPANIES);
     setPeople(CLIENTUM_PEOPLE);
@@ -2209,34 +2416,35 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     
     triggerConfetti();
     showToast('¡Base de Datos de Leads de Clientum cargada con éxito! 🇦🇷', 'success');
-  };
+  }, [showToast, triggerConfetti]);
 
   // ERP Handlers
-  const addInvoice = (invData: Omit<Invoice, 'id' | 'createdAt'>): Invoice => {
+  const addInvoice = useCallback((invData: Omit<Invoice, 'id' | 'createdAt'>): Invoice => {
+    const count = invoicesRef.current.length + 1;
     const newInv: Invoice = {
       ...invData,
-      id: `INV-2026-${String(invoices.length + 1).padStart(3, '0')}`,
+      id: `INV-2026-${String(count).padStart(3, '0')}`,
       createdAt: new Date().toISOString(),
     };
     setInvoices((prev) => [newInv, ...prev]);
     showToast(`Invoice ${newInv.id} created successfully!`, 'success');
     triggerConfetti();
     return newInv;
-  };
+  }, [showToast, triggerConfetti]);
 
-  const updateInvoiceStatus = (id: string, status: InvoiceStatus) => {
+  const updateInvoiceStatus = useCallback((id: string, status: InvoiceStatus) => {
     setInvoices((prev) =>
       prev.map((inv) => (inv.id === id ? { ...inv, status } : inv))
     );
     showToast(`Invoice ${id} status updated to ${status}`, 'info');
-  };
+  }, [showToast]);
 
-  const deleteInvoice = (id: string) => {
+  const deleteInvoice = useCallback((id: string) => {
     setInvoices((prev) => prev.filter((inv) => inv.id !== id));
     showToast(`Invoice ${id} removed`, 'info');
-  };
+  }, [showToast]);
 
-  const addInventoryItem = (itemData: Omit<InventoryItem, 'id'>): InventoryItem => {
+  const addInventoryItem = useCallback((itemData: Omit<InventoryItem, 'id'>): InventoryItem => {
     const newItem: InventoryItem = {
       ...itemData,
       id: `inv-${Date.now()}`,
@@ -2251,9 +2459,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       showToast(`Inventory item "${newItem.name}" added successfully!`, 'success');
     }
     return newItem;
-  };
+  }, [showToast]);
 
-  const updateInventoryStock = (id: string, deltaQuantity: number) => {
+  const updateInventoryStock = useCallback((id: string, deltaQuantity: number) => {
     let targetItemName = '';
     let isLowStockAlert = false;
     let alertDetails = '';
@@ -2282,14 +2490,14 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       showToast(`Stock quantity updated for "${targetItemName}"`, 'info');
     }
-  };
+  }, [showToast]);
 
-  const deleteInventoryItem = (id: string) => {
+  const deleteInventoryItem = useCallback((id: string) => {
     setInventory((prev) => prev.filter((item) => item.id !== id));
     showToast(`Inventory item removed`, 'info');
-  };
+  }, [showToast]);
 
-  const addExpense = (expData: Omit<ExpenseItem, 'id'>): ExpenseItem => {
+  const addExpense = useCallback((expData: Omit<ExpenseItem, 'id'>): ExpenseItem => {
     const newExp: ExpenseItem = {
       ...expData,
       id: `exp-${Date.now()}`,
@@ -2297,34 +2505,34 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setExpenses((prev) => [newExp, ...prev]);
     showToast(`Expense recorded: $${newExp.amount}`, 'success');
     return newExp;
-  };
+  }, [showToast]);
 
-  const deleteExpense = (id: string) => {
+  const deleteExpense = useCallback((id: string) => {
     setExpenses((prev) => prev.filter((exp) => exp.id !== id));
     showToast(`Expense record deleted`, 'info');
-  };
+  }, [showToast]);
 
   // Full Backup of CRM & ERP Data to JSON File
-  const exportFullWorkspaceJSON = () => {
+  const exportFullWorkspaceJSON = useCallback(() => {
     const fullBackup = {
       app: 'ClientumCRM & ERP Workspace',
       version: '2.5.0',
       exportedAt: new Date().toISOString(),
-      user: currentUser,
+      user: currentUserRef.current,
       crm: {
-        opportunities,
-        companies,
-        people,
-        tasks,
+        opportunities: opportunitiesRef.current,
+        companies: companiesRef.current,
+        people: peopleRef.current,
+        tasks: tasksRef.current,
         activities,
         customObjects,
         workflows,
         savedViews,
       },
       erp: {
-        invoices,
-        inventory,
-        expenses,
+        invoices: invoicesRef.current,
+        inventory: inventoryRef.current,
+        expenses: expensesRef.current,
       },
       settings: {
         theme,
@@ -2340,29 +2548,31 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     downloadAnchor.click();
     downloadAnchor.remove();
     showToast('Full CRM & ERP workspace JSON backup created and downloaded!', 'success');
-  };
+  }, [activities, customObjects, language, savedViews, showToast, theme, workflows]);
 
   // Export CSV
-  const exportOpportunitiesCSV = () => {
-    if (!hasPermission('opportunities', 'export')) {
+  const exportOpportunitiesCSV = useCallback(() => {
+    if (!checkRoleHasPermission(currentRoleRef.current, 'opportunities', 'export')) {
       showToast('Acceso Denegado: Tu rol no tiene permisos para exportar oportunidades', 'warning');
+      const user = currentUserRef.current;
       logAuditEvent({
-        userId: currentUser.id,
-        userName: currentUser.name,
-        userEmail: currentUser.email,
-        userRole: currentUser.role,
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email,
+        userRole: user.role,
         action: 'security.access_denied',
         actionLabel: 'Intento de Exportación No Autorizada',
         entityType: 'opportunities',
-        details: `El usuario ${currentUser.name} intentó exportar la base de oportunidades sin permisos requeridos.`,
+        details: `El usuario ${user.name} intentó exportar la base de oportunidades sin permisos requeridos.`,
         severity: 'warning',
         status: 'denied',
       });
       return;
     }
 
+    const currentOpps = opportunitiesRef.current;
     const headers = ['ID', 'Deal Name', 'Amount', 'Currency', 'Stage', 'Close Date', 'Probability', 'Company', 'Contact', 'Owner', 'Priority', 'Type'];
-    const rows = opportunities.map((o) => [
+    const rows = currentOpps.map((o) => [
       o.id,
       `"${o.name.replace(/"/g, '""')}"`,
       o.amount,
@@ -2387,81 +2597,46 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     document.body.removeChild(link);
     showToast('Exported opportunities as CSV', 'success');
 
+    const user = currentUserRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: user.role,
       action: 'data.export',
       actionLabel: 'Exportación de Pipeline (CSV)',
       entityType: 'opportunities',
       entityName: 'Pipeline de Oportunidades',
-      details: `Exportadas ${opportunities.length} oportunidades comerciales a archivo CSV.`,
+      details: `Exportadas ${currentOpps.length} oportunidades comerciales a archivo CSV.`,
       severity: 'info',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast]);
+
+  // Additional state refs for stable callbacks
+  const rolesRef = useRef(roles);
+  rolesRef.current = roles;
+  const usersRef = useRef(users);
+  usersRef.current = users;
+  const auditLogsRef = useRef(auditLogs);
+  auditLogsRef.current = auditLogs;
+  const securityAnomaliesRef = useRef(securityAnomalies);
+  securityAnomaliesRef.current = securityAnomalies;
+  const googleCalendarSyncRef = useRef(googleCalendarSync);
+  googleCalendarSyncRef.current = googleCalendarSync;
+  const slackIntegrationRef = useRef(slackIntegration);
+  slackIntegrationRef.current = slackIntegration;
+  const apiKeysRef = useRef(apiKeys);
+  apiKeysRef.current = apiKeys;
+  const webhooksRef = useRef(webhooks);
+  webhooksRef.current = webhooks;
+  const webmailEmailsRef = useRef(webmailEmails);
+  webmailEmailsRef.current = webmailEmails;
 
   // ==========================================
   // RBAC & TEAM ROLES SYSTEM METHODS
   // ==========================================
-  const currentRole: RoleDefinition = React.useMemo(() => {
-    const userRoleStr = (currentUser.role || '').toLowerCase();
-    const found = roles.find(
-      (r) =>
-        r.name.toLowerCase() === userRoleStr ||
-        r.slug.toLowerCase() === userRoleStr ||
-        (userRoleStr.includes('admin') && r.slug === 'admin') ||
-        (userRoleStr.includes('manager') && r.slug === 'sales_manager') ||
-        (userRoleStr.includes('ejecutiv') && r.slug === 'sales_rep') ||
-        (userRoleStr.includes('audit') && r.slug === 'auditor') ||
-        (userRoleStr.includes('sdr') && r.slug === 'sdr')
-    );
-    return found || roles[0] || INITIAL_ROLES[0];
-  }, [currentUser.role, roles]);
-
-  const hasPermission = (resource: PermissionResource, action: PermissionAction): boolean => {
-    return checkRoleHasPermission(currentRole, resource, action);
-  };
-
-  const checkPermissionOrWarn = (
-    resource: PermissionResource,
-    action: PermissionAction,
-    resourceLabel?: string
-  ): boolean => {
-    const allowed = hasPermission(resource, action);
-    if (!allowed) {
-      const actionNames: Record<PermissionAction, string> = {
-        view: 'ver',
-        create: 'crear',
-        edit: 'editar',
-        delete: 'eliminar',
-        export: 'exportar',
-        manage: 'administrar',
-      };
-      const label = resourceLabel || resource;
-      showToast(
-        `Acceso Restringido: Tu rol "${currentRole.name}" no tiene permisos para ${actionNames[action]} ${label}.`,
-        'warning'
-      );
-      logAuditEvent({
-        userId: currentUser.id,
-        userName: currentUser.name,
-        userEmail: currentUser.email,
-        userRole: currentRole.name,
-        action: 'security.permission_denied',
-        actionLabel: 'Intento de Acción Denegada por RBAC',
-        entityType: resource,
-        details: `Intento de ${actionNames[action]} en ${label} denegado para el rol ${currentRole.name}.`,
-        severity: 'warning',
-        status: 'denied',
-      });
-      return false;
-    }
-    return true;
-  };
-
-  const addRole = (data: Omit<RoleDefinition, 'id' | 'createdAt'>): RoleDefinition => {
+  const addRole = useCallback((data: Omit<RoleDefinition, 'id' | 'createdAt'>): RoleDefinition => {
     const newRole: RoleDefinition = {
       ...data,
       id: 'role-' + Date.now(),
@@ -2471,11 +2646,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setRoles((prev) => [...prev, newRole]);
     showToast(`Rol personalizado "${newRole.name}" creado con éxito`, 'success');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.role_create',
       actionLabel: 'Creación de Rol Personalizado',
       entityType: 'settings',
@@ -2486,20 +2663,22 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'success',
     });
     return newRole;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateRole = (id: string, updates: Partial<RoleDefinition>) => {
-    const targetRole = roles.find((r) => r.id === id);
+  const updateRole = useCallback((id: string, updates: Partial<RoleDefinition>) => {
+    const targetRole = rolesRef.current.find((r) => r.id === id);
     setRoles((prev) =>
       prev.map((r) => (r.id === id ? { ...r, ...updates, updatedAt: new Date().toISOString() } : r))
     );
     showToast(`Rol "${targetRole?.name || id}" actualizado`, 'success');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.role_update',
       actionLabel: 'Modificación de Permisos de Rol',
       entityType: 'settings',
@@ -2509,10 +2688,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       severity: 'security',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast]);
 
-  const deleteRole = (id: string): boolean => {
-    const roleToDelete = roles.find((r) => r.id === id);
+  const deleteRole = useCallback((id: string): boolean => {
+    const roleToDelete = rolesRef.current.find((r) => r.id === id);
     if (!roleToDelete) return false;
     if (roleToDelete.isSystem) {
       showToast('No es posible eliminar roles predeterminados del sistema', 'error');
@@ -2521,11 +2700,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setRoles((prev) => prev.filter((r) => r.id !== id));
     showToast(`Rol "${roleToDelete.name}" eliminado`, 'info');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.role_delete',
       actionLabel: 'Eliminación de Rol Personalizado',
       entityType: 'settings',
@@ -2536,10 +2717,10 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'success',
     });
     return true;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const duplicateRole = (id: string): RoleDefinition => {
-    const source = roles.find((r) => r.id === id);
+  const duplicateRole = useCallback((id: string): RoleDefinition => {
+    const source = rolesRef.current.find((r) => r.id === id);
     if (!source) throw new Error('Role not found');
     const clonedRole: RoleDefinition = {
       ...source,
@@ -2554,11 +2735,11 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setRoles((prev) => [...prev, clonedRole]);
     showToast(`Rol "${clonedRole.name}" duplicado`, 'success');
     return clonedRole;
-  };
+  }, [showToast]);
 
-  const assignUserRole = (userId: string, roleNameOrSlug: string) => {
-    const targetUser = users.find((u) => u.id === userId);
-    const targetRole = roles.find(
+  const assignUserRole = useCallback((userId: string, roleNameOrSlug: string) => {
+    const targetUser = usersRef.current.find((u) => u.id === userId);
+    const targetRole = rolesRef.current.find(
       (r) => r.name === roleNameOrSlug || r.slug === roleNameOrSlug || r.id === roleNameOrSlug
     );
     const roleNameToSet = targetRole ? targetRole.name : roleNameOrSlug;
@@ -2567,17 +2748,19 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((u) => (u.id === userId ? { ...u, role: roleNameToSet } : u))
     );
 
-    if (currentUser.id === userId) {
+    const user = currentUserRef.current;
+    if (user.id === userId) {
       updateCurrentUser({ role: roleNameToSet });
     }
 
     showToast(`Rol de ${targetUser?.name || 'usuario'} actualizado a "${roleNameToSet}"`, 'success');
 
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.user_assign',
       actionLabel: 'Reasignación de Rol de Usuario',
       entityType: 'settings',
@@ -2588,9 +2771,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       severity: 'security',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast, updateCurrentUser]);
 
-  const addUser = (userData: Omit<User, 'id'>): User => {
+  const addUser = useCallback((userData: Omit<User, 'id'>): User => {
     const newUser: User = {
       ...userData,
       id: 'usr-' + Date.now(),
@@ -2598,11 +2781,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUsers((prev) => [...prev, newUser]);
     showToast(`Usuario "${newUser.name}" agregado al equipo`, 'success');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.user_create',
       actionLabel: 'Nuevo Usuario Creado en Workspace',
       entityType: 'settings',
@@ -2613,28 +2798,30 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'success',
     });
     return newUser;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateUser = (id: string, updates: Partial<User>) => {
-    const userToUpdate = users.find((u) => u.id === id);
+  const updateUser = useCallback((id: string, updates: Partial<User>) => {
+    const userToUpdate = usersRef.current.find((u) => u.id === id);
     setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, ...updates } : u)));
-    if (currentUser.id === id) {
+    if (currentUserRef.current.id === id) {
       updateCurrentUser(updates);
     }
     showToast(`Usuario "${userToUpdate?.name || id}" actualizado`, 'info');
-  };
+  }, [showToast, updateCurrentUser]);
 
-  const deleteUser = (id: string) => {
-    const userToDelete = users.find((u) => u.id === id);
+  const deleteUser = useCallback((id: string) => {
+    const userToDelete = usersRef.current.find((u) => u.id === id);
     if (!userToDelete) return;
     setUsers((prev) => prev.filter((u) => u.id !== id));
     showToast(`Usuario "${userToDelete.name}" removido`, 'info');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'rbac.user_delete',
       actionLabel: 'Usuario Removido de Workspace',
       entityType: 'settings',
@@ -2644,90 +2831,58 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       severity: 'warning',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast]);
 
   // ==========================================
   // AUDIT LOGGING & ANOMALIES METHODS
   // ==========================================
-  const logAuditEvent = (
-    entry: Omit<AuditLogEntry, 'id' | 'timestamp' | 'ipAddress' | 'userAgent'> & {
-      ipAddress?: string;
-      userAgent?: string;
-    }
-  ) => {
-    const newLog: AuditLogEntry = {
-      ...entry,
-      id: 'log-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
-      timestamp: new Date().toISOString(),
-      ipAddress: entry.ipAddress || '181.46.139.84',
-      userAgent: entry.userAgent || navigator.userAgent || 'Clientum-Web/1.0',
-      location: entry.location || 'Buenos Aires, Argentina',
-    };
-
-    setAuditLogs((prev) => {
-      const updatedLogs = [newLog, ...prev].slice(0, 500); // keep last 500 logs
-      // Check for security anomalies
-      const detected = scanAuditLogsForAnomalies(updatedLogs);
-      if (detected.length > 0) {
-        setSecurityAnomalies((prevAnoms) => {
-          const newAnoms = detected.filter(
-            (d) => !prevAnoms.some((p) => p.title === d.title && p.status === 'active')
-          );
-          if (newAnoms.length > 0) {
-            showToast(`⚠️ Alerta de Seguridad: ${newAnoms[0].title}`, 'warning');
-          }
-          return [...newAnoms, ...prevAnoms];
-        });
-      }
-      return updatedLogs;
-    });
-  };
-
-  const clearAuditLogs = () => {
+  const clearAuditLogs = useCallback(() => {
     setAuditLogs([]);
     showToast('Historial de logs de auditoría limpiado', 'info');
-  };
+  }, [showToast]);
 
-  const exportAuditCSV = () => {
-    exportAuditLogsCSV(auditLogs);
+  const exportAuditCSV = useCallback(() => {
+    exportAuditLogsCSV(auditLogsRef.current);
     showToast('Reporte de Auditoría exportado en CSV', 'success');
-  };
+  }, [showToast]);
 
-  const exportAuditJSON = () => {
-    exportAuditLogsJSON(auditLogs, securityAnomalies);
+  const exportAuditJSON = useCallback(() => {
+    exportAuditLogsJSON(auditLogsRef.current, securityAnomaliesRef.current);
     showToast('Certificado SOC2 / ISO 27001 exportado en JSON', 'success');
-  };
+  }, [showToast]);
 
-  const dismissAnomaly = (id: string) => {
+  const dismissAnomaly = useCallback((id: string) => {
     setSecurityAnomalies((prev) =>
       prev.map((a) => (a.id === id ? { ...a, status: 'dismissed' } : a))
     );
     showToast('Incidencia de seguridad descartada', 'info');
-  };
+  }, [showToast]);
 
-  const resolveAnomaly = (id: string, actionNote?: string) => {
+  const resolveAnomaly = useCallback((id: string, actionNote?: string) => {
     setSecurityAnomalies((prev) =>
       prev.map((a) => (a.id === id ? { ...a, status: 'resolved' } : a))
     );
     showToast(`Incidencia resuelta ${actionNote ? `: ${actionNote}` : ''}`, 'success');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'security.anomaly_resolved',
       actionLabel: 'Resolución de Anomalía de Seguridad',
       entityType: 'auditLogs',
       entityId: id,
-      details: `Incidencia ${id} marcada como resuelta por ${currentUser.name}. ${actionNote || ''}`,
+      details: `Incidencia ${id} marcada como resuelta por ${user.name}. ${actionNote || ''}`,
       severity: 'info',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast]);
 
-  const triggerSecurityScan = () => {
-    const detected = scanAuditLogsForAnomalies(auditLogs);
+  const triggerSecurityScan = useCallback(() => {
+    const detected = scanAuditLogsForAnomalies(auditLogsRef.current);
     if (detected.length > 0) {
       setSecurityAnomalies((prev) => {
         const uniqueNew = detected.filter(
@@ -2739,38 +2894,40 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       showToast('Escaneo completado: No se detectaron anomalías en los registros recientes', 'success');
     }
-  };
+  }, [showToast]);
 
   // ==========================================
   // API INTEGRATIONS HUB METHODS (GCAL, SLACK, API KEYS, WEBHOOKS)
   // ==========================================
-  const updateCalendarSync = (updates: Partial<GoogleCalendarSyncState>) => {
+  const updateCalendarSync = useCallback((updates: Partial<GoogleCalendarSyncState>) => {
     setGoogleCalendarSync((prev) => ({ ...prev, ...updates }));
     showToast('Configuración de Google Calendar actualizada', 'info');
-  };
+  }, [showToast]);
 
-  const syncGoogleCalendarNow = async (): Promise<{ success: boolean; syncedCount: number }> => {
+  const syncGoogleCalendarNow = useCallback(async (): Promise<{ success: boolean; syncedCount: number }> => {
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     // Generate fresh synced events based on current opportunities and tasks
-    const oppEvents = opportunities.slice(0, 10).map((o, idx) => ({
+    const oppEvents = opportunitiesRef.current.slice(0, 10).map((o, idx) => ({
       id: `gcal-opp-${o.id}`,
       title: `Cierre: ${o.name} ($${o.amount.toLocaleString()})`,
       description: `Oportunidad en etapa ${o.stage} con ${o.companyName || 'Cliente'}.`,
       startTime: new Date(Date.now() + 1000 * 60 * 60 * 24 * (idx + 1)).toISOString(),
       endTime: new Date(Date.now() + 1000 * 60 * 60 * (24 * (idx + 1) + 1)).toISOString(),
-      attendees: [currentUser.email, o.contactName || 'cliente@empresa.com'],
+      attendees: [user.email, o.contactName || 'cliente@empresa.com'],
       crmLinkedType: 'opportunity' as const,
       crmLinkedId: o.id,
       crmLinkedName: o.name,
       status: 'confirmed' as const,
     }));
 
-    const taskEvents = tasks.slice(0, 5).map((t, idx) => ({
+    const taskEvents = tasksRef.current.slice(0, 5).map((t, idx) => ({
       id: `gcal-task-${t.id}`,
       title: `Tarea CRM: ${t.title}`,
       description: `Prioridad ${t.priority}. Asignado a: ${t.assignedTo}`,
       startTime: new Date(Date.now() + 1000 * 60 * 60 * 4 * (idx + 1)).toISOString(),
       endTime: new Date(Date.now() + 1000 * 60 * 60 * (4 * (idx + 1) + 1)).toISOString(),
-      attendees: [currentUser.email],
+      attendees: [user.email],
       crmLinkedType: 'task' as const,
       crmLinkedId: t.id,
       crmLinkedName: t.title,
@@ -2787,31 +2944,32 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }));
 
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.calendar_sync',
       actionLabel: 'Sincronización Bidireccional Google Calendar',
       entityType: 'integrations',
       entityId: 'gcal-primary',
       entityName: 'Google Calendar API',
-      details: `Sincronizados ${allEvents.length} eventos y citas comerciales con la cuenta ${googleCalendarSync.calendarEmail}.`,
+      details: `Sincronizados ${allEvents.length} eventos y citas comerciales con la cuenta ${googleCalendarSyncRef.current.calendarEmail}.`,
       severity: 'info',
       status: 'success',
     });
 
     showToast(`Google Calendar sincronizado: ${allEvents.length} eventos actualizados`, 'success');
     return { success: true, syncedCount: allEvents.length };
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateSlackIntegration = (updates: Partial<SlackIntegrationState>) => {
+  const updateSlackIntegration = useCallback((updates: Partial<SlackIntegrationState>) => {
     setSlackIntegration((prev) => ({ ...prev, ...updates }));
     showToast('Configuración de Slack actualizada', 'info');
-  };
+  }, [showToast]);
 
-  const sendSlackTestMessage = async (channel?: string, eventType?: string): Promise<boolean> => {
-    const targetChannel = channel || slackIntegration.defaultChannel || '#ventas-alertas';
+  const sendSlackTestMessage = useCallback(async (channel?: string, eventType?: string): Promise<boolean> => {
+    const slack = slackIntegrationRef.current;
+    const targetChannel = channel || slack.defaultChannel || '#ventas-alertas';
     const event = eventType || 'deal_won';
 
     setSlackIntegration((prev) => ({
@@ -2820,11 +2978,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       lastDispatchedAt: new Date().toISOString(),
     }));
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.slack_broadcast',
       actionLabel: 'Despacho de Webhook a Slack',
       entityType: 'integrations',
@@ -2837,9 +2997,11 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     showToast(`Mensaje enviado a Slack ${targetChannel}`, 'success');
     return true;
-  };
+  }, [logAuditEvent, showToast]);
+  sendSlackTestMessageRef.current = sendSlackTestMessage;
 
-  const createAPIKey = (name: string, scopes: string[], ownerUserId = currentUser.id): APIKey => {
+  const createAPIKey = useCallback((name: string, scopes: string[], ownerUserId = currentUserRef.current.id): APIKey => {
+    const user = currentUserRef.current;
     const randomBytes = new Uint8Array(24);
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
       crypto.getRandomValues(randomBytes);
@@ -2853,7 +3015,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       keyPrefix: `clm_live_${randomHex.slice(0, 4)}`,
       token: `clm_live_${randomHex}`,
       ownerUserId,
-      ownerUserName: users.find((user) => user.id === ownerUserId)?.name || currentUser.name,
+      ownerUserName: usersRef.current.find((u) => u.id === ownerUserId)?.name || user.name,
       scopes,
       createdAt: new Date().toISOString(),
       status: 'active',
@@ -2861,11 +3023,12 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setApiKeys((prev) => [newKey, ...prev]);
     showToast(`API Key "${name}" generada exitosamente`, 'success');
 
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.key_create',
       actionLabel: 'Creación de Token de API REST',
       entityType: 'integrations',
@@ -2876,20 +3039,22 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'success',
     });
     return newKey;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const revokeAPIKey = (id: string) => {
-    const targetKey = apiKeys.find((k) => k.id === id);
+  const revokeAPIKey = useCallback((id: string) => {
+    const targetKey = apiKeysRef.current.find((k) => k.id === id);
     setApiKeys((prev) =>
       prev.map((k) => (k.id === id ? { ...k, status: 'revoked' as const } : k))
     );
     showToast(`API Key "${targetKey?.name || id}" revocada`, 'warning');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.key_revoke',
       actionLabel: 'Revocación de Token de API',
       entityType: 'integrations',
@@ -2899,9 +3064,9 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       severity: 'security',
       status: 'success',
     });
-  };
+  }, [logAuditEvent, showToast]);
 
-  const addWebhook = (
+  const addWebhook = useCallback((
     wh: Omit<WebhookConfig, 'id' | 'createdAt' | 'deliverySuccessCount' | 'deliveryFailureCount'>
   ): WebhookConfig => {
     const newWebhook: WebhookConfig = {
@@ -2914,11 +3079,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setWebhooks((prev) => [newWebhook, ...prev]);
     showToast(`Webhook "${newWebhook.name}" registrado`, 'success');
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.webhook_create',
       actionLabel: 'Registro de Nuevo Webhook HTTP',
       entityType: 'integrations',
@@ -2929,21 +3096,21 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'success',
     });
     return newWebhook;
-  };
+  }, [logAuditEvent, showToast]);
 
-  const updateWebhook = (id: string, updates: Partial<WebhookConfig>) => {
+  const updateWebhook = useCallback((id: string, updates: Partial<WebhookConfig>) => {
     setWebhooks((prev) => prev.map((w) => (w.id === id ? { ...w, ...updates } : w)));
     showToast('Webhook actualizado', 'info');
-  };
+  }, [showToast]);
 
-  const deleteWebhook = (id: string) => {
-    const wh = webhooks.find((w) => w.id === id);
+  const deleteWebhook = useCallback((id: string) => {
+    const wh = webhooksRef.current.find((w) => w.id === id);
     setWebhooks((prev) => prev.filter((w) => w.id !== id));
     showToast(`Webhook "${wh?.name || id}" eliminado`, 'info');
-  };
+  }, [showToast]);
 
-  const triggerTestWebhook = async (id: string): Promise<{ status: number; message: string }> => {
-    const wh = webhooks.find((w) => w.id === id);
+  const triggerTestWebhook = useCallback(async (id: string): Promise<{ status: number; message: string }> => {
+    const wh = webhooksRef.current.find((w) => w.id === id);
     if (!wh) return { status: 404, message: 'Webhook not found' };
 
     setWebhooks((prev) =>
@@ -2959,11 +3126,13 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       )
     );
 
+    const user = currentUserRef.current;
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'api.webhook_test',
       actionLabel: 'Prueba de Entrega de Webhook HTTP',
       entityType: 'integrations',
@@ -2976,19 +3145,20 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     showToast(`Test payload enviado a ${wh.url} (HTTP 200 OK)`, 'success');
     return { status: 200, message: 'HTTP 200 OK - Payload received by endpoint' };
-  };
+  }, [logAuditEvent, showToast]);
 
   // Webmail Cloudflare Methods
-  const sendWebmailEmail = async (
+  const sendWebmailEmail = useCallback(async (
     emailData: Omit<WebmailEmail, 'id' | 'timestamp' | 'messageId' | 'direction'>
   ): Promise<boolean> => {
     if (emailData.attachments?.length) {
       throw new Error('Los adjuntos reales se habilitarán al conectar el almacenamiento R2.');
     }
 
+    const user = currentUserRef.current;
     const deliveryResponse = await fetch('/api/email/send', {
       method: 'POST',
-      headers: await getClientumAuthJsonHeaders(currentUser),
+      headers: await getClientumAuthJsonHeaders(user),
       body: JSON.stringify({
         from: emailData.from,
         fromName: emailData.fromName,
@@ -3034,7 +3204,7 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         type: 'email',
         title: `Correo saliente: ${emailData.subject}`,
         content: `Para: ${emailData.to.join(', ')}\n\n${emailData.bodyText}`,
-        author: currentUser.name || 'Clientum Sales Team',
+        author: user.name || 'Clientum Sales Team',
         targetType: emailData.crmLinkedType,
         targetId: emailData.crmLinkedId,
         meta: {
@@ -3043,11 +3213,12 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       });
     }
 
+    const role = currentRoleRef.current;
     logAuditEvent({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userEmail: currentUser.email,
-      userRole: currentRole.name,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userRole: role.name,
       action: 'webmail.send_email',
       actionLabel: 'Despacho de Correo (send_email Worker)',
       entityType: 'webmail',
@@ -3059,16 +3230,16 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     return true;
-  };
+  }, [addActivity, logAuditEvent]);
 
-  const markWebmailEmailAsRead = (id: string, isRead = true) => {
+  const markWebmailEmailAsRead = useCallback((id: string, isRead = true) => {
     setWebmailEmails((prev) =>
       prev.map((e) => (e.id === id ? { ...e, isRead } : e))
     );
-  };
+  }, []);
 
-  const deleteWebmailEmail = (id: string) => {
-    const email = webmailEmails.find((e) => e.id === id);
+  const deleteWebmailEmail = useCallback((id: string) => {
+    const email = webmailEmailsRef.current.find((e) => e.id === id);
     if (!email) return;
 
     if (email.folder === 'trash') {
@@ -3082,196 +3253,367 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       );
       showToast('Correo movido a la papelera', 'info');
     }
-  };
+  }, [showToast]);
 
-  const toggleWebmailStar = (id: string) => {
+  const toggleWebmailStar = useCallback((id: string) => {
     setWebmailEmails((prev) =>
       prev.map((e) => (e.id === id ? { ...e, isStarred: !e.isStarred } : e))
     );
-  };
+  }, []);
+
+  const contextValue = useMemo<CRMContextType>(
+    () => ({
+      opportunities,
+      companies,
+      people,
+      tasks,
+      activities,
+      users,
+      currentUser,
+      activeTab,
+      setActiveTab,
+      viewMode,
+      setViewMode,
+      selectedRecord,
+      setSelectedRecord,
+      filterState,
+      setFilterState,
+      resetFilters,
+      theme,
+      setTheme,
+      toggleTheme,
+      language,
+      setLanguage,
+      t,
+      isMobileSidebarOpen,
+      setIsMobileSidebarOpen,
+      toggleMobileSidebar,
+      isCommandPaletteOpen,
+      setIsCommandPaletteOpen,
+      isNewRecordModalOpen,
+      setIsNewRecordModalOpen,
+      newRecordType,
+      setNewRecordType,
+      openNewRecordModal,
+      isAICopilotModalOpen,
+      setIsAICopilotModalOpen,
+      aiCopilotContext,
+      openAICopilot,
+      isPublicSiteVisible,
+      setIsPublicSiteVisible,
+      openPublicSite,
+      exitToPublicSite,
+      enterApp,
+      isAuthenticated,
+      setIsAuthenticated,
+      isAuthReady,
+      gmailAccessToken,
+      setGmailAccessToken,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      isProfileModalOpen,
+      setIsProfileModalOpen,
+      updateCurrentUser,
+      login,
+      register,
+      logout,
+      resetPassword,
+      syncClerkAuth,
+      trialSubscription,
+      startFreeTrial,
+      upgradeSubscription,
+      isMpCheckoutModalOpen,
+      setIsMpCheckoutModalOpen,
+      selectedCheckoutPlan,
+      setSelectedCheckoutPlan,
+      openMercadoPagoCheckout,
+      addOpportunity,
+      updateOpportunity,
+      deleteOpportunity,
+      moveOpportunityStage,
+      addCompany,
+      updateCompany,
+      deleteCompany,
+      addPerson,
+      updatePerson,
+      deletePerson,
+      enrichContact,
+      addTask,
+      updateTask,
+      deleteTask,
+      toggleTaskStatus,
+      addActivity,
+      deleteActivity,
+      customObjects,
+      addCustomObject,
+      addCustomFieldToObject,
+      addRecordToCustomObject,
+      deleteRecordFromCustomObject,
+      workflows,
+      addWorkflow,
+      updateWorkflow,
+      toggleWorkflow,
+      deleteWorkflow,
+      savedViews,
+      addSavedView,
+      deleteSavedView,
+      importCSVData,
+      lastImport,
+      undoLastImport,
+      refreshCrmData,
+      resetToDemoData,
+      loadClientumLeads,
+      exportOpportunitiesCSV,
+      invoices,
+      inventory,
+      expenses,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+      exportFullWorkspaceJSON,
+      toasts,
+      showToast,
+      removeToast,
+      triggerConfetti,
+
+      // RBAC
+      roles,
+      currentRole,
+      addRole,
+      updateRole,
+      deleteRole,
+      duplicateRole,
+      assignUserRole,
+      addUser,
+      updateUser,
+      deleteUser,
+      hasPermission,
+      checkPermissionOrWarn,
+
+      // Audit Logs & Anomalies
+      auditLogs,
+      logAuditEvent,
+      clearAuditLogs,
+      exportAuditCSV,
+      exportAuditJSON,
+      securityAnomalies,
+      dismissAnomaly,
+      resolveAnomaly,
+      triggerSecurityScan,
+
+      // API Integrations Hub
+      googleCalendarSync,
+      updateCalendarSync,
+      syncGoogleCalendarNow,
+      slackIntegration,
+      updateSlackIntegration,
+      sendSlackTestMessage,
+      apiKeys,
+      createAPIKey,
+      revokeAPIKey,
+      webhooks,
+      addWebhook,
+      updateWebhook,
+      deleteWebhook,
+      triggerTestWebhook,
+
+      // Webmail Worker & D1
+      webmailEmails,
+      sendWebmailEmail,
+      markWebmailEmailAsRead,
+      deleteWebmailEmail,
+      toggleWebmailStar,
+      isComposeEmailModalOpen,
+      setIsComposeEmailModalOpen,
+      composeEmailDefaults,
+      openComposeEmailModal,
+      closeComposeEmailModal,
+
+      // Ecosystem Hub Order & Sync Status
+      ecosystemModuleOrder,
+      setEcosystemModuleOrder,
+      isOnline,
+      isSyncPending,
+      offlinePriorityQueue,
+    }),
+    [
+      opportunities,
+      companies,
+      people,
+      tasks,
+      activities,
+      users,
+      currentUser,
+      activeTab,
+      setActiveTab,
+      viewMode,
+      setViewMode,
+      selectedRecord,
+      setSelectedRecord,
+      filterState,
+      setFilterState,
+      resetFilters,
+      theme,
+      setTheme,
+      toggleTheme,
+      language,
+      setLanguage,
+      t,
+      isMobileSidebarOpen,
+      setIsMobileSidebarOpen,
+      toggleMobileSidebar,
+      isCommandPaletteOpen,
+      setIsCommandPaletteOpen,
+      isNewRecordModalOpen,
+      setIsNewRecordModalOpen,
+      newRecordType,
+      setNewRecordType,
+      openNewRecordModal,
+      isAICopilotModalOpen,
+      setIsAICopilotModalOpen,
+      aiCopilotContext,
+      openAICopilot,
+      isPublicSiteVisible,
+      setIsPublicSiteVisible,
+      openPublicSite,
+      exitToPublicSite,
+      enterApp,
+      isAuthenticated,
+      setIsAuthenticated,
+      isAuthReady,
+      gmailAccessToken,
+      setGmailAccessToken,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      isProfileModalOpen,
+      setIsProfileModalOpen,
+      updateCurrentUser,
+      login,
+      register,
+      logout,
+      resetPassword,
+      syncClerkAuth,
+      trialSubscription,
+      startFreeTrial,
+      upgradeSubscription,
+      isMpCheckoutModalOpen,
+      setIsMpCheckoutModalOpen,
+      selectedCheckoutPlan,
+      setSelectedCheckoutPlan,
+      openMercadoPagoCheckout,
+      addOpportunity,
+      updateOpportunity,
+      deleteOpportunity,
+      moveOpportunityStage,
+      addCompany,
+      updateCompany,
+      deleteCompany,
+      addPerson,
+      updatePerson,
+      deletePerson,
+      enrichContact,
+      addTask,
+      updateTask,
+      deleteTask,
+      toggleTaskStatus,
+      addActivity,
+      deleteActivity,
+      customObjects,
+      addCustomObject,
+      addCustomFieldToObject,
+      addRecordToCustomObject,
+      deleteRecordFromCustomObject,
+      workflows,
+      addWorkflow,
+      updateWorkflow,
+      toggleWorkflow,
+      deleteWorkflow,
+      savedViews,
+      addSavedView,
+      deleteSavedView,
+      importCSVData,
+      lastImport,
+      undoLastImport,
+      refreshCrmData,
+      resetToDemoData,
+      loadClientumLeads,
+      exportOpportunitiesCSV,
+      invoices,
+      inventory,
+      expenses,
+      addInvoice,
+      updateInvoiceStatus,
+      deleteInvoice,
+      addInventoryItem,
+      updateInventoryStock,
+      deleteInventoryItem,
+      addExpense,
+      deleteExpense,
+      exportFullWorkspaceJSON,
+      toasts,
+      showToast,
+      removeToast,
+      triggerConfetti,
+      roles,
+      currentRole,
+      addRole,
+      updateRole,
+      deleteRole,
+      duplicateRole,
+      assignUserRole,
+      addUser,
+      updateUser,
+      deleteUser,
+      hasPermission,
+      checkPermissionOrWarn,
+      auditLogs,
+      logAuditEvent,
+      clearAuditLogs,
+      exportAuditCSV,
+      exportAuditJSON,
+      securityAnomalies,
+      dismissAnomaly,
+      resolveAnomaly,
+      triggerSecurityScan,
+      googleCalendarSync,
+      updateCalendarSync,
+      syncGoogleCalendarNow,
+      slackIntegration,
+      updateSlackIntegration,
+      sendSlackTestMessage,
+      apiKeys,
+      createAPIKey,
+      revokeAPIKey,
+      webhooks,
+      addWebhook,
+      updateWebhook,
+      deleteWebhook,
+      triggerTestWebhook,
+      webmailEmails,
+      sendWebmailEmail,
+      markWebmailEmailAsRead,
+      deleteWebmailEmail,
+      toggleWebmailStar,
+      isComposeEmailModalOpen,
+      setIsComposeEmailModalOpen,
+      composeEmailDefaults,
+      openComposeEmailModal,
+      closeComposeEmailModal,
+      ecosystemModuleOrder,
+      setEcosystemModuleOrder,
+      isOnline,
+      isSyncPending,
+      offlinePriorityQueue,
+    ]
+  );
 
   return (
-    <CRMContext.Provider
-      value={{
-        opportunities,
-        companies,
-        people,
-        tasks,
-        activities,
-        users,
-        currentUser,
-        activeTab,
-        setActiveTab,
-        viewMode,
-        setViewMode,
-        selectedRecord,
-        setSelectedRecord,
-        filterState,
-        setFilterState,
-        resetFilters,
-        theme,
-        setTheme,
-        toggleTheme,
-        language,
-        setLanguage,
-        t,
-        isMobileSidebarOpen,
-        setIsMobileSidebarOpen,
-        toggleMobileSidebar,
-        isCommandPaletteOpen,
-        setIsCommandPaletteOpen,
-        isNewRecordModalOpen,
-        setIsNewRecordModalOpen,
-        newRecordType,
-        setNewRecordType,
-        openNewRecordModal,
-        isAICopilotModalOpen,
-        setIsAICopilotModalOpen,
-        aiCopilotContext,
-        openAICopilot,
-        isPublicSiteVisible,
-        setIsPublicSiteVisible,
-        openPublicSite,
-        exitToPublicSite,
-        enterApp,
-        isAuthenticated,
-        setIsAuthenticated,
-        isAuthReady,
-        gmailAccessToken,
-        setGmailAccessToken,
-        isAuthModalOpen,
-        setIsAuthModalOpen,
-        isProfileModalOpen,
-        setIsProfileModalOpen,
-        updateCurrentUser,
-        login,
-        register,
-        logout,
-        resetPassword,
-        syncClerkAuth,
-        trialSubscription,
-        startFreeTrial,
-        upgradeSubscription,
-        isMpCheckoutModalOpen,
-        setIsMpCheckoutModalOpen,
-        selectedCheckoutPlan,
-        setSelectedCheckoutPlan,
-        openMercadoPagoCheckout,
-        addOpportunity,
-        updateOpportunity,
-        deleteOpportunity,
-        moveOpportunityStage,
-        addCompany,
-        updateCompany,
-        deleteCompany,
-        addPerson,
-        updatePerson,
-        deletePerson,
-        enrichContact,
-        addTask,
-        updateTask,
-        deleteTask,
-        toggleTaskStatus,
-        addActivity,
-        deleteActivity,
-        customObjects,
-        addCustomObject,
-        addCustomFieldToObject,
-        addRecordToCustomObject,
-        deleteRecordFromCustomObject,
-        workflows,
-        addWorkflow,
-        updateWorkflow,
-        toggleWorkflow,
-        deleteWorkflow,
-        savedViews,
-        addSavedView,
-        deleteSavedView,
-        importCSVData,
-        lastImport,
-        undoLastImport,
-        refreshCrmData,
-        resetToDemoData,
-        loadClientumLeads,
-        exportOpportunitiesCSV,
-        invoices,
-        inventory,
-        expenses,
-        addInvoice,
-        updateInvoiceStatus,
-        deleteInvoice,
-        addInventoryItem,
-        updateInventoryStock,
-        deleteInventoryItem,
-        addExpense,
-        deleteExpense,
-        exportFullWorkspaceJSON,
-        toasts,
-        showToast,
-        removeToast,
-        triggerConfetti,
-
-        // RBAC
-        roles,
-        currentRole,
-        addRole,
-        updateRole,
-        deleteRole,
-        duplicateRole,
-        assignUserRole,
-        addUser,
-        updateUser,
-        deleteUser,
-        hasPermission,
-        checkPermissionOrWarn,
-
-        // Audit Logs & Anomalies
-        auditLogs,
-        logAuditEvent,
-        clearAuditLogs,
-        exportAuditCSV,
-        exportAuditJSON,
-        securityAnomalies,
-        dismissAnomaly,
-        resolveAnomaly,
-        triggerSecurityScan,
-
-        // API Integrations Hub
-        googleCalendarSync,
-        updateCalendarSync,
-        syncGoogleCalendarNow,
-        slackIntegration,
-        updateSlackIntegration,
-        sendSlackTestMessage,
-        apiKeys,
-        createAPIKey,
-        revokeAPIKey,
-        webhooks,
-        addWebhook,
-        updateWebhook,
-        deleteWebhook,
-        triggerTestWebhook,
-
-        // Webmail Worker & D1
-        webmailEmails,
-        sendWebmailEmail,
-        markWebmailEmailAsRead,
-        deleteWebmailEmail,
-        toggleWebmailStar,
-        isComposeEmailModalOpen,
-        setIsComposeEmailModalOpen,
-        composeEmailDefaults,
-        openComposeEmailModal,
-        closeComposeEmailModal,
-
-        // Ecosystem Hub Order & Sync Status
-        ecosystemModuleOrder,
-        setEcosystemModuleOrder,
-        isOnline,
-        isSyncPending,
-        offlinePriorityQueue,
-      }}
-    >
+    <CRMContext.Provider value={contextValue}>
       {children}
     </CRMContext.Provider>
   );

@@ -138,14 +138,14 @@ export const PlatformBillingView: React.FC = () => {
           <CreditCard className="h-4 w-4 text-blue-400" /> Historial de pagos
         </div>
         {!checkouts.length ? (
-          <p className="text-xs text-slate-500">Todavía no hay checkouts asociados a tu cuenta.</p>
+          <p className="text-xs text-[var(--text-muted)]">Todavía no hay checkouts asociados a tu cuenta.</p>
         ) : (
           <div className="space-y-2">
             {checkouts.map((checkout) => (
               <div key={checkout.checkoutId} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 px-3 py-2.5 text-xs">
                 <div>
                   <span className="font-semibold text-slate-200">{checkout.planId}</span>
-                  <span className="ml-2 text-slate-500">{new Date(checkout.createdAt).toLocaleString("es-AR")}</span>
+                  <span className="ml-2 text-[var(--text-muted)]">{new Date(checkout.createdAt).toLocaleString("es-AR")}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="font-semibold text-slate-200">${Number(checkout.amount).toLocaleString("es-AR")} {checkout.currency}</span>

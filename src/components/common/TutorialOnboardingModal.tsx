@@ -108,13 +108,13 @@ export const TutorialOnboardingModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="relative w-full max-w-xl bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl shadow-2xl border border-[var(--border-subtle)] dark:border-slate-800 overflow-hidden">
         {/* Cabecera decorativa */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
 
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          className="absolute top-4 right-4 text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
           title="Omitir tutorial"
         >
           <X className="w-5 h-5" />
@@ -135,7 +135,7 @@ export const TutorialOnboardingModal: React.FC = () => {
                       ? 'w-6 bg-blue-600'
                       : idx < currentStep
                       ? 'w-1.5 bg-blue-400'
-                      : 'w-1.5 bg-slate-200 dark:bg-slate-700'
+                      : 'w-1.5 bg-[var(--bg-muted)] dark:bg-slate-700'
                   }`}
                 />
               ))}
@@ -148,7 +148,7 @@ export const TutorialOnboardingModal: React.FC = () => {
               <Icon className="w-7 h-7" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] dark:text-white tracking-tight">
                 {step.title}
               </h2>
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mt-0.5">
@@ -158,15 +158,15 @@ export const TutorialOnboardingModal: React.FC = () => {
           </div>
 
           {/* Descripción */}
-          <div className="bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-4 mb-8 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+          <div className="bg-[var(--bg-muted)] dark:bg-slate-950/50 border border-[var(--border-subtle)] dark:border-slate-800/80 rounded-xl p-4 mb-8 text-[var(--text-secondary)] dark:text-slate-300 text-sm leading-relaxed">
             {step.description}
           </div>
 
           {/* Acciones inferiores */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)] dark:border-slate-800">
             <button
               onClick={handleClose}
-              className="text-xs font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition"
+              className="text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:hover:text-slate-300 transition"
             >
               Omitir tour
             </button>
@@ -175,7 +175,7 @@ export const TutorialOnboardingModal: React.FC = () => {
               {currentStep > 0 && (
                 <button
                   onClick={handlePrev}
-                  className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-1.5"
+                  className="px-4 py-2 text-sm font-medium text-[var(--text-secondary)] dark:text-slate-200 bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-default)] dark:border-slate-700 rounded-xl hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 transition flex items-center gap-1.5"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Anterior

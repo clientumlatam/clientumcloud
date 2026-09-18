@@ -278,8 +278,8 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
 
       {/* Email Status Timeline List */}
       {emails.length === 0 ? (
-        <div className="py-6 text-center text-xs text-slate-500 border border-dashed border-slate-800/80 rounded-lg">
-          <Mail className="w-6 h-6 mx-auto text-slate-600 mb-1.5 opacity-60" />
+        <div className="py-6 text-center text-xs text-[var(--text-muted)] border border-dashed border-slate-800/80 rounded-lg">
+          <Mail className="w-6 h-6 mx-auto text-[var(--text-secondary)] mb-1.5 opacity-60" />
           <p>No hay correos transaccionales registrados para este registro.</p>
           <button
             onClick={() => {
@@ -315,7 +315,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
                 {email.bodySnippet}
               </p>
 
-              <div className="flex items-center justify-between text-[9px] text-slate-500 pt-1 border-t border-slate-800/60 font-mono">
+              <div className="flex items-center justify-between text-[9px] text-[var(--text-muted)] pt-1 border-t border-slate-800/60 font-mono">
                 <span>
                   {new Date(email.createdAt).toLocaleDateString('es-AR', {
                     day: '2-digit',
@@ -434,7 +434,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
               </div>
 
               <div className="flex items-center justify-between pt-2">
-                <span className="text-[10px] text-slate-500 flex items-center gap-1 font-mono">
+                <span className="text-[10px] text-[var(--text-muted)] flex items-center gap-1 font-mono">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                   Salida certificada con Resend API
                 </span>

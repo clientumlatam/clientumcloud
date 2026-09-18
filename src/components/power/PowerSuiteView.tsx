@@ -1201,7 +1201,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   <div className="bg-[#0b0c10] border border-[#1d2433] rounded-xl p-4 font-mono text-xs space-y-2 h-[220px] overflow-y-auto shadow-inner">
                     {sdrLogs.map((log, idx) => (
                       <div key={idx} className="text-emerald-400">
-                        <span className="text-slate-500 mr-2">&gt;</span>
+                        <span className="text-[var(--text-muted)] mr-2">&gt;</span>
                         {log}
                       </div>
                     ))}
@@ -1547,7 +1547,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                         <div className="text-emerald-400 font-bold text-xs">CAE Autorizado: {afipInvoice.cae}</div>
                         <div className="text-slate-400 text-[11px] mt-0.5">Vencimiento CAE: {afipInvoice.vto}</div>
                       </div>
-                      <div className="p-1.5 bg-white rounded-lg">
+                      <div className="p-1.5 bg-[var(--bg-card)] rounded-lg">
                         <QrCode className="w-9 h-9 text-black" />
                       </div>
                     </div>
@@ -1653,7 +1653,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
 
                   {mpCheckouts.length > 0 && (
                     <div className="space-y-1.5">
-                      <div className="text-[10px] uppercase tracking-wider font-bold text-slate-500">
+                      <div className="text-[10px] uppercase tracking-wider font-bold text-[var(--text-muted)]">
                         Checkouts recientes
                       </div>
                       {mpCheckouts.map((checkout) => {
@@ -1677,7 +1677,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                           >
                             <span className="min-w-0">
                               <span className="block text-xs font-semibold text-slate-200 truncate">{checkout.title}</span>
-                              <span className="block text-[10px] text-slate-500">
+                              <span className="block text-[10px] text-[var(--text-muted)]">
                                 {checkout.currency} {checkout.amount.toLocaleString()} · {new Date(checkout.createdAt).toLocaleString()}
                               </span>
                             </span>
@@ -1701,7 +1701,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                       </span>
                     </div>
 
-                    <div className="flex justify-center p-3 bg-white rounded-xl w-28 h-28 mx-auto shadow-md">
+                    <div className="flex justify-center p-3 bg-[var(--bg-card)] rounded-xl w-28 h-28 mx-auto shadow-md">
                       <QrCode className="w-full h-full text-black" />
                     </div>
 
@@ -1834,7 +1834,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
 
                   {/* Open indicators */}
                   <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity">
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                    <ChevronRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                   </div>
                 </div>
               );

@@ -342,7 +342,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                   <button
                     type="button"
                     onClick={() => removeItem(it.id)}
-                    className="p-1 text-slate-500 hover:text-rose-400 transition-colors"
+                    className="p-1 text-[var(--text-muted)] hover:text-rose-400 transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -350,7 +350,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
 
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
                   <div>
-                    <label className="text-slate-500 block mb-0.5 text-[10px]">Cantidad</label>
+                    <label className="text-[var(--text-muted)] block mb-0.5 text-[10px]">Cantidad</label>
                     <input
                       type="number"
                       min="1"
@@ -361,7 +361,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-slate-500 block mb-0.5 text-[10px]">Precio Unit. ({currency})</label>
+                    <label className="text-[var(--text-muted)] block mb-0.5 text-[10px]">Precio Unit. ({currency})</label>
                     <input
                       type="number"
                       value={it.unitPrice}
@@ -371,7 +371,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-slate-500 block mb-0.5 text-[10px]">Desc. (%)</label>
+                    <label className="text-[var(--text-muted)] block mb-0.5 text-[10px]">Desc. (%)</label>
                     <input
                       type="number"
                       min="0"
@@ -383,7 +383,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-slate-500 block mb-0.5 text-[10px]">IVA AFIP</label>
+                    <label className="text-[var(--text-muted)] block mb-0.5 text-[10px]">IVA AFIP</label>
                     <select
                       value={it.ivaRate}
                       onChange={(e) => updateItem(it.id, 'ivaRate', Number(e.target.value))}
@@ -396,7 +396,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-slate-500 block mb-0.5 text-[10px]">Total Ítem</label>
+                    <label className="text-[var(--text-muted)] block mb-0.5 text-[10px]">Total Ítem</label>
                     <div className="font-bold text-blue-400 py-1 font-mono text-xs">
                       {currency === 'ARS' ? '$' : 'US$'}{Math.round(lineTotal).toLocaleString()}
                     </div>

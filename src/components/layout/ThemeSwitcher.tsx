@@ -82,7 +82,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-all cursor-pointer shadow-xs ${
             isOpen
               ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-950/60 dark:border-blue-700 dark:text-blue-300'
-              : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/60 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-800'
+              : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border-[var(--border-subtle)] dark:bg-slate-900/60 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-800'
           }`}
           title={`Tema actual: ${getLabel()} (Haz clic para cambiar o ver vista previa)`}
           aria-haspopup="true"
@@ -99,11 +99,11 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         {isOpen && (
           <div
             id="crm-theme-switcher-dropdown"
-            className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-slate-200 dark:border-[#1a2642] bg-white dark:bg-[#0c1222] p-1.5 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-100 text-slate-800 dark:text-slate-100"
+            className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0c1222] p-1.5 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-100 text-[var(--text-primary)] dark:text-slate-100"
             role="menu"
             aria-orientation="vertical"
           >
-            <div className="px-2.5 py-1.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-100 dark:border-[#1a2642] mb-1 flex items-center justify-between">
+            <div className="px-2.5 py-1.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-[var(--border-subtle)] dark:border-[#1a2642] mb-1 flex items-center justify-between">
               <span>Modo de Pantalla</span>
               <span className="font-mono text-[9px] text-blue-600 dark:text-blue-400">Clientum</span>
             </div>
@@ -116,7 +116,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
               className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left text-xs font-medium transition-colors cursor-pointer ${
                 theme === 'light'
                   ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold'
-                  : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                  : 'hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300'
               }`}
               role="menuitem"
             >
@@ -138,7 +138,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
               className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left text-xs font-medium transition-colors cursor-pointer ${
                 theme === 'dark'
                   ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold'
-                  : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                  : 'hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300'
               }`}
               role="menuitem"
             >
@@ -160,7 +160,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
               className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left text-xs font-medium transition-colors cursor-pointer ${
                 theme === 'system'
                   ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold'
-                  : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                  : 'hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300'
               }`}
               role="menuitem"
             >
@@ -177,7 +177,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
             </button>
 
             {/* Divider and Theme Preview Modal launcher */}
-            <div className="border-t border-slate-100 dark:border-[#1a2642] my-1 pt-1">
+            <div className="border-t border-[var(--border-subtle)] dark:border-[#1a2642] my-1 pt-1">
               <button
                 id="theme-option-open-preview-modal"
                 type="button"

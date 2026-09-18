@@ -38,6 +38,80 @@ import { motion, AnimatePresence } from 'motion/react';
 import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
 import { QuickQuoteDrawerTab } from '../commercial/QuickQuoteDrawerTab';
 
+interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  value: string | number;
+  onDebouncedChange: (val: string) => void;
+  debounceMs?: number;
+}
+
+const DebouncedInput: React.FC<DebouncedInputProps> = ({
+  value: externalValue,
+  onDebouncedChange,
+  debounceMs = 300,
+  ...props
+}) => {
+  const [localValue, setLocalValue] = useState<string>(String(externalValue ?? ''));
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    setLocalValue(String(externalValue ?? ''));
+  }, [externalValue]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setLocalValue(val);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onDebouncedChange(val);
+    }, debounceMs);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    onDebouncedChange(localValue);
+    props.onBlur?.(e);
+  };
+
+  return <input {...props} value={localValue} onChange={handleChange} onBlur={handleBlur} />;
+};
+
+interface DebouncedTextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
+  value: string;
+  onDebouncedChange: (val: string) => void;
+  debounceMs?: number;
+}
+
+const DebouncedTextarea: React.FC<DebouncedTextareaProps> = ({
+  value: externalValue,
+  onDebouncedChange,
+  debounceMs = 300,
+  ...props
+}) => {
+  const [localValue, setLocalValue] = useState<string>(externalValue ?? '');
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    setLocalValue(externalValue ?? '');
+  }, [externalValue]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setLocalValue(val);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onDebouncedChange(val);
+    }, debounceMs);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    onDebouncedChange(localValue);
+    props.onBlur?.(e);
+  };
+
+  return <textarea {...props} value={localValue} onChange={handleChange} onBlur={handleBlur} />;
+};
+
 export const RecordDrawer: React.FC = () => {
   const {
     selectedRecord,
@@ -715,10 +789,10 @@ export const RecordDrawer: React.FC = () => {
                   <div className="space-y-2">
                     <div>
                       <label className="text-[11px] text-slate-400">Deal Name</label>
-                      <input
+                      <DebouncedInput
                         type="text"
                         value={opp.name}
-                        onChange={(e) => updateOpportunity(opp.id, { name: e.target.value })}
+                        onDebouncedChange={(val) => updateOpportunity(opp.id, { name: val })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                       />
                     </div>
@@ -726,20 +800,20 @@ export const RecordDrawer: React.FC = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[11px] text-slate-400">Amount ($)</label>
-                        <input
+                        <DebouncedInput
                           type="number"
                           value={opp.amount}
-                          onChange={(e) => updateOpportunity(opp.id, { amount: Number(e.target.value) })}
+                          onDebouncedChange={(val) => updateOpportunity(opp.id, { amount: Number(val) || 0 })}
                           className="w-full bg-[#191d2a] text-xs font-mono font-bold text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
 
                       <div>
                         <label className="text-[11px] text-slate-400">Probability (%)</label>
-                        <input
+                        <DebouncedInput
                           type="number"
                           value={opp.probability}
-                          onChange={(e) => updateOpportunity(opp.id, { probability: Number(e.target.value) })}
+                          onDebouncedChange={(val) => updateOpportunity(opp.id, { probability: Number(val) || 0 })}
                           className="w-full bg-[#191d2a] text-xs font-mono text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
@@ -748,10 +822,10 @@ export const RecordDrawer: React.FC = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[11px] text-slate-400">Close Date</label>
-                        <input
+                        <DebouncedInput
                           type="date"
                           value={opp.closeDate}
-                          onChange={(e) => updateOpportunity(opp.id, { closeDate: e.target.value })}
+                          onDebouncedChange={(val) => updateOpportunity(opp.id, { closeDate: val })}
                           className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
@@ -773,10 +847,10 @@ export const RecordDrawer: React.FC = () => {
 
                     <div>
                       <label className="text-[11px] text-slate-400">Associated Company</label>
-                      <input
+                      <DebouncedInput
                         type="text"
                         value={opp.companyName || ''}
-                        onChange={(e) => updateOpportunity(opp.id, { companyName: e.target.value })}
+                        onDebouncedChange={(val) => updateOpportunity(opp.id, { companyName: val })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                       />
                     </div>
@@ -803,38 +877,38 @@ export const RecordDrawer: React.FC = () => {
                   <h3 className="text-xs font-semibold text-white mb-2">Company Information</h3>
                   <div>
                     <label className="text-[11px] text-slate-400">Company Name</label>
-                    <input
+                    <DebouncedInput
                       type="text"
                       value={company.name}
-                      onChange={(e) => updateCompany(company.id, { name: e.target.value })}
+                      onDebouncedChange={(val) => updateCompany(company.id, { name: val })}
                       className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-[11px] text-slate-400">Domain</label>
-                      <input
+                      <DebouncedInput
                         type="text"
                         value={company.domain}
-                        onChange={(e) => updateCompany(company.id, { domain: e.target.value })}
+                        onDebouncedChange={(val) => updateCompany(company.id, { domain: val })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                       />
                     </div>
                     <div>
                       <label className="text-[11px] text-slate-400">ARR ($)</label>
-                      <input
+                      <DebouncedInput
                         type="number"
                         value={company.arr || 0}
-                        onChange={(e) => updateCompany(company.id, { arr: Number(e.target.value) })}
+                        onDebouncedChange={(val) => updateCompany(company.id, { arr: Number(val) || 0 })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="text-[11px] text-slate-400">Description</label>
-                    <textarea
+                    <DebouncedTextarea
                       value={company.description || ''}
-                      onChange={(e) => updateCompany(company.id, { description: e.target.value })}
+                      onDebouncedChange={(val) => updateCompany(company.id, { description: val })}
                       rows={3}
                       className="w-full bg-[#191d2a] text-xs text-white p-2.5 rounded border border-[#2b3345] mt-0.5 resize-none"
                     />
@@ -849,47 +923,47 @@ export const RecordDrawer: React.FC = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-[11px] text-slate-400">First Name</label>
-                      <input
+                      <DebouncedInput
                         type="text"
                         value={person.firstName}
-                        onChange={(e) => updatePerson(person.id, { firstName: e.target.value })}
+                        onDebouncedChange={(val) => updatePerson(person.id, { firstName: val })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                       />
                     </div>
                     <div>
                       <label className="text-[11px] text-slate-400">Last Name</label>
-                      <input
+                      <DebouncedInput
                         type="text"
                         value={person.lastName}
-                        onChange={(e) => updatePerson(person.id, { lastName: e.target.value })}
+                        onDebouncedChange={(val) => updatePerson(person.id, { lastName: val })}
                         className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="text-[11px] text-slate-400">Email Address</label>
-                    <input
+                    <DebouncedInput
                       type="email"
                       value={person.email}
-                      onChange={(e) => updatePerson(person.id, { email: e.target.value })}
+                      onDebouncedChange={(val) => updatePerson(person.id, { email: val })}
                       className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div>
                     <label className="text-[11px] text-slate-400">Job Title</label>
-                    <input
+                    <DebouncedInput
                       type="text"
                       value={person.jobTitle}
-                      onChange={(e) => updatePerson(person.id, { jobTitle: e.target.value })}
+                      onDebouncedChange={(val) => updatePerson(person.id, { jobTitle: val })}
                       className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div>
                     <label className="text-[11px] text-slate-400">Phone / WhatsApp</label>
-                    <input
+                    <DebouncedInput
                       type="tel"
                       value={person.phone || ''}
-                      onChange={(e) => updatePerson(person.id, { phone: e.target.value })}
+                      onDebouncedChange={(val) => updatePerson(person.id, { phone: val })}
                       placeholder="+54 9 11 1234-5678"
                       className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
                     />

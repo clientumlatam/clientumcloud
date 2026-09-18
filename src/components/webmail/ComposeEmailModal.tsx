@@ -266,16 +266,16 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
       <div
         id="compose-email-modal"
-        className="bg-white border border-slate-200 rounded-xl max-w-2xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+        className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl max-w-2xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border-subtle)] bg-[var(--bg-muted)]">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center">
               <Send className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              <h3 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                  Redactar Correo • SMTP transaccional
               </h3>
                <span className={`text-[10px] font-mono flex items-center gap-1 font-semibold ${
@@ -292,7 +292,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"
+            className="p-1 rounded-md text-slate-400 hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -302,11 +302,11 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
         <form onSubmit={handleSend} className="flex-1 overflow-y-auto p-4 space-y-3 text-xs custom-scrollbar">
           {/* From field */}
           <div className="flex items-center gap-3">
-            <span className="w-16 text-slate-600 font-medium shrink-0">De:</span>
+            <span className="w-16 text-[var(--text-secondary)] font-medium shrink-0">De:</span>
             <select
               value={fromAddress}
               onChange={(e) => setFromAddress(e.target.value)}
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1.5 text-slate-900 font-mono text-xs focus:outline-hidden focus:border-blue-600 focus:bg-white"
+              className="flex-1 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md px-2.5 py-1.5 text-[var(--text-primary)] font-mono text-xs focus:outline-hidden focus:border-blue-600 focus:bg-[var(--bg-card)]"
             >
               <option value="info@clientum.com.ar">info@clientum.com.ar (Principal)</option>
               <option value="ventas@clientum.com.ar">ventas@clientum.com.ar (Comercial)</option>
@@ -316,8 +316,8 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
 
           {/* To field with chips */}
           <div className="flex items-start gap-3">
-            <span className="w-16 text-slate-600 font-medium pt-1.5 shrink-0">Para:</span>
-            <div className="flex-1 flex flex-wrap items-center gap-1.5 p-1.5 bg-slate-50 border border-slate-200 rounded-md min-h-[38px] focus-within:border-blue-600 focus-within:bg-white">
+            <span className="w-16 text-[var(--text-secondary)] font-medium pt-1.5 shrink-0">Para:</span>
+            <div className="flex-1 flex flex-wrap items-center gap-1.5 p-1.5 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md min-h-[38px] focus-within:border-blue-600 focus-within:bg-[var(--bg-card)]">
               {toRecipients.map((rec) => (
                 <span
                   key={rec}
@@ -339,13 +339,13 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                 value={toInput}
                 onChange={(e) => setToInput(e.target.value)}
                 onKeyDown={(e) => handleAddRecipient(e, false)}
-                className="flex-1 min-w-[160px] bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
+                className="flex-1 min-w-[160px] bg-transparent text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
               />
               {!showCc && (
                 <button
                   type="button"
                   onClick={() => setShowCc(true)}
-                  className="text-[10px] text-slate-500 hover:text-slate-800 px-1.5 py-0.5 rounded hover:bg-slate-200 cursor-pointer font-medium"
+                  className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] px-1.5 py-0.5 rounded hover:bg-[var(--bg-muted)] cursor-pointer font-medium"
                 >
                   CC
                 </button>
@@ -356,8 +356,8 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
           {/* CC field */}
           {showCc && (
             <div className="flex items-start gap-3">
-              <span className="w-16 text-slate-600 font-medium pt-1.5 shrink-0">CC:</span>
-              <div className="flex-1 flex flex-wrap items-center gap-1.5 p-1.5 bg-slate-50 border border-slate-200 rounded-md min-h-[34px] focus-within:border-blue-600 focus-within:bg-white">
+              <span className="w-16 text-[var(--text-secondary)] font-medium pt-1.5 shrink-0">CC:</span>
+              <div className="flex-1 flex flex-wrap items-center gap-1.5 p-1.5 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md min-h-[34px] focus-within:border-blue-600 focus-within:bg-[var(--bg-card)]">
                 {ccRecipients.map((rec) => (
                   <span
                     key={rec}
@@ -379,7 +379,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                   value={ccInput}
                   onChange={(e) => setCcInput(e.target.value)}
                   onKeyDown={(e) => handleAddRecipient(e, true)}
-                  className="flex-1 min-w-[140px] bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
+                  className="flex-1 min-w-[140px] bg-transparent text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
                 />
               </div>
             </div>
@@ -387,46 +387,46 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
 
           {/* Subject */}
           <div className="flex items-center gap-3">
-            <span className="w-16 text-slate-600 font-medium shrink-0">Asunto:</span>
+            <span className="w-16 text-[var(--text-secondary)] font-medium shrink-0">Asunto:</span>
             <input
               type="text"
               required
               placeholder="Asunto del correo electrónico..."
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-3 py-1.5 text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 focus:bg-white"
+              className="flex-1 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md px-3 py-1.5 text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 focus:bg-[var(--bg-card)]"
             />
           </div>
 
           {/* CRM Link Selector & Quick Template Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[var(--bg-muted)] rounded-lg border border-[var(--border-subtle)]">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[10px] text-slate-500 font-semibold mr-1">Plantillas rápidas:</span>
+              <span className="text-[10px] text-[var(--text-muted)] font-semibold mr-1">Plantillas rápidas:</span>
               <button
                 type="button"
                 onClick={() => applyTemplate('propuesta')}
-                className="px-2 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-blue-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
+                className="px-2 py-1 rounded bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-blue-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
               >
                 📄 Propuesta
               </button>
               <button
                 type="button"
                 onClick={() => applyTemplate('demo')}
-                className="px-2 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-purple-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
+                className="px-2 py-1 rounded bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-purple-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
               >
                 🎥 Demo Técnica
               </button>
               <button
                 type="button"
                 onClick={() => applyTemplate('factura')}
-                className="px-2 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-emerald-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
+                className="px-2 py-1 rounded bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-emerald-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
               >
                 🧾 Factura AFIP
               </button>
               <button
                 type="button"
                 onClick={() => applyTemplate('seguimiento')}
-                className="px-2 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-amber-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
+                className="px-2 py-1 rounded bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-amber-700 text-[10px] font-semibold transition-colors cursor-pointer shadow-2xs"
               >
                 ⏱️ Seguimiento
               </button>
@@ -451,19 +451,19 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
               placeholder="Escribe aquí tu mensaje formal..."
               value={bodyText}
               onChange={(e) => setBodyText(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded-md p-3 text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans text-xs resize-y min-h-[160px]"
+              className="w-full bg-[var(--bg-card)] border border-[var(--border-default)] rounded-md p-3 text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans text-xs resize-y min-h-[160px]"
             />
           </div>
 
           {/* Attachments List */}
           {attachments.length > 0 && (
             <div className="space-y-1.5">
-              <span className="text-[11px] text-slate-500 font-medium">Adjuntos ({attachments.length}):</span>
+              <span className="text-[11px] text-[var(--text-muted)] font-medium">Adjuntos ({attachments.length}):</span>
               <div className="flex flex-wrap gap-2">
                 {attachments.map((att) => (
                   <div
                     key={att.id}
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-xs text-slate-700"
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]"
                   >
                     <Paperclip className="w-3 h-3 text-blue-600" />
                     <span className="font-mono text-[11px] font-medium">{att.name}</span>
@@ -482,8 +482,8 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
           )}
 
           {/* CRM Linking Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 pt-2 border-t border-slate-200 text-xs text-slate-700">
-            <span className="text-slate-600 font-medium shrink-0">Vincular con CRM:</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 pt-2 border-t border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
+            <span className="text-[var(--text-secondary)] font-medium shrink-0">Vincular con CRM:</span>
             <div className="flex items-center gap-2 flex-1">
               <select
                 value={selectedCrmType}
@@ -491,7 +491,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                   setSelectedCrmType(e.target.value as any);
                   setSelectedCrmId('');
                 }}
-                className="bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 focus:bg-white"
+                className="bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded px-2 py-1 text-xs text-[var(--text-primary)] focus:bg-[var(--bg-card)]"
               >
                 <option value="none">Sin vincular</option>
                 <option value="opportunity">Oportunidad / Deal</option>
@@ -503,7 +503,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                 <select
                   value={selectedCrmId}
                   onChange={(e) => setSelectedCrmId(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 flex-1 truncate focus:bg-white"
+                  className="bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded px-2 py-1 text-xs text-[var(--text-primary)] flex-1 truncate focus:bg-[var(--bg-card)]"
                 >
                   <option value="">Seleccionar Negocio...</option>
                   {opportunities.map((opp) => (
@@ -518,7 +518,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                 <select
                   value={selectedCrmId}
                   onChange={(e) => setSelectedCrmId(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 flex-1 truncate focus:bg-white"
+                  className="bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded px-2 py-1 text-xs text-[var(--text-primary)] flex-1 truncate focus:bg-[var(--bg-card)]"
                 >
                   <option value="">Seleccionar Empresa...</option>
                   {companies.map((comp) => (
@@ -533,7 +533,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                 <select
                   value={selectedCrmId}
                   onChange={(e) => setSelectedCrmId(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs text-slate-800 flex-1 truncate focus:bg-white"
+                  className="bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded px-2 py-1 text-xs text-[var(--text-primary)] flex-1 truncate focus:bg-[var(--bg-card)]"
                 >
                   <option value="">Seleccionar Contacto...</option>
                   {people.map((p) => (
@@ -547,11 +547,11 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+          <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)]">
             <button
               type="button"
                onClick={handleAddAttachment}
-               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer border border-slate-200"
+               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] text-xs font-semibold transition-colors cursor-pointer border border-[var(--border-subtle)]"
             >
               <Paperclip className="w-3.5 h-3.5 text-blue-600" />
                <span>Adjuntar Archivo (R2)</span>
@@ -561,7 +561,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-semibold transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] text-xs font-semibold transition-colors cursor-pointer"
               >
                 Descartar
               </button>

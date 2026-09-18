@@ -247,20 +247,20 @@ export const PublicDomainManagerPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white text-slate-900 text-xs font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-card)] text-[var(--text-primary)] text-xs font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
               Módulo 6.1 & 6.2
             </span>
-            <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <h1 className="text-xl font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Globe className="w-5 h-5 text-blue-600" />
               Gestor de Dominios, Cloudflare & Auditoría SEO
             </h1>
           </div>
-          <p className="text-xs text-slate-600 mt-1">
+          <p className="text-xs text-[var(--text-secondary)] mt-1">
             Auditoría pública de DNS, certificados SSL, indexabilidad On-Page y generación de sitemap.xml para clientum.com.ar.
           </p>
         </div>
@@ -274,13 +274,13 @@ export const PublicDomainManagerPage: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] pb-2">
         <button
           onClick={() => setActiveTab('dns')}
           className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
             activeTab === 'dns'
               ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
           }`}
         >
           <Server className="w-3.5 h-3.5" />
@@ -292,7 +292,7 @@ export const PublicDomainManagerPage: React.FC = () => {
           className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
             activeTab === 'ssl'
               ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
           }`}
         >
           <Cloud className="w-3.5 h-3.5" />
@@ -304,7 +304,7 @@ export const PublicDomainManagerPage: React.FC = () => {
           className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
             activeTab === 'seo'
               ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
           }`}
         >
           <Search className="w-3.5 h-3.5" />
@@ -316,7 +316,7 @@ export const PublicDomainManagerPage: React.FC = () => {
           className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
             activeTab === 'sitemap'
               ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
           }`}
         >
           <FileCode className="w-3.5 h-3.5" />
@@ -328,14 +328,14 @@ export const PublicDomainManagerPage: React.FC = () => {
       {activeTab === 'dns' && (
         <div className="space-y-6">
           {/* Domain Picker Bar */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+          <div className="p-4 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-blue-100 text-blue-600">
                 <Globe className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[11px] text-slate-500">Dominio Personalizado Vinculado:</span>
-                <div className="font-bold text-slate-900 text-sm">{domainName}</div>
+                <span className="text-[11px] text-[var(--text-muted)]">Dominio Personalizado Vinculado:</span>
+                <div className="font-bold text-[var(--text-primary)] text-sm">{domainName}</div>
               </div>
             </div>
 
@@ -352,15 +352,15 @@ export const PublicDomainManagerPage: React.FC = () => {
           </div>
 
           {/* DNS Table */}
-          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
+          <div className="p-5 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] space-y-4 shadow-xs">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-slate-900 text-xs">Registros DNS Activos</h3>
-              <span className="text-[11px] text-slate-500">Última comprobación pública: 09/09/2026</span>
+              <h3 className="font-bold text-[var(--text-primary)] text-xs">Registros DNS Activos</h3>
+              <span className="text-[11px] text-[var(--text-muted)]">Última comprobación pública: 09/09/2026</span>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <div className="overflow-x-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)]">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                <thead className="bg-[var(--bg-muted)] text-[var(--text-secondary)] font-semibold border-b border-[var(--border-subtle)]">
                   <tr>
                     <th className="p-3">Tipo</th>
                     <th className="p-3">Nombre / Host</th>
@@ -370,20 +370,20 @@ export const PublicDomainManagerPage: React.FC = () => {
                     <th className="p-3 text-right">Estado</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 text-slate-800">
+                <tbody className="divide-y divide-[var(--border-subtle)] text-[var(--text-primary)]">
                   {records.map((r) => (
                     <tr key={r.id} className="hover:bg-blue-50/40 transition-colors">
                       <td className="p-3 font-bold text-blue-600">{r.type}</td>
-                      <td className="p-3 font-mono text-slate-900">{r.host}</td>
-                      <td className="p-3 font-mono text-slate-600">{r.value}</td>
-                      <td className="p-3 text-slate-500">{r.ttl}</td>
+                      <td className="p-3 font-mono text-[var(--text-primary)]">{r.host}</td>
+                      <td className="p-3 font-mono text-[var(--text-secondary)]">{r.value}</td>
+                      <td className="p-3 text-[var(--text-muted)]">{r.ttl}</td>
                       <td className="p-3">
                         {r.proxied ? (
                           <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
                             Proxied 🟠
                           </span>
                         ) : (
-                          <span className="text-[10px] text-slate-500">DNS Only ⚪</span>
+                          <span className="text-[10px] text-[var(--text-muted)]">DNS Only ⚪</span>
                         )}
                       </td>
                       <td className="p-3 text-right">
@@ -410,41 +410,41 @@ export const PublicDomainManagerPage: React.FC = () => {
 
       {activeTab === 'ssl' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
-            <h3 className="font-bold text-slate-900 text-xs flex items-center gap-2">
+          <div className="p-6 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] space-y-4 shadow-xs">
+            <h3 className="font-bold text-[var(--text-primary)] text-xs flex items-center gap-2">
               <Cloud className="w-4 h-4 text-blue-600" />
               Asistente de Configuración Cloudflare
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
               La zona ya está delegada en Cloudflare. Estos son los servidores autoritativos observados públicamente; no reemplaces estos valores por nombres de ejemplo.
             </p>
-            <div className="p-4 rounded-xl bg-white border border-slate-200 font-mono text-xs space-y-2.5 shadow-xs">
-              <div className="flex items-center justify-between text-slate-800">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] font-mono text-xs space-y-2.5 shadow-xs">
+              <div className="flex items-center justify-between text-[var(--text-primary)]">
                 <span>braelyn.ns.cloudflare.com</span>
                 <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">Autoritativo</span>
               </div>
-              <div className="flex items-center justify-between text-slate-800">
+              <div className="flex items-center justify-between text-[var(--text-primary)]">
                 <span>bryce.ns.cloudflare.com</span>
                 <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">Autoritativo</span>
               </div>
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
-            <h3 className="font-bold text-slate-900 text-xs flex items-center gap-2">
+          <div className="p-6 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] space-y-4 shadow-xs">
+            <h3 className="font-bold text-[var(--text-primary)] text-xs flex items-center gap-2">
               <Lock className="w-4 h-4 text-emerald-600" />
               Certificado SSL & Encriptación
             </h3>
             <div className="space-y-3 text-xs">
-              <div className="flex items-center justify-between text-slate-700 p-2.5 rounded-xl bg-white border border-slate-200">
+              <div className="flex items-center justify-between text-[var(--text-secondary)] p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
                 <span>Modo de Cifrado</span>
                 <span className="font-bold text-emerald-700">Full (Strict) TLS 1.3</span>
               </div>
-              <div className="flex items-center justify-between text-slate-700 p-2.5 rounded-xl bg-white border border-slate-200">
+              <div className="flex items-center justify-between text-[var(--text-secondary)] p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
                 <span>Renovación Automática</span>
-                <span className="text-slate-600">Cada 90 días (Automatizada)</span>
+                <span className="text-[var(--text-secondary)]">Cada 90 días (Automatizada)</span>
               </div>
-              <div className="flex items-center justify-between text-slate-700 p-2.5 rounded-xl bg-white border border-slate-200">
+              <div className="flex items-center justify-between text-[var(--text-secondary)] p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
                 <span>Redirección HTTPS Siempre</span>
                 <span className="text-emerald-700 font-bold">Habilitada</span>
               </div>
@@ -455,9 +455,9 @@ export const PublicDomainManagerPage: React.FC = () => {
 
       {activeTab === 'seo' && (
         <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+          <div className="p-6 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Puntaje Global On-Page</span>
+              <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Puntaje Global On-Page</span>
               <div className="text-3xl font-extrabold text-emerald-600 flex items-center gap-2 mt-1">
                 <span>{seoScore} / 100</span>
                 <span className="text-xs px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
@@ -471,7 +471,7 @@ export const PublicDomainManagerPage: React.FC = () => {
                 type="text"
                 value={seoTargetUrl}
                 onChange={(e) => setSeoTargetUrl(e.target.value)}
-                className="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 shadow-xs focus:outline-none focus:border-blue-600"
+                className="bg-[var(--bg-card)] border border-[var(--border-default)] rounded-xl px-3 py-2 text-xs text-[var(--text-primary)] shadow-xs focus:outline-none focus:border-blue-600"
               />
               <button
                 onClick={() => showToast('Auditoría SEO actualizada con éxito', 'success')}
@@ -482,14 +482,14 @@ export const PublicDomainManagerPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 shadow-xs">
-            <h3 className="font-bold text-slate-900 text-xs">Diagnóstico On-Page</h3>
+          <div className="p-6 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] space-y-3 shadow-xs">
+            <h3 className="font-bold text-[var(--text-primary)] text-xs">Diagnóstico On-Page</h3>
             <div className="space-y-2">
               {seoReport.map((item, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-4 shadow-xs">
+                <div key={idx} className="p-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-between gap-4 shadow-xs">
                   <div className="space-y-0.5">
-                    <span className="font-bold text-slate-900 text-xs">{item.tag}</span>
-                    <p className="text-[11px] text-slate-600">{item.text}</p>
+                    <span className="font-bold text-[var(--text-primary)] text-xs">{item.tag}</span>
+                    <p className="text-[11px] text-[var(--text-secondary)]">{item.text}</p>
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shrink-0">
                     Aprobado ✅
@@ -503,10 +503,10 @@ export const PublicDomainManagerPage: React.FC = () => {
 
       {activeTab === 'sitemap' && (
         <div className="space-y-4">
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between shadow-xs">
+          <div className="p-6 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] flex items-center justify-between shadow-xs">
             <div>
-              <h3 className="font-bold text-slate-900 text-xs">Sitemap XML Dinámico</h3>
-              <p className="text-xs text-slate-600 mt-0.5">
+              <h3 className="font-bold text-[var(--text-primary)] text-xs">Sitemap XML Dinámico</h3>
+              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
                 Generado automáticamente a partir de tus páginas de aterrizaje por industria y catálogo digital.
               </p>
             </div>
@@ -520,7 +520,7 @@ export const PublicDomainManagerPage: React.FC = () => {
             </button>
           </div>
 
-          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-800 overflow-x-auto whitespace-pre leading-relaxed shadow-xs">
+          <div className="p-5 rounded-2xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] font-mono text-[11px] text-[var(--text-primary)] overflow-x-auto whitespace-pre leading-relaxed shadow-xs">
             {sitemapXmlContent}
           </div>
         </div>

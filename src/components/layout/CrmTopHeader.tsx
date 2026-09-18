@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   Plus,
@@ -54,6 +54,7 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
     currentUser,
     theme,
     setTheme,
+    toggleTheme,
     language,
     setLanguage,
     resetToDemoData,
@@ -62,6 +63,15 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
     opportunities,
     tasks,
   } = useCRM();
+
+  // Helper to determine theme for the toggle icon
+  // Note: Since CRMContext provides theme (light | dark | system),
+  // we need to infer the current 'resolved' state.
+  // We can use document.documentElement.classList for reliable state.
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark'));
+  }, [theme]);
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -88,45 +98,53 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
   return (
     <header
       id="crm-top-header"
-      className="crm-top-header bg-[var(--clientum-navy,#022046)] border-b border-[#002B5C] text-slate-100 h-14 px-4 flex items-center justify-between gap-4 shrink-0 z-20 select-none shadow-md font-['Inter',sans-serif]"
+      className="crm-top-header bg-[var(--bg-navbar)] border-b border-[var(--border-subtle)] text-[var(--text-primary)] h-14 px-4 flex items-center justify-between gap-4 shrink-0 z-20 select-none shadow-md"
     >
-      {/* Left: Mobile Toggle & App Branding */}
+      {/* Left: Mobile Toggle, Mobile Branding & Active Tab Indicator */}
       <div className="flex items-center gap-3 min-w-0 shrink-0">
         <button
           onClick={toggleMobileSidebar}
-          className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 md:hidden transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 lg:hidden transition-colors cursor-pointer"
           title="Abrir Menú Lateral"
         >
           <Menu className="w-4 h-4 text-slate-200" />
         </button>
 
-        {/* App Branding */}
+        {/* App Branding: Only shown on mobile/tablets when sidebar is hidden */}
         <div
           id="crm-header-branding"
           onClick={exitToPublicSite}
-          className="flex items-center gap-2.5 cursor-pointer select-none group shrink-0 pr-3 border-r border-slate-800"
+          className="flex lg:hidden items-center gap-2 cursor-pointer select-none group shrink-0 pr-2 border-r border-slate-800"
           title="Clientum CRM - Ir al sitio público"
         >
-          <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-[var(--clientum-action,#0056B3)] via-[var(--clientum-blue,#002B5C)] to-[var(--clientum-navy,#022046)] border border-blue-400/30 p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-            <ClientumLogo className="w-5 h-5 text-white" />
+          <div className="w-7 h-7 rounded-lg bg-blue-600 p-1 flex items-center justify-center shadow-sm">
+            <ClientumLogo className="w-4 h-4 text-white" />
           </div>
-          <div className="flex flex-col leading-tight">
-            <div className="flex items-center gap-1">
-              <span className="text-sm font-extrabold text-white tracking-tight group-hover:text-blue-300 transition-colors">
-                Clientum
-              </span>
-              <span className="text-sm font-extrabold text-blue-300 tracking-tight">
-                CRM
-              </span>
-            </div>
-            <span className="text-[9px] font-semibold text-slate-300 uppercase tracking-widest hidden sm:inline">
-              Suite Comercial
-            </span>
-          </div>
+          <span className="text-sm font-extrabold text-white tracking-tight">Clientum</span>
         </div>
 
         {/* Connectivity Indicator Component */}
         <ConnectivityIndicator />
+
+        {/* Active Tab Breadcrumb Badge */}
+        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-800/60 border border-slate-700/60 text-xs font-semibold text-slate-200">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+          <span className="capitalize">
+            {activeTab === 'dashboard' ? 'Resumen Ejecutivo' :
+             activeTab === 'userDashboard' ? 'Mi Panel Personal' :
+             activeTab === 'opportunities' ? 'Pipeline & Negocios' :
+             activeTab === 'people' ? 'Contactos' :
+             activeTab === 'companies' ? 'Empresas & Cuentas' :
+             activeTab === 'tasks' ? 'Tareas & Agenda' :
+             activeTab === 'whatsapp' ? 'WhatsApp Multiagente' :
+             activeTab === 'erp' ? 'ERP & Facturación AFIP' :
+             activeTab === 'analytics' ? 'Métricas & BI' :
+             activeTab === 'workflows' ? 'Automatizaciones' :
+             activeTab === 'customObjects' ? 'Campos & Objetos' :
+             activeTab === 'settings' ? 'Roles & Permisos' :
+             activeTab}
+          </span>
+        </div>
       </div>
 
       {/* Center: Command Palette / Search Trigger */}
@@ -225,8 +243,14 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
           />
         </div>
 
-        {/* Theme Switcher */}
-        <ThemeSwitcher showLabel={false} />
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="p-1.5 rounded-lg bg-slate-800 border-slate-700 border text-slate-300 hover:bg-slate-700 transition-all cursor-pointer"
+          title="Alternar tema claro/oscuro"
+        >
+          {isDark ? <Sun className="w-3 h-3.5 text-amber-300" /> : <Moon className="w-3.5 h-3.5 text-slate-300" />}
+        </button>
 
         {/* User Profile Pill & Dropdown */}
         <div className="relative ml-1">
@@ -290,7 +314,7 @@ export const CrmTopHeader: React.FC<CrmTopHeaderProps> = ({
                 >
                   <Globe className="w-3.5 h-3.5 text-blue-400" />
                   <span>Sitio Web Público</span>
-                  <ExternalLink className="w-3 h-3 ml-auto text-slate-500" />
+                  <ExternalLink className="w-3 h-3 ml-auto text-[var(--text-muted)]" />
                 </button>
 
                 <div className="flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300">

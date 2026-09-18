@@ -180,7 +180,7 @@ export const InboxView: React.FC = () => {
       <div className="w-80 border-r border-[#1e2330] bg-[#0d0f17] flex flex-col shrink-0">
         <div className="p-3 border-b border-[#1e2330] space-y-2">
           <div className="relative">
-            <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-500" />
+            <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-[var(--text-muted)]" />
             <input
               type="text"
               placeholder="Buscar chat, teléfono o empresa..."
@@ -376,7 +376,7 @@ export const InboxView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setInputText('')}
-                className="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300 text-[11px]"
+                className="absolute right-3 top-2.5 text-[var(--text-muted)] hover:text-slate-300 text-[11px]"
                 title="Limpiar texto"
               >
                 ✕

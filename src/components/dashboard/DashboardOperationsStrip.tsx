@@ -91,13 +91,14 @@ const operationalAreas: Array<{
 
 const suiteModules: Array<{ label: string; tab: ActiveTab }> = [
   { label: 'Pipeline Kanban', tab: 'opportunities' },
+  { label: 'Lead Scoring MEDDIC', tab: 'meddic' },
   { label: 'WhatsApp Multiagente', tab: 'whatsapp' },
   { label: 'Chatbot IA 24/7', tab: 'chatbot' },
-  { label: 'ERP & AFIP', tab: 'erp' },
-  { label: 'Mercado Pago', tab: 'payments' },
-  { label: 'Maps IA', tab: 'mapsProspecting' },
-  { label: 'Custom Objects', tab: 'customObjects' },
-  { label: 'Workflows', tab: 'workflows' },
+  { label: 'ERP & AFIP Facturación', tab: 'erp' },
+  { label: 'Mercado Pago & Cobros', tab: 'payments' },
+  { label: 'Prospección Maps B2B', tab: 'mapsProspecting' },
+  { label: 'Custom Objects & Campos', tab: 'customObjects' },
+  { label: 'Workflows & Automatizaciones', tab: 'workflows' },
   { label: 'SEO & Rank Tracker', tab: 'seoSuite' },
   { label: 'Portal B2B', tab: 'clientPortal' },
   { label: 'KDS Gastronomía', tab: 'restaurant' },
@@ -115,19 +116,19 @@ const suiteModules: Array<{ label: string; tab: ActiveTab }> = [
 ];
 
 export const DashboardOperationsStrip: React.FC<DashboardOperationsStripProps> = ({ onNavigate }) => (
-  <section className="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs transition-all">
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800/80">
+  <section className="bg-[var(--bg-card)] dark:bg-[#111827] border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs transition-all">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-[var(--border-subtle)] dark:border-slate-800/80">
       <div>
         <div className="flex items-center gap-2 mb-1">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase">
+          <span className="text-[10px] font-bold tracking-widest text-[var(--text-muted)] dark:text-slate-400 uppercase">
             Centro Operativo · 6 Áreas Conectadas
           </span>
         </div>
-        <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+        <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-white tracking-tight">
           La operación completa en una sola vista
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
           Priorizá la próxima acción desde el estado comercial, conversacional, financiero y de automatización.
         </p>
       </div>
@@ -151,27 +152,27 @@ export const DashboardOperationsStrip: React.FC<DashboardOperationsStripProps> =
           <button
             key={area.id}
             type="button"
-            className="flex flex-col text-left p-3.5 rounded-xl border border-slate-200/70 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-400/50 dark:hover:border-blue-500/50 hover:shadow-md transition-all group cursor-pointer"
+            className="flex flex-col text-left p-3.5 rounded-xl border border-[var(--border-subtle)]/70 dark:border-slate-800/80 bg-[var(--bg-muted)]/70 dark:bg-slate-900/50 hover:bg-[var(--bg-card)] dark:hover:bg-slate-800/80 hover:border-blue-400/50 dark:hover:border-blue-500/50 hover:shadow-md transition-all group cursor-pointer"
             onClick={() => onNavigate(area.id)}
           >
             <div className="flex items-center justify-between gap-2 mb-2 w-full">
-              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <span className="text-[10px] font-semibold text-slate-400 dark:text-[var(--text-muted)] uppercase tracking-wider">
                 {area.label}
               </span>
-              <span className="w-6 h-6 rounded-md bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <span className="w-6 h-6 rounded-md bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)]/80 dark:border-slate-700 flex items-center justify-center text-[var(--text-secondary)] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 <AreaIcon size={13} />
               </span>
             </div>
-            <strong className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-0.5">
+            <strong className="text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-0.5">
               {area.title}
             </strong>
-            <span className="text-base font-extrabold text-slate-900 dark:text-slate-100 tabular-nums">
+            <span className="text-base font-extrabold text-[var(--text-primary)] dark:text-slate-100 tabular-nums">
               {area.metric}
             </span>
-            <span className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 mb-2">
+            <span className="text-[10px] text-[var(--text-muted)] dark:text-slate-400 line-clamp-1 mb-2">
               {area.detail}
             </span>
-            <div className="mt-auto pt-2 border-t border-slate-200/40 dark:border-slate-800/60 flex items-center justify-between w-full">
+            <div className="mt-auto pt-2 border-t border-[var(--border-subtle)]/40 dark:border-slate-800/60 flex items-center justify-between w-full">
               <span className={`inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border ${toneStyles}`}>
                 <CheckCircle2 size={10} />
                 {area.status}
@@ -183,16 +184,16 @@ export const DashboardOperationsStrip: React.FC<DashboardOperationsStripProps> =
       })}
     </div>
 
-    <div className="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/70">
+    <div className="p-3.5 rounded-xl bg-[var(--bg-muted)]/80 dark:bg-slate-900/60 border border-[var(--border-subtle)]/60 dark:border-slate-800/70">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center">
             <Bot size={12} />
           </div>
-          <span className="text-xs font-bold text-slate-900 dark:text-white">Power Suite Integral</span>
-          <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">· 16 módulos unificados</span>
+          <span className="text-xs font-bold text-[var(--text-primary)] dark:text-white">Power Suite Integral</span>
+          <span className="text-[11px] text-slate-400 dark:text-[var(--text-muted)] font-medium">· 16 módulos unificados</span>
         </div>
-        <span className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+        <span className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-1">
           <Clock3 size={11} /> Acceso rápido directo
         </span>
       </div>
@@ -202,7 +203,7 @@ export const DashboardOperationsStrip: React.FC<DashboardOperationsStripProps> =
             key={module.label}
             type="button"
             onClick={() => onNavigate(module.tab)}
-            className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/50 transition-all cursor-pointer shadow-2xs"
+            className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)]/80 dark:border-slate-700/80 text-[var(--text-secondary)] dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600/50 hover:bg-blue-50/40 dark:hover:bg-slate-700/50 transition-all cursor-pointer shadow-2xs"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
             {module.label}

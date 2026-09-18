@@ -376,7 +376,7 @@ export const Propuestas: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => removeItem(item.id)}
-                          className="p-1.5 text-slate-500 hover:text-rose-400 transition-colors"
+                          className="p-1.5 text-[var(--text-muted)] hover:text-rose-400 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -539,9 +539,9 @@ export const Propuestas: React.FC = () => {
         </div>
       ) : (
         /* Formal Preview Mode (Printable / PDF Style) */
-        <div className="max-w-4xl mx-auto bg-white text-slate-900 p-8 sm:p-12 rounded-2xl shadow-2xl space-y-8 font-sans">
+        <div className="max-w-4xl mx-auto bg-[var(--bg-card)] text-[var(--text-primary)] p-8 sm:p-12 rounded-2xl shadow-2xl space-y-8 font-sans">
           {/* Header Membrete */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-200 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-[var(--border-subtle)] pb-6">
             <div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-slate-950 text-cyan-400 font-extrabold flex items-center justify-center text-sm">
@@ -549,42 +549,42 @@ export const Propuestas: React.FC = () => {
                 </div>
                 <span className="text-xl font-extrabold text-slate-950 tracking-tight">Clientum Latam S.A.</span>
               </div>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-[var(--text-muted)] mt-1">
                 Plataforma CRM, Automatizaciones & Agentes IA • CUIT 30-71829304-9
               </p>
-              <p className="text-xs text-slate-500">General Roca, Patagonia Argentina • info@clientum.com.ar</p>
+              <p className="text-xs text-[var(--text-muted)]">General Roca, Patagonia Argentina • info@clientum.com.ar</p>
             </div>
 
             <div className="text-right space-y-1">
               <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-cyan-100 text-cyan-800 uppercase tracking-wider">
                 Propuesta Técnico-Comercial
               </span>
-              <div className="text-xs text-slate-500">Fecha de emisión: {new Date().toLocaleDateString('es-AR')}</div>
+              <div className="text-xs text-[var(--text-muted)]">Fecha de emisión: {new Date().toLocaleDateString('es-AR')}</div>
               <div className="text-xs font-semibold text-rose-600">Válida hasta: {validUntil}</div>
             </div>
           </div>
 
           {/* Client Details */}
-          <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+          <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-xs">
             <div>
               <span className="text-slate-400 block font-medium">Dirigido a:</span>
-              <div className="font-bold text-slate-900 text-sm">{clientName}</div>
-              <div className="text-slate-600">{clientEmail}</div>
-              <div className="text-slate-600">{clientPhone}</div>
+              <div className="font-bold text-[var(--text-primary)] text-sm">{clientName}</div>
+              <div className="text-[var(--text-secondary)]">{clientEmail}</div>
+              <div className="text-[var(--text-secondary)]">{clientPhone}</div>
             </div>
             <div>
               <span className="text-slate-400 block font-medium">Asunto del proyecto:</span>
-              <div className="font-semibold text-slate-900">{proposalTitle}</div>
-              <div className="text-slate-500 mt-1">Atención personalizada: Asesor Comercial Senior</div>
+              <div className="font-semibold text-[var(--text-primary)]">{proposalTitle}</div>
+              <div className="text-[var(--text-muted)] mt-1">Atención personalizada: Asesor Comercial Senior</div>
             </div>
           </div>
 
           {/* Items Table */}
           <div className="space-y-3">
-            <h4 className="font-bold text-slate-900 text-sm">Detalle de Soluciones & Inversión</h4>
-            <div className="overflow-x-auto border border-slate-200 rounded-xl">
+            <h4 className="font-bold text-[var(--text-primary)] text-sm">Detalle de Soluciones & Inversión</h4>
+            <div className="overflow-x-auto border border-[var(--border-subtle)] rounded-xl">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                <thead className="bg-[var(--bg-muted)] text-[var(--text-secondary)] font-bold border-b border-[var(--border-subtle)]">
                   <tr>
                     <th className="p-3">#</th>
                     <th className="p-3">Servicio / Módulo</th>
@@ -594,7 +594,7 @@ export const Propuestas: React.FC = () => {
                     <th className="p-3 text-right">Subtotal</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-slate-800">
+                <tbody className="divide-y divide-[var(--border-subtle)] text-[var(--text-primary)]">
                   {items.map((item, i) => {
                     const gross = item.quantity * item.unitPrice;
                     const disc = (gross * item.discount) / 100;
@@ -602,7 +602,7 @@ export const Propuestas: React.FC = () => {
                     return (
                       <tr key={item.id}>
                         <td className="p-3 text-slate-400">{i + 1}</td>
-                        <td className="p-3 font-medium text-slate-900">{item.description}</td>
+                        <td className="p-3 font-medium text-[var(--text-primary)]">{item.description}</td>
                         <td className="p-3 text-center">{item.quantity}</td>
                         <td className="p-3 text-right">$ {item.unitPrice.toLocaleString('es-AR')}</td>
                         <td className="p-3 text-right text-emerald-600">{item.discount > 0 ? `-${item.discount}%` : '-'}</td>
@@ -617,16 +617,16 @@ export const Propuestas: React.FC = () => {
 
           {/* Total Box */}
           <div className="flex justify-end">
-            <div className="w-72 p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-600">
+            <div className="w-72 p-4 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] space-y-2 text-xs">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Subtotal Neto:</span>
                 <span>$ {Math.round(netTaxable).toLocaleString('es-AR')}</span>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>IVA Liquidado:</span>
                 <span>$ {Math.round(totalTax).toLocaleString('es-AR')}</span>
               </div>
-              <div className="flex justify-between font-extrabold text-sm text-slate-950 border-t border-slate-200 pt-2">
+              <div className="flex justify-between font-extrabold text-sm text-slate-950 border-t border-[var(--border-subtle)] pt-2">
                 <span>Total General:</span>
                 <span className="text-cyan-700">$ {Math.round(grandTotal).toLocaleString('es-AR')}</span>
               </div>
@@ -634,26 +634,26 @@ export const Propuestas: React.FC = () => {
           </div>
 
           {/* Terms & Confidentiality */}
-          <div className="space-y-3 pt-4 border-t border-slate-200 text-xs text-slate-600">
+          <div className="space-y-3 pt-4 border-t border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
             <div>
-              <span className="font-bold text-slate-900 block">Condiciones de Contratación:</span>
+              <span className="font-bold text-[var(--text-primary)] block">Condiciones de Contratación:</span>
               <p>{paymentTerms}</p>
             </div>
             <div>
-              <span className="font-bold text-slate-900 block">Cláusula de Confidencialidad:</span>
-              <p className="text-slate-500 text-[11px]">{confidentialityClause}</p>
+              <span className="font-bold text-[var(--text-primary)] block">Cláusula de Confidencialidad:</span>
+              <p className="text-[var(--text-muted)] text-[11px]">{confidentialityClause}</p>
             </div>
           </div>
 
           {/* Signatures */}
-          <div className="pt-10 grid grid-cols-2 gap-12 text-center text-xs text-slate-600">
-            <div className="border-t border-slate-300 pt-2">
-              <div className="font-bold text-slate-900">Clientum Latam S.A.</div>
-              <div className="text-[11px] text-slate-500">Dirección Comercial & Operaciones</div>
+          <div className="pt-10 grid grid-cols-2 gap-12 text-center text-xs text-[var(--text-secondary)]">
+            <div className="border-t border-[var(--border-default)] pt-2">
+              <div className="font-bold text-[var(--text-primary)]">Clientum Latam S.A.</div>
+              <div className="text-[11px] text-[var(--text-muted)]">Dirección Comercial & Operaciones</div>
             </div>
-            <div className="border-t border-slate-300 pt-2">
-              <div className="font-bold text-slate-900">{clientName}</div>
-              <div className="text-[11px] text-slate-500">Aceptación de Propuesta & Firma</div>
+            <div className="border-t border-[var(--border-default)] pt-2">
+              <div className="font-bold text-[var(--text-primary)]">{clientName}</div>
+              <div className="text-[11px] text-[var(--text-muted)]">Aceptación de Propuesta & Firma</div>
             </div>
           </div>
         </div>

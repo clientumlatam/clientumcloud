@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   Home,
   Calendar,
@@ -50,8 +50,7 @@ import { ClientumLogo } from '../common/ClientumLogo';
 import { ClientumNavyIcon } from '../common/ClientumNavyIcons';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { UserProfileModal } from '../auth/UserProfileModal';
-import { DeploymentMonitor } from './DeploymentMonitor';
-import { VersionInfo } from '../common/VersionInfo';
+import { SidebarItem } from './SidebarItem';
 
 interface SidebarNavItem {
   id: ActiveTab;
@@ -135,13 +134,13 @@ export const Sidebar: React.FC = () => {
     return 'CL';
   }, [currentUser?.name, currentUser?.email]);
 
-  const toggleSubmenu = (itemId: string, e: React.MouseEvent) => {
+  const toggleSubmenu = useCallback((itemId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedMenus((prev) => ({
       ...prev,
       [itemId]: !prev[itemId],
     }));
-  };
+  }, []);
 
   const navSections: NavSection[] = [
     {
@@ -165,7 +164,7 @@ export const Sidebar: React.FC = () => {
           badge: 'Kanban',
           badgeColor: 'bg-blue-600 text-white font-bold',
           subItems: [
-            { id: 'opportunities', label: 'Lead Scoring MEDDIC', icon: Target },
+            { id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target },
           ],
         },
         {
@@ -272,12 +271,12 @@ export const Sidebar: React.FC = () => {
     },
   ];
 
-  const handleNavClick = (tabId: ActiveTab) => {
+  const handleNavClick = useCallback((tabId: ActiveTab) => {
     setActiveTab(tabId);
     if (window.innerWidth < 1024) {
       setIsMobileSidebarOpen(false);
     }
-  };
+  }, [setActiveTab, setIsMobileSidebarOpen]);
 
   return (
     <>
@@ -304,11 +303,11 @@ export const Sidebar: React.FC = () => {
         } ${
           resolvedTheme === 'dark'
             ? 'border-[#1c2d47] bg-[#060a14] text-slate-100'
-            : 'border-slate-200/90 bg-white text-slate-800'
+            : 'border-[var(--border-subtle)]/90 bg-[var(--bg-card)] text-[var(--text-primary)]'
         }`}
       >
         {/* Encabezado del Sistema */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-slate-200/80 dark:border-[#1c2d47]">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
           <button
             onClick={() => setActiveTab('dashboard')}
             className="flex items-center gap-2.5 text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md p-1"
@@ -316,10 +315,10 @@ export const Sidebar: React.FC = () => {
           >
             <ClientumLogo className="h-8 w-auto" />
             <div>
-              <span className="block font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
+              <span className="block font-bold leading-tight tracking-tight text-[var(--text-primary)] dark:text-white">
                 ClientumOS
               </span>
-              <span className="block text-[10px] font-medium text-slate-500 dark:text-slate-300">
+              <span className="block text-[10px] font-medium text-[var(--text-muted)] dark:text-slate-300">
                 Sistema Operativo PyME
               </span>
             </div>
@@ -336,20 +335,20 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Acceso a Buscador y Portal Público */}
-        <div className="space-y-1.5 border-b p-3 border-slate-200/80 dark:border-[#1c2d47]">
+        <div className="space-y-1.5 border-b p-3 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
             className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-xs font-medium transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
               resolvedTheme === 'dark'
                 ? 'border-[#1c2d47] bg-[#0a0f1d] text-slate-200 hover:border-[#2d436a] hover:text-white'
-                : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:text-slate-900'
+                : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-muted)] hover:border-[var(--border-default)] hover:text-[var(--text-primary)]'
             }`}
           >
             <span className="flex items-center gap-2">
               <Search className="h-3.5 w-3.5" />
               <span>Buscar en todo el CRM...</span>
             </span>
-            <kbd className="rounded bg-slate-200/60 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-[#142034] dark:text-slate-200">
+            <kbd className="rounded bg-[var(--bg-muted)]/60 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--text-secondary)] dark:bg-[#142034] dark:text-slate-200">
               ⌘K
             </kbd>
           </button>
@@ -374,7 +373,7 @@ export const Sidebar: React.FC = () => {
               <div key={section.id} className="space-y-1">
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                  className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:text-slate-300 dark:hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
                   onClick={() =>
                     setCollapsedSections((prev) => ({
                       ...prev,
@@ -400,93 +399,17 @@ export const Sidebar: React.FC = () => {
 
                 {!isCollapsed && (
                   <nav className="space-y-0.5" aria-label={`Submenú ${section.label}`}>
-                    {section.items.map((item) => {
-                      const active = activeTab === item.id;
-                      const hasSub = item.subItems && item.subItems.length > 0;
-                      const isExpanded = expandedMenus[item.id];
-                      const IconComponent = item.icon;
-
-                      return (
-                        <div key={item.id} className="space-y-0.5">
-                          <div className="group relative flex items-center">
-                            <button
-                              onClick={() => handleNavClick(item.id)}
-                              aria-current={active ? 'page' : undefined}
-                              className={`flex flex-1 items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-semibold transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
-                                active
-                                  ? 'bg-blue-600 text-white shadow-xs font-bold'
-                                  : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-[#0e1626] dark:hover:text-white'
-                              }`}
-                            >
-                              <IconComponent
-                                className={`h-4 w-4 shrink-0 ${
-                                  active
-                                    ? 'text-white'
-                                    : 'text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white'
-                                }`}
-                              />
-                              <span className="truncate">{item.label}</span>
-
-                              {item.badge && (
-                                <span
-                                  className={`ml-auto rounded px-1.5 py-0.2 text-[10px] font-bold ${
-                                    item.badgeColor ||
-                                    (active
-                                      ? 'bg-white/20 text-white'
-                                      : 'bg-slate-200 text-slate-700 dark:bg-[#111a2d] dark:text-slate-200')
-                                  }`}
-                                >
-                                  {item.badge}
-                                </span>
-                              )}
-                            </button>
-
-                            {hasSub && (
-                              <button
-                                onClick={(e) => toggleSubmenu(item.id, e)}
-                                aria-label={`Expandir subopciones de ${item.label}`}
-                                className={`flex h-8 w-6 items-center justify-center rounded-r-lg transition-colors ${
-                                  active
-                                    ? 'text-white/80 hover:text-white'
-                                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                                }`}
-                              >
-                                <ChevronRight
-                                  className={`h-3.5 w-3.5 transition-transform ${
-                                    isExpanded ? 'rotate-90' : ''
-                                  }`}
-                                />
-                              </button>
-                            )}
-                          </div>
-
-                          {/* Subitems anidados */}
-                          {hasSub && isExpanded && (
-                            <div className="ml-5 space-y-0.5 border-l-2 pl-2 border-slate-200 dark:border-[#1c2d47]">
-                              {item.subItems!.map((sub) => {
-                                const subActive = activeTab === sub.id;
-                                const SubIcon = sub.icon;
-                                return (
-                                  <button
-                                    key={sub.id}
-                                    onClick={() => handleNavClick(sub.id)}
-                                    aria-current={subActive ? 'page' : undefined}
-                                    className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
-                                      subActive
-                                        ? 'bg-blue-100 text-blue-900 font-bold dark:bg-blue-950/60 dark:text-blue-300'
-                                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-[#0e1626] dark:hover:text-white'
-                                    }`}
-                                  >
-                                    <SubIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-                                    <span className="truncate">{sub.label}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                    {section.items.map((item) => (
+                      <SidebarItem
+                        key={item.id}
+                        item={item}
+                        isActive={activeTab === item.id}
+                        isExpanded={Boolean(expandedMenus[item.id])}
+                        activeTab={activeTab}
+                        onNavClick={handleNavClick}
+                        onToggleSubmenu={toggleSubmenu}
+                      />
+                    ))}
                   </nav>
                 )}
               </div>
@@ -494,61 +417,8 @@ export const Sidebar: React.FC = () => {
           })}
         </div>
 
-        {/* Acceso Rápido al Copilot Gemini */}
-        <div className="border-t p-3 border-slate-200/80 dark:border-[#1c2d47]">
-          <div className="rounded-xl border border-blue-200/80 bg-gradient-to-br from-blue-50/80 to-indigo-50/50 p-2.5 dark:border-blue-900/50 dark:from-blue-950/30 dark:to-indigo-950/20">
-            <div className="flex items-center justify-between mb-1">
-              <span className="flex items-center gap-1.5 text-xs font-bold text-blue-950 dark:text-blue-200">
-                <Sparkles className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                Copilot Gemini 3.8
-              </span>
-              <span className="rounded bg-blue-600 px-1.5 py-0.2 text-[9px] font-black text-white">
-                IA
-              </span>
-            </div>
-            <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-300 mb-2">
-              Optimiza el pipeline comercial y prioriza tratos de alto valor.
-            </p>
-            <button
-              onClick={() => openAICopilot()}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
-              Consultar Copilot
-            </button>
-          </div>
-        </div>
-
-        {/* Cuentas Clave */}
-        {opportunities.length > 0 && (
-          <div className="border-t px-3 py-2 border-slate-200/80 dark:border-[#1c2d47]">
-            <span className="block text-[10px] font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-1">
-              Cuentas Clave
-            </span>
-            <div className="space-y-1">
-              {opportunities.slice(0, 3).map((opp) => (
-                <button
-                  key={opp.id}
-                  onClick={() => setSelectedRecord({ type: 'opportunity', id: opp.id })}
-                  className="flex w-full items-center justify-between rounded px-2 py-1 text-left text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-[#0e1626]"
-                >
-                  <span className="truncate">{opp.name || opp.title}</span>
-                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                    ${opp.amount.toLocaleString()}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Monitoring & Deployment Info for Internal Support */}
-        <div className="px-3 pt-2 space-y-1.5">
-          <DeploymentMonitor />
-          <VersionInfo />
-        </div>
-
         {/* Perfil & Controles de Usuario */}
-        <div className="flex items-center justify-between border-t p-3 border-slate-200/80 dark:border-[#1c2d47]">
+        <div className="flex items-center justify-between border-t p-3 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
           <button
             onClick={() => setIsProfileModalOpen(true)}
             className="flex items-center gap-2 truncate text-left group hover:opacity-90 transition-opacity cursor-pointer flex-1 min-w-0 mr-1.5"
@@ -558,7 +428,7 @@ export const Sidebar: React.FC = () => {
               <img
                 src={currentUser.avatar}
                 alt={userDisplayName}
-                className="h-8 w-8 shrink-0 rounded-full object-cover border border-slate-300 dark:border-slate-700 shadow-xs"
+                className="h-8 w-8 shrink-0 rounded-full object-cover border border-[var(--border-default)] dark:border-slate-700 shadow-xs"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   const sibling = e.currentTarget.nextElementSibling;
@@ -574,7 +444,7 @@ export const Sidebar: React.FC = () => {
               {userInitials}
             </div>
             <div className="truncate min-w-0">
-              <span className="block truncate text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+              <span className="block truncate text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-500 transition-colors">
                 {userDisplayName}
               </span>
               <span className="block truncate text-[10px] text-slate-400">
@@ -587,7 +457,7 @@ export const Sidebar: React.FC = () => {
             <button
               onClick={toggleTheme}
               aria-label={`Cambiar a modo ${resolvedTheme === 'dark' ? 'claro' : 'oscuro'}`}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
             </button>
@@ -595,14 +465,14 @@ export const Sidebar: React.FC = () => {
               onClick={() => setActiveTab('dashboardDocs')}
               aria-label="Documentación de la plataforma"
               title="Documentación y guías (18 Docs)"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <BookOpen className="h-4 w-4" />
             </button>
             <button
               onClick={() => setActiveTab('settings')}
               aria-label="Abrir ajustes"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <Settings className="h-4 w-4" />
             </button>

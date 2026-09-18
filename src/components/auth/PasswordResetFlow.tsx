@@ -172,7 +172,7 @@ export const PasswordResetFlow: React.FC<PasswordResetFlowProps> = ({
                 ? 'bg-blue-600 text-white'
                 : step === 'success'
                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                : 'bg-[#151926] text-slate-500 border border-[#232a3d]'
+                : 'bg-[#151926] text-[var(--text-muted)] border border-[#232a3d]'
             }`}
           >
             2
@@ -185,7 +185,7 @@ export const PasswordResetFlow: React.FC<PasswordResetFlowProps> = ({
             className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all ${
               step === 'success'
                 ? 'bg-emerald-600 text-white'
-                : 'bg-[#151926] text-slate-500 border border-[#232a3d]'
+                : 'bg-[#151926] text-[var(--text-muted)] border border-[#232a3d]'
             }`}
           >
             3
@@ -337,7 +337,7 @@ export const PasswordResetFlow: React.FC<PasswordResetFlowProps> = ({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-0.5 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-slate-300 p-0.5 cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               </button>
@@ -366,27 +366,27 @@ export const PasswordResetFlow: React.FC<PasswordResetFlowProps> = ({
           <div className="p-3 rounded-xl bg-[#080b12] border border-[#1b2234] space-y-1.5 text-[11px]">
             <span className="font-semibold text-slate-400 block mb-1">Criterios de seguridad requeridos:</span>
             <div className="grid grid-cols-2 gap-1.5">
-              <div className={`flex items-center gap-1.5 ${hasMinLength ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${hasMinLength ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Mínimo 8 caracteres</span>
               </div>
-              <div className={`flex items-center gap-1.5 ${hasUpper ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${hasUpper ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Una mayúscula</span>
               </div>
-              <div className={`flex items-center gap-1.5 ${hasLower ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${hasLower ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Una minúscula</span>
               </div>
-              <div className={`flex items-center gap-1.5 ${hasNumber ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${hasNumber ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Al menos un número</span>
               </div>
-              <div className={`flex items-center gap-1.5 ${hasSpecial ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${hasSpecial ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Un carácter especial</span>
               </div>
-              <div className={`flex items-center gap-1.5 ${passwordsMatch ? 'text-emerald-400' : 'text-slate-500'}`}>
+              <div className={`flex items-center gap-1.5 ${passwordsMatch ? 'text-emerald-400' : 'text-[var(--text-muted)]'}`}>
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Contraseñas coinciden</span>
               </div>

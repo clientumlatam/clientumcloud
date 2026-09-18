@@ -27,7 +27,7 @@ export const MessagesView: React.FC = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-300">
                 <MessageSquare className="h-5 w-5" />
               </div>
-              <ArrowRight className="h-4 w-4 text-slate-500 transition-transform group-hover:translate-x-1 group-hover:text-emerald-300" />
+              <ArrowRight className="h-4 w-4 text-[var(--text-muted)] transition-transform group-hover:translate-x-1 group-hover:text-emerald-300" />
             </div>
             <h3 className="mt-4 text-sm font-semibold text-white">WhatsApp CRM</h3>
             <p className="mt-1 text-xs leading-relaxed text-slate-400">Inbox multiagente, plantillas y campañas masivas.</p>
@@ -46,7 +46,7 @@ export const MessagesView: React.FC = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15 text-blue-300">
                 <Mail className="h-5 w-5" />
               </div>
-              <ArrowRight className="h-4 w-4 text-slate-500 transition-transform group-hover:translate-x-1 group-hover:text-blue-300" />
+              <ArrowRight className="h-4 w-4 text-[var(--text-muted)] transition-transform group-hover:translate-x-1 group-hover:text-blue-300" />
             </div>
             <h3 className="mt-4 text-sm font-semibold text-white">Webmail Cloudflare</h3>
             <p className="mt-1 text-xs leading-relaxed text-slate-400">Correo corporativo, routing y sincronización D1.</p>

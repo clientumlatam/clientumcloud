@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useCRM } from '../../context/CRMContext';
 import { moduleNeedsUserCredentials } from '../../data/moduleCredentials';
 import { CrmTopHeader } from './CrmTopHeader';
-import { CrmTopNavBar } from './CrmTopNavBar';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { VoiceNoteModal } from '../activities/VoiceNoteModal';
 import { AutomationsManagerModal } from '../workflows/AutomationsManagerModal';
@@ -21,7 +20,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <div id="clientum-top-navbar" className="flex flex-col w-full shrink-0 z-30">
-      {/* 1. Distinct Top Header (Branding, User Profile, Search, Connectivity, Quick Actions) */}
+      {/* 1. Main Top Header (Branding, User Profile, Search, Connectivity, Quick Actions) */}
       <CrmTopHeader
         onOpenConfig={() => setIsConfigOpen(true)}
         onOpenVoiceNote={() => setIsVoiceNoteOpen(true)}
@@ -29,9 +28,6 @@ export const Navbar: React.FC = () => {
         onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
         hasModuleCredentials={hasModuleCredentials}
       />
-
-      {/* 2. Distinct Navigation Bar (Module Tabs & Stage/View Filters) */}
-      <CrmTopNavBar />
 
       {/* Integrated Action Modals */}
       <ModuleCredentialsModal

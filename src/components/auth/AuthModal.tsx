@@ -112,7 +112,7 @@ export const AuthModal: React.FC = () => {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+          className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-[var(--bg-card)]/10 hover:text-white"
           aria-label="Cerrar autenticación"
         >
           <X className="h-4 w-4" />

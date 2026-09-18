@@ -85,17 +85,17 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               onClick={() => applyTheme('light')}
               className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 theme === 'light'
-                  ? 'border-blue-500 bg-[#f8fafc] text-slate-900 shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30'
+                  ? 'border-blue-500 bg-[#f8fafc] text-[var(--text-primary)] shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30'
                   : 'border-[#1e2330] bg-[#0e1118] text-slate-300 hover:border-[#2a3348]'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-amber-500 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--bg-card)] border border-[var(--border-default)] flex items-center justify-center text-amber-500 shadow-2xs">
                     <Sun className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className={`text-xs font-bold ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>
+                    <h4 className={`text-xs font-bold ${theme === 'light' ? 'text-[var(--text-primary)]' : 'text-white'}`}>
                       Modo Claro
                     </h4>
                     <span className={`text-[11px] font-mono ${theme === 'light' ? 'text-blue-900' : 'text-slate-400'}`}>
@@ -113,11 +113,11 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               {/* Simulated Workspace Preview */}
-              <div className="rounded-lg bg-white p-3 border border-slate-200 space-y-2 mb-3 shadow-2xs">
-                <div className="flex items-center justify-between text-[10px] text-slate-700 pb-1.5 border-b border-slate-100">
+              <div className="rounded-lg bg-[var(--bg-card)] p-3 border border-[var(--border-subtle)] space-y-2 mb-3 shadow-2xs">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-secondary)] pb-1.5 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-blue-700" />
-                    <span className="text-slate-900 font-bold">Acme Latam Corp</span>
+                    <span className="text-[var(--text-primary)] font-bold">Acme Latam Corp</span>
                   </div>
                   <span className="text-emerald-700 font-mono font-bold">$120,000</span>
                 </div>
@@ -125,16 +125,16 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
                   <span className="px-1.5 py-0.5 rounded bg-blue-100 text-blue-900 font-mono font-semibold border border-blue-200">
                     Negociación
                   </span>
-                  <span className="text-slate-500 font-medium">Cierre: 15 Dic</span>
+                  <span className="text-[var(--text-muted)] font-medium">Cierre: 15 Dic</span>
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-[11px] pt-1">
-                <span className={`flex items-center gap-1.5 ${theme === 'light' ? 'text-slate-700 font-medium' : 'text-slate-400'}`}>
+                <span className={`flex items-center gap-1.5 ${theme === 'light' ? 'text-[var(--text-secondary)] font-medium' : 'text-slate-400'}`}>
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
                   Fondo #f8fafc / Texto #0f172a
                 </span>
-                <span className="font-mono text-[10px] text-slate-500">data-theme="light"</span>
+                <span className="font-mono text-[10px] text-[var(--text-muted)]">data-theme="light"</span>
               </div>
             </div>
 

@@ -256,7 +256,7 @@ export const ROUTE_REGISTRY: Record<string, RouteDefinition> = {
     path: '/admin/datos',
     label: 'Estructura de Datos',
     category: 'admin',
-    description: 'Twenty CRM Custom Objects, campos a medida y metadatos relacionales',
+    description: 'Custom Objects dinámicos, campos a medida y metadatos relacionales',
     isPrivate: true,
     aliases: ['/app/custom-objects', '/admin/schemas'],
   },

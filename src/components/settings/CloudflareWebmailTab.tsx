@@ -329,7 +329,7 @@ export const CloudflareWebmailTab: React.FC = () => {
                     </span>
                   </div>
                   <div className="text-slate-300 font-medium truncate">{msg.subject}</div>
-                  <div className="text-[11px] text-slate-500 truncate">{msg.body}</div>
+                  <div className="text-[11px] text-[var(--text-muted)] truncate">{msg.body}</div>
                 </div>
               ))}
             </div>
@@ -352,7 +352,7 @@ export const CloudflareWebmailTab: React.FC = () => {
                       <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
                         DKIM: {selectedEmail.dkimStatus}
                       </span>
-                      <span className="text-[10px] text-slate-500">
+                      <span className="text-[10px] text-[var(--text-muted)]">
                         {new Date(selectedEmail.timestamp).toLocaleString()}
                       </span>
                     </div>
@@ -363,8 +363,8 @@ export const CloudflareWebmailTab: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-slate-500 space-y-1">
-                  <Mail className="w-8 h-8 text-slate-600 mb-1" />
+                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-[var(--text-muted)] space-y-1">
+                  <Mail className="w-8 h-8 text-[var(--text-secondary)] mb-1" />
                   <span>Selecciona un correo para inspeccionar el contenido decodificado por postal-mime</span>
                 </div>
               )}

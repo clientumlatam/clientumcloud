@@ -212,7 +212,7 @@ export const IntegrationsHubTab: React.FC = () => {
                   </div>
                   <p className="mt-2 min-h-10 text-[11px] leading-relaxed text-slate-400">{connector.description}</p>
                   <div className="mt-3 flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{connector.scope}</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">{connector.scope}</span>
                     <button
                       onClick={() => showToast(`${connector.title}: configurá las credenciales del proveedor para habilitar la conexión.`, 'info')}
                       className="rounded-lg border border-blue-400/30 px-2.5 py-1.5 text-[10px] font-semibold text-blue-300 transition-colors hover:bg-blue-400/10 hover:text-blue-200"

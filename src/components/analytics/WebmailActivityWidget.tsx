@@ -245,7 +245,7 @@ export const WebmailActivityWidget: React.FC = () => {
               <Clock className="w-3.5 h-3.5 text-purple-400" />
               <span>Distribución Horaria de Mensajes (08:00 a 18:00 ART)</span>
             </h4>
-            <span className="text-[10px] text-slate-500 font-mono">Picos de Actividad D1</span>
+            <span className="text-[10px] text-[var(--text-muted)] font-mono">Picos de Actividad D1</span>
           </div>
 
           <div className="h-60 w-full">

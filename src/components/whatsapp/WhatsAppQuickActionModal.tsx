@@ -127,7 +127,7 @@ export const WhatsAppQuickActionModal: React.FC<WhatsAppQuickActionModalProps> =
             <div>
               <label className="text-[11px] font-medium text-slate-300 block mb-1.5 flex items-center justify-between">
                 <span>Número de Teléfono / WhatsApp (con código de país)</span>
-                <span className="text-[10px] text-slate-500">Ej: +54 9 11 1234 5678</span>
+                <span className="text-[10px] text-[var(--text-muted)]">Ej: +54 9 11 1234 5678</span>
               </label>
               <div className="relative">
                 <Phone className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />

@@ -14,6 +14,12 @@ import {
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
+import {
+  getPushPermissionStatus,
+  requestPushPermission,
+  sendLocalPushNotification,
+  PushPermissionStatus,
+} from '../../lib/pushNotifications';
 
 interface AppNotification {
   id: string;
@@ -69,13 +75,47 @@ export const NotificationCenter: React.FC<{ isOpen: boolean; onClose: () => void
   ]);
 
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
+  const [pushStatus, setPushStatus] = useState<PushPermissionStatus>(getPushPermissionStatus());
   const [preferences, setPreferences] = useState({
     taskAssignments: true,
     approachingDeadlines: true,
     mentions: true,
     emailAlerts: true,
     soundAlerts: false,
+    pushAlerts: true,
   });
+
+  const handleTogglePush = async () => {
+    if (pushStatus === 'granted') {
+      showToast('Las alertas Push ya están habilitadas en este navegador', 'info');
+      return;
+    }
+    const status = await requestPushPermission();
+    setPushStatus(status);
+    if (status === 'granted') {
+      showToast('¡Permiso de notificaciones Push concedido!', 'success');
+      sendLocalPushNotification({
+        title: '¡Push Activado en Clientum!',
+        body: 'Recibirás avisos de tareas urgentes, menciones y negocios ganados.',
+        tag: 'push-activated',
+      });
+    } else if (status === 'denied') {
+      showToast('Permiso de notificaciones denegado en el navegador', 'error');
+    }
+  };
+
+  const handleTestPush = () => {
+    if (pushStatus !== 'granted') {
+      showToast('Primero debes habilitar los permisos Push', 'warning');
+      return;
+    }
+    sendLocalPushNotification({
+      title: 'Prueba de Alerta Push Clientum CRM',
+      body: 'Sistema de notificaciones push funcionando en tiempo real.',
+      tag: 'test-push',
+    });
+    showToast('Notificación push de prueba enviada al dispositivo', 'success');
+  };
 
   if (!isOpen) return null;
 
@@ -185,6 +225,44 @@ export const NotificationCenter: React.FC<{ isOpen: boolean; onClose: () => void
                 className="rounded border-[var(--border-subtle)] text-blue-600 focus:ring-blue-500"
               />
             </label>
+
+            {/* Push Notifications Section */}
+            <div className="pt-2 border-t border-[var(--border-subtle)] space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-semibold text-[var(--text-primary)] block">Notificaciones Push</span>
+                  <span className="text-[10px] text-[var(--text-muted)]">
+                    {pushStatus === 'granted'
+                      ? 'Activas en este navegador'
+                      : pushStatus === 'denied'
+                      ? 'Bloqueadas en el navegador'
+                      : 'Sin configurar'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleTogglePush}
+                  disabled={pushStatus === 'granted'}
+                  className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg transition-colors ${
+                    pushStatus === 'granted'
+                      ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 cursor-default'
+                      : 'bg-blue-600 hover:bg-blue-500 text-white cursor-pointer'
+                  }`}
+                >
+                  {pushStatus === 'granted' ? 'Habilitadas' : 'Activar Push'}
+                </button>
+              </div>
+
+              {pushStatus === 'granted' && (
+                <button
+                  type="button"
+                  onClick={handleTestPush}
+                  className="w-full py-1 text-[10px] text-blue-500 hover:bg-blue-500/10 rounded border border-blue-500/20 font-medium transition-colors"
+                >
+                  Enviar notificación push de prueba
+                </button>
+              )}
+            </div>
           </div>
           <button
             type="button"

@@ -226,7 +226,7 @@ export const AuthScreen: React.FC = () => {
             </div>
 
             {/* Security Assurance */}
-            <div className="flex items-center gap-2 text-xs text-slate-500 pt-1">
+            <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] pt-1">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Autenticación cifrada, sesiones protegidas y respaldo en la nube.</span>
             </div>
@@ -388,7 +388,7 @@ export const AuthScreen: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-0.5 cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-slate-300 p-0.5 cursor-pointer"
                       >
                         {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                       </button>
@@ -428,7 +428,7 @@ export const AuthScreen: React.FC = () => {
                         <Zap className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
                         <span>🚀 Acceso Inmediato Demo (Alex Morgan)</span>
                       </button>
-                      <p className="text-[10px] text-center text-slate-500">
+                      <p className="text-[10px] text-center text-[var(--text-muted)]">
                         Accede al instante para evaluar todas las funciones de ClientumCRM sin registro previo.
                       </p>
                     </div>
@@ -475,7 +475,7 @@ export const AuthScreen: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 w-full py-4 px-6 border-t border-[#141824] bg-[#07090e]/80 text-center text-[11px] text-slate-500">
+      <footer className="relative z-10 w-full py-4 px-6 border-t border-[#141824] bg-[#07090e]/80 text-center text-[11px] text-[var(--text-muted)]">
         <p>
           © 2026 <strong className="text-slate-400 font-medium">ClientumCRM</strong>. Todos los derechos reservados. Plataforma segura de gestión comercial y ERP.
         </p>

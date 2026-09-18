@@ -85,7 +85,7 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
   return (
     <div
       id="followup-reminders-modal"
-      className="absolute right-0 top-full mt-2 z-50 w-96 max-w-[95vw] rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
+      className="absolute right-0 top-full mt-2 z-50 w-96 max-w-[95vw] rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
     >
       {/* Header */}
       <div className="bg-slate-900 text-white p-3.5 flex items-center justify-between border-b border-slate-800">
@@ -114,14 +114,14 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-100 bg-slate-50/70 p-1 gap-1 text-xs">
+      <div className="flex border-b border-[var(--border-subtle)] bg-[var(--bg-muted)]/70 p-1 gap-1 text-xs">
         <button
           type="button"
           onClick={() => setActiveTab('rotting')}
           className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-semibold transition-all cursor-pointer ${
             activeTab === 'rotting'
-              ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/80'
-              : 'text-slate-500 hover:text-slate-900'
+              ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-2xs border border-[var(--border-subtle)]/80'
+              : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
           }`}
         >
           <Flame className="w-3.5 h-3.5 text-amber-500" />
@@ -138,8 +138,8 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
           onClick={() => setActiveTab('tasks')}
           className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-semibold transition-all cursor-pointer ${
             activeTab === 'tasks'
-              ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/80'
-              : 'text-slate-500 hover:text-slate-900'
+              ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-2xs border border-[var(--border-subtle)]/80'
+              : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
           }`}
         >
           <Clock className="w-3.5 h-3.5 text-blue-500" />
@@ -156,13 +156,13 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
           onClick={() => setActiveTab('proposals')}
           className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-semibold transition-all cursor-pointer ${
             activeTab === 'proposals'
-              ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/80'
-              : 'text-slate-500 hover:text-slate-900'
+              ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-2xs border border-[var(--border-subtle)]/80'
+              : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
           }`}
         >
           <Calendar className="w-3.5 h-3.5 text-indigo-500" />
           <span>Cotizaciones</span>
-          <span className="px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">
+          <span className="px-1.5 py-0.2 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] text-[10px] font-bold">
             {pendingProposals.length}
           </span>
         </button>
@@ -174,9 +174,9 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
         {activeTab === 'rotting' && (
           <>
             {rottingDeals.length === 0 ? (
-              <div className="text-center py-8 px-4 text-slate-500">
+              <div className="text-center py-8 px-4 text-[var(--text-muted)]">
                 <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2 opacity-80" />
-                <p className="text-xs font-semibold text-slate-700">¡Pipeline al día!</p>
+                <p className="text-xs font-semibold text-[var(--text-secondary)]">¡Pipeline al día!</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">
                   No hay tratos estancados con más de 5 días sin contacto.
                 </p>
@@ -193,21 +193,21 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                 {rottingDeals.map(({ opp, daysStagnant }) => (
                   <div
                     key={opp.id}
-                    className="p-3 rounded-xl border border-slate-200/90 bg-white hover:border-amber-300 hover:shadow-sm transition-all group"
+                    className="p-3 rounded-xl border border-[var(--border-subtle)]/90 bg-[var(--bg-card)] hover:border-amber-300 hover:shadow-sm transition-all group"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="text-xs font-bold text-slate-900 truncate">
+                          <span className="text-xs font-bold text-[var(--text-primary)] truncate">
                             {opp.name}
                           </span>
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
                             {daysStagnant}d sin actividad
                           </span>
                         </div>
-                        <div className="text-[11px] text-slate-500 mt-0.5 truncate">
+                        <div className="text-[11px] text-[var(--text-muted)] mt-0.5 truncate">
                           {opp.companyName || 'Sin empresa'} •{' '}
-                          <span className="font-semibold text-slate-700">
+                          <span className="font-semibold text-[var(--text-secondary)]">
                             ${opp.amount.toLocaleString()} USD
                           </span>
                         </div>
@@ -219,7 +219,7 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-end gap-1.5 mt-2.5 pt-2 border-t border-slate-100">
+                    <div className="flex items-center justify-end gap-1.5 mt-2.5 pt-2 border-t border-[var(--border-subtle)]">
                       {onOpenWhatsApp && (
                         <button
                           onClick={() => {
@@ -257,7 +257,7 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                           setSelectedRecord({ type: 'opportunity', id: opp.id });
                           onClose();
                         }}
-                        className="px-2 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-1 cursor-pointer transition-colors ml-auto"
+                        className="px-2 py-1 rounded-md text-[11px] font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] flex items-center gap-1 cursor-pointer transition-colors ml-auto"
                       >
                         <span>Abrir</span>
                         <ChevronRight className="w-3 h-3" />
@@ -296,7 +296,7 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                         <Check className="w-3 h-3 text-rose-600" />
                       </button>
                       <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold text-slate-900 truncate">
+                        <div className="text-xs font-semibold text-[var(--text-primary)] truncate">
                           {task.title}
                         </div>
                         <div className="text-[10px] text-rose-600 font-medium">
@@ -332,10 +332,10 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                         <Check className="w-3 h-3 text-blue-600" />
                       </button>
                       <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold text-slate-900 truncate">
+                        <div className="text-xs font-semibold text-[var(--text-primary)] truncate">
                           {task.title}
                         </div>
-                        <div className="text-[10px] text-slate-500">Hoy • {task.priority}</div>
+                        <div className="text-[10px] text-[var(--text-muted)]">Hoy • {task.priority}</div>
                       </div>
                     </div>
                   ))}
@@ -344,9 +344,9 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
             )}
 
             {overdueTasks.length === 0 && todayTasks.length === 0 && (
-              <div className="text-center py-8 px-4 text-slate-500">
+              <div className="text-center py-8 px-4 text-[var(--text-muted)]">
                 <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2 opacity-80" />
-                <p className="text-xs font-semibold text-slate-700">Sin tareas urgentes</p>
+                <p className="text-xs font-semibold text-[var(--text-secondary)]">Sin tareas urgentes</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">
                   ¡No tienes tareas vencidas ni pendientes para el día de hoy!
                 </p>
@@ -359,9 +359,9 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
         {activeTab === 'proposals' && (
           <div className="space-y-1.5">
             {pendingProposals.length === 0 ? (
-              <div className="text-center py-8 px-4 text-slate-500">
+              <div className="text-center py-8 px-4 text-[var(--text-muted)]">
                 <Calendar className="w-8 h-8 text-slate-400 mx-auto mb-2 opacity-80" />
-                <p className="text-xs font-semibold text-slate-700">Sin cotizaciones activas</p>
+                <p className="text-xs font-semibold text-[var(--text-secondary)]">Sin cotizaciones activas</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">
                   No hay tratos en etapa de propuesta o negociación.
                 </p>
@@ -374,18 +374,18 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
                     setSelectedRecord({ type: 'opportunity', id: opp.id });
                     onClose();
                   }}
-                  className="p-2.5 rounded-xl border border-slate-200 hover:border-blue-300 bg-white hover:bg-blue-50/30 transition-all cursor-pointer flex items-center justify-between gap-3"
+                  className="p-2.5 rounded-xl border border-[var(--border-subtle)] hover:border-blue-300 bg-[var(--bg-card)] hover:bg-blue-50/30 transition-all cursor-pointer flex items-center justify-between gap-3"
                 >
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-bold text-slate-900 truncate">
+                    <div className="text-xs font-bold text-[var(--text-primary)] truncate">
                       {opp.name}
                     </div>
-                    <div className="text-[10px] text-slate-500">
+                    <div className="text-[10px] text-[var(--text-muted)]">
                       {opp.companyName} • Etapa: <span className="font-semibold text-blue-600">{opp.stage}</span>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-xs font-mono font-bold text-slate-900">
+                    <div className="text-xs font-mono font-bold text-[var(--text-primary)]">
                       ${opp.amount.toLocaleString()} USD
                     </div>
                     <div className="text-[10px] text-emerald-600 font-medium">
@@ -400,7 +400,7 @@ export const FollowupRemindersDropdown: React.FC<FollowupRemindersDropdownProps>
       </div>
 
       {/* Footer */}
-      <div className="p-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+      <div className="p-2.5 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-muted)]">
         <span className="text-[11px]">Clientum Sales Assistant</span>
         <button
           onClick={onClose}

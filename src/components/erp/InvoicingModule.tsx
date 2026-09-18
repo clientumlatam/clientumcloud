@@ -487,7 +487,7 @@ export const InvoicingModule: React.FC = () => {
       {/* PRINTABLE / PDF INVOICE VIEW MODAL */}
       {selectedInvoice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
-          <div className="bg-white text-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-[var(--bg-card)] text-[var(--text-primary)] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Controls Header */}
             <div className="p-3 bg-slate-900 text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -511,15 +511,15 @@ export const InvoicingModule: React.FC = () => {
             </div>
 
             {/* Printable Document Sheet */}
-            <div id="printable-invoice" className="p-8 overflow-y-auto space-y-6 text-xs bg-white text-slate-900">
+            <div id="printable-invoice" className="p-8 overflow-y-auto space-y-6 text-xs bg-[var(--bg-card)] text-[var(--text-primary)]">
               {/* Invoice Header */}
-              <div className="flex justify-between items-start border-b border-slate-200 pb-6">
+              <div className="flex justify-between items-start border-b border-[var(--border-subtle)] pb-6">
                 <div>
-                  <div className="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                  <div className="text-xl font-bold tracking-tight text-[var(--text-primary)] flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />
                     CLIENTUM CRM & ERP
                   </div>
-                  <div className="text-slate-500 text-[11px] mt-1">
+                  <div className="text-[var(--text-muted)] text-[11px] mt-1">
                     Clientum Systems S.A. • CUIT 30-71829384-9<br />
                     Av. Corrientes 1250, Piso 10, Buenos Aires, Argentina
                   </div>
@@ -527,7 +527,7 @@ export const InvoicingModule: React.FC = () => {
 
                 <div className="text-right">
                   <div className="text-2xl font-black text-emerald-600 font-mono">{selectedInvoice.id}</div>
-                  <div className="text-slate-500 text-[11px] font-medium mt-1">
+                  <div className="text-[var(--text-muted)] text-[11px] font-medium mt-1">
                     Issue Date: <strong>{selectedInvoice.issueDate}</strong><br />
                     Due Date: <strong>{selectedInvoice.dueDate}</strong>
                   </div>
@@ -535,17 +535,17 @@ export const InvoicingModule: React.FC = () => {
               </div>
 
               {/* Seller & Buyer Details */}
-              <div className="grid grid-cols-2 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="grid grid-cols-2 gap-6 bg-[var(--bg-muted)] p-4 rounded-xl border border-[var(--border-subtle)]">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
                     Billed To (Client):
                   </span>
-                  <div className="font-bold text-sm text-slate-900">{selectedInvoice.clientName}</div>
+                  <div className="font-bold text-sm text-[var(--text-primary)]">{selectedInvoice.clientName}</div>
                   {selectedInvoice.clientEmail && (
-                    <div className="text-slate-600">{selectedInvoice.clientEmail}</div>
+                    <div className="text-[var(--text-secondary)]">{selectedInvoice.clientEmail}</div>
                   )}
                   {selectedInvoice.clientAddress && (
-                    <div className="text-slate-500 text-[11px] mt-0.5">{selectedInvoice.clientAddress}</div>
+                    <div className="text-[var(--text-muted)] text-[11px] mt-0.5">{selectedInvoice.clientAddress}</div>
                   )}
                 </div>
 
@@ -554,44 +554,44 @@ export const InvoicingModule: React.FC = () => {
                     Payment Status:
                   </span>
                   <div className="font-bold text-sm text-emerald-700">{selectedInvoice.status.toUpperCase()}</div>
-                  <div className="text-slate-500 text-[11px] mt-1">Currency: USD ($)</div>
+                  <div className="text-[var(--text-muted)] text-[11px] mt-1">Currency: USD ($)</div>
                 </div>
               </div>
 
               {/* Items Table */}
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b-2 border-slate-900 text-slate-700 font-bold text-[11px]">
+                  <tr className="border-b-2 border-slate-900 text-[var(--text-secondary)] font-bold text-[11px]">
                     <th className="py-2">Item / Service Description</th>
                     <th className="py-2 text-center">Qty</th>
                     <th className="py-2 text-right">Unit Price</th>
                     <th className="py-2 text-right">Total</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 font-mono">
+                <tbody className="divide-y divide-[var(--border-subtle)] font-mono">
                   {selectedInvoice.items.map((item, idx) => (
                     <tr key={idx}>
-                      <td className="py-2.5 font-sans font-medium text-slate-800">{item.description}</td>
-                      <td className="py-2.5 text-center text-slate-600">{item.quantity}</td>
-                      <td className="py-2.5 text-right text-slate-600">${item.unitPrice.toFixed(2)}</td>
-                      <td className="py-2.5 text-right font-bold text-slate-900">${item.total.toFixed(2)}</td>
+                      <td className="py-2.5 font-sans font-medium text-[var(--text-primary)]">{item.description}</td>
+                      <td className="py-2.5 text-center text-[var(--text-secondary)]">{item.quantity}</td>
+                      <td className="py-2.5 text-right text-[var(--text-secondary)]">${item.unitPrice.toFixed(2)}</td>
+                      <td className="py-2.5 text-right font-bold text-[var(--text-primary)]">${item.total.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
 
               {/* Tax Summary Breakdown */}
-              <div className="flex justify-end pt-4 border-t border-slate-200 font-mono">
+              <div className="flex justify-end pt-4 border-t border-[var(--border-subtle)] font-mono">
                 <div className="w-64 space-y-1.5 text-right text-xs">
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-[var(--text-secondary)]">
                     <span>Subtotal:</span>
                     <span>${selectedInvoice.subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-[var(--text-secondary)]">
                     <span>Tax ({selectedInvoice.taxRate}%):</span>
                     <span>${selectedInvoice.taxAmount.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between font-bold text-base text-slate-900 pt-2 border-t-2 border-slate-900">
+                  <div className="flex justify-between font-bold text-base text-[var(--text-primary)] pt-2 border-t-2 border-slate-900">
                     <span>Total Amount:</span>
                     <span className="text-emerald-700">${selectedInvoice.totalAmount.toFixed(2)}</span>
                   </div>
@@ -600,7 +600,7 @@ export const InvoicingModule: React.FC = () => {
 
               {/* Footer notes */}
               {selectedInvoice.notes && (
-                <div className="p-3 bg-slate-100 rounded-lg text-slate-600 text-[11px]">
+                <div className="p-3 bg-[var(--bg-muted)] rounded-lg text-[var(--text-secondary)] text-[11px]">
                   <strong>Notes / Payment Instructions:</strong> {selectedInvoice.notes}
                 </div>
               )}

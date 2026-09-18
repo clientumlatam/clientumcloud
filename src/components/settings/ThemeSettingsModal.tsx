@@ -72,23 +72,23 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
     >
       <div
         id="theme-settings-modal-container"
-        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-white dark:bg-[#0c1222] border border-slate-200 dark:border-[#1a2642] shadow-2xl overflow-hidden text-slate-900 dark:text-white"
+        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-[var(--bg-card)] dark:bg-[#0c1222] border border-[var(--border-subtle)] dark:border-[#1a2642] shadow-2xl overflow-hidden text-[var(--text-primary)] dark:text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#1a2642] bg-slate-50/70 dark:bg-[#080d19]/80 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)]/70 dark:bg-[#080d19]/80 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-white flex items-center gap-2">
                 Ajustes de Tema & Modo Visual
                 <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                   Clientum Navy
                 </span>
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
                 Previsualiza cómo luce el Pipeline Kanban y los Gráficos de Ventas en tiempo real antes de aplicar.
               </p>
             </div>
@@ -96,7 +96,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer"
             title="Cerrar modal"
           >
             <X className="w-5 h-5" />
@@ -107,7 +107,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Mode Selector Cards */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] dark:text-slate-400 mb-3">
               Seleccionar Modo de Visualización
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -119,7 +119,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'light'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-slate-200 dark:border-[#1a2642] bg-white dark:bg-[#0f172a]/50 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -133,8 +133,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-900 dark:text-white">Modo Claro</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">Clientum Clarity (Alto Contraste)</div>
+                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">Modo Claro</div>
+                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Clientum Clarity (Alto Contraste)</div>
                 </div>
               </button>
 
@@ -146,7 +146,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'dark'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-slate-200 dark:border-[#1a2642] bg-white dark:bg-[#0f172a]/50 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -160,8 +160,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-900 dark:text-white">Modo Oscuro</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">Midnight Obsidian & Navy</div>
+                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">Modo Oscuro</div>
+                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Midnight Obsidian & Navy</div>
                 </div>
               </button>
 
@@ -173,7 +173,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'system'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-slate-200 dark:border-[#1a2642] bg-white dark:bg-[#0f172a]/50 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -187,10 +187,10 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-900 dark:text-white">
+                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">
                     Sincronizar con el Sistema (OS)
                   </div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">
                     Detectado: <strong className="capitalize text-blue-600 dark:text-blue-400">{systemTheme === 'dark' ? 'Oscuro' : 'Claro'}</strong>
                   </div>
                 </div>
@@ -199,27 +199,27 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
           </div>
 
           {/* Live Preview Section Header & Controls */}
-          <div className="rounded-2xl border border-slate-200 dark:border-[#1a2642] bg-slate-50 dark:bg-[#080d19] p-4 sm:p-5 space-y-4">
+          <div className="rounded-2xl border border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)] dark:bg-[#080d19] p-4 sm:p-5 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] dark:text-slate-200">
                   Previsualización en Vivo
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--bg-card)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300 border border-[var(--border-subtle)] dark:border-slate-700">
                   {previewTab === 'split' ? 'Comparación Dividida' : isDarkPreview ? 'Simulando Modo Oscuro' : 'Simulando Modo Claro'}
                 </span>
               </div>
 
               {/* View Switcher Tabs */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-[#1a2642] self-start sm:self-auto">
+              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-card)] dark:bg-[#0f172a] border border-[var(--border-subtle)] dark:border-[#1a2642] self-start sm:self-auto">
                 <button
                   type="button"
                   onClick={() => setPreviewTab('kanban')}
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'kanban'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
                   }`}
                 >
                   <LayoutGrid className="w-3.5 h-3.5" />
@@ -232,7 +232,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'charts'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
                   }`}
                 >
                   <BarChart3 className="w-3.5 h-3.5" />
@@ -245,7 +245,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'split'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
                   }`}
                 >
                   <Columns className="w-3.5 h-3.5" />
@@ -259,13 +259,13 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
               /* Split Comparison View: Light vs Dark side by side */
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Light Side */}
-                <div className="rounded-xl border border-slate-300 bg-[#f8fafc] text-slate-900 p-3.5 space-y-3 shadow-xs">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                    <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                <div className="rounded-xl border border-[var(--border-default)] bg-[#f8fafc] text-[var(--text-primary)] p-3.5 space-y-3 shadow-xs">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-2">
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-[var(--text-primary)]">
                       <Sun className="w-3.5 h-3.5 text-amber-500" />
                       Claro (Clientum Clarity)
                     </span>
-                    <span className="text-[10px] font-mono text-slate-500">data-theme="light"</span>
+                    <span className="text-[10px] font-mono text-[var(--text-muted)]">data-theme="light"</span>
                   </div>
                   {renderKanbanPreview(false)}
                   {renderChartsPreview(false)}
@@ -290,7 +290,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`rounded-xl p-4 transition-all duration-200 border ${
                   isDarkPreview
                     ? 'bg-[#040c1a] border-[#131b2e] text-white shadow-inner'
-                    : 'bg-[#f8fafc] border-slate-300 text-slate-900 shadow-inner'
+                    : 'bg-[#f8fafc] border-[var(--border-default)] text-[var(--text-primary)] shadow-inner'
                 }`}
               >
                 {previewTab === 'kanban' ? renderFullKanbanPreview(isDarkPreview) : renderFullChartsPreview(isDarkPreview)}
@@ -299,25 +299,25 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
           </div>
 
           {/* Technical Diagnostics info */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400 p-3 rounded-xl bg-slate-100 dark:bg-[#080d19] border border-slate-200 dark:border-[#1a2642]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[var(--text-muted)] dark:text-slate-400 p-3 rounded-xl bg-[var(--bg-muted)] dark:bg-[#080d19] border border-[var(--border-subtle)] dark:border-[#1a2642]">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
               <span>
                 Persistencia en tiempo real: <code className="text-blue-600 dark:text-blue-400 font-mono text-[11px]">localStorage.setItem('clientum_theme', '{selectedMode}')</code>
               </span>
             </div>
-            <div className="text-[11px] font-mono text-slate-600 dark:text-slate-300">
+            <div className="text-[11px] font-mono text-[var(--text-secondary)] dark:text-slate-300">
               HTML Root: <code className="text-blue-600 dark:text-blue-400">data-theme="{selectedMode === 'system' ? systemTheme : selectedMode}"</code>
             </div>
           </div>
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-[#1a2642] bg-slate-50/80 dark:bg-[#080d19]/80 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)]/80 dark:bg-[#080d19]/80 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-xs transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-[var(--border-default)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 font-semibold text-xs transition-colors cursor-pointer"
           >
             Cancelar
           </button>
@@ -345,17 +345,17 @@ function renderKanbanPreview(isDark: boolean) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between text-[11px] font-bold">
-        <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Pipeline Visual</span>
+        <span className={isDark ? 'text-slate-300' : 'text-[var(--text-secondary)]'}>Pipeline Visual</span>
         <span className="text-emerald-500 font-mono">$184,500</span>
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div
           className={`p-2.5 rounded-lg border text-[10px] space-y-1.5 ${
-            isDark ? 'bg-[#0a1842]/40 border-[#1a294d]' : 'bg-white border-slate-200 shadow-2xs'
+            isDark ? 'bg-[#0a1842]/40 border-[#1a294d]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className={`font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>TechCorp SA</span>
+            <span className={`font-bold ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>TechCorp SA</span>
             <span className="font-mono text-emerald-500 font-bold">$45,000</span>
           </div>
           <div className="flex items-center gap-1">
@@ -369,11 +369,11 @@ function renderKanbanPreview(isDark: boolean) {
 
         <div
           className={`p-2.5 rounded-lg border text-[10px] space-y-1.5 ${
-            isDark ? 'bg-[#0a1842]/40 border-[#1a294d]' : 'bg-white border-slate-200 shadow-2xs'
+            isDark ? 'bg-[#0a1842]/40 border-[#1a294d]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className={`font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Banco Andino</span>
+            <span className={`font-bold ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>Banco Andino</span>
             <span className="font-mono text-emerald-500 font-bold">$120,000</span>
           </div>
           <div className="flex items-center gap-1">
@@ -393,12 +393,12 @@ function renderChartsPreview(isDark: boolean) {
   return (
     <div className="space-y-2 pt-1">
       <div className="flex items-center justify-between text-[11px] font-bold">
-        <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Ingresos Mensuales</span>
+        <span className={isDark ? 'text-slate-300' : 'text-[var(--text-secondary)]'}>Ingresos Mensuales</span>
         <span className="text-blue-500 font-mono">+28.4% vs mes anterior</span>
       </div>
       {/* Mini Bar Chart Mock */}
       <div className={`p-2.5 rounded-lg border flex items-end justify-between gap-1.5 h-16 ${
-        isDark ? 'bg-[#081226] border-[#131b2e]' : 'bg-white border-slate-200'
+        isDark ? 'bg-[#081226] border-[#131b2e]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)]'
       }`}>
         {[40, 65, 55, 80, 95, 75, 100].map((h, i) => (
           <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
@@ -430,10 +430,10 @@ function renderFullKanbanPreview(isDark: boolean) {
   return (
     <div className="space-y-4">
       {/* Top Pipeline Stats Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border-subtle)] dark:border-slate-800">
         <div className="flex items-center gap-2">
           <Briefcase className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-          <span className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <span className={`text-xs font-bold ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>
             Pipeline Comercial Cono Sur (2026)
           </span>
           <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
@@ -444,11 +444,11 @@ function renderFullKanbanPreview(isDark: boolean) {
         </div>
         <div className="flex items-center gap-4 text-xs font-mono">
           <div>
-            <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Total Embudo: </span>
+            <span className={isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}>Total Embudo: </span>
             <strong className="text-emerald-500 font-bold">$555,000 USD</strong>
           </div>
           <div>
-            <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Win Rate: </span>
+            <span className={isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}>Win Rate: </span>
             <strong className="text-blue-500 font-bold">64.2%</strong>
           </div>
         </div>
@@ -460,19 +460,19 @@ function renderFullKanbanPreview(isDark: boolean) {
           <div
             key={idx}
             className={`p-3 rounded-xl border flex flex-col gap-2.5 ${
-              isDark ? 'bg-[#060e1d] border-[#131b2e]' : 'bg-slate-100/80 border-slate-200'
+              isDark ? 'bg-[#060e1d] border-[#131b2e]' : 'bg-[var(--bg-muted)]/80 border-[var(--border-subtle)]'
             }`}
           >
             {/* Column Header */}
-            <div className="flex items-center justify-between text-xs pb-1.5 border-b border-slate-200/60 dark:border-slate-800">
+            <div className="flex items-center justify-between text-xs pb-1.5 border-b border-[var(--border-subtle)]/60 dark:border-slate-800">
               <div className="flex items-center gap-1.5">
                 <span className={`w-2 h-2 rounded-full ${col.color}`} />
-                <span className={`font-bold text-[11px] ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                <span className={`font-bold text-[11px] ${isDark ? 'text-slate-200' : 'text-[var(--text-primary)]'}`}>
                   {col.title}
                 </span>
               </div>
               <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${
-                isDark ? 'bg-slate-800 text-slate-300' : 'bg-white text-slate-600 border border-slate-200'
+                isDark ? 'bg-slate-800 text-slate-300' : 'bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-subtle)]'
               }`}>
                 {col.count}
               </span>
@@ -483,7 +483,7 @@ function renderFullKanbanPreview(isDark: boolean) {
               className={`p-2.5 rounded-lg border text-xs space-y-2 transition-all ${
                 isDark
                   ? 'bg-[#091530] border-[#19274a] text-white hover:border-blue-500/50'
-                  : 'bg-white border-slate-200 text-slate-900 shadow-2xs hover:border-blue-400'
+                  : 'bg-[var(--bg-card)] border-[var(--border-subtle)] text-[var(--text-primary)] shadow-2xs hover:border-blue-400'
               }`}
             >
               <div className="flex items-start justify-between gap-1">
@@ -491,7 +491,7 @@ function renderFullKanbanPreview(isDark: boolean) {
                   <h5 className="font-bold text-[11px]">
                     {idx === 0 ? 'Logística San Martín' : idx === 1 ? 'Grupo Arcor B2B' : idx === 2 ? 'Fintech Andina' : 'Retail Patagonia'}
                   </h5>
-                  <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}`}>
                     Contacto: Carlos Pérez
                   </span>
                 </div>
@@ -500,13 +500,13 @@ function renderFullKanbanPreview(isDark: boolean) {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-[9px] pt-1 border-t border-slate-100 dark:border-slate-800/80">
+              <div className="flex items-center justify-between text-[9px] pt-1 border-t border-[var(--border-subtle)] dark:border-slate-800/80">
                 <span className={`px-1.5 py-0.5 rounded font-medium ${
-                  isDark ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-700'
+                  isDark ? 'bg-slate-800 text-slate-300' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)]'
                 }`}>
                   Alta Prioridad
                 </span>
-                <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Cierre: 20 Dic</span>
+                <span className={isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}>Cierre: 20 Dic</span>
               </div>
             </div>
 
@@ -515,7 +515,7 @@ function renderFullKanbanPreview(isDark: boolean) {
               className={`p-2.5 rounded-lg border text-xs space-y-2 ${
                 isDark
                   ? 'bg-[#091530] border-[#19274a] text-white'
-                  : 'bg-white border-slate-200 text-slate-900 shadow-2xs'
+                  : 'bg-[var(--bg-card)] border-[var(--border-subtle)] text-[var(--text-primary)] shadow-2xs'
               }`}
             >
               <div className="flex items-start justify-between gap-1">
@@ -523,7 +523,7 @@ function renderFullKanbanPreview(isDark: boolean) {
                   <h5 className="font-bold text-[11px]">
                     {idx === 0 ? 'AgroGlobal Export' : idx === 1 ? 'BioSalud Pharma' : idx === 2 ? 'Minera Sur Corp' : 'E-Commerce Plus'}
                   </h5>
-                  <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}`}>
                     Contacto: Mariana Gomez
                   </span>
                 </div>
@@ -545,13 +545,13 @@ function renderFullChartsPreview(isDark: boolean) {
       {/* 3 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className={`p-3.5 rounded-xl border ${
-          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-white border-slate-200 shadow-2xs'
+          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
         }`}>
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-slate-400 mb-1">
             <span>Facturación Mensual</span>
             <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
           </div>
-          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>$128,450 USD</div>
+          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>$128,450 USD</div>
           <div className="text-[10px] text-emerald-500 font-semibold mt-1 flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             +18.2% vs mes anterior
@@ -559,26 +559,26 @@ function renderFullChartsPreview(isDark: boolean) {
         </div>
 
         <div className={`p-3.5 rounded-xl border ${
-          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-white border-slate-200 shadow-2xs'
+          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
         }`}>
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-slate-400 mb-1">
             <span>Tasa de Conversión (Win Rate)</span>
             <TrendingUp className="w-3.5 h-3.5 text-blue-500" />
           </div>
-          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>68.5%</div>
+          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>68.5%</div>
           <div className="text-[10px] text-blue-500 font-semibold mt-1">
             Meta: &gt; 50% (+18.5% superada)
           </div>
         </div>
 
         <div className={`p-3.5 rounded-xl border ${
-          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-white border-slate-200 shadow-2xs'
+          isDark ? 'bg-[#091530] border-[#19274a]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
         }`}>
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-slate-400 mb-1">
             <span>Ciclo Promedio de Venta</span>
             <Layers className="w-3.5 h-3.5 text-purple-500" />
           </div>
-          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>14.2 días</div>
+          <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>14.2 días</div>
           <div className="text-[10px] text-purple-500 font-semibold mt-1">
             -3.5 días más rápido que Q3
           </div>
@@ -587,14 +587,14 @@ function renderFullChartsPreview(isDark: boolean) {
 
       {/* Main Bar Chart Simulation */}
       <div className={`p-4 rounded-xl border space-y-3 ${
-        isDark ? 'bg-[#060e1d] border-[#131b2e]' : 'bg-white border-slate-200 shadow-2xs'
+        isDark ? 'bg-[#060e1d] border-[#131b2e]' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] shadow-2xs'
       }`}>
         <div className="flex items-center justify-between text-xs">
           <div>
-            <h4 className={`font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h4 className={`font-bold ${isDark ? 'text-white' : 'text-[var(--text-primary)]'}`}>
               Evolución de Ingresos y Pipeline (Últimos 7 Meses)
             </h4>
-            <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}`}>
               Comparativa de ventas ganadas vs metas mensuales
             </p>
           </div>
@@ -610,7 +610,7 @@ function renderFullChartsPreview(isDark: boolean) {
           </div>
         </div>
 
-        <div className="h-40 flex items-end justify-between gap-3 pt-4 px-2 border-b border-slate-200 dark:border-slate-800">
+        <div className="h-40 flex items-end justify-between gap-3 pt-4 px-2 border-b border-[var(--border-subtle)] dark:border-slate-800">
           {[
             { month: 'Jun', val: 55, target: 45 },
             { month: 'Jul', val: 70, target: 60 },
@@ -631,13 +631,13 @@ function renderFullChartsPreview(isDark: boolean) {
                 {/* Target Bar */}
                 <div
                   className={`w-1/2 max-w-[24px] rounded-t-md transition-all duration-300 ${
-                    isDark ? 'bg-slate-800' : 'bg-slate-200'
+                    isDark ? 'bg-slate-800' : 'bg-[var(--bg-muted)]'
                   }`}
                   style={{ height: `${(item.target / 140) * 100}%` }}
                   title={`Meta ${item.month}: $${item.target * 1000}`}
                 />
               </div>
-              <span className={`text-[10px] font-mono ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              <span className={`text-[10px] font-mono ${isDark ? 'text-slate-400' : 'text-[var(--text-muted)]'}`}>
                 {item.month}
               </span>
             </div>

@@ -26,16 +26,19 @@ import {
   Zap,
   BookOpen,
   FolderKanban,
+  Boxes,
+  Receipt,
+  MapPin,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
 
-export type CommandCategory = 'all' | 'contacts' | 'deals' | 'projects' | 'actions' | 'companies' | 'tasks' | 'navigation';
+export type CommandCategory = 'all' | 'contacts' | 'deals' | 'erp' | 'invoices' | 'projects' | 'actions' | 'companies' | 'tasks' | 'navigation';
 
 interface CommandItem {
   id: string;
-  category: 'Actions' | 'Opportunities' | 'People' | 'Companies' | 'Tasks' | 'Projects' | 'Navigation';
-  type: 'action' | 'deal' | 'contact' | 'company' | 'task' | 'project' | 'navigation';
+  category: 'Actions' | 'Opportunities' | 'People' | 'Companies' | 'Tasks' | 'Projects' | 'Navigation' | 'ERP' | 'Invoices';
+  type: 'action' | 'deal' | 'contact' | 'company' | 'task' | 'project' | 'navigation' | 'erp' | 'invoice';
   title: string;
   subtitle?: string;
   badge?: string;
@@ -72,6 +75,8 @@ export const CommandPalette: React.FC = () => {
     companies,
     people,
     tasks,
+    invoices,
+    inventory,
     setActiveTab,
     setSelectedRecord,
     openNewRecordModal,
@@ -457,6 +462,58 @@ export const CommandPalette: React.FC = () => {
       });
     });
 
+    // --- ERP STOCK ITEMS & WAREHOUSE LOCATIONS ---
+    inventory.forEach((item) => {
+      const isCritical = item.stockQuantity <= item.reorderLevel;
+      const loc = item.warehouseLocationString || item.warehouseLocation?.warehouse || 'Depósito Central';
+
+      list.push({
+        id: `erp-item-${item.id}`,
+        category: 'ERP',
+        type: 'erp',
+        title: `${item.name} (${item.sku})`,
+        subtitle: `Stock: ${item.stockQuantity} un. • Ubicación: ${loc} • Precio: $ ${item.unitPrice.toLocaleString('es-AR')}`,
+        icon: Boxes,
+        iconColor: 'bg-teal-900/60 text-teal-300 border border-teal-500/30',
+        badge: isCritical ? 'Stock Crítico' : `${item.stockQuantity} un.`,
+        badgeColor: isCritical
+          ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+          : 'bg-teal-500/20 text-teal-300 border-teal-500/30',
+        onSelect: () => {
+          ensureInApp();
+          setActiveTab('dashboard');
+          showToast(`Producto ERP seleccionado: ${item.name} (${loc})`, 'info');
+        },
+      });
+    });
+
+    // --- RECENT INVOICE DATA (AFIP) ---
+    invoices.forEach((inv) => {
+      const isPaid = inv.status === 'Paid';
+      const isOverdue = inv.status === 'Overdue';
+
+      list.push({
+        id: `inv-${inv.id}`,
+        category: 'Invoices',
+        type: 'invoice',
+        title: `${inv.id} - ${inv.clientName}`,
+        subtitle: `${inv.invoiceType || 'Factura A'} • Total: $ ${inv.totalAmount.toLocaleString('es-AR')} • Vto: ${inv.dueDate}${inv.cae ? ` • CAE: ${inv.cae}` : ''}${inv.cuit ? ` • CUIT: ${inv.cuit}` : ''}`,
+        icon: Receipt,
+        iconColor: 'bg-emerald-900/60 text-emerald-300 border border-emerald-500/30',
+        badge: isPaid ? 'Cobrada' : isOverdue ? 'Vencida' : 'Pendiente',
+        badgeColor: isPaid
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+          : isOverdue
+          ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+          : 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+        onSelect: () => {
+          ensureInApp();
+          setActiveTab('dashboard');
+          showToast(`Comprobante ${inv.id} - ${inv.clientName} ($ ${inv.totalAmount.toLocaleString('es-AR')})`, 'info');
+        },
+      });
+    });
+
     // --- 6. NAVIGATION ITEMS ---
     list.push(
       {
@@ -594,6 +651,8 @@ export const CommandPalette: React.FC = () => {
     companies,
     people,
     tasks,
+    invoices,
+    inventory,
     query,
     isPublicSiteVisible,
     ensureInApp,
@@ -613,6 +672,8 @@ export const CommandPalette: React.FC = () => {
       all: items.length,
       contacts: items.filter((i) => i.category === 'People').length,
       deals: items.filter((i) => i.category === 'Opportunities').length,
+      erp: items.filter((i) => i.category === 'ERP').length,
+      invoices: items.filter((i) => i.category === 'Invoices').length,
       projects: items.filter((i) => i.category === 'Projects').length,
       actions: items.filter((i) => i.category === 'Actions').length,
       companies: items.filter((i) => i.category === 'Companies').length,
@@ -630,6 +691,10 @@ export const CommandPalette: React.FC = () => {
       result = result.filter((i) => i.category === 'People');
     } else if (activeCategory === 'deals') {
       result = result.filter((i) => i.category === 'Opportunities');
+    } else if (activeCategory === 'erp') {
+      result = result.filter((i) => i.category === 'ERP');
+    } else if (activeCategory === 'invoices') {
+      result = result.filter((i) => i.category === 'Invoices');
     } else if (activeCategory === 'projects') {
       result = result.filter((i) => i.category === 'Projects');
     } else if (activeCategory === 'actions') {
@@ -699,7 +764,7 @@ export const CommandPalette: React.FC = () => {
     } else if (e.key === 'Tab') {
       // Cycle category filter tabs on Tab
       e.preventDefault();
-      const categories: CommandCategory[] = ['all', 'contacts', 'deals', 'actions', 'companies', 'navigation'];
+      const categories: CommandCategory[] = ['all', 'contacts', 'deals', 'erp', 'invoices', 'projects', 'actions', 'companies', 'navigation'];
       const currentIdx = categories.indexOf(activeCategory);
       const nextIdx = e.shiftKey
         ? (currentIdx > 0 ? currentIdx - 1 : categories.length - 1)
@@ -713,19 +778,19 @@ export const CommandPalette: React.FC = () => {
   return (
     <div
       id="clientum-command-palette-overlay"
-      className="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-start justify-center pt-12 sm:pt-20 p-3 sm:p-4 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 bg-[var(--bg-canvas)]/75 backdrop-blur-sm flex items-start justify-center pt-12 sm:pt-20 p-3 sm:p-4 animate-in fade-in duration-150"
       onClick={() => setIsCommandPaletteOpen(false)}
       role="dialog"
       aria-modal="true"
       aria-label="Paleta de Comandos y Búsqueda Global"
     >
       <div
-        className="w-full max-w-2xl bg-[#0f131c] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[82vh] text-slate-200 select-none animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10"
+        className="w-full max-w-2xl bg-[var(--bg-card)] border border-[var(--border-default)] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[82vh] text-[var(--text-primary)] select-none animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Search Input Section */}
-        <div className="p-3.5 sm:p-4 border-b border-slate-800/90 flex items-center gap-3 bg-[#131825]">
-          <div className="p-2 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 shrink-0">
+        <div className="p-3.5 sm:p-4 border-b border-[var(--border-subtle)]/90 flex items-center gap-3 bg-[var(--bg-muted)]">
+          <div className="p-2 rounded-xl bg-[var(--color-primary)]/20 border border-[var(--color-primary)]/30 text-[var(--color-primary)] shrink-0">
             <Search className="w-4 h-4" />
           </div>
 
@@ -743,12 +808,16 @@ export const CommandPalette: React.FC = () => {
                   setActiveCategory('contacts');
                 } else if (val.startsWith('$') || val.toLowerCase().startsWith('deal:')) {
                   setActiveCategory('deals');
+                } else if (val.startsWith('#') || val.toLowerCase().startsWith('inv:') || val.toLowerCase().startsWith('factura:')) {
+                  setActiveCategory('invoices');
+                } else if (val.startsWith('*') || val.toLowerCase().startsWith('sku:') || val.toLowerCase().startsWith('stock:') || val.toLowerCase().startsWith('erp:')) {
+                  setActiveCategory('erp');
                 } else if (val.startsWith('>')) {
                   setActiveCategory('actions');
                 }
               }}
               onKeyDown={handleKeyDown}
-              className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-400 focus:outline-none font-medium"
+              className="w-full bg-transparent text-sm sm:text-base text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none font-medium"
             />
           </div>
 
@@ -758,7 +827,7 @@ export const CommandPalette: React.FC = () => {
                 setQuery('');
                 inputRef.current?.focus();
               }}
-              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition cursor-pointer"
               title="Limpiar búsqueda"
             >
               <X className="w-4 h-4" />
@@ -766,102 +835,128 @@ export const CommandPalette: React.FC = () => {
           )}
 
           <div className="hidden sm:flex items-center gap-1.5 shrink-0">
-            <kbd className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 shadow-2xs">
+            <kbd className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs">
               {shortcutKey}
             </kbd>
-            <kbd className="text-[11px] font-mono font-semibold px-1.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">
+            <kbd className="text-[11px] font-mono font-semibold px-1.5 py-1 rounded-lg bg-[var(--bg-muted)] text-[var(--text-muted)] border border-[var(--border-subtle)]">
               ESC
             </kbd>
           </div>
         </div>
 
         {/* Quick Filter Category Pills */}
-        <div className="px-3 py-2 border-b border-slate-800/80 bg-[#0c0f17] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <span className="text-[11px] font-medium text-slate-400 pl-1 mr-1 hidden sm:inline">Filtrar:</span>
+        <div className="px-3 py-2 border-b border-[var(--border-subtle)]/80 bg-[var(--bg-canvas)] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <span className="text-[11px] font-medium text-[var(--text-muted)] pl-1 mr-1 hidden sm:inline">Filtrar:</span>
           
           <button
             onClick={() => setActiveCategory('all')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'all'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <span>Todos</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.all}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.all}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('contacts')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'contacts'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Users2 className="w-3.5 h-3.5" />
             <span>Contactos</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.contacts}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.contacts}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('deals')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'deals'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Briefcase className="w-3.5 h-3.5" />
             <span>Deals</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.deals}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.deals}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('erp')}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
+              activeCategory === 'erp'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            <Boxes className="w-3.5 h-3.5 text-teal-400" />
+            <span>ERP & Stock</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.erp}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('invoices')}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
+              activeCategory === 'invoices'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            <Receipt className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Facturas AFIP</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.invoices}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('projects')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'projects'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <FolderKanban className="w-3.5 h-3.5" />
             <span>Proyectos</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.projects}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.projects}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('actions')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'actions'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Acciones</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.actions}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.actions}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('companies')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'companies'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Building2 className="w-3.5 h-3.5" />
             <span>Empresas</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/15">{categoryCounts.companies}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.companies}</span>
           </button>
 
           <button
             onClick={() => setActiveCategory('navigation')}
             className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeCategory === 'navigation'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
+                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
@@ -877,7 +972,7 @@ export const CommandPalette: React.FC = () => {
           {filtered.length === 0 ? (
             <div className="py-12 px-4 text-center space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-slate-700/60 text-slate-400 flex items-center justify-center mx-auto">
-                <Search className="w-6 h-6 text-slate-500" />
+                <Search className="w-6 h-6 text-[var(--text-muted)]" />
               </div>
               <p className="text-sm font-semibold text-slate-300">
                 No se encontraron resultados para &ldquo;{query}&rdquo;

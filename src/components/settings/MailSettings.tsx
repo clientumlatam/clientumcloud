@@ -153,7 +153,7 @@ export const MailSettings: React.FC = () => {
           {/* Quick Status Pill */}
           <div className="flex flex-wrap items-center gap-3">
             <div className="px-3 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs">
-              <span className="text-[10px] text-slate-500 block uppercase font-bold">Estado del Servicio</span>
+              <span className="text-[10px] text-[var(--text-muted)] block uppercase font-bold">Estado del Servicio</span>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="font-semibold text-emerald-400">Activo (Modo Seguro)</span>
@@ -262,23 +262,23 @@ export const MailSettings: React.FC = () => {
                   Resend API Key (re_...):
                 </label>
                 <div className="relative">
-                  <Key className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Key className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type={showApiKey ? 'text' : 'password'}
                     value={settings.resendApiKey}
                     onChange={(e) => setSettings({ ...settings, resendApiKey: e.target.value })}
                     placeholder="re_123456789_abcdef..."
-                    className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 font-mono text-xs"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 font-mono text-xs"
                   />
                   <button
                     type="button"
                     onClick={() => setShowApiKey(!showApiKey)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-slate-300"
                   >
                     {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
-                <span className="text-[10px] text-slate-500 mt-1 block">
+                <span className="text-[10px] text-[var(--text-muted)] mt-1 block">
                   Si no especificas una clave personalizada, se utilizará la variable de entorno o el simulador transaccional.
                 </span>
               </div>
@@ -293,7 +293,7 @@ export const MailSettings: React.FC = () => {
                     value={settings.resendFromEmail}
                     onChange={(e) => setSettings({ ...settings, resendFromEmail: e.target.value })}
                     placeholder="onboarding@resend.dev"
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs"
                   />
                 </div>
 
@@ -306,7 +306,7 @@ export const MailSettings: React.FC = () => {
                     value={settings.resendFromName}
                     onChange={(e) => setSettings({ ...settings, resendFromName: e.target.value })}
                     placeholder="Clientum CRM"
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs"
                   />
                 </div>
               </div>
@@ -315,7 +315,7 @@ export const MailSettings: React.FC = () => {
 
           {/* Resend Action Bar */}
           <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
-            <span className="text-[10px] text-slate-500 flex items-center gap-1">
+            <span className="text-[10px] text-[var(--text-muted)] flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               DKIM & SPF administrado
             </span>
@@ -367,7 +367,7 @@ export const MailSettings: React.FC = () => {
                     value={settings.smtpHost || ''}
                     onChange={(e) => setSettings({ ...settings, smtpHost: e.target.value })}
                     placeholder="smtp.gmail.com"
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs"
                   />
                 </div>
 
@@ -380,7 +380,7 @@ export const MailSettings: React.FC = () => {
                     value={settings.smtpPort || 587}
                     onChange={(e) => setSettings({ ...settings, smtpPort: parseInt(e.target.value) || 587 })}
                     placeholder="587"
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs font-mono"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs font-mono"
                   />
                 </div>
               </div>
@@ -395,7 +395,7 @@ export const MailSettings: React.FC = () => {
                     value={settings.smtpUser || ''}
                     onChange={(e) => setSettings({ ...settings, smtpUser: e.target.value })}
                     placeholder="usuario@empresa.com"
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs"
                   />
                 </div>
 
@@ -409,12 +409,12 @@ export const MailSettings: React.FC = () => {
                       value={settings.smtpPassword || ''}
                       onChange={(e) => setSettings({ ...settings, smtpPassword: e.target.value })}
                       placeholder="••••••••••••"
-                      className="w-full px-3 pr-9 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 text-xs font-mono"
+                      className="w-full px-3 pr-9 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-blue-500 text-xs font-mono"
                     />
                     <button
                       type="button"
                       onClick={() => setShowSmtpPassword(!showSmtpPassword)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-slate-300"
                     >
                       {showSmtpPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
@@ -438,7 +438,7 @@ export const MailSettings: React.FC = () => {
 
           {/* SMTP Action Bar */}
           <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
-            <span className="text-[10px] text-slate-500 flex items-center gap-1 font-mono">
+            <span className="text-[10px] text-[var(--text-muted)] flex items-center gap-1 font-mono">
               <Lock className="w-3.5 h-3.5 text-blue-400" />
               STARTTLS soportado
             </span>

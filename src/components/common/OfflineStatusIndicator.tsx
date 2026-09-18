@@ -122,7 +122,7 @@ export const OfflineStatusIndicator: React.FC<{
               <button
                 type="button"
                 onClick={() => setIsPopoverOpen(false)}
-                className="text-slate-500 hover:text-white p-1 rounded-md"
+                className="text-[var(--text-muted)] hover:text-white p-1 rounded-md"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

@@ -252,7 +252,7 @@ export const SubscriptionsView: React.FC = () => {
 
                 <div>
                   <span className="text-xl font-black text-white">{plan.price}</span>
-                  <span className="text-xs text-slate-500"> {plan.period}</span>
+                  <span className="text-xs text-[var(--text-muted)]"> {plan.period}</span>
                 </div>
 
                 <div className="text-[11px] text-slate-400">{plan.users}</div>
@@ -297,7 +297,7 @@ export const SubscriptionsView: React.FC = () => {
             <Receipt className="w-4 h-4 text-emerald-400" />
             <span>Historial de Comprobantes y Facturación AFIP</span>
           </div>
-          <span className="text-[11px] text-slate-500 font-mono">RG 4291 AFIP</span>
+          <span className="text-[11px] text-[var(--text-muted)] font-mono">RG 4291 AFIP</span>
         </div>
 
         <div className="overflow-x-auto">

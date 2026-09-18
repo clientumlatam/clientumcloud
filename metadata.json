@@ -1,5 +1,5 @@
 {
-  "name": "Remix 2ClientumCRM",
+  "name": "Remix Remix ClientumCRM",
   "description": "Modern open-source CRM for Argentine SMBs featuring pipeline Kanban boards, customizable record tables, WhatsApp integration, activity timeline, contact intelligence, and AI deal copilot.",
   "requestFramePermissions": [
     "microphone"

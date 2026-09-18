@@ -31,7 +31,7 @@ export interface ClientumRepo {
   name: string;
   repoName: string;
   url: string;
-  category: 'core' | 'ai-audio' | 'webmail-comms' | 'public-web' | 'migration-arch' | 'twenty-crm' | 'apps';
+  category: 'core' | 'ai-audio' | 'webmail-comms' | 'public-web' | 'migration-arch' | 'metadata-schemas' | 'apps';
   status: 'consolidated' | 'integrated' | 'active-migration' | 'ready-to-sync';
   description: string;
   techStack: string[];
@@ -142,15 +142,15 @@ export const CLIENTUM_REPOSITORIES: ClientumRepo[] = [
     integrationAction: 'Almacenamiento Cloud disponible',
   },
 
-  // 4. Twenty CRM Integration
+  // 4. Metadata Schema Engine & Relational Custom Objects
   {
-    id: 'repo-twenty-crm',
-    name: 'Twenty CRM 5',
-    repoName: 'clientumlatam/twenty-crm-5-',
-    url: 'https://github.com/clientumlatam/twenty-crm-5-',
-    category: 'twenty-crm',
+    id: 'repo-metadata-schemas',
+    name: 'Metadata Schema Engine',
+    repoName: 'clientumlatam/metadata-schemas',
+    url: 'https://github.com/clientumlatam',
+    category: 'metadata-schemas',
     status: 'ready-to-sync',
-    description: 'Adaptación de Twenty CRM open source con esquemas de metadatos, GraphQL API y sincronización bidireccional.',
+    description: 'Esquemas de metadatos dinámicos, GraphQL API y sincronización de objetos personalizados.',
     techStack: ['NestJS', 'GraphQL', 'PostgreSQL', 'TypeORM', 'Prisma'],
     keyFeatures: ['Esquemas de metadatos dinámicos', 'Conectores REST/GraphQL', 'Multi-workspace'],
     integrationAction: 'Conector de metadatos preparado',
@@ -229,7 +229,7 @@ export const EcosystemReposHubTab: React.FC = () => {
     { id: 'core', label: 'Core & ClientumOS', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'core').length },
     { id: 'ai-audio', label: 'IA & WhatsApp Audio', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'ai-audio').length },
     { id: 'webmail-comms', label: 'Webmail & Comunicaciones', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'webmail-comms').length },
-    { id: 'twenty-crm', label: 'Twenty CRM & Metadatos', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'twenty-crm').length },
+    { id: 'metadata-schemas', label: 'Metadatos & Schema Engine', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'metadata-schemas').length },
     { id: 'public-web', label: 'Portales & Web Pública', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'public-web').length },
     { id: 'apps', label: 'Brochure & Verticales', count: CLIENTUM_REPOSITORIES.filter(r => r.category === 'apps').length },
   ];
@@ -300,7 +300,7 @@ export const EcosystemReposHubTab: React.FC = () => {
                 Arquitectura, Migración & Sincronización de Módulos
               </h3>
               <p className="text-xs text-slate-300 max-w-2xl mt-1 leading-relaxed">
-                Centro de comando para consolidar todos los módulos del ecosistema <strong className="text-blue-300 font-semibold">@clientumlatam</strong> en esta plataforma: transcripción de audio WhatsApp, Cloudflare Webmail, Twenty CRM metadata schemas, automatizaciones y brochure builder.
+                Centro de comando para consolidar todos los módulos del ecosistema <strong className="text-blue-300 font-semibold">@clientumlatam</strong> en esta plataforma: transcripción de audio WhatsApp, Cloudflare Webmail, esquemas de metadatos dinámicos, automatizaciones y brochure builder.
               </p>
             </div>
 
@@ -341,7 +341,7 @@ export const EcosystemReposHubTab: React.FC = () => {
             </div>
 
             <div className="bg-[#09101f]/80 p-3 rounded-xl border border-[#1a2644]">
-              <div className="text-[11px] text-slate-400 font-medium">Twenty CRM Schemas</div>
+              <div className="text-[11px] text-slate-400 font-medium">Metadata Schema Engine</div>
               <div className="text-sm font-bold text-purple-400 flex items-center gap-1.5 mt-0.5">
                 <Database className="w-4 h-4" /> Metadata Ready
               </div>
@@ -419,7 +419,7 @@ export const EcosystemReposHubTab: React.FC = () => {
                       {repo.category === 'ai-audio' && <Mic className="w-4 h-4" />}
                       {repo.category === 'webmail-comms' && <Mail className="w-4 h-4" />}
                       {repo.category === 'core' && <Layers className="w-4 h-4" />}
-                      {repo.category === 'twenty-crm' && <Database className="w-4 h-4" />}
+                      {repo.category === 'metadata-schemas' && <Database className="w-4 h-4" />}
                       {repo.category === 'public-web' && <Globe className="w-4 h-4" />}
                       {repo.category === 'apps' && <FileCode2 className="w-4 h-4" />}
                       {repo.category === 'migration-arch' && <RefreshCw className="w-4 h-4" />}
@@ -445,7 +445,7 @@ export const EcosystemReposHubTab: React.FC = () => {
 
               {/* Key Features */}
               <div className="space-y-1 mb-3">
-                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Capacidades Clave</div>
+                <div className="text-[10px] uppercase font-bold tracking-wider text-[var(--text-muted)]">Capacidades Clave</div>
                 <div className="flex flex-wrap gap-1.5">
                   {repo.keyFeatures.map((feat, i) => (
                     <span
@@ -494,9 +494,9 @@ export const EcosystemReposHubTab: React.FC = () => {
 
       {filteredRepos.length === 0 && (
         <div className="text-center py-12 bg-[#10141f] rounded-2xl border border-[#1b2336] p-6">
-          <FolderGit2 className="w-8 h-8 text-slate-500 mx-auto mb-2" />
+          <FolderGit2 className="w-8 h-8 text-[var(--text-muted)] mx-auto mb-2" />
           <p className="text-sm font-semibold text-slate-300">No se encontraron repositorios</p>
-          <p className="text-xs text-slate-500 mt-1">Prueba con otros términos de búsqueda o filtros de estado.</p>
+          <p className="text-xs text-[var(--text-muted)] mt-1">Prueba con otros términos de búsqueda o filtros de estado.</p>
         </div>
       )}
     </div>

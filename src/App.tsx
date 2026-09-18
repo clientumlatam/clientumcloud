@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { CRMProvider, useCRM } from './context/CRMContext';
 import { ToastContainer } from './components/common/ToastContainer';
@@ -11,72 +11,10 @@ import { RecordDrawer } from './components/common/RecordDrawer';
 import { TrialBanner } from './components/billing/TrialBanner';
 import { MercadoPagoSubscriptionModal } from './components/billing/MercadoPagoSubscriptionModal';
 import { isPrivateAppPath } from './lib/router/routeRegistry';
-import { subscribeToAuthState, syncUserProfileToFirestore } from './firebase';
 
-const PrivateEnvironment = React.lazy(() => import('./components/app/PrivateEnvironment').then((module) => ({
+const PrivateEnvironment = lazy(() => import('./components/app/PrivateEnvironment').then((module) => ({
   default: module.PrivateEnvironment,
 })));
-
-const FirebaseAuthBridge: React.FC = () => {
-  const {
-    syncClerkAuth,
-    isAuthModalOpen,
-    setIsAuthModalOpen,
-    enterApp,
-  } = useCRM();
-  const lastUserId = React.useRef<string | null | undefined>(undefined);
-
-  React.useEffect(() => {
-    const unsubscribe = subscribeToAuthState((fbUser) => {
-      try {
-        const userId = fbUser?.uid || null;
-        
-        // Prevent redundant state updates which could cause infinite loops or race conditions
-        if (lastUserId.current === userId && lastUserId.current !== undefined) {
-          return;
-        }
-        
-        const previousUserId = lastUserId.current;
-        lastUserId.current = userId;
-
-        if (fbUser) {
-          // Safely sync user profile without blocking auth state resolution
-          Promise.resolve(syncUserProfileToFirestore({
-            uid: fbUser.uid,
-            email: fbUser.email,
-            displayName: fbUser.displayName,
-            photoURL: fbUser.photoURL,
-            providerId: fbUser.providerData?.[0]?.providerId || 'google.com',
-          })).catch(err => {
-             console.warn('Non-fatal error syncing profile to Firestore:', err);
-          });
-        }
-
-        syncClerkAuth(fbUser ? {
-          id: fbUser.uid,
-          email: fbUser.email || '',
-          name: fbUser.displayName || fbUser.email?.split('@')[0] || 'Usuario Clientum',
-          avatar: fbUser.photoURL || null,
-        } : null);
-
-        if (fbUser && isAuthModalOpen && previousUserId !== fbUser.uid) {
-          setIsAuthModalOpen(false);
-          enterApp(true);
-        }
-      } catch (error) {
-        console.error('FirebaseAuthBridge critical error during synchronization:', error);
-        syncClerkAuth(null);
-        lastUserId.current = null;
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [enterApp, isAuthModalOpen, setIsAuthModalOpen, syncClerkAuth]);
-
-  return null;
-};
 
 const AppContent: React.FC = () => {
   const { resolvedTheme } = useTheme();
@@ -90,19 +28,19 @@ const AppContent: React.FC = () => {
     setIsMpCheckoutModalOpen,
     selectedCheckoutPlan,
   } = useCRM();
-  const [pathname, setPathname] = React.useState(() =>
+  const [pathname, setPathname] = useState(() =>
     typeof window === 'undefined' ? '/' : window.location.pathname,
   );
   const isPrivateRoute = isPrivateAppPath(pathname);
 
   // Keep browser navigation and the context's environment state in sync.
-  React.useEffect(() => {
+  useEffect(() => {
     const handlePopState = () => setPathname(window.location.pathname);
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAuthReady) return;
 
     if (isPrivateRoute && isAuthenticated) {
@@ -138,7 +76,7 @@ const AppContent: React.FC = () => {
   );
 
   const privateEnvironment = (
-    <React.Suspense
+    <Suspense
       fallback={
         <div className="flex h-screen w-screen items-center justify-center bg-[#0a0c10] text-sm text-slate-400">
           Cargando Clientum CRM…
@@ -146,7 +84,7 @@ const AppContent: React.FC = () => {
       }
     >
       <PrivateEnvironment />
-    </React.Suspense>
+    </Suspense>
   );
 
   if (!isAuthReady && isPrivateRoute) {
@@ -159,7 +97,7 @@ const AppContent: React.FC = () => {
 
   return (
     <ProtectedRoute
-      isAuthenticated={isPrivateRoute && isAuthenticated}
+      isAuthenticated={isPrivateRoute && isAuthenticated && !isPublicSiteVisible}
       fallback={publicEnvironment}
     >
       {privateEnvironment}
@@ -171,7 +109,6 @@ export default function App() {
   return (
     <ThemeProvider>
       <CRMProvider>
-        <FirebaseAuthBridge />
         <AppContent />
       </CRMProvider>
     </ThemeProvider>

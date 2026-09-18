@@ -295,7 +295,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
             {interimText && <span className="text-emerald-400/80 italic font-mono"> {interimText}</span>}
           </p>
         ) : (
-          <div className="flex items-center gap-2 text-slate-500 italic py-3">
+          <div className="flex items-center gap-2 text-[var(--text-muted)] italic py-3">
             <Mic className="w-4 h-4 text-emerald-500 animate-pulse" />
             <span>Habla ahora claramente por tu micrófono... tu voz se transcribirá en tiempo real.</span>
           </div>

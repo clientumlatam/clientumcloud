@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Plus,
   Building2,
@@ -38,6 +38,7 @@ import { WhatsAppQuickActionModal } from '../whatsapp/WhatsAppQuickActionModal';
 import { QuoteSignPortalModal } from '../commercial/QuoteSignPortalModal';
 import { VoiceNoteModal } from '../activities/VoiceNoteModal';
 import { exportOpportunitiesToCSV } from '../../utils/csvExporter';
+import { KanbanCard } from './KanbanCard';
 import kanbanEmptyStageImg from '../../assets/images/kanban_empty_stage_1789360569191.jpg';
 
 export const KanbanView: React.FC = () => {
@@ -152,10 +153,31 @@ export const KanbanView: React.FC = () => {
     setMaxAmount('');
   };
 
-  const handleDragStart = (e: React.DragEvent, id: string) => {
+  const handleSelectRecord = useCallback((id: string) => {
+    setSelectedRecord({ type: 'opportunity', id });
+  }, [setSelectedRecord]);
+
+  const handleWhatsAppClick = useCallback((opp: Opportunity) => {
+    setWhatsAppOpp(opp);
+  }, []);
+
+  const handleAICopilotClick = useCallback((opp: Opportunity) => {
+    openAICopilot({
+      type: 'deal',
+      id: opp.id,
+      name: opp.name,
+      initialPrompt: language === 'es'
+        ? `Analiza la salud del negocio y proporciona 3 pasos recomendados para "${opp.name}" ($${opp.amount.toLocaleString()}, Etapa: ${opp.stage}, Cuenta: ${opp.companyName || 'N/A'}).`
+        : language === 'pt'
+        ? `Analise a saúde do negócio e forneça 3 recomendações de próximos pasos para "${opp.name}" ($${opp.amount.toLocaleString()}, Etapa: ${opp.stage}, Conta: ${opp.companyName || 'N/A'}).`
+        : `Analyze deal health and give 3 recommended next steps for "${opp.name}" ($${opp.amount.toLocaleString()}, Stage: ${opp.stage}, Account: ${opp.companyName || 'N/A'}).`,
+    });
+  }, [language, openAICopilot]);
+
+  const handleDragStart = useCallback((e: React.DragEvent, id: string) => {
     e.dataTransfer.setData('text/plain', id);
     setDraggedOppId(id);
-  };
+  }, []);
 
   const handleDragOver = (e: React.DragEvent, stageId: StageId) => {
     e.preventDefault();
@@ -178,7 +200,7 @@ export const KanbanView: React.FC = () => {
     setDragOverStage(null);
   };
 
-  const getPriorityColor = (p: string) => {
+  const getPriorityColor = useCallback((p: string) => {
     switch (p) {
       case 'Critical':
         return 'text-rose-700 bg-rose-50 border-rose-200';
@@ -187,13 +209,15 @@ export const KanbanView: React.FC = () => {
       case 'Medium':
         return 'text-blue-700 bg-blue-50 border-blue-200';
       default:
-        return 'text-slate-700 bg-slate-100 border-slate-200';
+        return 'text-[var(--text-secondary)] bg-[var(--bg-muted)] border-[var(--border-subtle)]';
     }
-  };
+  }, []);
 
-  const getContact = (opp: Opportunity) =>
+  const getContact = useCallback((opp: Opportunity) =>
     people.find((person) => person.id === opp.contactId) ||
-    people.find((person) => `${person.firstName} ${person.lastName}` === opp.contactName);
+    people.find((person) => `${person.firstName} ${person.lastName}` === opp.contactName),
+    [people]
+  );
 
   const exchangeRate = 1250; // USD to ARS
   const formatAmount = (amt: number) => {
@@ -220,19 +244,19 @@ export const KanbanView: React.FC = () => {
   ).length;
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[var(--bg-muted)]">
       {/* Top Bar with Saved Views and Multi-Select Filter Trigger */}
-      <div className="flex items-center justify-between border-b border-slate-200 bg-white min-h-[58px]">
+      <div className="flex items-center justify-between border-b border-[var(--border-subtle)] bg-[var(--bg-card)] min-h-[58px]">
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <div className="hidden lg:flex items-center gap-1.5 pl-4 text-xs text-slate-400 shrink-0">
             <span>Negocios</span>
             <ChevronRight className="w-3 h-3" />
-            <span className="font-semibold text-slate-700">Kanban</span>
+            <span className="font-semibold text-[var(--text-secondary)]">Kanban</span>
           </div>
           <SavedViewsBar target="opportunities" />
         </div>
 
-        <div className="px-3 py-2 border-l border-slate-200 flex items-center gap-2 shrink-0 relative">
+        <div className="px-3 py-2 border-l border-[var(--border-subtle)] flex items-center gap-2 shrink-0 relative">
           <button
             id="open-lead-capture-btn"
             onClick={() => setIsLeadCaptureOpen(true)}
@@ -259,7 +283,7 @@ export const KanbanView: React.FC = () => {
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               activeFiltersCount > 0 || isFilterSidebarOpen
                 ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs'
+                : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs'
             }`}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -272,7 +296,7 @@ export const KanbanView: React.FC = () => {
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 isBoardSettingsOpen
                   ? 'bg-slate-900 text-white'
-                  : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs'
+                  : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs'
               }`}
               aria-expanded={isBoardSettingsOpen}
               aria-haspopup="menu"
@@ -282,11 +306,11 @@ export const KanbanView: React.FC = () => {
             </button>
             {isBoardSettingsOpen && (
               <div
-                className="absolute right-0 top-full mt-2 z-30 w-64 rounded-xl border border-slate-200 bg-white p-3 shadow-xl"
+                className="absolute right-0 top-full mt-2 z-30 w-64 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] p-3 shadow-xl"
                 role="menu"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-900">Configuración Kanban</span>
+                  <span className="text-xs font-bold text-[var(--text-primary)]">Configuración Kanban</span>
                   <span className="text-[10px] text-slate-400">Vista actual</span>
                 </div>
                 {[
@@ -297,7 +321,7 @@ export const KanbanView: React.FC = () => {
                   <button
                     key={setting.label}
                     onClick={() => setting.setValue((value) => !value)}
-                    className="w-full flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-left text-xs text-slate-700 hover:bg-slate-50 cursor-pointer"
+                    className="w-full flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-left text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] cursor-pointer"
                     role="menuitemcheckbox"
                     aria-checked={setting.value}
                   >
@@ -325,25 +349,25 @@ export const KanbanView: React.FC = () => {
       </div>
 
       {/* Real-time Pipeline Intelligence Ribbon */}
-      <div className="bg-white border-b border-slate-200/80 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="bg-[var(--bg-card)] border-b border-[var(--border-subtle)]/80 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-medium text-slate-500">Pipeline Activo:</span>
-            <span className="font-mono font-bold text-slate-900 text-sm">{formatAmount(totalActivePipeline)}</span>
+            <span className="text-[11px] font-medium text-[var(--text-muted)]">Pipeline Activo:</span>
+            <span className="font-mono font-bold text-[var(--text-primary)] text-sm">{formatAmount(totalActivePipeline)}</span>
           </div>
-          <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+          <div className="h-4 w-px bg-[var(--bg-muted)] hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-medium text-slate-500">Ganado (Won):</span>
+            <span className="text-[11px] font-medium text-[var(--text-muted)]">Ganado (Won):</span>
             <span className="font-mono font-bold text-emerald-600 text-sm">{formatAmount(totalWonDeals)}</span>
           </div>
-          <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+          <div className="h-4 w-px bg-[var(--bg-muted)] hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-medium text-slate-500">Tasa de Cierre:</span>
+            <span className="text-[11px] font-medium text-[var(--text-muted)]">Tasa de Cierre:</span>
             <span className="font-mono font-bold text-blue-600">{winRate}%</span>
           </div>
           {urgentDealsCount > 0 && (
             <>
-              <div className="h-4 w-px bg-slate-200 hidden sm:block" />
+              <div className="h-4 w-px bg-[var(--bg-muted)] hidden sm:block" />
               <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200 text-rose-700 font-semibold text-[11px]">
                 <Flame className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
                 <span>{urgentDealsCount} tratos con atención requerida</span>
@@ -355,12 +379,12 @@ export const KanbanView: React.FC = () => {
         {/* Currency Switcher */}
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] text-slate-400 font-medium">Moneda:</span>
-          <div className="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px]">
+          <div className="flex bg-[var(--bg-muted)] p-0.5 rounded-lg border border-[var(--border-subtle)] text-[11px]">
             <button
               type="button"
               onClick={() => setCurrencyMode('USD')}
               className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
-                currencyMode === 'USD' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                currencyMode === 'USD' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               USD
@@ -369,7 +393,7 @@ export const KanbanView: React.FC = () => {
               type="button"
               onClick={() => setCurrencyMode('ARS')}
               className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
-                currencyMode === 'ARS' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                currencyMode === 'ARS' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               ARS
@@ -393,35 +417,35 @@ export const KanbanView: React.FC = () => {
                 onDragOver={(e) => handleDragOver(e, stage.id)}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, stage.id)}
-                className={`w-72 shrink-0 flex flex-col max-h-full rounded-xl bg-slate-100/90 border transition-all duration-150 ${
+                className={`w-72 shrink-0 flex flex-col max-h-full rounded-xl bg-[var(--bg-muted)]/90 border transition-all duration-150 ${
                   isTarget
                     ? 'border-blue-500 bg-blue-50/50 shadow-md shadow-blue-500/10'
-                    : 'border-slate-200'
+                    : 'border-[var(--border-subtle)]'
                 }`}
               >
                 {/* Column Header */}
-                <div className="p-3 border-b border-slate-200/80 flex items-center justify-between">
+                <div className="p-3 border-b border-[var(--border-subtle)]/80 flex items-center justify-between">
                   <div className="flex items-center gap-2 min-w-0">
                     <div
                       className="w-2.5 h-2.5 rounded-full shrink-0"
                       style={{ backgroundColor: stage.color }}
                     />
-                    <span className="font-bold text-xs text-slate-900 truncate">
+                    <span className="font-bold text-xs text-[var(--text-primary)] truncate">
                       {t(`stage_${stage.id}` as any) || stage.name}
                     </span>
-                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-white text-slate-600 border border-slate-200">
+                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
                       {stageOpps.length}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold font-mono text-slate-700">
+                    <span className="text-xs font-bold font-mono text-[var(--text-secondary)]">
                       ${Math.round(stageTotal / 1000)}k
                     </span>
                     <button
                       id={`column-add-deal-${stage.id}`}
                       onClick={() => openNewRecordModal('opportunity')}
-                      className="w-5 h-5 rounded flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
+                      className="w-5 h-5 rounded flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
                       title={`${t('newOpportunity')} (${t(`stage_${stage.id}` as any) || stage.name})`}
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -432,8 +456,8 @@ export const KanbanView: React.FC = () => {
                 {/* Column Cards Container */}
                 <div className="p-2 space-y-2.5 overflow-y-auto flex-1 min-h-[140px] custom-scrollbar">
                   {stageOpps.length === 0 ? (
-                    <div className="py-6 px-3 border border-dashed border-slate-300 rounded-xl bg-white/60 flex flex-col items-center justify-center text-center">
-                      <div className="w-16 h-16 mb-2.5 rounded-lg overflow-hidden border border-slate-200 shadow-2xs bg-slate-50 flex items-center justify-center shrink-0">
+                    <div className="py-6 px-3 border border-dashed border-[var(--border-default)] rounded-xl bg-[var(--bg-card)]/60 flex flex-col items-center justify-center text-center">
+                      <div className="w-16 h-16 mb-2.5 rounded-lg overflow-hidden border border-[var(--border-subtle)] shadow-2xs bg-[var(--bg-muted)] flex items-center justify-center shrink-0">
                         <img
                           src={kanbanEmptyStageImg}
                           alt="Etapa sin negocios"
@@ -441,7 +465,7 @@ export const KanbanView: React.FC = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <p className="text-[11px] font-bold text-slate-700 mb-0.5">
+                      <p className="text-[11px] font-bold text-[var(--text-secondary)] mb-0.5">
                         {t('noDealsInStage')}
                       </p>
                       <p className="text-[10px] text-slate-400 max-w-[180px]">
@@ -450,173 +474,29 @@ export const KanbanView: React.FC = () => {
                     </div>
                   ) : (
                     stageOpps.map((opp) => (
-                      <div
+                      <KanbanCard
                         key={opp.id}
-                        id={`deal-card-${opp.id}`}
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, opp.id)}
-                        onClick={() => setSelectedRecord({ type: 'opportunity', id: opp.id })}
-                      className={`${compactCards ? 'p-2.5' : 'p-3'} rounded-lg bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-300 shadow-xs hover:shadow-md cursor-grab active:cursor-grabbing transition-all group relative`}
-                      >
-                        {/* Deal Name & Amount */}
-                        <div className="flex items-start justify-between gap-2 mb-1.5">
-                          <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                            {opp.name}
-                          </h4>
-                          <span className="text-xs font-bold font-mono text-slate-900 shrink-0">
-                            ${opp.amount.toLocaleString()}
-                          </span>
-                        </div>
-
-                        {/* Rotting Deal Indicator (Stagnant > 5 days) */}
-                        {(() => {
-                          const nowMs = Date.now();
-                          const lastUpdateMs = new Date(opp.updatedAt || opp.createdAt).getTime();
-                          const daysStagnant = Math.max(1, Math.floor((nowMs - lastUpdateMs) / (1000 * 60 * 60 * 24)));
-                          const isRotting = opp.stage !== 'won' && opp.stage !== 'lost' && daysStagnant >= 5;
-
-                          if (!isRotting) return null;
-                          return (
-                            <div className="mb-2 flex items-center gap-1">
-                              <span
-                                className="inline-flex items-center gap-1 text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-300 shadow-2xs"
-                                title={`Este trato lleva ${daysStagnant} días sin actividad comercial`}
-                              >
-                                <Flame className="w-3 h-3 text-amber-600 fill-amber-500" />
-                                <span>{daysStagnant}d estancado</span>
-                              </span>
-                            </div>
-                          );
-                        })()}
-
-                        {/* Company & Contact Link */}
-                        {opp.companyName && (
-                          <div className="flex items-center gap-1.5 text-[11px] text-slate-500 mb-2 truncate font-medium">
-                            <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
-                            <span className="truncate">{opp.companyName}</span>
-                            {opp.contactName && (
-                              <>
-                                <span className="text-slate-300">•</span>
-                                <span className="truncate text-slate-500">{opp.contactName}</span>
-                              </>
-                            )}
-                          </div>
-                        )}
-
-                        {(() => {
-                          const contact = getContact(opp);
-                          if (!contact) return null;
-                          return (
-                            <div className="mb-2 space-y-1 text-[10px] text-slate-500">
-                              <div className="flex items-center gap-1.5 truncate">
-                                <User className="w-3 h-3 text-slate-400 shrink-0" />
-                                <span className="truncate">{opp.contactName || `${contact.firstName} ${contact.lastName}`}</span>
-                              </div>
-                              {!compactCards && (contact.email || contact.phone) && (
-                                <div className="flex items-center gap-2">
-                                  {contact.email && (
-                                    <a
-                                      href={`mailto:${contact.email}`}
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="inline-flex items-center gap-1 hover:text-blue-600 truncate"
-                                      title={`Enviar email a ${contact.email}`}
-                                    >
-                                      <Mail className="w-3 h-3" />
-                                      <span className="truncate max-w-[132px]">{contact.email}</span>
-                                    </a>
-                                  )}
-                                  {contact.phone && (
-                                    <a
-                                      href={`tel:${contact.phone}`}
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="inline-flex items-center gap-1 hover:text-blue-600 shrink-0"
-                                      title={`Llamar a ${contact.phone}`}
-                                    >
-                                      <Phone className="w-3 h-3" />
-                                    </a>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })()}
-
-                        {/* Tags & Priority */}
-                        {showCardTags && <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-                          <span
-                            className={`text-[10px] font-semibold px-1.5 py-0.2 rounded border ${getPriorityColor(
-                              opp.priority
-                            )}`}
-                          >
-                            {opp.priority}
-                          </span>
-                          {opp.tags.slice(0, 2).map((tag, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 border border-slate-200 truncate max-w-[90px]"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>}
-
-                        {/* Footer Info & Owner */}
-                        <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-500">
-                          {showCardDates ? (
-                            <div className="flex items-center gap-1 font-mono text-[10px]">
-                              <Calendar className="w-3 h-3 text-slate-400" />
-                              <span>{opp.closeDate}</span>
-                            </div>
-                          ) : <span />}
-
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              id={`deal-whatsapp-quick-${opp.id}`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setWhatsAppOpp(opp);
-                              }}
-                              className="p-1 rounded hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
-                              title="Enviar WhatsApp al contacto del negocio"
-                            >
-                              <MessageCircle className="w-3 h-3 text-emerald-500" />
-                            </button>
-                            <button
-                              id={`deal-ai-summary-${opp.id}`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openAICopilot({
-                                  type: 'deal',
-                                  id: opp.id,
-                                  name: opp.name,
-                                  initialPrompt: language === 'es'
-                                    ? `Analiza la salud del negocio y proporciona 3 pasos recomendados para "${opp.name}" ($${opp.amount.toLocaleString()}, Etapa: ${opp.stage}, Cuenta: ${opp.companyName || 'N/A'}).`
-                                    : language === 'pt'
-                                    ? `Analise a saúde do negócio e forneça 3 recomendações de próximos passos para "${opp.name}" ($${opp.amount.toLocaleString()}, Etapa: ${opp.stage}, Conta: ${opp.companyName || 'N/A'}).`
-                                    : `Analyze deal health and give 3 recommended next steps for "${opp.name}" ($${opp.amount.toLocaleString()}, Stage: ${opp.stage}, Account: ${opp.companyName || 'N/A'}).`,
-                                });
-                              }}
-                              className="p-1 rounded hover:bg-blue-50 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
-                              title="Generar análisis de IA"
-                            >
-                              <Sparkles className="w-3 h-3" />
-                            </button>
-                            <span className="text-[10px] font-semibold text-slate-600 truncate max-w-[80px]">
-                              {opp.assignedTo.split(' ')[0]}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+                        opp={opp}
+                        compactCards={compactCards}
+                        showCardTags={showCardTags}
+                        showCardDates={showCardDates}
+                        getPriorityColor={getPriorityColor}
+                        getContact={getContact}
+                        onDragStart={handleDragStart}
+                        onSelectRecord={handleSelectRecord}
+                        onWhatsAppClick={handleWhatsAppClick}
+                        onAICopilotClick={handleAICopilotClick}
+                      />
                     ))
                   )}
                 </div>
 
                 {/* Column Footer Quick Add */}
-                <div className="p-2 border-t border-slate-200/80">
+                <div className="p-2 border-t border-[var(--border-subtle)]/80">
                   <button
                     id={`column-quick-add-btn-${stage.id}`}
                     onClick={() => openNewRecordModal('opportunity')}
-                    className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md text-slate-600 hover:text-blue-600 hover:bg-white text-xs font-semibold transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[var(--text-secondary)] hover:text-blue-600 hover:bg-[var(--bg-card)] text-xs font-semibold transition-colors cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>{t('createFirstDeal')}</span>
@@ -629,16 +509,16 @@ export const KanbanView: React.FC = () => {
 
         {/* MULTI-SELECT FILTER SIDEBAR */}
         {isFilterSidebarOpen && (
-          <div className="w-80 bg-white border-l border-slate-200 p-4 flex flex-col h-full z-20 text-xs shadow-2xl overflow-y-auto animate-in slide-in-from-right duration-200 custom-scrollbar">
+          <div className="w-80 bg-[var(--bg-card)] border-l border-[var(--border-subtle)] p-4 flex flex-col h-full z-20 text-xs shadow-2xl overflow-y-auto animate-in slide-in-from-right duration-200 custom-scrollbar">
             {/* Sidebar Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)] mb-4">
               <div className="flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-blue-600" />
-                <h3 className="font-bold text-slate-900 text-sm">Filtros Avanzados Kanban</h3>
+                <h3 className="font-bold text-[var(--text-primary)] text-sm">Filtros Avanzados Kanban</h3>
               </div>
               <button
                 onClick={() => setIsFilterSidebarOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-100 cursor-pointer"
+                className="p-1 text-slate-400 hover:text-[var(--text-secondary)] rounded hover:bg-[var(--bg-muted)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -660,29 +540,29 @@ export const KanbanView: React.FC = () => {
             <div className="space-y-5 flex-1">
               {/* FILTER 1: OWNER / ASSIGNED TO (MULTI-SELECT) */}
               <div className="space-y-2">
-                <label className="font-bold text-slate-700 text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
+                <label className="font-bold text-[var(--text-secondary)] text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
                   <User className="w-3.5 h-3.5 text-blue-600" />
                   Propietario(s) del negocio
                 </label>
-                <div className="space-y-1 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <div className="space-y-1 bg-[var(--bg-muted)] p-2.5 rounded-xl border border-[var(--border-subtle)]">
                   {uniqueOwners.map((owner) => {
                     const count = opportunities.filter((o) => o.assignedTo === owner).length;
                     const isChecked = selectedOwners.includes(owner);
                     return (
                       <label
                         key={owner}
-                        className="flex items-center justify-between p-1.5 rounded hover:bg-white cursor-pointer text-slate-700 transition-colors"
+                        className="flex items-center justify-between p-1.5 rounded hover:bg-[var(--bg-card)] cursor-pointer text-[var(--text-secondary)] transition-colors"
                       >
                         <div className="flex items-center gap-2">
                           <input
                             type="checkbox"
                             checked={isChecked}
                             onChange={() => toggleOwner(owner)}
-                            className="rounded border-slate-300 text-blue-600 focus:ring-0 cursor-pointer"
+                            className="rounded border-[var(--border-default)] text-blue-600 focus:ring-0 cursor-pointer"
                           />
                           <span className="font-medium text-xs">{owner}</span>
                         </div>
-                        <span className="text-[10px] font-mono text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                        <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--bg-card)] px-1.5 py-0.5 rounded border border-[var(--border-subtle)]">
                           {count}
                         </span>
                       </label>
@@ -693,29 +573,29 @@ export const KanbanView: React.FC = () => {
 
               {/* FILTER 2: DEAL VALUE RANGE ($ USD) */}
               <div className="space-y-2">
-                <label className="font-bold text-slate-700 text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
+                <label className="font-bold text-[var(--text-secondary)] text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
                   <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
                   Rango de Valor ($ USD)
                 </label>
-                <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <div className="grid grid-cols-2 gap-2 bg-[var(--bg-muted)] p-2.5 rounded-xl border border-[var(--border-subtle)]">
                   <div>
-                    <span className="text-[10px] text-slate-500 block mb-1">Mínimo ($)</span>
+                    <span className="text-[10px] text-[var(--text-muted)] block mb-1">Mínimo ($)</span>
                     <input
                       type="number"
                       placeholder="0"
                       value={minAmount}
                       onChange={(e) => setMinAmount(e.target.value === '' ? '' : Number(e.target.value))}
-                      className="w-full bg-white text-slate-900 px-2.5 py-1.5 rounded border border-slate-200 font-mono text-xs focus:outline-hidden focus:border-blue-600"
+                      className="w-full bg-[var(--bg-card)] text-[var(--text-primary)] px-2.5 py-1.5 rounded border border-[var(--border-subtle)] font-mono text-xs focus:outline-hidden focus:border-blue-600"
                     />
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-500 block mb-1">Máximo ($)</span>
+                    <span className="text-[10px] text-[var(--text-muted)] block mb-1">Máximo ($)</span>
                     <input
                       type="number"
                       placeholder="100000"
                       value={maxAmount}
                       onChange={(e) => setMaxAmount(e.target.value === '' ? '' : Number(e.target.value))}
-                      className="w-full bg-white text-slate-900 px-2.5 py-1.5 rounded border border-slate-200 font-mono text-xs focus:outline-hidden focus:border-blue-600"
+                      className="w-full bg-[var(--bg-card)] text-[var(--text-primary)] px-2.5 py-1.5 rounded border border-[var(--border-subtle)] font-mono text-xs focus:outline-hidden focus:border-blue-600"
                     />
                   </div>
                 </div>
@@ -733,7 +613,7 @@ export const KanbanView: React.FC = () => {
                         setMinAmount(preset.min);
                         setMaxAmount(preset.max);
                       }}
-                      className="px-2 py-1 rounded bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 text-[10px] font-semibold transition-colors cursor-pointer"
+                      className="px-2 py-1 rounded bg-[var(--bg-muted)] hover:bg-blue-50 text-[var(--text-secondary)] hover:text-blue-700 border border-[var(--border-subtle)] text-[10px] font-semibold transition-colors cursor-pointer"
                     >
                       {preset.label}
                     </button>
@@ -743,31 +623,31 @@ export const KanbanView: React.FC = () => {
 
               {/* FILTER 3: PRIORITY LEVEL (MULTI-SELECT) */}
               <div className="space-y-2">
-                <label className="font-bold text-slate-700 text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
+                <label className="font-bold text-[var(--text-secondary)] text-[11px] flex items-center gap-1.5 uppercase tracking-wider">
                   <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
                   Nivel de Prioridad
                 </label>
-                <div className="space-y-1 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <div className="space-y-1 bg-[var(--bg-muted)] p-2.5 rounded-xl border border-[var(--border-subtle)]">
                   {priorityOptions.map((priority) => {
                     const isChecked = selectedPriorities.includes(priority);
                     const count = opportunities.filter((o) => o.priority === priority).length;
                     return (
                       <label
                         key={priority}
-                        className="flex items-center justify-between p-1.5 rounded hover:bg-white cursor-pointer text-slate-700 transition-colors"
+                        className="flex items-center justify-between p-1.5 rounded hover:bg-[var(--bg-card)] cursor-pointer text-[var(--text-secondary)] transition-colors"
                       >
                         <div className="flex items-center gap-2">
                           <input
                             type="checkbox"
                             checked={isChecked}
                             onChange={() => togglePriority(priority)}
-                            className="rounded border-slate-300 text-blue-600 focus:ring-0 cursor-pointer"
+                            className="rounded border-[var(--border-default)] text-blue-600 focus:ring-0 cursor-pointer"
                           />
                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${getPriorityColor(priority)}`}>
                             {priority}
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                        <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--bg-card)] px-1.5 py-0.5 rounded border border-[var(--border-subtle)]">
                           {count}
                         </span>
                       </label>
@@ -778,9 +658,9 @@ export const KanbanView: React.FC = () => {
             </div>
 
             {/* Sidebar Footer Stats */}
-            <div className="pt-4 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between font-mono">
+            <div className="pt-4 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)] flex items-center justify-between font-mono">
               <span>Mostrando:</span>
-              <strong className="text-slate-900">{filteredOpportunities.length} / {opportunities.length} Negocios</strong>
+              <strong className="text-[var(--text-primary)]">{filteredOpportunities.length} / {opportunities.length} Negocios</strong>
             </div>
           </div>
         )}

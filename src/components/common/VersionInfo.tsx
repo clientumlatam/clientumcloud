@@ -32,19 +32,19 @@ export const VersionInfo: React.FC<VersionInfoProps> = ({
   return (
     <div
       id="clientum-version-info-footer"
-      className={`text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center justify-between px-3 py-1.5 bg-slate-100/60 dark:bg-slate-900/40 rounded-md border border-slate-200/60 dark:border-slate-800/60 select-none ${className}`}
+      className={`text-[11px] text-slate-400 dark:text-[var(--text-muted)] font-mono flex items-center justify-between px-3 py-1.5 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 rounded-md border border-[var(--border-subtle)]/60 dark:border-slate-800/60 select-none ${className}`}
       title={`ClientumCRM Auditoría de Despliegue | Versión: ${version} | Compilación: ${buildTimestamp}`}
     >
       <div className="flex items-center gap-1.5 truncate">
         <Server className="w-3 h-3 text-blue-500 shrink-0" />
-        <span className="font-bold text-slate-700 dark:text-slate-300">{version}</span>
-        <span className="text-slate-300 dark:text-slate-700">•</span>
-        <span className="truncate hidden sm:inline text-slate-500">{buildTimestamp}</span>
+        <span className="font-bold text-[var(--text-secondary)] dark:text-slate-300">{version}</span>
+        <span className="text-slate-300 dark:text-[var(--text-secondary)]">•</span>
+        <span className="truncate hidden sm:inline text-[var(--text-muted)]">{buildTimestamp}</span>
       </div>
 
       <button
         onClick={handleCopyAuditInfo}
-        className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer shrink-0 ml-2"
+        className="flex items-center gap-1 text-[10px] text-[var(--text-muted)] hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer shrink-0 ml-2"
         title="Copiar datos de auditoría de versión"
       >
         {copied ? (

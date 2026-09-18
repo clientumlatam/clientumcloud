@@ -166,7 +166,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
                   <div>
                     <label className="text-[11px] text-slate-400 block mb-1">Nombre *</label>
                     <div className="relative">
-                      <User className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                      <User className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-2.5" />
                       <input
                         type="text"
                         required
@@ -194,7 +194,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
                   <div>
                     <label className="text-[11px] text-slate-400 block mb-1">Email *</label>
                     <div className="relative">
-                      <Mail className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                      <Mail className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-2.5" />
                       <input
                         type="email"
                         required
@@ -209,7 +209,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
                   <div>
                     <label className="text-[11px] text-slate-400 block mb-1">Teléfono / WhatsApp</label>
                     <div className="relative">
-                      <Phone className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                      <Phone className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-2.5" />
                       <input
                         type="text"
                         value={phone}
@@ -225,7 +225,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
                   <div>
                     <label className="text-[11px] text-slate-400 block mb-1">Empresa</label>
                     <div className="relative">
-                      <Building2 className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                      <Building2 className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-2.5" />
                       <input
                         type="text"
                         value={companyName}
@@ -239,7 +239,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onCl
                   <div>
                     <label className="text-[11px] text-slate-400 block mb-1">Presupuesto Estimado ($)</label>
                     <div className="relative">
-                      <DollarSign className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                      <DollarSign className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-2.5" />
                       <input
                         type="number"
                         value={budget}

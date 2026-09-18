@@ -50,7 +50,7 @@ export const CalendarView: React.FC = () => {
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-[#263047] bg-[#121722] p-4">
-            <p className="text-[11px] uppercase tracking-wider text-slate-500">Pendientes</p>
+            <p className="text-[11px] uppercase tracking-wider text-[var(--text-muted)]">Pendientes</p>
             <p className="mt-1 text-2xl font-bold text-white">{upcomingTasks.length}</p>
             <p className="mt-1 text-[11px] text-slate-400">Actividades por completar</p>
           </div>

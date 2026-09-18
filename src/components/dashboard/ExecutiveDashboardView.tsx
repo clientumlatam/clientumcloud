@@ -44,9 +44,9 @@ import { Opportunity, StageId } from '../../types';
 import { STAGES } from '../../data/initialData';
 import { DashboardOperationsStrip } from './DashboardOperationsStrip';
 import { RevenueChart } from '../analytics/RevenueChart';
+import { RevenueForecastPanel } from '../analytics/RevenueForecastPanel';
 import { MailAnalyticsPanel } from '../mail/MailAnalyticsPanel';
 import { QuickCaptureModal } from '../common/QuickCaptureModal';
-import { Mic } from 'lucide-react';
 
 const CHART_COLORS = ['#0d9488', '#2563eb', '#7c3aed', '#d97706', '#64748b'];
 
@@ -131,6 +131,26 @@ export const ExecutiveDashboardView: React.FC = () => {
       )
     : 27;
 
+  const averageDealSize = filteredOpportunities.length > 0 
+    ? Math.round(filteredOpportunities.reduce((acc, o) => acc + o.amount, 0) / filteredOpportunities.length) 
+    : 0;
+
+  const stageColors: Record<string, string> = {
+    lead: 'bg-slate-400',
+    contacted: 'bg-blue-500',
+    meeting: 'bg-indigo-500',
+    proposal: 'bg-amber-500',
+    negotiation: 'bg-purple-500',
+    won: 'bg-emerald-500',
+    lost: 'bg-rose-500',
+  };
+  const stagesList = ['lead', 'contacted', 'meeting', 'proposal', 'negotiation', 'won', 'lost'] as const;
+  const stageMetrics = stagesList.map((st) => ({
+    stage: st,
+    count: filteredOpportunities.filter((o) => o.stage === st).length,
+    color: stageColors[st] || 'bg-blue-500',
+  }));
+
   const pendingTasks = tasks.filter((task) => task.status !== 'Completed');
   const overdueTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) <= today);
   const upcomingTasks = pendingTasks.filter((task) => dateOnly(task.dueDate) > today);
@@ -209,21 +229,21 @@ export const ExecutiveDashboardView: React.FC = () => {
     <div className="crm-dashboard flex-1 flex flex-col h-full bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--clientum-ink,#212121)] dark:text-slate-100 overflow-y-auto select-none font-['Inter',sans-serif]">
       <div className="crm-dashboard__content p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-[#1c2d47]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="px-2 py-0.5 rounded-md bg-[var(--clientum-navy,#022046)] text-white font-extrabold text-[10px] tracking-widest font-mono">
                 CLIENTUMOS
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--clientum-success,#4CAF50)] animate-pulse" />
-              <span className="text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+              <span className="text-[11px] font-bold tracking-wider text-[var(--text-muted)] dark:text-slate-400 uppercase">
                 RESUMEN EJECUTIVO COMERCIAL & PYME
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tracking-tight">
               Resumen ejecutivo
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] dark:text-slate-400 mt-1">
               Visión consolidada de salud comercial, forecast de ingresos y focos de atención prioritaria.
             </p>
           </div>
@@ -233,7 +253,7 @@ export const ExecutiveDashboardView: React.FC = () => {
             <div className="relative">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-2xs transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/60 shadow-2xs transition-all cursor-pointer"
                 onClick={() => setIsPipelineDropdownOpen(!isPipelineDropdownOpen)}
               >
                 <Filter size={13} className="text-slate-400" />
@@ -241,7 +261,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <ChevronDown size={13} className="text-slate-400" />
               </button>
               {isPipelineDropdownOpen && (
-                <div className="absolute right-0 mt-1.5 w-48 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-30">
+                <div className="absolute right-0 mt-1.5 w-48 py-1.5 bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 rounded-xl shadow-xl z-30">
                   {(['Todos los negocios', 'New Business', 'Expansion', 'Renewal'] as const).map((item) => (
                     <button
                       key={item}
@@ -249,7 +269,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                       className={`w-full px-3.5 py-2 text-left text-xs font-medium transition-colors ${
                         pipelineFilter === item
                           ? 'bg-blue-50 dark:bg-blue-900/30 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-semibold'
-                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'
+                          : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/50'
                       }`}
                       onClick={() => {
                         setPipelineFilter(item);
@@ -304,7 +324,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                     Ahorro hasta 82%
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] dark:text-slate-400 mt-0.5">
                   Importa deals y contactos automáticamente, elimina costos punitivos por volumen y suma facturación AFIP nativa.
                 </p>
               </div>
@@ -322,7 +342,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowCompetitorBanner(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 transition-colors cursor-pointer"
                 title="Cerrar aviso"
               >
                 <X size={14} />
@@ -334,9 +354,9 @@ export const ExecutiveDashboardView: React.FC = () => {
         {/* 5 High-Impact Executive KPI Cards */}
         <div className="crm-kpi-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
           {/* Card 1: Pipeline Activo */}
-          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
                 Pipeline Activo
               </span>
               <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/60 dark:border-emerald-800/40 flex items-center justify-center text-[var(--clientum-success,#4CAF50)]">
@@ -347,22 +367,22 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(pipelineTotal > 0 ? pipelineTotal : 582000)}
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-[var(--clientum-success,#4CAF50)] font-semibold">
                   <ArrowUpRight size={12} /> {money(weightedPipeline > 0 ? Math.round(weightedPipeline) : 348000)}
                 </span>
-                <span className="text-[11px] text-slate-400 dark:text-slate-500">ponderado</span>
+                <span className="text-[11px] text-slate-400 dark:text-[var(--text-muted)]">ponderado</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
               {activeOpportunities.length} negocios en gestión
             </div>
           </div>
 
           {/* Card 2: Vendido */}
-          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
                 Vendido
               </span>
               <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
@@ -373,21 +393,21 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(wonTotal > 0 ? wonTotal : 54000)}
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-[var(--clientum-action,#0056B3)] font-semibold">
                   <CheckCircle2 size={12} /> Vinoteca Valle Andino
                 </span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
               Facturación confirmada AFIP
             </div>
           </div>
 
           {/* Card 3: Conversión */}
-          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
                 Conversión
               </span>
               <span className="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200/60 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
@@ -403,29 +423,29 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <span>↑ 5,8% vs. anterior</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
               6 negocios evaluados
             </div>
           </div>
 
           {/* Card 4: Ciclo de Venta con Selector */}
-          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
                 Ciclo de Venta
               </span>
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsCycleDropdownOpen(!isCycleDropdownOpen)}
-                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-[#1c2d47] bg-slate-100 dark:bg-[#111a2d] text-slate-700 dark:text-slate-200 hover:bg-slate-200 flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[var(--border-subtle)] dark:border-[#1c2d47] bg-[var(--bg-muted)] dark:bg-[#111a2d] text-[var(--text-secondary)] dark:text-slate-200 hover:bg-[var(--bg-muted)] flex items-center gap-1 cursor-pointer"
                   title="Cambiar métrica de ciclo"
                 >
                   <span>{cycleMetricMode}</span>
                   <ChevronDown size={10} />
                 </button>
                 {isCycleDropdownOpen && (
-                  <div className="absolute right-0 mt-1 w-32 py-1 bg-white dark:bg-[#111a2d] border border-slate-200 dark:border-[#1c2d47] rounded-lg shadow-lg z-20">
+                  <div className="absolute right-0 mt-1 w-32 py-1 bg-[var(--bg-card)] dark:bg-[#111a2d] border border-[var(--border-subtle)] dark:border-[#1c2d47] rounded-lg shadow-lg z-20">
                     {(['Promedio', 'Mediana', 'Por etapa', 'Por vendedor'] as const).map((mode) => (
                       <button
                         key={mode}
@@ -437,7 +457,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                         className={`w-full px-2.5 py-1 text-left text-[11px] font-medium transition-colors ${
                           cycleMetricMode === mode
                             ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-bold'
-                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                            : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700'
                         }`}
                       >
                         {mode}
@@ -469,29 +489,29 @@ export const ExecutiveDashboardView: React.FC = () => {
                 </>
               )}
               {cycleMetricMode === 'Por etapa' && (
-                <div className="text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5 my-1">
+                <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-300 space-y-0.5 my-1">
                   <div>• Calificación: <strong>8d</strong></div>
                   <div>• Propuesta: <strong>11d</strong></div>
                   <div>• Negociación: <strong>8d</strong></div>
                 </div>
               )}
               {cycleMetricMode === 'Por vendedor' && (
-                <div className="text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5 my-1">
+                <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-300 space-y-0.5 my-1">
                   <div>• Fernando: <strong>22d</strong></div>
                   <div>• Sarah: <strong>29d</strong></div>
                   <div>• Marcus: <strong>31d</strong></div>
                 </div>
               )}
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
               Velocidad de cierre PyME
             </div>
           </div>
 
           {/* Card 5: Atención Requerida */}
-          <div className="crm-kpi-card bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
                 Atención Requerida
               </span>
               <span className="w-7 h-7 rounded-lg flex items-center justify-center border bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40 text-rose-600 dark:text-rose-400">
@@ -502,15 +522,18 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight font-mono">
                 5 acciones
               </div>
-              <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-tight font-medium">
+              <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-400 mt-1 leading-tight font-medium">
                 2 estancados · 2 tareas vencidas · 1 sin seguimiento
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#1c2d47]/70 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
               Requiere acción hoy
             </div>
           </div>
         </div>
+
+        {/* Projected Sales & Weighted Pipeline 3-Month Forecast */}
+        <RevenueForecastPanel />
 
         {/* Revenue Trend Chart */}
         <RevenueChart />
@@ -518,17 +541,17 @@ export const ExecutiveDashboardView: React.FC = () => {
         {/* Actionable Priorities Panel (Atención Prioritaria) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Tareas Críticas y Próximas */}
-          <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
-            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-[#1c2d47]">
+          <div className="bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[var(--border-subtle)] dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
                   <CalendarDays size={16} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Tareas Pendientes & Prioritarias
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
                     {overdueTasks.length} vencidas · {pendingTasks.length} en cola
                   </p>
                 </div>
@@ -548,13 +571,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 return (
                   <div
                     key={task.id}
-                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-all"
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <button
                         type="button"
                         onClick={() => toggleTaskStatus(task.id)}
-                        className="w-5 h-5 rounded-md border border-slate-300 dark:border-slate-600 hover:border-emerald-500 flex items-center justify-center text-transparent hover:text-emerald-500 transition-colors shrink-0 cursor-pointer"
+                        className="w-5 h-5 rounded-md border border-[var(--border-default)] dark:border-slate-600 hover:border-emerald-500 flex items-center justify-center text-transparent hover:text-emerald-500 transition-colors shrink-0 cursor-pointer"
                         title="Marcar como completada"
                       >
                         <Check size={12} />
@@ -567,15 +590,15 @@ export const ExecutiveDashboardView: React.FC = () => {
                         }}
                         className="text-left min-w-0"
                       >
-                        <div className="text-xs font-semibold text-slate-900 dark:text-white truncate">
+                        <div className="text-xs font-semibold text-[var(--text-primary)] dark:text-white truncate">
                           {task.title}
                         </div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                        <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
                           <span
                             className={`font-semibold ${
                               isOverdue
                                 ? 'text-rose-600 dark:text-rose-400'
-                                : 'text-slate-500 dark:text-slate-400'
+                                : 'text-[var(--text-muted)] dark:text-slate-400'
                             }`}
                           >
                             {isOverdue ? '⚠️ Vencida · ' : 'Vence '}
@@ -586,7 +609,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                               className={`text-[10px] px-1.5 py-0.2 rounded font-semibold uppercase ${
                                 task.priority === 'High'
                                   ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400'
-                                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                                  : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-slate-400'
                               }`}
                             >
                               {task.priority}
@@ -601,7 +624,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                         setSelectedRecord({ type: 'task', id: task.id });
                         setActiveTab('tasks');
                       }}
-                      className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
+                      className="text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 p-1 cursor-pointer"
                     >
                       <ArrowRight size={13} />
                     </button>
@@ -610,7 +633,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               })}
 
               {pendingTasks.length === 0 && (
-                <div className="py-6 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
                   <CheckCircle2 size={24} className="text-emerald-500" />
                   <span>¡Todas tus tareas están al día!</span>
                 </div>
@@ -619,17 +642,17 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
 
           {/* Negocios en Riesgo (Deal Rotting) */}
-          <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
-            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100 dark:border-[#1c2d47]">
+          <div className="bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[var(--border-subtle)] dark:border-[#1c2d47]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-rose-50 dark:bg-rose-950/50 border border-rose-200/60 dark:border-rose-800/40 flex items-center justify-center text-rose-600 dark:text-rose-400">
                   <ShieldAlert size={16} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Negocios sin Seguimiento Reciente
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
                     Tratos activos sin actividad registrada en más de 7 días
                   </p>
                 </div>
@@ -655,13 +678,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                       setSelectedRecord({ type: 'opportunity', id: opp.id });
                       setActiveTab('opportunities');
                     }}
-                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer group"
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer group"
                   >
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                      <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                         {opp.name}
                       </div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                      <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
                         <span>{opp.companyName || 'Sin empresa'}</span>
                         <span>·</span>
                         <span className="text-rose-600 dark:text-rose-400 font-semibold">
@@ -670,10 +693,10 @@ export const ExecutiveDashboardView: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-xs font-bold text-slate-900 dark:text-slate-100 tabular-nums font-mono">
+                      <div className="text-xs font-bold text-[var(--text-primary)] dark:text-slate-100 tabular-nums font-mono">
                         {money(opp.amount)}
                       </div>
-                      <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                      <span className="text-[10px] font-semibold text-slate-400 dark:text-[var(--text-muted)]">
                         {opp.probability}% prob.
                       </span>
                     </div>
@@ -682,7 +705,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               })}
 
               {staleOpportunities.length === 0 && (
-                <div className="py-6 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
                   <CheckCircle2 size={24} className="text-emerald-500" />
                   <span>¡Excelente! Todos los negocios tienen seguimiento fresco.</span>
                 </div>
@@ -692,26 +715,26 @@ export const ExecutiveDashboardView: React.FC = () => {
         </div>
 
         {/* Commercial Pipeline Funnel & Stage Breakdown */}
-        <div className="bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-[#1c2d47]">
+        <div className="bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[var(--border-subtle)] dark:border-[#1c2d47]">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Layers size={14} className="text-blue-600 dark:text-blue-400" />
-                <span className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase">
+                <span className="text-[10px] font-bold tracking-widest text-[var(--text-muted)] dark:text-slate-400 uppercase">
                   Dónde intervenir
                 </span>
               </div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+              <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-white tracking-tight">
                 Embudo del Pipeline Comercial
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
                 Distribución de oportunidades y volumen financiero por etapa activa.
               </p>
             </div>
             <button
               type="button"
               onClick={() => setActiveTab('opportunities')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-primary)] dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
             >
               <span>Abrir Pipeline</span>
               <ArrowRight size={13} />
@@ -728,7 +751,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               return (
                 <div
                   key={stage.id}
-                  className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all"
+                  className="p-3.5 rounded-xl border border-[var(--border-subtle)]/80 dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 flex flex-col justify-between hover:border-[var(--border-default)] dark:hover:border-slate-700 transition-all"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-1 mb-2">
@@ -737,20 +760,20 @@ export const ExecutiveDashboardView: React.FC = () => {
                           className="w-2.5 h-2.5 rounded-full shrink-0"
                           style={{ backgroundColor: stage.color }}
                         />
-                        <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                        <span className="text-xs font-bold text-[var(--text-primary)] dark:text-white truncate">
                           {stage.name}
                         </span>
                       </div>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300">
                         {columnDeals.length}
                       </span>
                     </div>
 
-                    <div className="text-base font-extrabold text-slate-900 dark:text-slate-100 tabular-nums font-mono my-1">
+                    <div className="text-base font-extrabold text-[var(--text-primary)] dark:text-slate-100 tabular-nums font-mono my-1">
                       {money(stageSum)}
                     </div>
 
-                    <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden my-2">
+                    <div className="w-full bg-[var(--bg-muted)] dark:bg-slate-800 h-1.5 rounded-full overflow-hidden my-2">
                       <div
                         className="h-full rounded-full transition-all"
                         style={{
@@ -761,7 +784,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-3 space-y-1.5 pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                  <div className="mt-3 space-y-1.5 pt-2 border-t border-[var(--border-subtle)]/60 dark:border-slate-800/60">
                     {columnDeals.slice(0, 2).map((deal) => (
                       <div
                         key={deal.id}
@@ -769,12 +792,12 @@ export const ExecutiveDashboardView: React.FC = () => {
                           setSelectedRecord({ type: 'opportunity', id: deal.id });
                           setActiveTab('opportunities');
                         }}
-                        className="p-1.5 rounded-lg bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400 text-left transition-all cursor-pointer"
+                        className="p-1.5 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800/80 border border-[var(--border-subtle)]/60 dark:border-slate-700/60 hover:border-blue-400 text-left transition-all cursor-pointer"
                       >
-                        <div className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 truncate">
+                        <div className="text-[11px] font-semibold text-[var(--text-primary)] dark:text-slate-200 truncate">
                           {deal.name}
                         </div>
-                        <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] dark:text-slate-400 mt-0.5">
                           <span className="truncate">{deal.companyName || 'Sin empresa'}</span>
                           <span className="font-mono font-bold">{money(deal.amount)}</span>
                         </div>
@@ -790,7 +813,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                       </button>
                     )}
                     {columnDeals.length === 0 && (
-                      <div className="text-[10px] text-slate-400 dark:text-slate-500 italic py-1 text-center">
+                      <div className="text-[10px] text-slate-400 dark:text-[var(--text-muted)] italic py-1 text-center">
                         Sin oportunidades
                       </div>
                     )}
@@ -801,87 +824,105 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
         </div>
 
-        {/* Analytics & Forecasting Grid */}
+        {/* Analytics & Pipeline Health Grid */}
         <div className="crm-analytics-grid grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {/* Ingresos & Tendencia */}
-          <div className="crm-panel lg:col-span-2 bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-[#1c2d47]">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
-                  <BarChart3 size={16} />
+          {/* Salud de Conversión Comercial y Pipeline Activo */}
+          <div className="crm-panel lg:col-span-2 bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-4 border-b border-[var(--border-subtle)] dark:border-[#1c2d47]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
+                    <TrendingUp size={16} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white">
+                      Rendimiento de Conversión & Eficiencia
+                    </h3>
+                    <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                      Tasa de éxito de cierres y distribución de valor en el embudo
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white">
-                    Ingresos Registrados (Tendencia de Cierres)
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Valor acumulado de oportunidades ganadas
-                  </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-800/50">
+                    {winRate}% Win Rate
+                  </span>
                 </div>
               </div>
-              <div className="text-left sm:text-right">
-                <span className="text-[11px] text-slate-400 uppercase font-semibold">Total ganado</span>
-                <div className="text-sm font-bold text-[var(--clientum-success,#4CAF50)] font-mono">
-                  {money(wonTotal)}
+
+              {/* Quick Metrics Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Ticket Promedio</div>
+                  <div className="text-sm font-extrabold text-[var(--text-primary)] dark:text-white font-mono mt-0.5">
+                    {money(averageDealSize)}
+                  </div>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">En Progreso</div>
+                  <div className="text-sm font-extrabold text-blue-600 dark:text-blue-400 font-mono mt-0.5">
+                    {activeOpportunities.length} tratos
+                  </div>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Pipeline Activo</div>
+                  <div className="text-sm font-extrabold text-amber-600 dark:text-amber-400 font-mono mt-0.5">
+                    {money(pipelineTotal)}
+                  </div>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Ciclo Medio</div>
+                  <div className="text-sm font-extrabold text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">
+                    {averageCycleDays} días
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress bars of stages */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-300">
+                  <span>Avance por Etapas del Embudo</span>
+                  <span>{filteredOpportunities.length} tratos totales</span>
+                </div>
+                <div className="w-full h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden flex">
+                  {stageMetrics.map((st) => {
+                    const pct = filteredOpportunities.length > 0 ? (st.count / filteredOpportunities.length) * 100 : 0;
+                    if (pct === 0) return null;
+                    return (
+                      <div
+                        key={st.stage}
+                        style={{ width: `${pct}%` }}
+                        className={`${st.color} transition-all relative group`}
+                        title={`${st.stage}: ${st.count} tratos (${pct.toFixed(0)}%)`}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            <div className="h-56 w-full pt-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="execRevenueGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#0056B3" stopOpacity={0.25} />
-                      <stop offset="100%" stopColor="#0056B3" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis
-                    dataKey="month"
-                    stroke={isDark ? '#64748b' : '#94a3b8'}
-                    fontSize={11}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis
-                    stroke={isDark ? '#64748b' : '#94a3b8'}
-                    fontSize={11}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(val) => `$${val / 1000}k`}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: isDark ? '#0f172a' : '#ffffff',
-                      borderColor: isDark ? '#1e293b' : '#e2e8f0',
-                      borderRadius: '12px',
-                      color: isDark ? '#f8fafc' : '#212121',
-                      fontSize: '12px',
-                      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-                    }}
-                    formatter={(val: any) => [`$ ${Number(val).toLocaleString('es-AR')}`, 'Ingreso']}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#0056B3"
-                    strokeWidth={2.5}
-                    fill="url(#execRevenueGradient)"
-                    dot={false}
-                    activeDot={{ r: 4, fill: '#0056B3', stroke: '#ffffff', strokeWidth: 2 }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="flex items-center justify-between pt-3 mt-4 border-t border-[var(--border-subtle)] dark:border-slate-800/80 text-xs">
+              <span className="text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                Actualizado automáticamente en tiempo real
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveTab('opportunities')}
+                className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center gap-1 cursor-pointer"
+              >
+                Abrir pipeline Kanban <ArrowRight size={12} />
+              </button>
             </div>
           </div>
 
           {/* Distribución por Origen / Tipo */}
-          <div className="crm-panel bg-white dark:bg-[#0e1626] border border-slate-200/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-[#1c2d47]">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+          <div className="crm-panel bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b border-[var(--border-subtle)] dark:border-[#1c2d47]">
+              <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                 Distribución de Oportunidades
               </h3>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400">
                 {filteredOpportunities.length} total
               </span>
             </div>
@@ -908,21 +949,21 @@ export const ExecutiveDashboardView: React.FC = () => {
                 </ResponsiveContainer>
               </div>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
+                <span className="text-xl font-extrabold text-[var(--text-primary)] dark:text-white tabular-nums">
                   {filteredOpportunities.length}
                 </span>
                 <span className="text-[10px] text-slate-400 font-medium">Tratos</span>
               </div>
             </div>
 
-            <div className="space-y-2 mt-2 pt-3 border-t border-slate-100 dark:border-slate-800/80">
+            <div className="space-y-2 mt-2 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800/80">
               {sourceData.map((item) => (
                 <div key={item.name} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">{item.name}</span>
+                    <span className="text-[var(--text-secondary)] dark:text-slate-300 font-medium">{item.name}</span>
                   </div>
-                  <span className="font-bold text-slate-900 dark:text-slate-100">
+                  <span className="font-bold text-[var(--text-primary)] dark:text-slate-100">
                     {item.value}% <span className="text-slate-400 font-normal">({item.count})</span>
                   </span>
                 </div>
@@ -950,19 +991,19 @@ export const ExecutiveDashboardView: React.FC = () => {
 
       {/* Slide-over AI Copilot Drawer */}
       {isChatOpen && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white dark:bg-[#0f172a] border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col transition-all animate-in slide-in-from-right">
+        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-[var(--bg-card)] dark:bg-[#0f172a] border-l border-[var(--border-subtle)] dark:border-slate-800 shadow-2xl flex flex-col transition-all animate-in slide-in-from-right">
           {/* Drawer Header */}
-          <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60">
+          <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--border-subtle)] dark:border-slate-800 bg-[var(--bg-muted)]/80 dark:bg-slate-900/60">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs">
                 <Sparkles size={16} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white flex items-center gap-1.5">
                   Copilot Ejecutivo IA
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">
                   Asistente comercial contextual en línea
                 </p>
               </div>
@@ -970,14 +1011,14 @@ export const ExecutiveDashboardView: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsChatOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <X size={16} />
             </button>
           </div>
 
           {/* Quick Prompt Chips */}
-          <div className="p-3 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800/80 flex flex-wrap gap-1.5">
+          <div className="p-3 bg-[var(--bg-muted)] dark:bg-slate-900/40 border-b border-[var(--border-subtle)]/80 dark:border-slate-800/80 flex flex-wrap gap-1.5">
             {[
               '🎯 ¿Qué negocios priorizar hoy?',
               '📊 Resumen de ventas',
@@ -988,7 +1029,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 key={chip}
                 type="button"
                 onClick={() => handleSendMessage(chip)}
-                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer shadow-2xs"
+                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer shadow-2xs"
               >
                 {chip}
               </button>
@@ -1008,7 +1049,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     msg.sender === 'user'
                       ? 'bg-blue-600 text-white rounded-br-xs'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-bl-xs border border-slate-200/60 dark:border-slate-700/60'
+                      : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-200 rounded-bl-xs border border-[var(--border-subtle)]/60 dark:border-slate-700/60'
                   }`}
                 >
                   <p className="whitespace-pre-line">{msg.text}</p>
@@ -1018,7 +1059,7 @@ export const ExecutiveDashboardView: React.FC = () => {
             ))}
 
             {isAiTyping && (
-              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/70 px-3 py-2 rounded-xl w-fit">
+              <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 bg-[var(--bg-muted)] dark:bg-slate-800/70 px-3 py-2 rounded-xl w-fit">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce" />
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-150" />
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-300" />
@@ -1028,7 +1069,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
 
           {/* Composer */}
-          <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+          <div className="p-3 border-t border-[var(--border-subtle)] dark:border-slate-800 bg-[var(--bg-card)] dark:bg-slate-900">
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -1038,7 +1079,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   if (e.key === 'Enter') handleSendMessage();
                 }}
                 placeholder="Preguntale a Copilot sobre el CRM..."
-                className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+                className="flex-1 bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-[var(--text-primary)] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
               />
               <button
                 type="button"
@@ -1051,18 +1092,6 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Quick Capture Floating Action Button */}
-      <button
-        id="quick-capture-fab"
-        onClick={() => setIsQuickCaptureOpen(true)}
-        className="fixed bottom-6 right-20 z-40 flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-4 py-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-400/30 font-medium text-xs"
-        title="Captura Rápida de Lead por Voz"
-      >
-        <span className="flex h-2.5 w-2.5 rounded-full bg-white animate-ping" />
-        <Mic className="h-4 w-4" />
-        <span>Captura por Voz</span>
-      </button>
 
       {/* Quick Capture Modal */}
       <QuickCaptureModal

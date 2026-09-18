@@ -419,9 +419,9 @@ export const ModuleProspeccionMaps: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-slate-50 text-slate-800 text-xs">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-[var(--bg-muted)] text-[var(--text-primary)] text-xs">
       {/* Header del Módulo */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200 flex items-center gap-1">
@@ -432,10 +432,10 @@ export const ModuleProspeccionMaps: React.FC = () => {
               Places API & Radar
             </span>
           </div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+          <h1 className="text-xl font-bold text-[var(--text-primary)] tracking-tight flex items-center gap-2">
             Prospección Geolocalizada con Google Maps
           </h1>
-          <p className="text-xs text-slate-500 max-w-2xl">
+          <p className="text-xs text-[var(--text-muted)] max-w-2xl">
             Localiza comercios, empresas y distribuidores en cualquier ciudad de América Latina. Visualiza marcadores interactivos en el mapa y expórtalos con 1 clic a la base de datos de leads de tu CRM.
           </p>
         </div>
@@ -445,7 +445,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+            className="px-3 py-2 rounded-xl bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-default)] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
             title="Descargar lista en CSV"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
@@ -456,7 +456,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsConfigOpen(true)}
-              className="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+              className="px-3 py-2 rounded-xl bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-default)] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
             >
               <Settings2 className="w-4 h-4 text-blue-600" />
               <span>Configurar API</span>
@@ -484,11 +484,11 @@ export const ModuleProspeccionMaps: React.FC = () => {
       />
 
       {/* Formulario de Búsqueda y Filtros de Google Maps */}
-      <form onSubmit={handleSearch} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+      <form onSubmit={handleSearch} className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-xs space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
           {/* Palabra clave / Nicho */}
           <div className="sm:col-span-4">
-            <label className="text-[11px] font-bold text-slate-700 block mb-1">
+            <label className="text-[11px] font-bold text-[var(--text-secondary)] block mb-1">
               Rubro Comercial / Palabra Clave
             </label>
             <div className="relative">
@@ -498,14 +498,14 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Ej: Distribuidora, Maquinaria, Estudio Contable..."
-                className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:border-blue-500 outline-hidden transition-all"
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-xs text-[var(--text-primary)] focus:bg-[var(--bg-card)] focus:border-blue-500 outline-hidden transition-all"
               />
             </div>
           </div>
 
           {/* Ciudad / Ubicación */}
           <div className="sm:col-span-4">
-            <label className="text-[11px] font-bold text-slate-700 block mb-1">
+            <label className="text-[11px] font-bold text-[var(--text-secondary)] block mb-1">
               Ciudad / Coordenadas / Región
             </label>
             <div className="relative">
@@ -515,7 +515,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Ej: General Roca, Neuquén, Rosario, Santiago..."
-                className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:border-blue-500 outline-hidden transition-all"
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-xs text-[var(--text-primary)] focus:bg-[var(--bg-card)] focus:border-blue-500 outline-hidden transition-all"
               />
             </div>
           </div>
@@ -523,7 +523,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
           {/* Radio en KM */}
           <div className="sm:col-span-2">
             <div className="flex items-center justify-between mb-1">
-              <label className="text-[11px] font-bold text-slate-700">Radio</label>
+              <label className="text-[11px] font-bold text-[var(--text-secondary)]">Radio</label>
               <span className="text-[11px] font-mono font-bold text-blue-600">{radiusKm} km</span>
             </div>
             <input
@@ -560,7 +560,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
         </div>
 
         {/* Sugerencias Rápidas de Nichos */}
-        <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-slate-100">
+        <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-[var(--border-subtle)]">
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
             Sugerencias:
           </span>
@@ -580,7 +580,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
               className={`px-2 py-1 rounded-lg text-[10px] font-medium transition-colors cursor-pointer ${
                 keyword === sug
                   ? 'bg-blue-100 text-blue-700 font-bold border border-blue-300'
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                  : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]'
               }`}
             >
               {sug}
@@ -593,7 +593,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Columna Izquierda: Mapa Interactivo con Marcadores */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col">
+          <div className="bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-xs overflow-hidden flex flex-col">
             {/* Header del Mapa */}
             <div className="p-3.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
               <div className="flex items-center gap-2">
@@ -608,7 +608,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setMapType(mapType === 'streets' ? 'satellite' : 'streets')}
-                  className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 text-[10px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-slate-200 text-[10px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Layers className="w-3 h-3" />
                   <span>{mapType === 'streets' ? 'Satélite' : 'Calles'}</span>
@@ -616,7 +616,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setZoomLevel((z) => Math.min(z + 1, 16))}
-                  className="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
+                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
                   title="Zoom In"
                 >
                   +
@@ -624,7 +624,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setZoomLevel((z) => Math.max(z - 1, 8))}
-                  className="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
+                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
                   title="Zoom Out"
                 >
                   -
@@ -719,7 +719,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
 
             {/* Ficha Flotante del Marcador Seleccionado */}
             {selectedLead && (
-              <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="p-4 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1 max-w-xl">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">
@@ -736,8 +736,8 @@ export const ModuleProspeccionMaps: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <h3 className="font-bold text-sm text-slate-900">{selectedLead.name}</h3>
-                  <div className="flex items-center gap-3 text-[11px] text-slate-600 flex-wrap">
+                  <h3 className="font-bold text-sm text-[var(--text-primary)]">{selectedLead.name}</h3>
+                  <div className="flex items-center gap-3 text-[11px] text-[var(--text-secondary)] flex-wrap">
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
                       {selectedLead.address}
@@ -789,9 +789,9 @@ export const ModuleProspeccionMaps: React.FC = () => {
 
         {/* Columna Derecha: Tabla y Lista Detallada de Prospectos */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col h-[480px]">
+          <div className="bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-xs flex flex-col h-[480px]">
             {/* Cabecera del Listado */}
-            <div className="p-3.5 border-b border-slate-200 flex items-center justify-between">
+            <div className="p-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -800,7 +800,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                   className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
                   title="Seleccionar todos"
                 />
-                <span className="font-bold text-slate-800 text-xs">
+                <span className="font-bold text-[var(--text-primary)] text-xs">
                   Resultados Localizados ({filteredLeads.length})
                 </span>
               </div>
@@ -811,7 +811,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <select
                   value={minRating}
                   onChange={(e) => setMinRating(Number(e.target.value))}
-                  className="text-[11px] bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 outline-hidden cursor-pointer"
+                  className="text-[11px] bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-lg px-2 py-1 text-[var(--text-secondary)] outline-hidden cursor-pointer"
                 >
                   <option value={0}>Todas las calificaciones</option>
                   <option value={4.0}>★ 4.0 o superior</option>
@@ -821,7 +821,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
             </div>
 
             {/* Listado con scroll */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-2.5 divide-y divide-slate-100">
+            <div className="flex-1 overflow-y-auto p-3 space-y-2.5 divide-y divide-[var(--border-subtle)]">
               {filteredLeads.map((lead) => {
                 const isSelected = selectedIds.includes(lead.id);
                 const isCurrentActive = selectedLead?.id === lead.id;
@@ -833,7 +833,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                     className={`pt-2.5 first:pt-0 p-2 rounded-xl transition-all cursor-pointer flex items-start gap-3 ${
                       isCurrentActive
                         ? 'bg-blue-50/70 border border-blue-200'
-                        : 'hover:bg-slate-50 border border-transparent'
+                        : 'hover:bg-[var(--bg-muted)] border border-transparent'
                     }`}
                   >
                     <input
@@ -848,7 +848,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
 
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex items-center justify-between gap-1">
-                        <h4 className="font-bold text-slate-900 text-xs truncate">
+                        <h4 className="font-bold text-[var(--text-primary)] text-xs truncate">
                           {lead.name}
                         </h4>
                         <span className="text-[10px] font-bold text-amber-600 flex items-center gap-0.5 shrink-0">
@@ -856,12 +856,12 @@ export const ModuleProspeccionMaps: React.FC = () => {
                         </span>
                       </div>
 
-                      <p className="text-[11px] text-slate-500 truncate">
+                      <p className="text-[11px] text-[var(--text-muted)] truncate">
                         {lead.category} • {lead.address}
                       </p>
 
                       <div className="flex items-center gap-2 pt-0.5">
-                        <span className="text-[10px] font-mono text-slate-600">
+                        <span className="text-[10px] font-mono text-[var(--text-secondary)]">
                           {lead.phone}
                         </span>
                         {lead.isImported ? (
@@ -890,8 +890,8 @@ export const ModuleProspeccionMaps: React.FC = () => {
             </div>
 
             {/* Footer de Acciones Rápidas */}
-            <div className="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
-              <span className="text-[11px] text-slate-500">
+            <div className="p-3 bg-[var(--bg-muted)] border-t border-[var(--border-subtle)] flex items-center justify-between gap-2">
+              <span className="text-[11px] text-[var(--text-muted)]">
                 {selectedIds.length > 0
                   ? `${selectedIds.length} seleccionados`
                   : `${filteredLeads.length} prospectos listos`}

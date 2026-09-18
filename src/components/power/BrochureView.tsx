@@ -614,7 +614,7 @@ export const BrochureView: React.FC = () => {
 
                 <div className="pt-3 border-t border-[#1e273a] flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-500 block">PRECIO:</span>
+                    <span className="text-[10px] text-[var(--text-muted)] block">PRECIO:</span>
                     <span className="font-black text-sm text-emerald-400">
                       {item.regularPrice > 0 
                         ? `$${item.regularPrice.toLocaleString()} ${item.currency}`

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Tailwind v4 usa prefers-color-scheme por defecto para "dark:". El toggle
+   manual de tema (ThemeContext) alterna la clase .dark en <html>, así que
+   forzamos aquí a que "dark:" responda a esa clase en vez de solo al SO. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ==========================================================================
    PALETA DE MARCA — Navy del logo Clientum
    Sobrescribe la escala "blue" de Tailwind para que bg-blue-*, text-blue-*,

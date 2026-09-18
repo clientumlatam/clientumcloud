@@ -140,7 +140,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
               >
                 {node.type}
               </span>
-              <span className="text-[9px] font-mono text-slate-500">
+              <span className="text-[9px] font-mono text-[var(--text-muted)]">
                 Etapa {node.stageIndex + 1}
               </span>
             </div>
@@ -222,7 +222,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
             Rama: {node.branchLabel}
           </span>
         ) : (
-          <span className="text-slate-500 font-mono">ID: {node.id}</span>
+          <span className="text-[var(--text-muted)] font-mono">ID: {node.id}</span>
         )}
 
         {/* Quick Add Child button */}

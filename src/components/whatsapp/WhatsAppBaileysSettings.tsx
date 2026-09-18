@@ -89,9 +89,9 @@ export const WhatsAppBaileysSettings: React.FC = () => {
       </div>
 
       <div className="bg-[#131722] p-6 rounded-2xl border border-[#212a3d] flex flex-col md:flex-row items-center gap-6">
-        <div className="w-52 h-52 bg-white p-3 rounded-2xl flex items-center justify-center shrink-0 shadow-lg relative group">
-          <div className="w-full h-full border-4 border-dashed border-slate-800 flex flex-col items-center justify-center text-center p-2 text-slate-800 font-bold text-[11px] gap-2">
-            <QrCode className="w-16 h-16 text-slate-900" />
+        <div className="w-52 h-52 bg-[var(--bg-card)] p-3 rounded-2xl flex items-center justify-center shrink-0 shadow-lg relative group">
+          <div className="w-full h-full border-4 border-dashed border-slate-800 flex flex-col items-center justify-center text-center p-2 text-[var(--text-primary)] font-bold text-[11px] gap-2">
+            <QrCode className="w-16 h-16 text-[var(--text-primary)]" />
             <span>[ ESCANEAR CÓDIGO QR ]</span>
           </div>
         </div>

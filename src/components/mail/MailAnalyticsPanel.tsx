@@ -539,7 +539,7 @@ export const MailAnalyticsPanel: React.FC<{
                 className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   visibleLines.deliveryRate
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-slate-500 hover:text-slate-300'
+                    : 'text-[var(--text-muted)] hover:text-slate-300'
                 }`}
                 title="Mostrar/ocultar Delivery Rate"
               >
@@ -554,7 +554,7 @@ export const MailAnalyticsPanel: React.FC<{
                 className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   visibleLines.openRate
                     ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                    : 'text-slate-500 hover:text-slate-300'
+                    : 'text-[var(--text-muted)] hover:text-slate-300'
                 }`}
                 title="Mostrar/ocultar Open Rate"
               >
@@ -569,7 +569,7 @@ export const MailAnalyticsPanel: React.FC<{
                 className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   visibleLines.clickRate
                     ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
-                    : 'text-slate-500 hover:text-slate-300'
+                    : 'text-[var(--text-muted)] hover:text-slate-300'
                 }`}
                 title="Mostrar/ocultar Click-Through Rate"
               >
