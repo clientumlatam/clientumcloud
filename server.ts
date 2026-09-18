@@ -1087,6 +1087,15 @@ function isPlatformPlanId(value: unknown): value is PlatformPlanId {
   return typeof normalizePlatformPlanId(value) !== "undefined";
 }
 
+function getPlanAmount(planId: PlatformPlanId, cycle: "monthly" | "annual"): number {
+  if (cycle === "annual") {
+    if (planId === "starter") return (Number(process.env.PLATFORM_PLAN_STARTER_ANNUAL_ARS) || 11900) * 12;
+    if (planId === "growth") return (Number(process.env.PLATFORM_PLAN_GROWTH_ANNUAL_ARS) || 23900) * 12;
+    if (planId === "scale") return (Number(process.env.PLATFORM_PLAN_SCALE_ANNUAL_ARS) || 47900) * 12;
+  }
+  return PLATFORM_PLANS[planId].amount;
+}
+
 function getPlatformMercadoPagoToken(): string | undefined {
   const token = process.env.PLATFORM_MERCADOPAGO_ACCESS_TOKEN?.trim();
   return token && !isPlaceholderValue(token) ? token : undefined;
@@ -1217,6 +1226,7 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
   const rawPlanId = req.body?.planId;
   const normalizedPlan = normalizePlatformPlanId(rawPlanId);
   const payerEmail = typeof req.body?.payerEmail === "string" ? req.body.payerEmail.trim().slice(0, 160) : "";
+  const billingCycle = req.body?.billingCycle === "annual" ? "annual" : "monthly";
   
   if (!normalizedPlan || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail)) {
     res.status(400).json({ error: "Selecciona un plan válido y proporciona un correo válido para la suscripción." });
@@ -1225,6 +1235,7 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
 
   const plan = PLATFORM_PLANS[normalizedPlan];
   const accessToken = getPlatformMercadoPagoToken();
+  const amount = getPlanAmount(normalizedPlan, billingCycle);
 
   // If live credentials or PostgreSQL are not present, return simulated sandbox checkout so users can test immediately
   if (!accessToken || !credentialDatabase) {
@@ -1234,10 +1245,11 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
       checkoutId,
       subscriptionId: simulatedSubId,
       planId: normalizedPlan,
+      billingCycle,
       checkoutUrl: null,
       status: "pending",
       sandbox: true,
-      amount: plan.amount,
+      amount,
       message: "Modo de simulación Mercado Pago habilitado.",
     });
     return;
@@ -1247,17 +1259,29 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
     const planId = normalizedPlan;
     const externalReference = `clientum_platform_${userId}_${Date.now()}_${randomBytes(5).toString("hex")}`;
     const appUrl = getPublicAppUrl();
+
+    // Map plan id to Mercado Pago preapproval plan ID if present in environment
+    const envVarName = `PLATFORM_MP_PLAN_ID_${planId.toUpperCase()}_${billingCycle.toUpperCase()}`;
+    const preapprovalPlanId = process.env[envVarName]?.trim();
+
     const subscriptionPayload: Record<string, unknown> = {
-      reason: `Suscripción ClientumCRM ${plan.name}`,
+      reason: `Suscripción ClientumCRM ${plan.name} (${billingCycle === "annual" ? "Anual" : "Mensual"})`,
       external_reference: externalReference,
       payer_email: payerEmail,
-      auto_recurring: {
-        frequency: 1,
-        frequency_type: "months",
-        transaction_amount: plan.amount,
-        currency_id: "ARS",
-      },
     };
+
+    if (preapprovalPlanId) {
+      subscriptionPayload.preapproval_plan_id = preapprovalPlanId;
+    } else {
+      // Fallback inline recurring definition if MP plan ID is not configured
+      subscriptionPayload.auto_recurring = {
+        frequency: billingCycle === "annual" ? 1 : 1,
+        frequency_type: billingCycle === "annual" ? "years" : "months",
+        transaction_amount: amount,
+        currency_id: "ARS",
+      };
+    }
+
     if (appUrl) {
       subscriptionPayload.back_url = `${appUrl}/app?billing=subscription`;
       subscriptionPayload.notification_url = `${appUrl}/api/billing/mercadopago/webhook`;
@@ -1288,20 +1312,113 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
     await credentialDatabase.query(
       `INSERT INTO clientum_platform_billing_checkouts
         (id, clerk_user_id, plan_id, external_reference, preference_id, provider_subscription_id,
-         amount, currency, payer_email, init_point)
-       VALUES ($1, $2, $3, $4, NULL, $5, $6, 'ARS', $7, $8)`,
-      [checkoutId, userId, planId, externalReference, payload.id || null, plan.amount, payerEmail, payload.init_point],
+         amount, currency, payer_email, init_point, preapproval_plan_id, billing_cycle)
+       VALUES ($1, $2, $3, $4, NULL, $5, $6, 'ARS', $7, $8, $9, $10)`,
+      [
+        checkoutId,
+        userId,
+        planId,
+        externalReference,
+        payload.id || null,
+        amount,
+        payerEmail,
+        payload.init_point,
+        preapprovalPlanId || null,
+        billingCycle
+      ],
     );
     res.status(201).json({
       checkoutId,
       subscriptionId: payload.id || null,
       planId,
+      billingCycle,
       checkoutUrl: payload.init_point,
       status: "pending",
     });
   } catch (error: any) {
     console.error("Platform billing checkout error:", error?.message || error);
     res.status(500).json({ error: "No se pudo crear el checkout de Mercado Pago." });
+  }
+});
+
+app.put("/api/billing/subscription/:checkoutId/cancel", async (req, res) => {
+  const verifiedUserId = await getRequestUserId(req);
+  if (!verifiedUserId) {
+    res.status(401).json({ error: "Sesión de usuario no verificada." });
+    return;
+  }
+  if (!credentialDatabase) {
+    res.status(503).json({ error: "PostgreSQL no está configurado." });
+    return;
+  }
+
+  const { checkoutId } = req.params;
+
+  try {
+    const result = await credentialDatabase.query<{
+      provider_subscription_id: string | null;
+      clerk_user_id: string;
+    }>(
+      `SELECT provider_subscription_id, clerk_user_id
+       FROM clientum_platform_billing_checkouts
+       WHERE id = $1 LIMIT 1`,
+      [checkoutId]
+    );
+
+    const subscription = result.rows[0];
+    if (!subscription) {
+      res.status(404).json({ error: "Suscripción no encontrada." });
+      return;
+    }
+
+    if (subscription.clerk_user_id !== verifiedUserId) {
+      res.status(403).json({ error: "No tienes permiso para cancelar esta suscripción." });
+      return;
+    }
+
+    const subId = subscription.provider_subscription_id;
+    if (!subId) {
+      // For simulated or pending checkout with no provider sub ID, just mark cancelled locally
+      await credentialDatabase.query(
+        `UPDATE clientum_platform_billing_checkouts
+         SET status = 'cancelled', updated_at = NOW()
+         WHERE id = $1`,
+        [checkoutId]
+      );
+      res.json({ success: true, message: "Suscripción cancelada localmente." });
+      return;
+    }
+
+    const accessToken = getPlatformMercadoPagoToken();
+    if (accessToken) {
+      const response = await fetch(`https://api.mercadopago.com/preapproval/${encodeURIComponent(subId)}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "cancelled" }),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        console.error("Cancel Mercado Pago subscription failed:", response.status, payload);
+        res.status(502).json({ error: "Mercado Pago rechazó la cancelación de la suscripción." });
+        return;
+      }
+    }
+
+    await credentialDatabase.query(
+      `UPDATE clientum_platform_billing_checkouts
+       SET status = 'cancelled', updated_at = NOW()
+       WHERE id = $1`,
+      [checkoutId]
+    );
+
+    res.json({ success: true, message: "Suscripción cancelada exitosamente." });
+  } catch (error: any) {
+    console.error("Platform billing subscription cancel error:", error?.message || error);
+    res.status(500).json({ error: "No se pudo cancelar la suscripción." });
   }
 });
 

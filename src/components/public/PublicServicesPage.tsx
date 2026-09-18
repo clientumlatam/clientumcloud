@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Briefcase,
   CheckCircle2,
@@ -9,7 +9,9 @@ import {
   Code,
   Layers,
   BarChart3,
-  Bot
+  Bot,
+  Calendar,
+  Award
 } from 'lucide-react';
 import { CLIENTUM_SERVICES } from '../../data/clientumCatalog';
 import { PublicRoutePath } from './publicRoutes';
@@ -20,6 +22,7 @@ interface PublicServicesPageProps {
 }
 
 export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNavigate, onOpenWizard }) => {
+  const [selectedScope, setSelectedScope] = useState<'express' | 'full' | 'enterprise'>('full');
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
       
@@ -98,6 +101,90 @@ export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNaviga
           </div>
         ))}
       </div>
+
+      {/* Interactive SLA & Implementation Calculator */}
+      <section className="bg-slate-900 text-white border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="text-center max-w-2xl mx-auto space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+            <Clock className="w-3.5 h-3.5 text-blue-400" />
+            <span>Estimador Interactivo de Plazos & SLA Garantizado</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Seleccioná el Alcance de Implementación para tu PyME
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300">
+            Compromiso por contrato con penalización por demora. Entregamos soluciones listas para operar con capacitación de personal.
+          </p>
+        </div>
+
+        {/* Scope Selector Tabs */}
+        <div className="flex justify-center relative z-10">
+          <div className="inline-flex p-1 rounded-xl bg-slate-800 border border-slate-700">
+            <button
+              onClick={() => setSelectedScope('express')}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedScope === 'express' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Arranque Exprés (5 Días)
+            </button>
+            <button
+              onClick={() => setSelectedScope('full')}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedScope === 'full' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Puesta en Marcha Integral (10 Días)
+            </button>
+            <button
+              onClick={() => setSelectedScope('enterprise')}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedScope === 'enterprise' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Enterprise & ERP Custom (18 Días)
+            </button>
+          </div>
+        </div>
+
+        {/* Dynamic Scope Result Box */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 relative z-10">
+          <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 backdrop-blur-xs">
+            <div className="text-xs text-slate-400 font-semibold">Tiempo Estimado de Entrega</div>
+            <div className="text-2xl font-black text-blue-400 font-mono">
+              {selectedScope === 'express' && '5 Días Hábiles'}
+              {selectedScope === 'full' && '10 Días Hábiles'}
+              {selectedScope === 'enterprise' && '18 Días Hábiles'}
+            </div>
+            <div className="text-[11px] text-slate-300">Garantía por SLA con entrega auditada por acta.</div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 backdrop-blur-xs">
+            <div className="text-xs text-slate-400 font-semibold">Entregables Principales</div>
+            <div className="text-xs font-bold text-white leading-relaxed">
+              {selectedScope === 'express' && 'Sincronización WhatsApp + Pipeline CRM + Plantillas Oficiales.'}
+              {selectedScope === 'full' && 'WhatsApp IA Gemini + Homologación AFIP + Certificados + Capacitación.'}
+              {selectedScope === 'enterprise' && 'Conectores ERP + API Gateway + Flujos Custom DAG + Capacitación In-Company.'}
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 space-y-3 flex flex-col justify-between">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-blue-200">Ingeniero Asignado</div>
+              <div className="text-sm font-bold text-white mt-1">Especialista Sénior Dedicado</div>
+              <p className="text-[11px] text-blue-100 mt-0.5">Acompañamiento 1 a 1 por canal directo de WhatsApp.</p>
+            </div>
+            <button
+              onClick={onOpenWizard}
+              className="w-full py-2.5 rounded-xl bg-white hover:bg-blue-50 text-blue-900 font-bold text-xs cursor-pointer transition-colors shadow-xs"
+            >
+              Reservar Fecha de Inicio
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Methodology Section */}
       <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">

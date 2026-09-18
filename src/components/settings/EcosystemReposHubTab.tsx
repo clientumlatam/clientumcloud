@@ -283,24 +283,24 @@ export const EcosystemReposHubTab: React.FC = () => {
   return (
     <div id="ecosystem-repos-hub" className="space-y-6 max-w-5xl">
       {/* Top Architecture & Roadmap Banner */}
-      <div className="bg-gradient-to-r from-[#0d1424] via-[#11192e] to-[#0c1322] border border-[#1e2a4a] p-5 rounded-2xl shadow-lg relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[var(--bg-muted)] via-[var(--bg-card)] to-[var(--bg-muted)] border border-[var(--border-strong)] p-5 rounded-2xl shadow-lg relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 font-mono text-[11px] font-semibold border border-blue-500/30">
+                <span className="px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-700 dark:text-blue-300 font-mono text-[11px] font-semibold border border-blue-500/30">
                   Clientum Latam Ecosystem
                 </span>
-                <span className="text-[11px] text-slate-400">32+ Repositorios Mapeados</span>
+                <span className="text-[11px] text-[var(--text-muted)]">32+ Repositorios Mapeados</span>
               </div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <FolderGit2 className="w-5 h-5 text-blue-400" />
+              <h3 className="text-base font-bold text-[var(--text-primary)] flex items-center gap-2">
+                <FolderGit2 className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                 Arquitectura, Migración & Sincronización de Módulos
               </h3>
-              <p className="text-xs text-slate-300 max-w-2xl mt-1 leading-relaxed">
-                Centro de comando para consolidar todos los módulos del ecosistema <strong className="text-blue-300 font-semibold">@clientumlatam</strong> en esta plataforma: transcripción de audio WhatsApp, Cloudflare Webmail, esquemas de metadatos dinámicos, automatizaciones y brochure builder.
+              <p className="text-xs text-[var(--text-muted)] max-w-2xl mt-1 leading-relaxed">
+                Centro de comando para consolidar todos los módulos del ecosistema <strong className="text-blue-500 dark:text-blue-300 font-semibold">@clientumlatam</strong> en esta plataforma: transcripción de audio WhatsApp, Cloudflare Webmail, esquemas de metadatos dinámicos, automatizaciones y brochure builder.
               </p>
             </div>
 
@@ -318,31 +318,31 @@ export const EcosystemReposHubTab: React.FC = () => {
           </div>
 
           {/* Architecture Roadmap Metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-[#1a2542]">
-            <div className="bg-[#09101f]/80 p-3 rounded-xl border border-[#1a2644]">
-              <div className="text-[11px] text-slate-400 font-medium">Core CRM & CloudOS</div>
-              <div className="text-sm font-bold text-emerald-400 flex items-center gap-1.5 mt-0.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-[var(--border-subtle)]">
+            <div className="bg-[var(--bg-muted)]/80 p-3 rounded-xl border border-[var(--border-subtle)]">
+              <div className="text-[11px] text-[var(--text-muted)] font-medium">Core CRM & CloudOS</div>
+              <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mt-0.5">
                 <ShieldCheck className="w-4 h-4" /> 100% Consolidado
               </div>
             </div>
 
-            <div className="bg-[#09101f]/80 p-3 rounded-xl border border-[#1a2644]">
-              <div className="text-[11px] text-slate-400 font-medium">WhatsApp Audio & IA</div>
-              <div className="text-sm font-bold text-blue-400 flex items-center gap-1.5 mt-0.5">
+            <div className="bg-[var(--bg-muted)]/80 p-3 rounded-xl border border-[var(--border-subtle)]">
+              <div className="text-[11px] text-[var(--text-muted)] font-medium">WhatsApp Audio & IA</div>
+              <div className="text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 mt-0.5">
                 <Mic className="w-4 h-4" /> Audio-to-Text Activo
               </div>
             </div>
 
-            <div className="bg-[#09101f]/80 p-3 rounded-xl border border-[#1a2644]">
-              <div className="text-[11px] text-slate-400 font-medium">Cloudflare Webmail</div>
-              <div className="text-sm font-bold text-indigo-400 flex items-center gap-1.5 mt-0.5">
+            <div className="bg-[var(--bg-muted)]/80 p-3 rounded-xl border border-[var(--border-subtle)]">
+              <div className="text-[11px] text-[var(--text-muted)] font-medium">Cloudflare Webmail</div>
+              <div className="text-sm font-bold text-indigo-650 dark:text-indigo-400 flex items-center gap-1.5 mt-0.5">
                 <Mail className="w-4 h-4" /> Worker Integrado
               </div>
             </div>
 
-            <div className="bg-[#09101f]/80 p-3 rounded-xl border border-[#1a2644]">
-              <div className="text-[11px] text-slate-400 font-medium">Metadata Schema Engine</div>
-              <div className="text-sm font-bold text-purple-400 flex items-center gap-1.5 mt-0.5">
+            <div className="bg-[var(--bg-muted)]/80 p-3 rounded-xl border border-[var(--border-subtle)]">
+              <div className="text-[11px] text-[var(--text-muted)] font-medium">Metadata Schema Engine</div>
+              <div className="text-sm font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1.5 mt-0.5">
                 <Database className="w-4 h-4" /> Metadata Ready
               </div>
             </div>
@@ -354,25 +354,25 @@ export const EcosystemReposHubTab: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         {/* Search Input */}
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Buscar por módulo, repo o tecnología..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#121620] text-xs text-white pl-9 pr-3 py-2 rounded-xl border border-[#1e2538] focus:outline-none focus:border-blue-500 placeholder-slate-500"
+            className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] pl-9 pr-3 py-2 rounded-xl border border-[var(--border-strong)] focus:outline-hidden focus:border-blue-500 placeholder-[var(--text-muted)]"
           />
         </div>
 
         {/* Status Filter */}
         <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
-          <span className="text-xs text-slate-400 shrink-0 flex items-center gap-1">
+          <span className="text-xs text-[var(--text-muted)] shrink-0 flex items-center gap-1">
             <Filter className="w-3.5 h-3.5" /> Estado:
           </span>
           <select
             value={syncStatusFilter}
             onChange={(e) => setSyncStatusFilter(e.target.value)}
-            className="bg-[#121620] text-xs text-slate-200 px-3 py-1.5 rounded-xl border border-[#1e2538] focus:outline-none focus:border-blue-500 cursor-pointer"
+            className="bg-[var(--bg-input)] text-xs text-[var(--text-secondary)] px-3 py-1.5 rounded-xl border border-[var(--border-strong)] focus:outline-hidden focus:border-blue-500 cursor-pointer"
           >
             <option value="all">Todos los Estados</option>
             <option value="consolidated">Consolidados</option>
@@ -384,7 +384,7 @@ export const EcosystemReposHubTab: React.FC = () => {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#1a2336]">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[var(--border-subtle)]">
         {categories.map((cat) => (
           <button
             key={cat.id}
@@ -392,7 +392,7 @@ export const EcosystemReposHubTab: React.FC = () => {
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 flex items-center gap-1.5 cursor-pointer ${
               selectedCategory === cat.id
                 ? 'bg-blue-600 text-white font-semibold shadow-2xs'
-                : 'bg-[#12151f] text-slate-400 hover:text-white hover:bg-[#181e2c]'
+                : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)]'
             }`}
           >
             <span>{cat.label}</span>
@@ -408,14 +408,14 @@ export const EcosystemReposHubTab: React.FC = () => {
         {filteredRepos.map((repo) => (
           <div
             key={repo.id}
-            className="bg-[#10141f] border border-[#1b2336] hover:border-[#2d3b5b] p-4.5 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:shadow-lg group"
+            className="bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] p-4.5 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:shadow-lg group"
           >
             <div>
               {/* Header */}
               <div className="flex items-start justify-between gap-3 mb-2.5">
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 font-bold text-xs">
+                    <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400 shrink-0 font-bold text-xs">
                       {repo.category === 'ai-audio' && <Mic className="w-4 h-4" />}
                       {repo.category === 'webmail-comms' && <Mail className="w-4 h-4" />}
                       {repo.category === 'core' && <Layers className="w-4 h-4" />}
@@ -425,10 +425,10 @@ export const EcosystemReposHubTab: React.FC = () => {
                       {repo.category === 'migration-arch' && <RefreshCw className="w-4 h-4" />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-white group-hover:text-blue-300 transition-colors">
+                      <h4 className="text-xs font-bold text-[var(--text-primary)] group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
                         {repo.name}
                       </h4>
-                      <span className="text-[10px] font-mono text-slate-400">
+                      <span className="text-[10px] font-mono text-[var(--text-muted)]">
                         {repo.repoName}
                       </span>
                     </div>
@@ -439,7 +439,7 @@ export const EcosystemReposHubTab: React.FC = () => {
               </div>
 
               {/* Description */}
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-3">
                 {repo.description}
               </p>
 
@@ -450,7 +450,7 @@ export const EcosystemReposHubTab: React.FC = () => {
                   {repo.keyFeatures.map((feat, i) => (
                     <span
                       key={i}
-                      className="px-2 py-0.5 rounded-md bg-[#161c2b] text-[10px] text-slate-300 border border-[#222c42]"
+                      className="px-2 py-0.5 rounded-md bg-[var(--bg-muted)] text-[10px] text-[var(--text-secondary)] border border-[var(--border-subtle)]"
                     >
                       {feat}
                     </span>
@@ -463,7 +463,7 @@ export const EcosystemReposHubTab: React.FC = () => {
                 {repo.techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-2 py-0.5 rounded bg-[#131722] text-[10px] font-mono text-blue-300/80 border border-[#1e2538]"
+                    className="px-2 py-0.5 rounded bg-[var(--bg-input)] text-[10px] font-mono text-blue-600 dark:text-blue-450 border border-[var(--border-subtle)]"
                   >
                     {tech}
                   </span>
@@ -472,9 +472,9 @@ export const EcosystemReposHubTab: React.FC = () => {
             </div>
 
             {/* Footer Action */}
-            <div className="pt-3 border-t border-[#182032] flex items-center justify-between text-xs">
-              <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 {repo.integrationAction}
               </span>
 
@@ -482,7 +482,7 @@ export const EcosystemReposHubTab: React.FC = () => {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-1 text-blue-500 dark:text-blue-400 hover:text-blue-650 dark:hover:text-blue-300 text-xs font-semibold transition-colors"
               >
                 <span>Ver Código</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -493,9 +493,9 @@ export const EcosystemReposHubTab: React.FC = () => {
       </div>
 
       {filteredRepos.length === 0 && (
-        <div className="text-center py-12 bg-[#10141f] rounded-2xl border border-[#1b2336] p-6">
+        <div className="text-center py-12 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] p-6">
           <FolderGit2 className="w-8 h-8 text-[var(--text-muted)] mx-auto mb-2" />
-          <p className="text-sm font-semibold text-slate-300">No se encontraron repositorios</p>
+          <p className="text-sm font-semibold text-[var(--text-secondary)]">No se encontraron repositorios</p>
           <p className="text-xs text-[var(--text-muted)] mt-1">Prueba con otros términos de búsqueda o filtros de estado.</p>
         </div>
       )}

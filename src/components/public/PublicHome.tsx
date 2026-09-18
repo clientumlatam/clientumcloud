@@ -58,6 +58,14 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
   // FAQ accordion state
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  // ROI Calculator state
+  const [roiRepCount, setRoiRepCount] = useState<number>(5);
+  const [roiMonthlyLeads, setRoiMonthlyLeads] = useState<number>(180);
+  const [roiAvgDealARS, setRoiAvgDealARS] = useState<number>(550000);
+
+  const estimatedExtraRevenue = Math.round(roiMonthlyLeads * 0.16 * roiAvgDealARS);
+  const estimatedHoursSaved = roiRepCount * 24;
+
   // WhatsApp demo interactive messages
   const [waMessages, setWaMessages] = useState<Array<{ sender: 'user' | 'bot'; text: string; time: string }>>([
     { sender: 'user', text: 'Hola, vi sus planes de CRM para distribución mayorista. ¿Tienen precios en pesos?', time: '10:42' },
@@ -111,29 +119,29 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
   ];
 
   return (
-    <div className="bg-white text-slate-900 space-y-24 pb-20">
+    <div className="bg-[var(--bg-canvas)] dark:bg-[#040711] text-[var(--text-primary)] dark:text-slate-100 space-y-24 pb-20 transition-colors duration-200">
       
       {/* 1. HERO SECTION */}
-      <section className="relative pt-14 pb-16 lg:pt-20 lg:pb-24 overflow-hidden border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white">
+      <section className="relative pt-14 pb-16 lg:pt-20 lg:pb-24 overflow-hidden border-b border-[var(--border-subtle)] dark:border-[#1e2e4a] bg-gradient-to-b from-[var(--bg-muted)] via-[var(--bg-canvas)] to-[var(--bg-surface)] dark:from-[#080d1a] dark:via-[#050812] dark:to-[#090e1c]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             
             {/* Top pill badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-900 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-xs font-semibold text-blue-900 dark:text-blue-300 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Plataforma Comercial Omnicanal • +1.750 PyMEs en Cono Sur</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--text-primary)] dark:text-white tracking-tight leading-[1.15]">
               El CRM comercial que convierte tus{' '}
-              <span className="text-blue-600">
+              <span className="text-[var(--clientum-action,#0056B3)] dark:text-blue-400">
                 Conversaciones en Ventas
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-[var(--text-secondary)] dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
               Unifica WhatsApp, pipeline visual Kanban y facturación AFIP en una sola plataforma.
               Operá con soporte humano, moneda local y herramientas pensadas para PyMEs latinoamericanas.
             </p>
@@ -167,21 +175,21 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
 
             {/* Verified Metric Badges */}
             <div className="pt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
-                <div className="text-xl sm:text-2xl font-black text-slate-900">{CLIENTUM_BROCHURE_METRICS.activePymes}</div>
-                <div className="text-xs text-slate-500 font-medium">PyMEs Activas en Latam</div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-[#0d1527] border border-[var(--border-subtle)] dark:border-[#1e2e4a] shadow-2xs transition-colors">
+                <div className="text-xl sm:text-2xl font-black text-[var(--text-primary)] dark:text-white">{CLIENTUM_BROCHURE_METRICS.activePymes}</div>
+                <div className="text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">PyMEs Activas en Latam</div>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
-                <div className="text-xl sm:text-2xl font-black text-blue-600">{CLIENTUM_BROCHURE_METRICS.slaReal}</div>
-                <div className="text-xs text-slate-500 font-medium">Disponibilidad SLA Real</div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-[#0d1527] border border-[var(--border-subtle)] dark:border-[#1e2e4a] shadow-2xs transition-colors">
+                <div className="text-xl sm:text-2xl font-black text-blue-600 dark:text-blue-400">{CLIENTUM_BROCHURE_METRICS.slaReal}</div>
+                <div className="text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">Disponibilidad SLA Real</div>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
-                <div className="text-xl sm:text-2xl font-black text-emerald-600">&lt; 4 horas</div>
-                <div className="text-xs text-slate-500 font-medium">Soporte Humano WhatsApp</div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-[#0d1527] border border-[var(--border-subtle)] dark:border-[#1e2e4a] shadow-2xs transition-colors">
+                <div className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">&lt; 4 horas</div>
+                <div className="text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">Soporte Humano WhatsApp</div>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
-                <div className="text-xl sm:text-2xl font-black text-slate-900">&lt; 5 días</div>
-                <div className="text-xs text-slate-500 font-medium">Implementación Completa</div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-[#0d1527] border border-[var(--border-subtle)] dark:border-[#1e2e4a] shadow-2xs transition-colors">
+                <div className="text-xl sm:text-2xl font-black text-[var(--text-primary)] dark:text-white">&lt; 5 días</div>
+                <div className="text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">Implementación Completa</div>
               </div>
             </div>
 
@@ -596,6 +604,125 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
         onOpenWizard={onOpenWizard}
         onOpenSimulator={onOpenSimulator}
       />
+
+      {/* 6.1 INTERACTIVE ROI & FINANCIAL SAVINGS CALCULATOR */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white border border-slate-800 shadow-xl space-y-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mt-10 -mr-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="text-center max-w-2xl mx-auto space-y-2 relative z-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+              <Calculator className="w-3.5 h-3.5 text-blue-400" />
+              <span>Calculadora de Impacto Comercial & ROI</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+              Calculá el Retorno de Inversión Estimado para tu Empresa
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300">
+              Simulá los resultados proyectados al automatizar conversaciones de WhatsApp, reducir el enfriamiento de ofertas y facturar con CAE automático.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            {/* Sliders Box */}
+            <div className="lg:col-span-7 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xs space-y-6">
+              {/* Slider 1: Reps Count */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-300">Vendedores en el Equipo:</span>
+                  <span className="font-black text-blue-300 bg-blue-900/60 px-2.5 py-0.5 rounded border border-blue-700/60">
+                    {roiRepCount} Asesores
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="30"
+                  value={roiRepCount}
+                  onChange={(e) => setRoiRepCount(Number(e.target.value))}
+                  className="w-full accent-blue-500 h-2 bg-slate-700 rounded-lg cursor-pointer"
+                />
+              </div>
+
+              {/* Slider 2: Monthly Leads */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-300">Consultas / Leads por Mes (WhatsApp & Web):</span>
+                  <span className="font-black text-emerald-300 bg-emerald-900/60 px-2.5 py-0.5 rounded border border-emerald-700/60">
+                    {roiMonthlyLeads} Leads / mes
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="30"
+                  max="1000"
+                  step="10"
+                  value={roiMonthlyLeads}
+                  onChange={(e) => setRoiMonthlyLeads(Number(e.target.value))}
+                  className="w-full accent-emerald-500 h-2 bg-slate-700 rounded-lg cursor-pointer"
+                />
+              </div>
+
+              {/* Slider 3: Ticket Promedio ARS */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-300">Valor Promedio de Venta / Venta Promedio (ARS):</span>
+                  <span className="font-black text-amber-300 bg-amber-900/60 px-2.5 py-0.5 rounded border border-amber-700/60">
+                    ${roiAvgDealARS.toLocaleString('es-AR')} ARS
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="100000"
+                  max="3000000"
+                  step="50000"
+                  value={roiAvgDealARS}
+                  onChange={(e) => setRoiAvgDealARS(Number(e.target.value))}
+                  className="w-full accent-amber-500 h-2 bg-slate-700 rounded-lg cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Calculated Impact Card */}
+            <div className="lg:col-span-5 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 space-y-5 shadow-lg border border-blue-400/30">
+              <div className="text-xs font-bold uppercase tracking-wider text-blue-200">
+                Resultados Proyectados Estimados
+              </div>
+
+              <div className="space-y-3">
+                <div className="p-3.5 bg-white/10 rounded-xl border border-white/10">
+                  <div className="text-[11px] text-blue-100 font-medium">Facturación Adicional Estimada / Mes:</div>
+                  <div className="text-2xl sm:text-3xl font-black text-white font-mono mt-0.5">
+                    +${estimatedExtraRevenue.toLocaleString('es-AR')} ARS
+                  </div>
+                  <div className="text-[10px] text-emerald-300 font-semibold mt-1">
+                    ✨ +16% de tasa de conversión incremental estimada
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 bg-white/10 rounded-xl border border-white/10">
+                    <div className="text-[10px] text-blue-100">Horas Ahorradas / Mes:</div>
+                    <div className="text-xl font-black text-white font-mono">{estimatedHoursSaved}hs</div>
+                  </div>
+                  <div className="p-3 bg-white/10 rounded-xl border border-white/10">
+                    <div className="text-[10px] text-blue-100">Recuperación Inversión:</div>
+                    <div className="text-xl font-black text-emerald-300 font-mono">&lt; 9 Días</div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={onOpenWizard}
+                className="w-full py-3 rounded-xl bg-white hover:bg-blue-50 text-blue-900 font-bold text-xs shadow-md transition-colors cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>Descargar Informe de ROI Personalizado</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 7. CLIENTUM VS TRADITIONAL CRM COMPARISON */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

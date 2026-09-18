@@ -67,28 +67,28 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
   return (
     <div
       id="theme-settings-modal-backdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
         id="theme-settings-modal-container"
-        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-[var(--bg-card)] dark:bg-[#0c1222] border border-[var(--border-subtle)] dark:border-[#1a2642] shadow-2xl overflow-hidden text-[var(--text-primary)] dark:text-white"
+        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-2xl overflow-hidden text-[var(--text-primary)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)]/70 dark:bg-[#080d19]/80 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)] bg-[var(--bg-muted)]/70 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <div className="w-10 h-10 rounded-xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-white flex items-center gap-2">
+              <h2 className="text-base font-bold text-[var(--text-primary)] flex items-center gap-2">
                 Ajustes de Tema & Modo Visual
                 <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                  Clientum Navy
+                  Clientum Obsidian & Clarity
                 </span>
               </h2>
-              <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+              <p className="text-xs text-[var(--text-muted)]">
                 Previsualiza cómo luce el Pipeline Kanban y los Gráficos de Ventas en tiempo real antes de aplicar.
               </p>
             </div>
@@ -96,7 +96,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
             title="Cerrar modal"
           >
             <X className="w-5 h-5" />
@@ -107,7 +107,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Mode Selector Cards */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] dark:text-slate-400 mb-3">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">
               Seleccionar Modo de Visualización
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -119,7 +119,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'light'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -133,8 +133,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">Modo Claro</div>
-                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Clientum Clarity (Alto Contraste)</div>
+                  <div className="font-bold text-xs text-[var(--text-primary)]">Modo Claro</div>
+                  <div className="text-[11px] text-[var(--text-muted)]">Clientum Clarity (Alto Contraste)</div>
                 </div>
               </button>
 
@@ -146,11 +146,11 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'dark'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-8 h-8 rounded-lg bg-blue-950/80 border border-blue-800 flex items-center justify-center text-blue-400">
+                  <div className="w-8 h-8 rounded-lg bg-blue-950/80 border border-blue-800 flex items-center justify-center text-blue-405">
                     <Moon className="w-4 h-4" />
                   </div>
                   {selectedMode === 'dark' && (
@@ -160,8 +160,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">Modo Oscuro</div>
-                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Midnight Obsidian & Navy</div>
+                  <div className="font-bold text-xs text-[var(--text-primary)]">Modo Oscuro</div>
+                  <div className="text-[11px] text-[var(--text-muted)]">Midnight Obsidian & Navy</div>
                 </div>
               </button>
 
@@ -173,7 +173,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                   selectedMode === 'system'
                     ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white ring-1 ring-blue-600'
-                    : 'border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-card)] dark:bg-[#0f172a]/50 text-[var(--text-secondary)] dark:text-slate-300 hover:border-[var(--border-default)] dark:hover:border-slate-700'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -187,10 +187,10 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-[var(--text-primary)] dark:text-white">
+                  <div className="font-bold text-xs text-[var(--text-primary)]">
                     Sincronizar con el Sistema (OS)
                   </div>
-                  <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">
+                  <div className="text-[11px] text-[var(--text-muted)]">
                     Detectado: <strong className="capitalize text-blue-600 dark:text-blue-400">{systemTheme === 'dark' ? 'Oscuro' : 'Claro'}</strong>
                   </div>
                 </div>
@@ -199,27 +199,27 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
           </div>
 
           {/* Live Preview Section Header & Controls */}
-          <div className="rounded-2xl border border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)] dark:bg-[#080d19] p-4 sm:p-5 space-y-4">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-muted)] p-4 sm:p-5 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] dark:text-slate-200">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   Previsualización en Vivo
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--bg-card)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300 border border-[var(--border-subtle)] dark:border-slate-700">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
                   {previewTab === 'split' ? 'Comparación Dividida' : isDarkPreview ? 'Simulando Modo Oscuro' : 'Simulando Modo Claro'}
                 </span>
               </div>
 
               {/* View Switcher Tabs */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-card)] dark:bg-[#0f172a] border border-[var(--border-subtle)] dark:border-[#1a2642] self-start sm:self-auto">
+              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] self-start sm:self-auto">
                 <button
                   type="button"
                   onClick={() => setPreviewTab('kanban')}
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'kanban'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <LayoutGrid className="w-3.5 h-3.5" />
@@ -232,7 +232,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'charts'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <BarChart3 className="w-3.5 h-3.5" />
@@ -245,7 +245,7 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     previewTab === 'split'
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <Columns className="w-3.5 h-3.5" />
@@ -259,9 +259,9 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
               /* Split Comparison View: Light vs Dark side by side */
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Light Side */}
-                <div className="rounded-xl border border-[var(--border-default)] bg-[#f8fafc] text-[var(--text-primary)] p-3.5 space-y-3 shadow-xs">
+                <div className="rounded-xl border border-[var(--border-default)] bg-[#f8fafc] text-slate-800 p-3.5 space-y-3 shadow-xs">
                   <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-2">
-                    <span className="flex items-center gap-1.5 text-xs font-bold text-[var(--text-primary)]">
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
                       <Sun className="w-3.5 h-3.5 text-amber-500" />
                       Claro (Clientum Clarity)
                     </span>
@@ -272,8 +272,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
                 </div>
 
                 {/* Dark Side */}
-                <div className="rounded-xl border border-[#131b2e] bg-[#040c1a] text-white p-3.5 space-y-3 shadow-xs">
-                  <div className="flex items-center justify-between border-b border-[#131b2e] pb-2">
+                <div className="rounded-xl border border-[#1e2434] bg-[#0c1222] text-slate-100 p-3.5 space-y-3 shadow-xs">
+                  <div className="flex items-center justify-between border-b border-[#1e2434] pb-2">
                     <span className="flex items-center gap-1.5 text-xs font-bold text-white">
                       <Moon className="w-3.5 h-3.5 text-blue-400" />
                       Oscuro (Midnight Obsidian)
@@ -289,8 +289,8 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
               <div
                 className={`rounded-xl p-4 transition-all duration-200 border ${
                   isDarkPreview
-                    ? 'bg-[#040c1a] border-[#131b2e] text-white shadow-inner'
-                    : 'bg-[#f8fafc] border-[var(--border-default)] text-[var(--text-primary)] shadow-inner'
+                    ? 'bg-[#0c1222] border-[#1e2434] text-white shadow-inner'
+                    : 'bg-[#f8fafc] border-[var(--border-default)] text-slate-800 shadow-inner'
                 }`}
               >
                 {previewTab === 'kanban' ? renderFullKanbanPreview(isDarkPreview) : renderFullChartsPreview(isDarkPreview)}
@@ -299,25 +299,25 @@ export const ThemeSettingsModal: React.FC<ThemeSettingsModalProps> = ({
           </div>
 
           {/* Technical Diagnostics info */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[var(--text-muted)] dark:text-slate-400 p-3 rounded-xl bg-[var(--bg-muted)] dark:bg-[#080d19] border border-[var(--border-subtle)] dark:border-[#1a2642]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[var(--text-muted)] p-3 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)]">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
               <span>
                 Persistencia en tiempo real: <code className="text-blue-600 dark:text-blue-400 font-mono text-[11px]">localStorage.setItem('clientum_theme', '{selectedMode}')</code>
               </span>
             </div>
-            <div className="text-[11px] font-mono text-[var(--text-secondary)] dark:text-slate-300">
+            <div className="text-[11px] font-mono text-[var(--text-secondary)]">
               HTML Root: <code className="text-blue-600 dark:text-blue-400">data-theme="{selectedMode === 'system' ? systemTheme : selectedMode}"</code>
             </div>
           </div>
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)]/80 dark:bg-[#080d19]/80 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[var(--border-subtle)] bg-[var(--bg-muted)]/80 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-[var(--border-default)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 font-semibold text-xs transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] font-semibold text-xs transition-colors cursor-pointer"
           >
             Cancelar
           </button>

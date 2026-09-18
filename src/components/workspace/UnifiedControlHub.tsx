@@ -61,11 +61,13 @@ import {
   ShieldAlert,
   HardDrive,
   ArrowLeftRight,
+  GitBranch,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { ActiveTab } from '../../types';
 import { getModuleCredentialDefinition } from '../../data/moduleCredentials';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
+import { EcosystemReposHubTab } from '../settings/EcosystemReposHubTab';
 
 export interface EcosystemModuleConfig {
   id: string;
@@ -506,7 +508,7 @@ const EXTENDED_CATALOG_MODULES: ExtendedCatalogModule[] = [
 
 const STORAGE_KEY = 'clientum_ecosystem_modules_state';
 
-type HubViewTab = 'overview' | 'canonical-modules' | 'workspace-tools' | 'extended-catalog';
+type HubViewTab = 'overview' | 'canonical-modules' | 'ecosystem-repos' | 'workspace-tools' | 'extended-catalog';
 
 export const UnifiedControlHub: React.FC = () => {
   const {
@@ -998,6 +1000,20 @@ export const UnifiedControlHub: React.FC = () => {
               <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-[var(--bg-card)]/20 dark:bg-slate-800 text-current">
                 {activeCount} activos
               </span>
+            </button>
+
+            <button
+              type="button"
+              id="tab-hub-ecosystem-repos"
+              onClick={() => setActiveViewTab('ecosystem-repos')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
+                activeViewTab === 'ecosystem-repos'
+                  ? 'bg-purple-600 text-white shadow-xs'
+                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
+              }`}
+            >
+              <GitBranch className="w-4 h-4" />
+              Repositorios Ecosistema (14 Repos)
             </button>
 
             <button
@@ -1660,6 +1676,13 @@ export const UnifiedControlHub: React.FC = () => {
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {/* SECCIÓN 5: HUB DE REPOSITORIOS Y MÓDULOS DEL ECOSISTEMA (14 REPOS) */}
+        {activeViewTab === 'ecosystem-repos' && (
+          <div className="pt-2">
+            <EcosystemReposHubTab />
           </div>
         )}
       </div>

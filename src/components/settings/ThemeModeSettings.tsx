@@ -38,27 +38,27 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
     <>
       <div
         id="theme-mode-settings-card"
-        className={`bg-[#12151d] border border-[#1e2330] p-5 sm:p-6 rounded-2xl shadow-sm space-y-6 ${className}`}
+        className={`bg-[var(--bg-card)] border border-[var(--border-subtle)] p-5 sm:p-6 rounded-2xl shadow-sm space-y-6 ${className}`}
       >
         {/* Header with Title and Quick Switch */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1e2330]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
           <div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400">
                 {theme === 'system' ? (
-                  <Monitor className="w-4 h-4 text-blue-400" />
+                  <Monitor className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                 ) : isDark ? (
-                  <Moon className="w-4 h-4 text-blue-400" />
+                  <Moon className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                 ) : (
-                  <Sun className="w-4 h-4 text-amber-400" />
+                  <Sun className="w-4 h-4 text-amber-500" />
                 )}
               </div>
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="text-sm font-semibold text-[var(--text-primary)]">
                 Tema Visual & Modo de Pantalla
               </h3>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
-              Alterna entre modo claro, oscuro y sincronización con el sistema. La preferencia se persiste en <code className="text-blue-400 font-mono text-[11px]">localStorage</code> y aplica el atributo <code className="text-blue-400 font-mono text-[11px]">data-theme="{resolvedTheme}"</code> en el elemento raíz del documento.
+            <p className="text-xs text-[var(--text-muted)] mt-1">
+              Alterna entre modo claro, oscuro y sincronización con el sistema. La preferencia se persiste en <code className="text-blue-600 dark:text-blue-400 font-mono text-[11px]">localStorage</code> y aplica el atributo <code className="text-blue-600 dark:text-blue-400 font-mono text-[11px]">data-theme="{resolvedTheme}"</code> en el elemento raíz del documento.
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               type="button"
               id="theme-open-modal-preview-btn"
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 text-xs font-semibold transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 border border-blue-500/30 text-xs font-semibold transition-all cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5" />
               <span>Vista Previa en Vivo</span>
@@ -86,19 +86,19 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 theme === 'light'
                   ? 'border-blue-500 bg-[#f8fafc] text-[var(--text-primary)] shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30'
-                  : 'border-[#1e2330] bg-[#0e1118] text-slate-300 hover:border-[#2a3348]'
+                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[var(--bg-card)] border border-[var(--border-default)] flex items-center justify-center text-amber-500 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-center text-amber-500 shadow-2xs">
                     <Sun className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className={`text-xs font-bold ${theme === 'light' ? 'text-[var(--text-primary)]' : 'text-white'}`}>
+                    <h4 className={`text-xs font-bold ${theme === 'light' ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
                       Modo Claro
                     </h4>
-                    <span className={`text-[11px] font-mono ${theme === 'light' ? 'text-blue-900' : 'text-slate-400'}`}>
+                    <span className={`text-[11px] font-mono ${theme === 'light' ? 'text-blue-900' : 'text-[var(--text-muted)]'}`}>
                       Clientum Clarity (WCAG AAA)
                     </span>
                   </div>
@@ -130,7 +130,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               <div className="flex items-center justify-between text-[11px] pt-1">
-                <span className={`flex items-center gap-1.5 ${theme === 'light' ? 'text-[var(--text-secondary)] font-medium' : 'text-slate-400'}`}>
+                <span className={`flex items-center gap-1.5 ${theme === 'light' ? 'text-[var(--text-secondary)] font-medium' : 'text-[var(--text-muted)]'}`}>
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
                   Fondo #f8fafc / Texto #0f172a
                 </span>
@@ -145,7 +145,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 theme === 'dark'
                   ? 'border-blue-500 bg-[#09132b] text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30'
-                  : 'border-[#1e2330] bg-[#0e1118] text-slate-300 hover:border-[#2a3348]'
+                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
@@ -154,7 +154,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
                     <Moon className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">
+                    <h4 className="text-xs font-bold text-[var(--text-primary)]">
                       Modo Oscuro
                     </h4>
                     <span className="text-[11px] text-blue-300 font-mono">
@@ -189,11 +189,11 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               <div className="flex items-center justify-between text-[11px] pt-1">
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-[var(--text-muted)]">
                   <span className="w-2 h-2 rounded-full bg-blue-400" />
                   Fondo #040c1a / Texto #f8fafc
                 </span>
-                <span className="font-mono text-[10px] text-slate-400">data-theme="dark"</span>
+                <span className="font-mono text-[10px] text-[var(--text-muted)]">data-theme="dark"</span>
               </div>
             </div>
 
@@ -204,7 +204,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 theme === 'system'
                   ? 'border-blue-500 bg-[#09132b] text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30'
-                  : 'border-[#1e2330] bg-[#0e1118] text-slate-300 hover:border-[#2a3348]'
+                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
@@ -213,7 +213,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
                     <Monitor className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">
+                    <h4 className="text-xs font-bold text-[var(--text-primary)]">
                       Automático (Sistema OS)
                     </h4>
                     <span className="text-[11px] text-indigo-300 font-mono">
@@ -245,26 +245,26 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               <div className="flex items-center justify-between text-[11px] pt-1">
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-[var(--text-muted)]">
                   <span className="w-2 h-2 rounded-full bg-indigo-400" />
                   Resuelto: {resolvedTheme}
                 </span>
-                <span className="font-mono text-[10px] text-slate-400">data-theme="{resolvedTheme}"</span>
+                <span className="font-mono text-[10px] text-[var(--text-muted)]">data-theme="{resolvedTheme}"</span>
               </div>
             </div>
           </div>
         )}
 
         {/* Technical Persistence & Diagnostics Bar */}
-        <div className="p-3.5 rounded-xl bg-[#0e1118] border border-[#1e2330] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="p-3.5 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-[var(--text-muted)]">
+            <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
             <span>
-              Persistencia activa: <strong className="text-slate-200">localStorage.getItem('{storageKey}') = "{theme}"</strong>
+              Persistencia activa: <strong className="text-[var(--text-secondary)]">localStorage.getItem('{storageKey}') = "{theme}"</strong>
             </span>
           </div>
-          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
-            <span className="px-2 py-0.5 rounded bg-[#161a26] border border-[#2b354c] text-blue-400">
+          <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-muted)]">
+            <span className="px-2 py-0.5 rounded bg-[var(--bg-input)] border border-[var(--border-strong)] text-blue-500 dark:text-blue-400">
               root.dataset.theme = "{resolvedTheme}"
             </span>
           </div>

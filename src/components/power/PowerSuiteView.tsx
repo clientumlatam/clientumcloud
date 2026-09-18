@@ -156,7 +156,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
   ]);
   const [newTicketTitle, setNewTicketTitle] = useState('');
 
-  // 9. Asistente IA Gemini 2.5
+  // 9. Asistente IA Gemini 3.8
   const [geminiQuery, setGeminiQuery] = useState('Estrategia de retención para agencias de desarrollo');
   const [geminiLoading, setGeminiLoading] = useState(false);
   const [geminiResponse, setGeminiResponse] = useState('');
@@ -263,7 +263,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
     { id: 'portal', title: 'Portal del Cliente', description: 'Autoatención, tickets y seguimiento en línea', icon: UserSquare2, column: 2 },
     
     // Column 3
-    { id: 'gemini', title: 'Asistente IA Gemini 2.5', description: 'Analista CMO disponible en todo momento', icon: Cpu, column: 3 },
+    { id: 'gemini', title: 'Asistente IA Gemini 3.8', description: 'Analista CMO disponible en todo momento', icon: Cpu, column: 3 },
     { id: 'gtm', title: 'Generador de Estrategias', description: 'Planes go-to-market con IA en minutos', icon: Target, column: 3 },
     { id: 'adcopy', title: 'AI Ad Copy Studio', description: 'Copys para LinkedIn, anuncios y email', icon: FileText, column: 3 },
     { id: 'seo', title: 'Suite SEO Completa', description: 'Keywords, auditoría, rank tracker y calendario', icon: Globe, column: 3 },
@@ -1246,7 +1246,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
             </div>
           )}
 
-          {/* 9. Asistente IA Gemini 2.5 Sandbox */}
+          {/* 9. Asistente IA Gemini 3.8 Sandbox */}
           {selectedModule === 'gemini' && (
             <div className="space-y-6">
               <div className="bg-[#141824] p-5 rounded-2xl border border-[#252c3f] space-y-4">
@@ -1267,7 +1267,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   {geminiLoading ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>Analizando con Gemini 2.5 AI...</span>
+                      <span>Analizando con Gemini 3.8 AI...</span>
                     </>
                   ) : (
                     <>

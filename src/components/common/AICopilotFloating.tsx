@@ -14,14 +14,14 @@ export const AICopilotFloating: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group px-4 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-xl hover:shadow-2xl transition-all duration-200 flex items-center gap-2 border border-white/20 cursor-pointer hover:scale-105 active:scale-95"
+          className="group px-4 py-2.5 rounded-full bg-slate-900 hover:bg-slate-850 text-white font-bold text-xs shadow-2xl transition-all duration-200 flex items-center gap-2 border border-slate-700/80 cursor-pointer hover:scale-105 active:scale-95 backdrop-blur-md"
           title="Abrir Clientum AI Copilot"
         >
-          <div className="w-5 h-5 rounded-full bg-[var(--bg-card)]/20 flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+          <div className="w-5 h-5 rounded-full bg-indigo-900/60 border border-indigo-500/40 flex items-center justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-300 animate-pulse" />
           </div>
-          <span>Copilot IA</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          <span className="tracking-tight text-indigo-100">Copilot IA</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
         </button>
       )}
 

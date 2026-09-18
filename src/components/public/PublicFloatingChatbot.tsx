@@ -271,7 +271,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
             setIsOpen(true);
             setIsMinimized(false);
           }}
-          className="fixed bottom-6 right-6 z-[9999] group flex items-center gap-3 bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white p-3.5 pl-4 rounded-full shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 cursor-pointer border border-blue-400/40"
+          className="fixed bottom-6 right-6 z-[9999] group flex items-center gap-3 bg-slate-900 hover:bg-slate-850 text-white p-3 pl-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border border-slate-700/80 backdrop-blur-md"
           aria-label="Abrir asistente de ventas en vivo"
         >
           {/* Avatar with live pulse status */}

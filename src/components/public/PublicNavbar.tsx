@@ -37,6 +37,7 @@ import { PublicSearchDialog } from './PublicSearchDialog';
 import { PUBLIC_SEARCH_ITEMS } from './publicNavData';
 import { PublicMobileMenu } from './PublicMobileMenu';
 import { OfflineStatusIndicator } from '../common/OfflineStatusIndicator';
+import { ThemeSwitcher } from '../layout/ThemeSwitcher';
 
 interface PublicNavbarProps {
   currentPath: string;
@@ -112,9 +113,9 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
   return (
     <>
       {/* Main sticky navigation header */}
-      <header
+      <nav
         ref={navRef}
-        className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs font-['Plus_Jakarta_Sans',sans-serif]"
+        className="sticky top-0 z-50 bg-[var(--bg-surface)] dark:bg-[#090d16] backdrop-blur-md border-b border-[var(--border-subtle)] dark:border-[#1a2642] text-[var(--text-primary)] dark:text-slate-100 shadow-2xs transition-colors duration-200 font-['Plus_Jakarta_Sans',sans-serif]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
           
@@ -644,11 +645,14 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             {/* Currency selector quick button */}
             <button
               onClick={onToggleCurrency}
-              className="hidden md:inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[11px] font-bold text-slate-700 transition-colors cursor-pointer"
+              className="hidden md:inline-flex items-center px-2.5 py-1.5 rounded-lg border border-[var(--border-subtle)] dark:border-[#1a2642] bg-[var(--bg-muted)] dark:bg-slate-900/60 hover:bg-[var(--bg-card)] dark:hover:bg-slate-800 text-[11px] font-bold text-[var(--text-primary)] dark:text-slate-200 transition-colors cursor-pointer shadow-2xs"
               title="Alternar entre Pesos Argentinos (ARS) y Dólares (USD)"
             >
               {currency === 'ARS' ? 'ARS $' : 'USD $'}
             </button>
+
+            {/* Unified Theme Switcher (Claro / Oscuro / Sistema) */}
+            <ThemeSwitcher showLabel={true} />
 
             {/* Login Link (Iniciar Sesión) */}
             {!isAuthenticated && (
@@ -708,7 +712,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
             }}
           />
         )}
-      </header>
+      </nav>
 
       {/* 4. COMMAND PALETTE / QUICK FINDER MODAL (⌘K) */}
       <PublicSearchDialog

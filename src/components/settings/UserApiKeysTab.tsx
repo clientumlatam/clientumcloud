@@ -181,21 +181,21 @@ export const UserApiKeysTab: React.FC = () => {
   };
 
   return (
-    <div id="user-api-keys-container" className="space-y-4">
-      <div className="rounded-xl border border-[#1e2434] bg-[#121620] p-5">
-        <div className="flex flex-col gap-4 border-b border-[#1e2434] pb-4 lg:flex-row lg:items-start lg:justify-between">
+    <div id="user-api-keys-container" className="space-y-4 text-[var(--text-primary)]">
+      <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] p-5">
+        <div className="flex flex-col gap-4 border-b border-[var(--border-subtle)] pb-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-purple-500/20 bg-purple-500/10 text-purple-400">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-purple-500/20 bg-purple-500/10 text-purple-650 dark:text-purple-400">
               <KeyRound className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
+              <h3 className="flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)]">
                 API Keys por usuario
-                <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
                   Configuración granular
                 </span>
               </h3>
-              <p className="mt-1 max-w-2xl text-xs text-slate-400">
+              <p className="mt-1 max-w-2xl text-xs text-[var(--text-muted)]">
                  Asigna tokens independientes a cada integrante y limita el acceso a los módulos del menú. El token completo solo se muestra una vez.
               </p>
             </div>
@@ -205,7 +205,7 @@ export const UserApiKeysTab: React.FC = () => {
             id="create-user-api-key-btn"
             type="button"
             onClick={() => setIsCreateOpen(true)}
-            className="flex items-center justify-center gap-1.5 rounded-lg bg-purple-600 px-3 py-2 text-xs font-medium text-white shadow-sm transition-colors hover:bg-purple-500"
+            className="flex items-center justify-center gap-1.5 rounded-lg bg-purple-600 px-3 py-2 text-xs font-medium text-white shadow-sm transition-colors hover:bg-purple-500 cursor-pointer"
           >
             <Plus className="h-3.5 w-3.5" />
             Nueva API Key para {selectedUser.name.split(' ')[0]}
@@ -221,10 +221,10 @@ export const UserApiKeysTab: React.FC = () => {
                 key={user.id}
                 id={`user-api-key-tab-${user.id}`}
                 onClick={() => setSelectedUserId(user.id)}
-                className={`flex min-w-[190px] items-center gap-2 rounded-xl border px-3 py-2 text-left transition-colors ${
+                className={`flex min-w-[190px] items-center gap-2 rounded-xl border px-3 py-2 text-left transition-colors cursor-pointer ${
                   selectedUser.id === user.id
-                    ? 'border-blue-500/60 bg-blue-500/10 text-white'
-                    : 'border-[#1e2434] bg-[#0e121a] text-slate-400 hover:border-[#2b354c] hover:text-white'
+                    ? 'border-blue-500/60 bg-blue-500/10 text-[var(--text-primary)] font-semibold shadow-2xs'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-input)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <img src={user.avatar} alt="" className="h-7 w-7 rounded-full object-cover" />
@@ -232,7 +232,7 @@ export const UserApiKeysTab: React.FC = () => {
                   <span className="block truncate text-xs font-semibold">{user.name}</span>
                   <span className="block truncate text-[10px] text-[var(--text-muted)]">{user.role}</span>
                 </span>
-                <span className="rounded-full bg-[#1e2434] px-1.5 py-0.5 font-mono text-[10px] text-blue-300">{count}</span>
+                <span className="rounded-full bg-[var(--bg-muted)] px-1.5 py-0.5 font-mono text-[10px] text-blue-600 dark:text-blue-300 border border-[var(--border-subtle)]">{count}</span>
               </button>
             );
           })}
@@ -244,16 +244,16 @@ export const UserApiKeysTab: React.FC = () => {
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 xl:col-span-2">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="flex items-center gap-2 text-xs font-semibold text-amber-200">
-                  <ShieldCheck className="h-4 w-4 text-amber-400" />
+                <p className="flex items-center gap-2 text-xs font-semibold text-amber-700 dark:text-amber-200">
+                  <ShieldCheck className="h-4 w-4 text-amber-500 dark:text-amber-400" />
                   Token generado para {revealedToken.keyName}
                 </p>
-                <p className="mt-1 text-[11px] text-amber-100/70">
+                <p className="mt-1 text-[11px] text-amber-800/80 dark:text-amber-100/70">
                   Cópialo ahora. Por seguridad no volverá a mostrarse después de recargar o cerrar esta vista.
                 </p>
               </div>
               <div className="flex min-w-0 items-center gap-2">
-                <code className="max-w-[360px] truncate rounded-lg border border-amber-500/30 bg-[#0e121a] px-3 py-2 text-[11px] text-amber-100">
+                <code className="max-w-[360px] truncate rounded-lg border border-amber-500/30 bg-[var(--bg-input)] px-3 py-2 text-[11px] text-amber-600 dark:text-amber-100">
                   {revealedToken.token}
                 </code>
                 <button
@@ -262,11 +262,11 @@ export const UserApiKeysTab: React.FC = () => {
                     navigator.clipboard.writeText(revealedToken.token);
                     showToast('Token copiado al portapapeles', 'success');
                   }}
-                  className="rounded-lg border border-amber-500/30 px-2.5 py-2 text-[11px] font-semibold text-amber-200 hover:bg-amber-500/10"
+                  className="rounded-lg border border-amber-500/30 px-2.5 py-2 text-[11px] font-semibold text-amber-700 dark:text-amber-200 hover:bg-amber-500/10 cursor-pointer"
                 >
                   Copiar
                 </button>
-                <button type="button" onClick={() => setRevealedToken(null)} className="rounded-lg p-2 text-amber-200/70 hover:bg-amber-500/10" aria-label="Ocultar token">
+                <button type="button" onClick={() => setRevealedToken(null)} className="rounded-lg p-2 text-amber-700 dark:text-amber-200/70 hover:bg-amber-500/10 cursor-pointer" aria-label="Ocultar token">
                   ×
                 </button>
               </div>
@@ -274,52 +274,52 @@ export const UserApiKeysTab: React.FC = () => {
           </div>
         )}
 
-        <div className="rounded-xl border border-[#1e2434] bg-[#121620] p-5">
+        <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] p-5">
           <div className="mb-3 flex items-center justify-between">
             <div>
-              <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
-                <UserRound className="h-4 w-4 text-blue-400" />
+              <h4 className="flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)]">
+                <UserRound className="h-4 w-4 text-blue-550 dark:text-blue-400" />
                 Tokens de {selectedUser.name}
               </h4>
               <p className="mt-0.5 text-[11px] text-[var(--text-muted)]">{selectedUser.email} · {activeKeyCount} activas</p>
             </div>
-            <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-1 text-[10px] font-mono text-blue-300">
+            <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-1 text-[10px] font-mono text-blue-600 dark:text-blue-300">
               user_id: {selectedUser.id}
             </span>
           </div>
 
           {userKeys.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-[#2b354c] bg-[#0e121a] px-4 py-8 text-center">
+            <div className="rounded-lg border border-dashed border-[var(--border-strong)] bg-[var(--bg-input)] px-4 py-8 text-center">
               <KeyRound className="mx-auto h-6 w-6 text-[var(--text-secondary)]" />
-              <p className="mt-2 text-xs font-medium text-slate-300">Este usuario todavía no tiene API Keys</p>
+              <p className="mt-2 text-xs font-medium text-[var(--text-secondary)]">Este usuario todavía no tiene API Keys</p>
               <p className="mt-1 text-[11px] text-[var(--text-muted)]">Crea un token y asigna solo los módulos que necesita.</p>
             </div>
           ) : (
-            <div className="divide-y divide-[#1e2434]">
+            <div className="divide-y divide-[var(--border-subtle)]">
               {userKeys.map((key) => (
                 <div key={key.id} className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-semibold text-white">{key.name}</span>
+                      <span className="text-xs font-semibold text-[var(--text-primary)]">{key.name}</span>
                       <span className={`rounded border px-2 py-0.5 text-[10px] ${
                         key.status === 'active'
-                          ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400'
-                          : 'border-slate-600/30 bg-slate-700/50 text-slate-400'
+                          ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-muted)]'
                       }`}>
                         {key.status === 'active' ? 'Activa' : 'Revocada'}
                       </span>
                     </div>
-                    <div className="mt-1 flex items-center gap-2 font-mono text-[11px] text-slate-400">
+                    <div className="mt-1 flex items-center gap-2 font-mono text-[11px] text-[var(--text-muted)]">
                       <span>{key.keyPrefix}••••••••••••••••</span>
                        {key.status === 'active' && key.token && (
-                        <button type="button" onClick={() => handleCopy(key)} className="rounded p-0.5 text-slate-400 hover:text-white" title="Copiar token">
-                          {copiedKeyId === key.id ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                        <button type="button" onClick={() => handleCopy(key)} className="rounded p-0.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer" title="Copiar token">
+                          {copiedKeyId === key.id ? <Check className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
                         </button>
                       )}
                     </div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {key.scopes.map((scope) => (
-                        <span key={scope} className="rounded bg-[#182030] px-1.5 py-0.5 font-mono text-[10px] text-blue-300">
+                        <span key={scope} className="rounded bg-[var(--bg-input)] border border-[var(--border-subtle)] px-1.5 py-0.5 font-mono text-[10px] text-blue-600 dark:text-blue-300">
                           {scope.replace('module:', '')}
                         </span>
                       ))}
@@ -331,7 +331,7 @@ export const UserApiKeysTab: React.FC = () => {
                       onClick={() => {
                          if (window.confirm(`¿Revocar la clave "${key.name}"?`)) void handleRevoke(key);
                       }}
-                      className="flex shrink-0 items-center gap-1.5 self-start rounded border border-rose-500/20 px-2.5 py-1 text-xs font-medium text-rose-400 transition-colors hover:bg-rose-950/30 sm:self-center"
+                      className="flex shrink-0 items-center gap-1.5 self-start rounded border border-rose-500/20 px-2.5 py-1 text-xs font-medium text-rose-600 dark:text-rose-400 transition-colors hover:bg-rose-500/10 sm:self-center cursor-pointer"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                       Revocar
@@ -343,9 +343,9 @@ export const UserApiKeysTab: React.FC = () => {
           )}
         </div>
 
-        <div className="rounded-xl border border-[#1e2434] bg-[#121620] p-4">
-          <h4 className="flex items-center gap-2 text-xs font-semibold text-white">
-            <Layers3 className="h-4 w-4 text-purple-400" />
+        <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] p-4">
+          <h4 className="flex items-center gap-2 text-xs font-semibold text-[var(--text-primary)]">
+            <Layers3 className="h-4 w-4 text-purple-650 dark:text-purple-400" />
             Módulos disponibles
           </h4>
           <p className="mt-1 text-[11px] leading-relaxed text-[var(--text-muted)]">
@@ -357,7 +357,7 @@ export const UserApiKeysTab: React.FC = () => {
                 <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">{group.label}</p>
                 <div className="flex flex-wrap gap-1">
                   {group.items.map((item) => (
-                    <span key={item.id} className="rounded border border-[#253047] bg-[#0e121a] px-1.5 py-1 text-[10px] text-slate-400">
+                    <span key={item.id} className="rounded border border-[var(--border-subtle)] bg-[var(--bg-input)] px-1.5 py-1 text-[10px] text-[var(--text-muted)]">
                       {item.label}
                     </span>
                   ))}
@@ -370,54 +370,54 @@ export const UserApiKeysTab: React.FC = () => {
 
       {isCreateOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-[#222a3d] bg-[#121620] p-5 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-[#1e2434] pb-3">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-[var(--border-strong)] bg-[var(--bg-card)] p-5 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
               <div>
-                <h3 className="text-sm font-bold text-white">Nueva API Key por módulo</h3>
-                <p className="mt-0.5 text-[11px] text-slate-400">Usuario: {selectedUser.name}</p>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">Nueva API Key por módulo</h3>
+                <p className="mt-0.5 text-[11px] text-[var(--text-muted)]">Usuario: {selectedUser.name}</p>
               </div>
-              <button type="button" onClick={() => setIsCreateOpen(false)} className="text-slate-400 hover:text-white">×</button>
+              <button type="button" onClick={() => setIsCreateOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer text-lg">×</button>
             </div>
 
             <form onSubmit={handleCreate} className="mt-4 space-y-4">
               <label className="block">
-                <span className="mb-1 block text-xs font-medium text-slate-300">Nombre de la clave *</span>
+                <span className="mb-1 block text-xs font-medium text-[var(--text-secondary)]">Nombre de la clave *</span>
                 <input
                   required
                   value={keyName}
                   onChange={(event) => setKeyName(event.target.value)}
                   placeholder="ej. Integración de propuestas"
-                  className="w-full rounded-md border border-[#2b354c] bg-[#0e121a] px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-md border border-[var(--border-strong)] bg-[var(--bg-input)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-blue-500 focus:outline-none"
                 />
               </label>
 
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-300">Módulos permitidos *</span>
-                  <button type="button" onClick={() => setSelectedModules(selectedModules.length === ALL_MODULE_IDS.length ? [] : ALL_MODULE_IDS)} className="text-[10px] font-semibold text-blue-400 hover:text-blue-300">
+                  <span className="text-xs font-medium text-[var(--text-secondary)]">Módulos permitidos *</span>
+                  <button type="button" onClick={() => setSelectedModules(selectedModules.length === ALL_MODULE_IDS.length ? [] : ALL_MODULE_IDS)} className="text-[10px] font-semibold text-blue-500 dark:text-blue-400 hover:text-blue-300 cursor-pointer">
                     {selectedModules.length === ALL_MODULE_IDS.length ? 'Quitar todos' : 'Seleccionar todos'}
                   </button>
                 </div>
                 <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                   {MODULE_GROUPS.flatMap((group) => group.items).map((module) => (
                     <label key={module.id} className={`flex cursor-pointer items-center gap-2 rounded-lg border px-2.5 py-2 text-[11px] transition-colors ${
-                      selectedModules.includes(module.id) ? 'border-blue-500/40 bg-blue-500/10 text-blue-200' : 'border-[#1e2434] bg-[#0e121a] text-slate-400'
+                      selectedModules.includes(module.id) ? 'border-blue-500/40 bg-blue-500/10 text-blue-600 dark:text-blue-200' : 'border-[var(--border-subtle)] bg-[var(--bg-input)] text-[var(--text-muted)]'
                     }`}>
-                      <input type="checkbox" checked={selectedModules.includes(module.id)} onChange={() => toggleModule(module.id)} className="rounded border-[#2b354c] bg-[#121620] text-blue-600 focus:ring-0" />
+                      <input type="checkbox" checked={selectedModules.includes(module.id)} onChange={() => toggleModule(module.id)} className="rounded border-[var(--border-strong)] bg-[var(--bg-input)] text-blue-600 focus:ring-0" />
                       <span>{module.label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-[11px] text-amber-200/80">
-                <LockKeyhole className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-400" />
+              <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-[11px] text-amber-800 dark:text-amber-200/80">
+                <LockKeyhole className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-550 dark:text-amber-400" />
                  El token completo se muestra una sola vez. En producción, el hash debe guardarse en el backend y el valor original no debe persistirse en el navegador.
               </div>
 
-              <div className="flex justify-end gap-2 border-t border-[#1e2434] pt-3">
-                <button type="button" onClick={() => setIsCreateOpen(false)} className="rounded-md px-3 py-1.5 text-xs text-slate-300 hover:text-white">Cancelar</button>
-                <button type="submit" className="flex items-center gap-1.5 rounded-md bg-purple-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-purple-500">
+              <div className="flex justify-end gap-2 border-t border-[var(--border-subtle)] pt-3">
+                <button type="button" onClick={() => setIsCreateOpen(false)} className="rounded-md px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer">Cancelar</button>
+                <button type="submit" className="flex items-center gap-1.5 rounded-md bg-purple-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-purple-500 cursor-pointer">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Generar token
                 </button>

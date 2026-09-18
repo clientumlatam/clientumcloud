@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PublicTopHeader } from './PublicTopHeader';
-import { PublicNavbar } from './PublicNavbar';
+import { PublicHeader } from './PublicHeader';
 import { PublicFooter } from './PublicFooter';
 import { PublicFloatingChatbot } from './PublicFloatingChatbot';
 import { PublicHome } from './PublicHome';
@@ -316,18 +315,10 @@ export const PublicSite: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[var(--bg-canvas)] dark:bg-[#040711] text-[var(--text-primary)] dark:text-slate-100 flex flex-col justify-between selection:bg-blue-100 selection:text-blue-900 transition-colors duration-200">
       
-      {/* 0. Top Bar Banner */}
-      <PublicTopHeader
-        onNavigate={handleNavigate}
-        currency={currency}
-        onToggleCurrency={() => setCurrency((c) => (c === 'ARS' ? 'USD' : 'ARS'))}
-        onOpenAudit={() => setIsExpressAuditOpen(true)}
-      />
-
-      {/* 1. Global Modular Navbar */}
-      <PublicNavbar
+      {/* 1. Unified Public Header (Brand, Navigation, Theme Switcher) */}
+      <PublicHeader
         currentPath={currentPath}
         onNavigate={handleNavigate}
         currency={currency}

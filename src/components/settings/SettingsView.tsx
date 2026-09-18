@@ -61,6 +61,15 @@ export const SettingsView: React.FC = () => {
 
   const [activeSubTab, setActiveSubTab] = useState<'roles' | 'audit' | 'integrations' | 'mail' | 'appearance' | 'schema' | 'members' | 'ecosystem' | 'data'>('roles');
 
+  const getTabClass = (subTab: typeof activeSubTab) => {
+    const isActive = activeSubTab === subTab;
+    return `px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
+      isActive
+        ? 'bg-[var(--bg-muted)] text-[var(--text-primary)] font-semibold shadow-2xs border border-[var(--border-strong)]'
+        : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]/50'
+    }`;
+  };
+
   useEffect(() => {
     try {
       if (sessionStorage.getItem('clientum_settings_section') === 'userApiKeys') {
@@ -125,18 +134,18 @@ export const SettingsView: React.FC = () => {
   };
 
   return (
-    <div id="clientum-settings-view" className="flex-1 flex flex-col h-full bg-[#0a0c10] overflow-y-auto p-4 select-none">
+    <div id="clientum-settings-view" className="flex-1 flex flex-col h-full bg-[var(--bg-canvas)] text-[var(--text-primary)] overflow-y-auto p-4 select-none transition-colors duration-200">
       {/* Settings Header with Quick Theme Indicator */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-2">
         <div>
-          <h2 className="text-base font-semibold text-white">{t('settingsTitle')}</h2>
-          <p className="text-xs text-slate-400">
+          <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('settingsTitle')}</h2>
+          <p className="text-xs text-[var(--text-muted)]">
             {t('settingsSubtitle')}
           </p>
         </div>
 
         {/* Quick Theme Badge */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-950/40 px-3 py-1.5 text-xs font-semibold text-blue-300">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold text-blue-500 dark:text-blue-300">
           {theme === 'dark' ? (
             <>
               <Moon className="h-3.5 w-3.5 text-blue-400" />
@@ -144,7 +153,7 @@ export const SettingsView: React.FC = () => {
             </>
           ) : (
             <>
-              <Sun className="h-3.5 w-3.5 text-amber-400" />
+              <Sun className="h-3.5 w-3.5 text-amber-550" />
               <span>Clientum Clarity · Modo claro</span>
             </>
           )}
@@ -152,19 +161,15 @@ export const SettingsView: React.FC = () => {
       </div>
 
       {/* Sub Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#1e2434] pb-2.5 mb-4 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] pb-2.5 mb-4 overflow-x-auto">
         <button
           id="tab-settings-roles"
           onClick={() => setActiveSubTab('roles')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'roles'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('roles')}
         >
-          <Shield className="w-3.5 h-3.5 text-blue-400" />
+          <Shield className="w-3.5 h-3.5 text-blue-450" />
           <span>Roles & Permisos (RBAC)</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-400 font-mono">
+          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-500 dark:text-blue-400 font-mono">
             {roles.length}
           </span>
         </button>
@@ -172,21 +177,17 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-audit"
           onClick={() => setActiveSubTab('audit')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'audit'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('audit')}
         >
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
           <span>Auditoría & Logs</span>
           {securityAnomalies.filter((a) => a.status === 'active').length > 0 ? (
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-400 font-mono flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-500 dark:text-amber-400 font-mono flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-450 animate-pulse" />
               {securityAnomalies.filter((a) => a.status === 'active').length} Alerta
             </span>
           ) : (
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 font-mono">
               SOC2 OK
             </span>
           )}
@@ -195,15 +196,11 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-integrations"
           onClick={() => setActiveSubTab('integrations')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'integrations'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('integrations')}
         >
-          <Zap className="w-3.5 h-3.5 text-amber-400" />
+          <Zap className="w-3.5 h-3.5 text-amber-500" />
           <span>Integraciones & API Hub</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">
+          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 font-mono">
             GCal & Slack
           </span>
         </button>
@@ -211,15 +208,11 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-mail"
           onClick={() => setActiveSubTab('mail')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'mail'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('mail')}
         >
-          <Mail className="w-3.5 h-3.5 text-sky-400" />
+          <Mail className="w-3.5 h-3.5 text-sky-500" />
           <span>Correo & Resend API</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-sky-500/20 text-sky-400 font-mono">
+          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-sky-500/20 text-sky-500 dark:text-sky-400 font-mono">
             SMTP/Resend
           </span>
         </button>
@@ -227,15 +220,11 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-appearance"
           onClick={() => setActiveSubTab('appearance')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'appearance'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('appearance')}
         >
           <Palette className="w-3.5 h-3.5" />
           {t('appearanceTheme')}
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-400 font-mono">
+          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-550 dark:text-blue-400 font-mono">
             {language.toUpperCase()} • {theme === 'dark' ? 'Dark' : 'Light'}
           </span>
         </button>
@@ -243,11 +232,7 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-schema"
           onClick={() => setActiveSubTab('schema')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'schema'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('schema')}
         >
           <Database className="w-3.5 h-3.5" />
           {t('customFieldsSchema')}
@@ -256,11 +241,7 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-members"
           onClick={() => setActiveSubTab('members')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'members'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('members')}
         >
           <Users className="w-3.5 h-3.5" />
           {t('teamMembers')} ({users.length})
@@ -269,11 +250,7 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-ecosystem"
           onClick={() => setActiveSubTab('ecosystem')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'ecosystem'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('ecosystem')}
         >
           <Code2 className="w-3.5 h-3.5" />
           {t('clientumRepos')}
@@ -282,11 +259,7 @@ export const SettingsView: React.FC = () => {
         <button
           id="tab-settings-data"
           onClick={() => setActiveSubTab('data')}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-            activeSubTab === 'data'
-              ? 'bg-[#1e2434] text-white font-semibold shadow-2xs border border-[#2b354c]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
+          className={getTabClass('data')}
         >
           <Download className="w-3.5 h-3.5" />
           {t('dataManagement')}
@@ -309,14 +282,14 @@ export const SettingsView: React.FC = () => {
       {activeSubTab === 'appearance' && (
         <div className="space-y-4 max-w-4xl">
           {/* Language Selector Card */}
-          <div className="bg-[#12151d] border border-[#1e2330] p-5 rounded-xl">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-5 rounded-xl">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
                   <Globe className="w-4 h-4 text-emerald-400" />
                   {t('languageSelector')} (i18n)
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
                   Selecciona tu idioma preferido / Escolha seu idioma preferido / Select your preferred language
                 </p>
               </div>
@@ -329,8 +302,8 @@ export const SettingsView: React.FC = () => {
                 onClick={() => setLanguage('en')}
                 className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                   language === 'en'
-                    ? 'border-blue-500 bg-[#161a26] shadow-md shadow-blue-500/10'
-                    : 'border-[#1e2330] bg-[#0e1118] hover:border-[#2a3348]'
+                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -342,8 +315,8 @@ export const SettingsView: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <div className="font-semibold text-xs text-white">English</div>
-                <div className="text-[11px] text-slate-400">United States / Global</div>
+                <div className="font-semibold text-xs text-[var(--text-primary)]">English</div>
+                <div className="text-[11px] text-[var(--text-muted)]">United States / Global</div>
               </div>
 
               {/* Spanish */}
@@ -352,8 +325,8 @@ export const SettingsView: React.FC = () => {
                 onClick={() => setLanguage('es')}
                 className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                   language === 'es'
-                    ? 'border-blue-500 bg-[#161a26] shadow-md shadow-blue-500/10'
-                    : 'border-[#1e2330] bg-[#0e1118] hover:border-[#2a3348]'
+                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -365,8 +338,8 @@ export const SettingsView: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <div className="font-semibold text-xs text-white">Español</div>
-                <div className="text-[11px] text-slate-400">España / Latinoamérica</div>
+                <div className="font-semibold text-xs text-[var(--text-primary)]">Español</div>
+                <div className="text-[11px] text-[var(--text-muted)]">España / Latinoamérica</div>
               </div>
 
               {/* Portuguese */}
@@ -375,8 +348,8 @@ export const SettingsView: React.FC = () => {
                 onClick={() => setLanguage('pt')}
                 className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                   language === 'pt'
-                    ? 'border-blue-500 bg-[#161a26] shadow-md shadow-blue-500/10'
-                    : 'border-[#1e2330] bg-[#0e1118] hover:border-[#2a3348]'
+                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
+                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -388,8 +361,8 @@ export const SettingsView: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <div className="font-semibold text-xs text-white">Português</div>
-                <div className="text-[11px] text-slate-400">Brasil / Portugal</div>
+                <div className="font-semibold text-xs text-[var(--text-primary)]">Português</div>
+                <div className="text-[11px] text-[var(--text-muted)]">Brasil / Portugal</div>
               </div>
             </div>
           </div>
@@ -398,27 +371,27 @@ export const SettingsView: React.FC = () => {
           <ThemeModeSettings />
 
           {/* Accessibility & Readability Details */}
-          <div className="bg-[#12151d] border border-[#1e2330] p-4 rounded-xl">
-            <h4 className="text-xs font-semibold text-white mb-2 flex items-center gap-2">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-4 rounded-xl">
+            <h4 className="text-xs font-semibold text-[var(--text-primary)] mb-2 flex items-center gap-2">
               <Eye className="w-4 h-4 text-emerald-400" />
               Accessibility & Display Standards
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-400">
-              <div className="p-3 rounded-lg bg-[#141822] border border-[#1e2330]">
-                <div className="font-semibold text-slate-200 mb-1">Contrast Ratio</div>
-                <p className="text-[11px] text-slate-400">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-[var(--text-muted)]">
+              <div className="p-3 rounded-lg bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
+                <div className="font-semibold text-[var(--text-secondary)] mb-1">Contrast Ratio</div>
+                <p className="text-[11px] text-[var(--text-muted)]">
                   Meets WCAG 2.1 AAA contrast benchmarks with 7:1+ text-to-background ratio in light mode.
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-[#141822] border border-[#1e2330]">
-                <div className="font-semibold text-slate-200 mb-1">Crisp Borders</div>
-                <p className="text-[11px] text-slate-400">
+              <div className="p-3 rounded-lg bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
+                <div className="font-semibold text-[var(--text-secondary)] mb-1">Crisp Borders</div>
+                <p className="text-[11px] text-[var(--text-muted)]">
                   Clear visual delineations on Kanban cards, table headers, and form inputs for cognitive ease.
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-[#141822] border border-[#1e2330]">
-                <div className="font-semibold text-slate-200 mb-1">Local Persistence</div>
-                <p className="text-[11px] text-slate-400">
+              <div className="p-3 rounded-lg bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
+                <div className="font-semibold text-[var(--text-secondary)] mb-1">Local Persistence</div>
+                <p className="text-[11px] text-[var(--text-muted)]">
                   Your theme preference is automatically remembered and restored upon every session.
                 </p>
               </div>
@@ -431,12 +404,12 @@ export const SettingsView: React.FC = () => {
       {activeSubTab === 'schema' && (
         <div className="space-y-4 max-w-3xl">
           {/* Add Field Card */}
-          <div className="bg-[#12151d] border border-[#1e2330] p-4 rounded-xl">
-            <h3 className="text-xs font-semibold text-white mb-2 flex items-center gap-2">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-4 rounded-xl">
+            <h3 className="text-xs font-semibold text-[var(--text-primary)] mb-2 flex items-center gap-2">
               <Plus className="w-4 h-4 text-blue-400" />
               Define New Custom Field
             </h3>
-            <p className="text-xs text-slate-400 mb-3">
+            <p className="text-xs text-[var(--text-muted)] mb-3">
               Extend standard CRM objects (Deals, Accounts, Contacts) with custom properties.
             </p>
 
@@ -447,13 +420,13 @@ export const SettingsView: React.FC = () => {
                 placeholder="Field name (e.g. Renewal Probability, Slack Channel)..."
                 value={newFieldName}
                 onChange={(e) => setNewFieldName(e.target.value)}
-                className="flex-1 bg-[#181d29] text-xs text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-blue-500"
+                className="flex-1 bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
               />
 
               <select
                 value={newFieldType}
                 onChange={(e) => setNewFieldType(e.target.value as any)}
-                className="bg-[#181d29] text-xs text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-blue-500"
+                className="bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
               >
                 <option value="text">Text (String)</option>
                 <option value="number">Number</option>
@@ -471,12 +444,12 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Existing Fields List */}
-          <div className="bg-[#12151d] border border-[#1e2330] rounded-xl overflow-hidden">
-            <div className="p-3 bg-[#141822] border-b border-[#1e2330] text-xs font-semibold text-white">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl overflow-hidden">
+            <div className="p-3 bg-[var(--bg-muted)] border-b border-[var(--border-subtle)] text-xs font-semibold text-[var(--text-primary)]">
               Active Custom Schema Properties
             </div>
 
-            <div className="divide-y divide-[#181d28]">
+            <div className="divide-y divide-[var(--border-subtle)]">
               {customFields.map((field) => (
                 <div
                   key={field.id}
@@ -485,8 +458,8 @@ export const SettingsView: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-blue-400" />
                     <div>
-                      <div className="font-semibold text-slate-100">{field.name}</div>
-                      <div className="text-[11px] text-slate-400 font-mono">
+                      <div className="font-semibold text-[var(--text-primary)]">{field.name}</div>
+                      <div className="text-[11px] text-[var(--text-muted)] font-mono">
                         Type: <span className="text-blue-400">{field.type}</span>
                         {field.options && ` • Options: [${field.options.join(', ')}]`}
                       </div>
@@ -495,7 +468,7 @@ export const SettingsView: React.FC = () => {
 
                   <button
                     onClick={() => handleDeleteField(field.id)}
-                    className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="p-1 rounded text-[var(--text-muted)] hover:text-rose-400 hover:bg-rose-500/10 transition-colors animate-all"
                     title="Delete field"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -509,34 +482,34 @@ export const SettingsView: React.FC = () => {
 
       {/* SUBTAB 2: MEMBERS */}
       {activeSubTab === 'members' && (
-        <div className="bg-[#12151d] border border-[#1e2330] rounded-xl max-w-3xl overflow-hidden">
-          <div className="p-3 bg-[#141822] border-b border-[#1e2330] flex items-center justify-between text-xs font-semibold text-white">
+        <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl max-w-3xl overflow-hidden">
+          <div className="p-3 bg-[var(--bg-muted)] border-b border-[var(--border-subtle)] flex items-center justify-between text-xs font-semibold text-[var(--text-primary)]">
             <span>Workspace Team Members</span>
-            <span className="text-[11px] text-slate-400 font-normal">Active Seats: 4 of 10</span>
+            <span className="text-[11px] text-[var(--text-muted)] font-normal">Active Seats: 4 of 10</span>
           </div>
 
-          <div className="divide-y divide-[#181d28]">
+          <div className="divide-y divide-[var(--border-subtle)]">
             {users.map((u) => (
               <div key={u.id} className="p-3.5 flex items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-3">
                   <img
                     src={u.avatar}
                     alt={u.name}
-                    className="w-8 h-8 rounded-full object-cover border border-[#2b3345]"
+                    className="w-8 h-8 rounded-full object-cover border border-[var(--border-subtle)]"
                   />
                   <div>
-                    <div className="font-semibold text-white flex items-center gap-2">
+                    <div className="font-semibold text-[var(--text-primary)] flex items-center gap-2">
                       {u.name}
-                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#1f2536] text-blue-300 font-mono">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--bg-muted)] text-blue-500 dark:text-blue-300 font-mono">
                         {u.role}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-400 font-mono">{u.email}</div>
+                    <div className="text-[11px] text-[var(--text-muted)] font-mono">{u.email}</div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                  <span className="flex items-center gap-1 text-[11px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-550/20">
                     <CheckCircle2 className="w-3 h-3" />
                     Active
                   </span>
@@ -556,25 +529,25 @@ export const SettingsView: React.FC = () => {
 
       {/* SUBTAB 4: DATA MANAGEMENT */}
       {activeSubTab === 'data' && (
-        <div className="bg-[#12151d] border border-[#1e2330] rounded-xl p-5 max-w-3xl space-y-5 text-xs">
+        <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-5 max-w-3xl space-y-5 text-xs">
           {/* Clientum B2B Leads Integration */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-950/40 to-indigo-950/30 border border-blue-500/20 shadow-lg shadow-blue-500/5">
+          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/5 border border-blue-500/20 shadow-lg shadow-blue-500/5">
             <div className="flex items-start justify-between gap-3 mb-2">
               <div>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20 mb-2">
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-blue-500 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20 mb-2">
                   Dataset de Leads 🇦🇷
                 </span>
-                <h3 className="font-bold text-white text-sm">Cargar Leads de Clientum B2B</h3>
-                <p className="text-slate-300 text-xs mt-1 leading-relaxed">
+                <h3 className="font-bold text-[var(--text-primary)] text-sm">Cargar Leads de Clientum B2B</h3>
+                <p className="text-[var(--text-secondary)] text-xs mt-1 leading-relaxed">
                   Carga la base de datos de prospectos e industrias plásticas de Argentina (ABEPOL S.R.L., ACHA PLAST S.A., Verion ICSA, Dr. Lantos, etc.) directamente en tu pipeline activo de Clientum OS.
                 </p>
               </div>
-              <Database className="w-8 h-8 text-blue-400 shrink-0 opacity-80" />
+              <Database className="w-8 h-8 text-blue-500 shrink-0 opacity-80" />
             </div>
 
-            <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-blue-500/15">
-              <div className="text-[11px] text-slate-400">
-                <strong className="text-white">Leads Disponibles:</strong> +3,740 empresas industriales segmentadas por provincia y email verificado.
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[var(--border-subtle)]">
+              <div className="text-[11px] text-[var(--text-muted)]">
+                <strong className="text-[var(--text-primary)]">Leads Disponibles:</strong> +3,740 empresas industriales segmentadas por provincia y email verificado.
               </div>
               <button
                 onClick={loadClientumLeads}
@@ -587,8 +560,8 @@ export const SettingsView: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-white text-xs mb-1">Backup & Migration</h3>
-            <p className="text-slate-400 text-xs">
+            <h3 className="font-semibold text-[var(--text-primary)] text-xs mb-1">Backup & Migration</h3>
+            <p className="text-[var(--text-muted)] text-xs">
               Export your CRM state to JSON or CSV for reporting, data warehousing, or backup.
             </p>
           </div>
@@ -604,21 +577,21 @@ export const SettingsView: React.FC = () => {
 
             <button
               onClick={exportOpportunitiesCSV}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#181e2b] hover:bg-[#202738] text-white border border-[#2b354a] transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)]/80 text-[var(--text-primary)] border border-[var(--border-subtle)] transition-colors cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <Download className="w-3.5 h-3.5 text-emerald-500" />
               <span>Export Deals (CSV)</span>
             </button>
           </div>
 
-          <div className="pt-4 border-t border-[#1e2330]">
-            <h3 className="font-semibold text-rose-400 text-xs mb-1">Danger Zone</h3>
-            <p className="text-slate-400 text-xs mb-3">
+          <div className="pt-4 border-t border-[var(--border-subtle)]">
+            <h3 className="font-semibold text-rose-500 dark:text-rose-400 text-xs mb-1">Danger Zone</h3>
+            <p className="text-[var(--text-muted)] text-xs mb-3">
               Reset your entire workspace database back to standard sample seed data.
             </p>
             <button
               onClick={resetToDemoData}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/30 transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset Database to Demo State</span>

@@ -191,14 +191,14 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div className="max-w-2xl">
-            <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-blue-600">Catálogo B2B</div>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Soluciones que se conectan con tu operación</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">Elegí un punto de entrada y combiná servicios, módulos y acompañamiento para resolver el proceso completo.</p>
+            <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400">Catálogo B2B</div>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--text-primary)] dark:text-white sm:text-3xl">Soluciones que se conectan con tu operación</h2>
+            <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)] dark:text-slate-300">Elegí un punto de entrada y combiná servicios, módulos y acompañamiento para resolver el proceso completo.</p>
           </div>
           <button
             type="button"
             onClick={() => onNavigate('/servicios')}
-            className="inline-flex items-center gap-2 self-start text-xs font-bold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900 sm:self-auto"
+            className="inline-flex items-center gap-2 self-start text-xs font-bold text-blue-700 dark:text-blue-400 underline decoration-blue-200 dark:decoration-blue-800 underline-offset-4 hover:text-blue-900 dark:hover:text-blue-300 sm:self-auto cursor-pointer"
           >
             Ver catálogo completo
             <ArrowRight className="h-3.5 w-3.5" />
@@ -214,15 +214,15 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
                 key={service.title}
                 type="button"
                 onClick={() => onNavigate(service.path)}
-                className="group rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg"
+                className="group rounded-2xl border border-[var(--border-subtle)] dark:border-[#1e2e4a] bg-[var(--bg-card)] dark:bg-[#0d1527] p-5 text-left shadow-2xs transition-all hover:-translate-y-1 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg cursor-pointer"
               >
                 <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${styles.icon}`}>
                   <ServiceIcon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 text-sm font-bold text-slate-900 group-hover:text-blue-700">{service.title}</h3>
-                <p className="mt-2 min-h-[4rem] text-xs leading-5 text-slate-600">{service.description}</p>
+                <h3 className="mt-4 text-sm font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">{service.title}</h3>
+                <p className="mt-2 min-h-[4rem] text-xs leading-5 text-[var(--text-secondary)] dark:text-slate-300">{service.description}</p>
                 <div className={`mt-4 inline-flex rounded-full px-2 py-1 text-[9px] font-bold ${styles.badge}`}>{service.detail}</div>
-                <div className="mt-4 flex items-center gap-1 text-[11px] font-bold text-blue-700">
+                <div className="mt-4 flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400">
                   Explorar solución
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCRM } from '../../context/CRMContext';
 import { moduleNeedsUserCredentials } from '../../data/moduleCredentials';
 import { CrmTopHeader } from './CrmTopHeader';
+import { CrmSubHeader } from './CrmSubHeader';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { VoiceNoteModal } from '../activities/VoiceNoteModal';
 import { AutomationsManagerModal } from '../workflows/AutomationsManagerModal';
@@ -28,6 +29,9 @@ export const Navbar: React.FC = () => {
         onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
         hasModuleCredentials={hasModuleCredentials}
       />
+
+      {/* 2. Top Sub-Header Navigation Bar */}
+      <CrmSubHeader />
 
       {/* Integrated Action Modals */}
       <ModuleCredentialsModal

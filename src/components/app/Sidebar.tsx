@@ -42,6 +42,10 @@ import {
   Layers,
   HardDrive,
   ArrowLeftRight,
+  GitBranch,
+  Cloud,
+  Mic,
+  Code2,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -90,7 +94,15 @@ export const Sidebar: React.FC = () => {
 
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
     opportunities: true,
+    people: true,
+    tasks: true,
+    whatsapp: true,
+    ecosystemHub: true,
+    sites: true,
     agenteOS: true,
+    operations: true,
+    erpAvanzado: true,
+    customObjects: true,
   });
 
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({
@@ -99,6 +111,7 @@ export const Sidebar: React.FC = () => {
 
   const [activeConfigModule, setActiveConfigModule] = useState<string | null>(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [sidebarMenuMode, setSidebarMenuMode] = useState<'operativo' | 'plataforma'>('operativo');
 
   const userDisplayName = useMemo(() => {
     if (currentUser?.name && currentUser.name.trim()) {
@@ -142,131 +155,230 @@ export const Sidebar: React.FC = () => {
     }));
   }, []);
 
-  const navSections: NavSection[] = [
+  // MENÚ 1: OPERATIVO & COMERCIAL
+  const operativoNavSections: NavSection[] = [
     {
       id: 'main',
-      label: 'Panel Principal',
+      label: '1. Gestión Comercial & CRM',
       categoryIcon: null,
       items: [
         { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
-        { id: 'analytics', label: 'Reportes & BI', icon: BarChart3, badge: 'BI', badgeColor: 'bg-blue-600 text-white font-bold' },
-      ],
-    },
-    {
-      id: 'sales',
-      label: 'Gestión Comercial',
-      categoryIcon: 'sales',
-      items: [
         {
           id: 'opportunities',
-          label: 'Pipeline de Negocios',
+          label: 'Pipeline de Ventas (Deals)',
           icon: Briefcase,
-          badge: 'Kanban',
-          badgeColor: 'bg-blue-600 text-white font-bold',
+          badge: 'Ventas',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
           subItems: [
             { id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target },
+            { id: 'competitorHub', label: 'Comparativa de Plataformas', icon: ArrowLeftRight },
           ],
         },
         {
           id: 'people',
-          label: 'Contactos & Empresas',
+          label: 'Base de Clientes (B2B)',
           icon: Users2,
           subItems: [
-            { id: 'companies', label: 'Empresas', icon: Building2 },
+            { id: 'companies', label: 'Empresas Corporativas', icon: Building2 },
           ],
         },
         {
           id: 'tasks',
-          label: 'Actividades & Agenda',
+          label: 'Agenda & Actividades',
           icon: CheckSquare,
           subItems: [
-            { id: 'calendar', label: 'Calendario', icon: Calendar },
-            { id: 'activityInbox', label: 'Notas y llamadas', icon: Inbox },
+            { id: 'calendar', label: 'Calendario Comercial', icon: Calendar },
+            { id: 'activityInbox', label: 'Notas & Recordatorios', icon: Inbox },
           ],
         },
-        { id: 'propuestas', label: 'Propuestas & Presupuestos', icon: FileCheck },
         {
-          id: 'competitorHub',
-          label: 'vs HubSpot / Salesforce',
-          icon: ArrowLeftRight,
-          badge: 'Ahorro 82%',
-          badgeColor: 'bg-emerald-600 text-white font-bold',
-        },
-      ],
-    },
-    {
-      id: 'prospecting',
-      label: 'Prospección & Adquisición',
-      categoryIcon: 'sales',
-      items: [
-        { id: 'googleMaps', label: 'Prospección Google Maps', icon: MapPin, badge: 'Territorio' },
-        {
-          id: 'sdrOutreach' as ActiveTab,
-          label: 'Agente SDR Prospección IA',
-          icon: Bot,
-          badge: 'IA SDR',
-          badgeColor: 'bg-indigo-600 text-white font-bold',
+          id: 'propuestas',
+          label: 'Propuestas & Brochure PDF',
+          icon: FileCheck,
+          badge: 'PDF Gen',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
         },
       ],
     },
     {
       id: 'communication',
-      label: 'Canales & Comunicación',
+      label: '2. Comunicación Omnicanal',
       categoryIcon: 'communication',
       items: [
         {
           id: 'whatsapp',
-          label: 'Bandeja Omnicanal WhatsApp',
+          label: 'Canal de WhatsApp WACE',
           icon: MessageSquare,
-          badge: 'LIVE',
-          badgeColor: 'bg-emerald-500 text-white font-bold',
+          badge: 'WACE',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
           subItems: [
-            { id: 'messages', label: 'Mensajes directos', icon: Send },
-            { id: 'webmail', label: 'Webmail & Correo', icon: Mail },
+            { id: 'messages', label: 'Mensajes Directos', icon: Send },
+            { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
+            { id: 'chatbot', label: 'Bots & Respuestas IA', icon: Bot },
+            { id: 'activityInbox', label: 'Voz a Texto (Voice)', icon: Mic },
           ],
         },
-        { id: 'chatbot', label: 'Bots & Atención Automática', icon: Bot },
-        { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
-        { id: 'workspaceIntegrations', label: 'Google Workspace & Drive', icon: HardDrive },
+        {
+          id: 'webmail',
+          label: 'Correo Profesional (Webmail)',
+          icon: Mail,
+          badge: 'Cloudflare',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+      ],
+    },
+  ];
+
+  // MENÚ 2: PLATAFORMA & ECOSISTEMA
+  const plataformaNavSections: NavSection[] = [
+    {
+      id: 'main',
+      label: '1. Inteligencia & Analíticas',
+      categoryIcon: null,
+      items: [
+        {
+          id: 'ecosystemHub',
+          label: 'Hub de Ecosistema',
+          icon: Boxes,
+          badge: 'Ecosistema',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'dashboardDocs', label: 'Documentación de la Plataforma', icon: BookOpen },
+          ],
+        },
+        {
+          id: 'analytics',
+          label: 'Clientum Dashboard & BI',
+          icon: BarChart3,
+          badge: 'Módulo #4',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+      ],
+    },
+    {
+      id: 'prospecting',
+      label: '2. Prospección & Canales Web',
+      categoryIcon: 'sales',
+      items: [
+        { id: 'googleMaps', label: 'Radar de Prospectos (Google Maps)', icon: MapPin, badge: 'GPS Radar', badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold' },
+        {
+          id: 'industryLanding',
+          label: 'Sitio Web Público (Captura)',
+          icon: Globe,
+          badge: 'Módulo #10',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+        {
+          id: 'sites',
+          label: 'Portal Web & Comercio',
+          icon: Store,
+          badge: 'Portal',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'tiendaDigital', label: 'Tienda Digital & Catálogo', icon: Store },
+            { id: 'domainManager', label: 'Gestor de Dominios Web', icon: Globe },
+          ],
+        },
       ],
     },
     {
       id: 'ai',
-      label: 'Inteligencia Artificial',
+      label: '3. Automatizaciones & IA',
       categoryIcon: 'ai',
       items: [
         {
-          id: 'aiAssistant',
-          label: 'Copilot Gemini Comercial',
-          icon: Sparkles,
-          badge: '3.8 Pro',
-          badgeColor: 'bg-purple-600 text-white font-bold',
+          id: 'agenteOS',
+          label: 'Agentes IA (AgenteOS)',
+          icon: Cpu,
+          badge: 'AgenteOS',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot },
+            { id: 'aiAssistant', label: 'Copilot Gemini Comercial', icon: Sparkles },
+            { id: 'workflows', label: 'Diseñador de Workflows', icon: Workflow },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'operations',
+      label: '4. Operaciones & ERP Avanzado',
+      categoryIcon: 'erp',
+      items: [
+        {
+          id: 'operations',
+          label: 'ERP & Logística',
+          icon: Compass,
+          badge: 'Módulo #14',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'restaurant', label: 'Restaurante & Delivery', icon: Store },
+            { id: 'campusLMS', label: 'Campus LMS & Academia', icon: GraduationCap },
+          ],
         },
         {
-          id: 'agenteOS',
-          label: 'AgenteOS (14 Roles)',
-          icon: Cpu,
-          badge: '14 IA',
-          badgeColor: 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold',
+          id: 'erpAvanzado',
+          label: 'Facturación & ERP Avanzado',
+          icon: Receipt,
+          badge: 'AFIP CAE',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'erp', label: 'Inventario & Gastos', icon: Receipt },
+            { id: 'ecommerce', label: 'E-Commerce & Pagos', icon: CreditCard },
+          ],
         },
-        { id: 'workflows', label: 'Flujos de Automatización', icon: Workflow },
+      ],
+    },
+    {
+      id: 'control',
+      label: '5. Infraestructura & Motor de Datos',
+      categoryIcon: 'admin',
+      items: [
+        {
+          id: 'customObjects',
+          label: 'Motor de Datos (Schemas)',
+          icon: Database,
+          badge: 'Módulo #9',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          subItems: [
+            { id: 'csvStudio', label: 'Importador CSV Studio', icon: FileSpreadsheet },
+          ],
+        },
+        {
+          id: 'workspaceIntegrations',
+          label: 'Sincronización Cloud & Drive',
+          icon: HardDrive,
+          badge: 'Módulo #8',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+        {
+          id: 'vscrmSuite',
+          label: 'Arquitectura Cloud Run',
+          icon: Layers,
+          badge: 'Módulo #2',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+        {
+          id: 'payments',
+          label: 'Despliegues & Vercel Edge',
+          icon: Cloud,
+          badge: 'Módulo #3',
+          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+        },
+        {
+          id: 'wordpressIntegracion',
+          label: 'WordPress & API Gateway',
+          icon: Code2,
+        },
       ],
     },
     {
       id: 'system',
-      label: 'Administración',
+      label: '6. Administración & Auditoría',
       categoryIcon: 'admin',
       items: [
-        { id: 'settings', label: 'Ajustes de Empresa & Roles', icon: Settings },
-        {
-          id: 'customObjects',
-          label: 'Estructura de Datos & CSV',
-          icon: Database,
-          subItems: [
-            { id: 'csvStudio', label: 'Importar / Exportar CSV', icon: FileSpreadsheet },
-          ],
-        },
-        { id: 'adminConsole', label: 'Consola y Auditoría', icon: ShieldAlert },
+        { id: 'settings', label: 'Ajustes del Sistema & Roles', icon: Settings },
+        { id: 'adminConsole', label: 'Consola de Auditoría', icon: ShieldAlert },
       ],
     },
   ];
@@ -365,9 +477,39 @@ export const Sidebar: React.FC = () => {
           </button>
         </div>
 
+        {/* Selector de Menú Doble en el Sidebar */}
+        <div className="p-2 border-b border-[var(--border-subtle)]/80 dark:border-[#1c2d47] bg-slate-900/30">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/80 border border-slate-800">
+            <button
+              type="button"
+              onClick={() => setSidebarMenuMode('operativo')}
+              className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                sidebarMenuMode === 'operativo'
+                  ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-400/40'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+              }`}
+            >
+              <Briefcase className="w-3.5 h-3.5 shrink-0" />
+              <span>1. Operativo</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSidebarMenuMode('plataforma')}
+              className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                sidebarMenuMode === 'plataforma'
+                  ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400/40'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+              }`}
+            >
+              <Boxes className="w-3.5 h-3.5 shrink-0" />
+              <span>2. Ecosistema</span>
+            </button>
+          </div>
+        </div>
+
         {/* Lista Jerárquica de Secciones */}
         <div className="flex-1 space-y-4 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-[#1c2d47]">
-          {navSections.map((section) => {
+          {(sidebarMenuMode === 'operativo' ? operativoNavSections : plataformaNavSections).map((section) => {
             const isCollapsed = collapsedSections[section.label];
             return (
               <div key={section.id} className="space-y-1">

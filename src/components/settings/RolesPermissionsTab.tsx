@@ -200,32 +200,32 @@ export const RolesPermissionsTab: React.FC = () => {
   return (
     <div id="rbac-permissions-container" className="space-y-6">
       {/* Overview Banner & Current User Persona Switcher */}
-      <div className="bg-[#121620] border border-[#1e2434] rounded-xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400 shrink-0">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-white">Control de Acceso Basado en Roles (RBAC)</h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <h3 className="text-sm font-semibold text-[var(--text-primary)]">Control de Acceso Basado en Roles (RBAC)</h3>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-550/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 Seguridad Enterprise Activa
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs text-[var(--text-muted)] mt-1 max-w-2xl leading-relaxed">
               Define políticas de acceso granular (Ver, Crear, Editar, Eliminar, Exportar y Administrar) sobre todos los módulos del CRM. Crea roles personalizados o asigna roles predefinidos a tu equipo comercial.
             </p>
           </div>
         </div>
 
         {/* Live Simulator Role Persona Switcher */}
-        <div className="bg-[#161c28] border border-[#222a3d] p-3 rounded-lg flex flex-col gap-1.5 shrink-0 min-w-[260px]">
-          <div className="flex items-center justify-between text-[11px] text-slate-400">
+        <div className="bg-[var(--bg-muted)] border border-[var(--border-subtle)] p-3 rounded-lg flex flex-col gap-1.5 shrink-0 min-w-[260px]">
+          <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)]">
             <span className="font-medium flex items-center gap-1">
-              <UserCheck className="w-3.5 h-3.5 text-blue-400" />
+              <UserCheck className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
               Tu Sesión Actual:
             </span>
-            <span className="text-white font-semibold">{currentUser.name}</span>
+            <span className="text-[var(--text-primary)] font-semibold">{currentUser.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <select
@@ -236,7 +236,7 @@ export const RolesPermissionsTab: React.FC = () => {
                 updateCurrentUser({ role: newRole });
                 showToast(`Has cambiado tu rol activo a: "${newRole}". Las vistas y permisos se han actualizado.`, 'info');
               }}
-              className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-hidden focus:border-blue-500"
+              className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-2.5 py-1.5 text-xs text-[var(--text-primary)] focus:outline-hidden focus:border-blue-500"
             >
               {roles.map((r) => (
                 <option key={r.id} value={r.name}>
@@ -245,7 +245,7 @@ export const RolesPermissionsTab: React.FC = () => {
               ))}
             </select>
           </div>
-          <span className="text-[10px] text-slate-400">
+          <span className="text-[10px] text-[var(--text-muted)]">
             Cambia tu rol aquí para probar las restricciones en vivo.
           </span>
         </div>
@@ -256,14 +256,14 @@ export const RolesPermissionsTab: React.FC = () => {
         {/* Left Column: Roles Selector List */}
         <div className="lg:col-span-4 space-y-3">
           <div className="flex items-center justify-between pb-1">
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-blue-400" />
+            <h4 className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
               Roles del Espacio ({roles.length})
             </h4>
             <button
               id="rbac-create-role-btn"
               onClick={() => setIsCreateRoleModalOpen(true)}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-2xs"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-2xs cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Nuevo Rol</span>
@@ -282,8 +282,8 @@ export const RolesPermissionsTab: React.FC = () => {
                   onClick={() => setSelectedRoleId(role.id)}
                   className={`p-3 rounded-lg border transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#181f2f] border-blue-500/50 shadow-sm ring-1 ring-blue-500/30'
-                      : 'bg-[#121620] border-[#1e2434] hover:bg-[#161c2b] hover:border-[#283247]'
+                      ? 'bg-blue-500/10 border-blue-500/50 shadow-sm ring-1 ring-blue-500/30'
+                      : 'bg-[var(--bg-card)] border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] hover:border-[var(--border-strong)]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -301,29 +301,29 @@ export const RolesPermissionsTab: React.FC = () => {
                             : 'bg-rose-400'
                         }`}
                       />
-                      <span className="text-xs font-semibold text-white truncate">{role.name}</span>
+                      <span className="text-xs font-semibold text-[var(--text-primary)] truncate">{role.name}</span>
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
                       {role.isSystem ? (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
                           Sistema
                         </span>
                       ) : (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                           Custom
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-[11px] text-[var(--text-muted)] mt-1 line-clamp-2 leading-relaxed">
                     {role.description}
                   </p>
 
-                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#1e2434] text-[11px] text-slate-400">
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)]">
                     <span className="flex items-center gap-1">
-                      <Users className="w-3 h-3 text-slate-400" />
+                      <Users className="w-3 h-3 text-[var(--text-muted)]" />
                       {userAssignedCount} {userAssignedCount === 1 ? 'usuario' : 'usuarios'}
                     </span>
 
@@ -335,7 +335,7 @@ export const RolesPermissionsTab: React.FC = () => {
                           setSelectedRoleId(cloned.id);
                         }}
                         title="Duplicar Rol"
-                        className="p-1 hover:bg-[#252f44] text-slate-400 hover:text-slate-200 rounded"
+                        className="p-1 hover:bg-[var(--bg-muted)] text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded"
                       >
                         <Copy className="w-3 h-3" />
                       </button>
@@ -348,7 +348,7 @@ export const RolesPermissionsTab: React.FC = () => {
                             }
                           }}
                           title="Eliminar Rol"
-                          className="p-1 hover:bg-rose-950/40 text-slate-400 hover:text-rose-400 rounded"
+                          className="p-1 hover:bg-rose-500/20 text-[var(--text-muted)] hover:text-rose-500 rounded"
                         >
                           <Trash2 className="w-3 h-3" />
                         </button>
@@ -361,12 +361,12 @@ export const RolesPermissionsTab: React.FC = () => {
           </div>
 
           {/* Quick Stats Helper */}
-          <div className="bg-[#121620] border border-[#1e2434] rounded-lg p-3 text-[11px] text-slate-400 space-y-1.5">
-            <div className="flex items-center gap-1.5 text-slate-300 font-medium">
-              <Info className="w-3.5 h-3.5 text-blue-400" />
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-lg p-3 text-[11px] text-[var(--text-muted)] space-y-1.5">
+            <div className="flex items-center gap-1.5 text-[var(--text-secondary)] font-medium">
+              <Info className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
               <span>Reglas de Seguridad RBAC</span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-[var(--text-muted)] leading-normal">
               Las restricciones se evalúan en tiempo real. Si un usuario intenta realizar una acción sin permiso (como exportar o borrar deals), se registrará automáticamente en el registro de auditoría.
             </p>
           </div>
@@ -374,19 +374,19 @@ export const RolesPermissionsTab: React.FC = () => {
 
         {/* Right Column: Permission Matrix Table for Selected Role */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="bg-[#121620] border border-[#1e2434] rounded-xl p-4 sm:p-5">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-4 sm:p-5">
             {/* Role Header Info & Editable Name */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#1e2434]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[var(--border-subtle)]">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-semibold text-white">{selectedRole.name}</h3>
+                  <h3 className="text-base font-semibold text-[var(--text-primary)]">{selectedRole.name}</h3>
                   {selectedRole.isSystem && (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-700/60 text-slate-300">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[var(--bg-muted)] text-[var(--text-secondary)]">
                       Rol Predeterminado del Sistema
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">{selectedRole.description}</p>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">{selectedRole.description}</p>
               </div>
 
               <div className="flex items-center gap-2">
@@ -396,163 +396,163 @@ export const RolesPermissionsTab: React.FC = () => {
                     const cloned = duplicateRole(selectedRole.id);
                     setSelectedRoleId(cloned.id);
                   }}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-[#1a202c] border border-[#2b354c] text-slate-300 hover:text-white hover:bg-[#252f44] transition-colors"
-                >
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>Clonar Rol</span>
-                </button>
-              </div>
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]/80 transition-colors cursor-pointer"
+              >
+                <Copy className="w-3.5 h-3.5" />
+                <span>Clonar Rol</span>
+              </button>
             </div>
+          </div>
 
-            {/* Granular Permission Matrix Table */}
-            <div className="mt-4 overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-[#1e2434] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    <th className="py-2.5 px-3 min-w-[200px]">Módulo / Recurso</th>
-                    {(['view', 'create', 'edit', 'delete', 'export', 'manage'] as PermissionAction[]).map((action) => (
-                      <th key={action} className="py-2.5 px-2 text-center min-w-[70px]">
-                        {ACTION_LABELS[action].short}
-                      </th>
-                    ))}
-                    <th className="py-2.5 px-2 text-center min-w-[80px]">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#181f2f] text-xs">
-                  {(Object.keys(RESOURCE_LABELS) as PermissionResource[]).map((resourceKey) => {
-                    const resourceInfo = RESOURCE_LABELS[resourceKey];
-                    const perms = selectedRole.permissions[resourceKey] || {
-                      view: false,
-                      create: false,
-                      edit: false,
-                      delete: false,
-                      export: false,
-                      manage: false,
-                    };
+          {/* Granular Permission Matrix Table */}
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-[var(--border-subtle)] text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wider">
+                  <th className="py-2.5 px-3 min-w-[200px]">Módulo / Recurso</th>
+                  {(['view', 'create', 'edit', 'delete', 'export', 'manage'] as PermissionAction[]).map((action) => (
+                    <th key={action} className="py-2.5 px-2 text-center min-w-[70px]">
+                      {ACTION_LABELS[action].short}
+                    </th>
+                  ))}
+                  <th className="py-2.5 px-2 text-center min-w-[80px]">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border-subtle)] text-xs">
+                {(Object.keys(RESOURCE_LABELS) as PermissionResource[]).map((resourceKey) => {
+                  const resourceInfo = RESOURCE_LABELS[resourceKey];
+                  const perms = selectedRole.permissions[resourceKey] || {
+                    view: false,
+                    create: false,
+                    edit: false,
+                    delete: false,
+                    export: false,
+                    manage: false,
+                  };
 
-                    const allGranted = perms.view && perms.create && perms.edit && perms.delete && perms.export && perms.manage;
+                  const allGranted = perms.view && perms.create && perms.edit && perms.delete && perms.export && perms.manage;
 
-                    return (
-                      <tr
-                        key={resourceKey}
-                        id={`perm-row-${resourceKey}`}
-                        className="hover:bg-[#151a27] transition-colors group"
-                      >
-                        {/* Resource Info */}
-                        <td className="py-3 px-3">
-                          <div className="flex items-center gap-2">
-                            <span className="text-base">{resourceInfo.icon}</span>
-                            <div>
-                              <span className="font-semibold text-white block">{resourceInfo.label}</span>
-                              <span className="text-[10px] text-slate-400 block leading-tight">
-                                {resourceInfo.description}
-                              </span>
-                            </div>
+                  return (
+                    <tr
+                      key={resourceKey}
+                      id={`perm-row-${resourceKey}`}
+                      className="hover:bg-[var(--bg-muted)]/50 transition-colors group"
+                    >
+                      {/* Resource Info */}
+                      <td className="py-3 px-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{resourceInfo.icon}</span>
+                          <div>
+                            <span className="font-semibold text-[var(--text-primary)] block">{resourceInfo.label}</span>
+                            <span className="text-[10px] text-[var(--text-muted)] block leading-tight">
+                              {resourceInfo.description}
+                            </span>
                           </div>
-                        </td>
+                        </div>
+                      </td>
 
-                        {/* View Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'view')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.view
-                                ? 'bg-blue-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Permitir ver ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* View Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'view')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.view
+                              ? 'bg-blue-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Permitir ver ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
-                        {/* Create Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'create')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.create
-                                ? 'bg-emerald-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Permitir crear en ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* Create Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'create')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.create
+                              ? 'bg-emerald-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Permitir crear en ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
-                        {/* Edit Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'edit')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.edit
-                                ? 'bg-amber-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Permitir editar ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* Edit Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'edit')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.edit
+                              ? 'bg-amber-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Permitir editar ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
-                        {/* Delete Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'delete')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.delete
-                                ? 'bg-rose-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Permitir eliminar ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* Delete Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'delete')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.delete
+                              ? 'bg-rose-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Permitir eliminar ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
-                        {/* Export Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'export')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.export
-                                ? 'bg-purple-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Permitir exportar ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* Export Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'export')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.export
+                              ? 'bg-purple-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Permitir exportar ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
-                        {/* Manage Checkbox */}
-                        <td className="py-3 px-2 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePermission(resourceKey, 'manage')}
-                            className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all ${
-                              perms.manage
-                                ? 'bg-indigo-600 text-white shadow-2xs'
-                                : 'bg-[#10141d] border border-[#2b354c] text-transparent hover:border-slate-500'
-                            }`}
-                            title={`Acceso Administrador a ${resourceInfo.label}`}
-                          >
-                            <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          </button>
-                        </td>
+                      {/* Manage Checkbox */}
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleTogglePermission(resourceKey, 'manage')}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
+                            perms.manage
+                              ? 'bg-indigo-600 text-white shadow-2xs'
+                              : 'bg-[var(--bg-input)] border border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400'
+                          }`}
+                          title={`Acceso Administrador a ${resourceInfo.label}`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </button>
+                      </td>
 
                         {/* Quick Grant/Revoke All Button */}
                         <td className="py-3 px-2 text-center">
                           <button
                             type="button"
                             onClick={() => handleToggleAllResource(resourceKey, !allGranted)}
-                            className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1e2434] hover:bg-[#252f44] text-slate-300 transition-colors"
+                            className="px-2 py-0.5 rounded text-[10px] font-medium bg-[var(--bg-muted)] hover:bg-[var(--border-strong)] text-[var(--text-secondary)] transition-colors cursor-pointer"
                           >
                             {allGranted ? 'Quitar Todo' : 'Conceder'}
                           </button>
@@ -566,14 +566,14 @@ export const RolesPermissionsTab: React.FC = () => {
           </div>
 
           {/* User Role Assignment Section */}
-          <div className="bg-[#121620] border border-[#1e2434] rounded-xl p-4 sm:p-5">
-            <div className="flex items-center justify-between pb-3 border-b border-[#1e2434]">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-4 sm:p-5">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
               <div>
-                <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
-                  <Users className="w-4 h-4 text-blue-400" />
+                <h4 className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Asignación de Roles al Equipo ({users.length} Miembros)
                 </h4>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
                   Administra y cambia instantáneamente el rol asignado a cada miembro de tu equipo.
                 </p>
               </div>
@@ -581,14 +581,14 @@ export const RolesPermissionsTab: React.FC = () => {
               <button
                 id="rbac-add-user-btn"
                 onClick={() => setIsAddUserModalOpen(true)}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-[#1a202c] border border-[#2b354c] text-white hover:bg-[#252f44] transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--border-strong)] transition-colors cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5 text-blue-400" />
+                <Plus className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
                 <span>Agregar Miembro</span>
               </button>
             </div>
 
-            <div className="mt-3 divide-y divide-[#181f2f]">
+            <div className="mt-3 divide-y divide-[var(--border-subtle)]">
               {users.map((user) => {
                 const isCurrent = user.id === currentUser.id;
 
@@ -596,24 +596,24 @@ export const RolesPermissionsTab: React.FC = () => {
                   <div
                     key={user.id}
                     id={`user-row-${user.id}`}
-                    className="py-2.5 flex items-center justify-between gap-3 hover:bg-[#151a27] px-2 rounded-lg transition-colors"
+                    className="py-2.5 flex items-center justify-between gap-3 hover:bg-[var(--bg-muted)]/50 px-2 rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <img
                         src={user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
                         alt={user.name}
-                        className="w-8 h-8 rounded-full object-cover border border-[#283247]"
+                        className="w-8 h-8 rounded-full object-cover border border-[var(--border-subtle)]"
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-semibold text-white truncate">{user.name}</span>
+                          <span className="text-xs font-semibold text-[var(--text-primary)] truncate">{user.name}</span>
                           {isCurrent && (
-                            <span className="px-1.5 py-0.2 rounded text-[10px] font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                            <span className="px-1.5 py-0.2 rounded text-[10px] font-medium bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
                               Tú
                             </span>
                           )}
                         </div>
-                        <span className="text-[11px] text-slate-400 block truncate">{user.email}</span>
+                        <span className="text-[11px] text-[var(--text-muted)] block truncate">{user.email}</span>
                       </div>
                     </div>
 
@@ -622,7 +622,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         id={`user-role-select-${user.id}`}
                         value={user.role}
                         onChange={(e) => assignUserRole(user.id, e.target.value)}
-                        className="bg-[#0e121a] border border-[#2b354c] rounded-md px-2.5 py-1 text-xs text-white focus:outline-hidden focus:border-blue-500 cursor-pointer"
+                        className="bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-2.5 py-1 text-xs text-[var(--text-primary)] focus:outline-hidden focus:border-blue-500 cursor-pointer"
                       >
                         {roles.map((r) => (
                           <option key={r.id} value={r.name}>
@@ -642,17 +642,17 @@ export const RolesPermissionsTab: React.FC = () => {
       {/* Modal: Create Custom Role */}
       {isCreateRoleModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#121620] border border-[#222a3d] rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#1e2434]">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-strong)] rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <div className="w-7 h-7 rounded bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400">
                   <Shield className="w-4 h-4" />
                 </div>
-                <h3 className="text-sm font-bold text-white">Crear Rol Personalizado</h3>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">Crear Rol Personalizado</h3>
               </div>
               <button
                 onClick={() => setIsCreateRoleModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -660,34 +660,34 @@ export const RolesPermissionsTab: React.FC = () => {
 
             <form onSubmit={handleCreateRoleSubmit} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Nombre del Rol *</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Nombre del Rol *</label>
                 <input
                   type="text"
                   required
                   placeholder="ej. Especialista en Cierre, SDR Jr, Auditor Fiscal"
                   value={newRoleName}
                   onChange={(e) => setNewRoleName(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-2 text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-2 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-hidden focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Descripción</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Descripción</label>
                 <textarea
                   rows={2}
                   placeholder="Describe las responsabilidades y nivel de acceso..."
                   value={newRoleDescription}
                   onChange={(e) => setNewRoleDescription(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-1.5 text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-1.5 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-hidden focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Plantilla Base de Permisos</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Plantilla Base de Permisos</label>
                 <select
                   value={presetTemplate}
                   onChange={(e: any) => setPresetTemplate(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-2 text-white focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-2 text-[var(--text-primary)] focus:outline-hidden focus:border-blue-500 cursor-pointer"
                 >
                   <option value="sales_rep">Ejecutivo de Ventas (Pipeline + Contactos)</option>
                   <option value="sales_manager">Gerente Comercial (Acceso Completo Pipeline + Reportes)</option>
@@ -697,14 +697,14 @@ export const RolesPermissionsTab: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Color Identificador</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Color Identificador</label>
                 <div className="flex items-center gap-3">
                   {(['blue', 'emerald', 'amber', 'purple', 'rose'] as const).map((color) => (
                     <button
                       key={color}
                       type="button"
                       onClick={() => setNewRoleColor(color)}
-                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${
+                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                         newRoleColor === color ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'
                       } ${
                         color === 'blue'
@@ -724,17 +724,17 @@ export const RolesPermissionsTab: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1e2434]">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[var(--border-subtle)]">
                 <button
                   type="button"
                   onClick={() => setIsCreateRoleModalOpen(false)}
-                  className="px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-[#1a202c]"
+                  className="px-3 py-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-sm"
+                  className="px-4 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-sm cursor-pointer"
                 >
                   Crear Rol
                 </button>
@@ -747,17 +747,17 @@ export const RolesPermissionsTab: React.FC = () => {
       {/* Modal: Add Team Member */}
       {isAddUserModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#121620] border border-[#222a3d] rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#1e2434]">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-strong)] rounded-xl max-w-md w-full p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <div className="w-7 h-7 rounded bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400">
                   <Users className="w-4 h-4" />
                 </div>
-                <h3 className="text-sm font-bold text-white">Agregar Miembro al Equipo</h3>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">Agregar Miembro al Equipo</h3>
               </div>
               <button
                 onClick={() => setIsAddUserModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -765,35 +765,35 @@ export const RolesPermissionsTab: React.FC = () => {
 
             <form onSubmit={handleAddUserSubmit} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Nombre Completo *</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Nombre Completo *</label>
                 <input
                   type="text"
                   required
                   placeholder="ej. Lucía Fernández"
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-2 text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-2 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-hidden focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Email Corporativo *</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Email Corporativo *</label>
                 <input
                   type="email"
                   required
                   placeholder="lucia.fernandez@clientum.com.ar"
                   value={newUserEmail}
                   onChange={(e) => setNewUserEmail(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-2 text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-2 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-hidden focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Rol Inicial Asignado</label>
+                <label className="block text-[var(--text-secondary)] font-medium mb-1">Rol Inicial Asignado</label>
                 <select
                   value={newUserRole}
                   onChange={(e) => setNewUserRole(e.target.value)}
-                  className="w-full bg-[#0e121a] border border-[#2b354c] rounded-md px-3 py-2 text-white focus:outline-hidden focus:border-blue-500"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-strong)] rounded-md px-3 py-2 text-[var(--text-primary)] focus:outline-hidden focus:border-blue-500 cursor-pointer"
                 >
                   {roles.map((r) => (
                     <option key={r.id} value={r.name}>
@@ -803,17 +803,17 @@ export const RolesPermissionsTab: React.FC = () => {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1e2434]">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[var(--border-subtle)]">
                 <button
                   type="button"
                   onClick={() => setIsAddUserModalOpen(false)}
-                  className="px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-[#1a202c]"
+                  className="px-3 py-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-sm"
+                  className="px-4 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-sm cursor-pointer"
                 >
                   Guardar Miembro
                 </button>

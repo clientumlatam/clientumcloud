@@ -13,7 +13,9 @@ import {
   CheckCircle2,
   Play,
   Sparkles,
-  MessageSquare
+  MessageSquare,
+  Link,
+  Globe
 } from 'lucide-react';
 import { PublicRoutePath } from './publicRoutes';
 import { useCRM } from '../../context/CRMContext';
@@ -110,6 +112,20 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
       icon: Cpu,
       badge: 'Autónomo',
       tagline: 'Red de agentes autónomos para prospección, calificación y análisis de mercado.'
+    },
+    {
+      id: 'seo',
+      name: 'SEO & Visibilidad Web',
+      icon: Search,
+      badge: 'Posicionamiento',
+      tagline: 'Auditoría SEO On-Page, palabras clave, brief de contenidos con IA y visibilidad en Google.'
+    },
+    {
+      id: 'integraciones',
+      name: 'Integraciones Nativas',
+      icon: Link,
+      badge: 'API & Webhooks',
+      tagline: 'MercadoPago, Google Workspace, WordPress, MercadoLibre y conectores REST API.'
     },
   ];
 
@@ -396,6 +412,78 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center space-y-1">
                   <div className="text-3xl font-extrabold text-purple-600">20+ Horas</div>
                   <div className="text-slate-500 text-xs">Ahorradas al mes por el equipo contable</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeModule === 'seo' && (
+          <div className="space-y-6 text-xs text-slate-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-slate-900">Suite SEO & Inteligencia de Búsqueda</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Optimiza la presencia digital de tu marca en Google y motores de búsqueda. Analiza la intención de búsqueda de tus compradores y genera briefs de contenidos con IA en segundos.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Auditoría SEO On-Page instantánea (Etiquetas OpenGraph, Meta Titles, Schema.org)</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Rastreo y monitoreo de posicionamiento orgánico para palabras clave de alto impacto</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Generación asistida con Gemini IA de artículos optimizados para blog y fichas de producto</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+                <div className="text-xs font-bold text-blue-700 uppercase tracking-wider">Tráfico & Leads Orgánicos</div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center space-y-1">
+                  <div className="text-3xl font-extrabold text-blue-600">+140%</div>
+                  <div className="text-slate-500 text-xs">Aumento promedio en visitas orgánicas sostenidas</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeModule === 'integraciones' && (
+          <div className="space-y-6 text-xs text-slate-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-slate-900">Integraciones Nativas & Ecosistema Abierto</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Conecta Clientum con tus herramientas existentes sin silos de información ni reprocesos manuales.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>MercadoPago: Enlaces de pago, suscripciones recurrentes y cobro con Código QR</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Google Workspace & Outlook: Sincronización bidireccional de correos y calendarios</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>MercadoLibre & WooCommerce: Sincronización automática de publicaciones y pedidos</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>API REST Gateway & Webhooks seguros para integración con ERPs legados</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+                <div className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Conectividad Abierta</div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center space-y-1">
+                  <div className="text-3xl font-extrabold text-emerald-600">&lt; 1 Seg</div>
+                  <div className="text-slate-500 text-xs">Latencia de disparo de Webhooks y sincronización</div>
                 </div>
               </div>
             </div>
