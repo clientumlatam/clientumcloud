@@ -1099,12 +1099,57 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   }, [currentUser.id, isAuthReady, isAuthenticated]);
 
+  const lastSyncedOpps = useRef<Opportunity[] | null>(null);
+  const lastSyncedCompanies = useRef<Company[] | null>(null);
+  const lastSyncedPeople = useRef<Person[] | null>(null);
+  const lastSyncedTasks = useRef<Task[] | null>(null);
+  const lastSyncedActivities = useRef<Activity[] | null>(null);
+
   // Persist the complete core snapshot after local mutations. Debouncing
   // prevents a compound action (deal + activity + audit) from issuing a
   // request for every individual state update.
   const crmPersistTimer = useRef<number | null>(null);
   useEffect(() => {
-    if (!isCrmRemoteReady || !isAuthenticated || !currentUser.id) return;
+    if (!isCrmRemoteReady || !isAuthenticated || !currentUser.id) {
+      lastSyncedOpps.current = null;
+      lastSyncedCompanies.current = null;
+      lastSyncedPeople.current = null;
+      lastSyncedTasks.current = null;
+      lastSyncedActivities.current = null;
+      return;
+    }
+
+    // Initialize refs on first load so we don't sync right away if no changes have occurred
+    if (lastSyncedOpps.current === null) {
+      lastSyncedOpps.current = opportunities;
+      lastSyncedCompanies.current = companies;
+      lastSyncedPeople.current = people;
+      lastSyncedTasks.current = tasks;
+      lastSyncedActivities.current = activities;
+      return;
+    }
+
+    const changedFields: Record<string, any> = {};
+    if (opportunities !== lastSyncedOpps.current) {
+      changedFields.opportunities = opportunities;
+    }
+    if (companies !== lastSyncedCompanies.current) {
+      changedFields.companies = companies;
+    }
+    if (people !== lastSyncedPeople.current) {
+      changedFields.people = people;
+    }
+    if (tasks !== lastSyncedTasks.current) {
+      changedFields.tasks = tasks;
+    }
+    if (activities !== lastSyncedActivities.current) {
+      changedFields.activities = activities;
+    }
+
+    // If nothing changed, skip
+    if (Object.keys(changedFields).length === 0) {
+      return;
+    }
 
     if (crmPersistTimer.current !== null) {
       window.clearTimeout(crmPersistTimer.current);
@@ -1112,25 +1157,21 @@ export const CRMProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     crmPersistTimer.current = window.setTimeout(() => {
       void (async () => {
         try {
-          // Sync directly to Firestore
-          await syncWorkspaceToFirestore(currentUser.id, {
-            opportunities,
-            companies,
-            people,
-            tasks,
-            activities,
-          });
+          // Sync ONLY the changed fields directly to Firestore with { merge: true }
+          await syncWorkspaceToFirestore(currentUser.id, changedFields);
 
+          // Update tracking refs to match current values
+          if (changedFields.opportunities) lastSyncedOpps.current = changedFields.opportunities;
+          if (changedFields.companies) lastSyncedCompanies.current = changedFields.companies;
+          if (changedFields.people) lastSyncedPeople.current = changedFields.people;
+          if (changedFields.tasks) lastSyncedTasks.current = changedFields.tasks;
+          if (changedFields.activities) lastSyncedActivities.current = changedFields.activities;
+
+          // Send ONLY the changed arrays to PostgreSQL
           await fetch('/api/crm/bootstrap', {
             method: 'PUT',
             headers: await getClientumAuthJsonHeaders(currentUser),
-            body: JSON.stringify({
-              opportunities,
-              companies,
-              people,
-              tasks,
-              activities,
-            }),
+            body: JSON.stringify(changedFields),
           });
         } catch (error) {
           console.warn('Persistent CRM snapshot save failed:', error);

@@ -1275,8 +1275,8 @@ app.post("/api/billing/mercadopago/checkout", async (req, res) => {
     } else {
       // Fallback inline recurring definition if MP plan ID is not configured
       subscriptionPayload.auto_recurring = {
-        frequency: billingCycle === "annual" ? 1 : 1,
-        frequency_type: billingCycle === "annual" ? "years" : "months",
+        frequency: billingCycle === "annual" ? 12 : 1,
+        frequency_type: "months",
         transaction_amount: amount,
         currency_id: "ARS",
       };
@@ -1353,6 +1353,8 @@ app.put("/api/billing/subscription/:checkoutId/cancel", async (req, res) => {
   }
 
   const { checkoutId } = req.params;
+  const isPause = req.body?.action === "pause" || req.body?.status === "paused";
+  const targetStatus = isPause ? "paused" : "cancelled";
 
   try {
     const result = await credentialDatabase.query<{
@@ -1372,20 +1374,20 @@ app.put("/api/billing/subscription/:checkoutId/cancel", async (req, res) => {
     }
 
     if (subscription.clerk_user_id !== verifiedUserId) {
-      res.status(403).json({ error: "No tienes permiso para cancelar esta suscripción." });
+      res.status(403).json({ error: "No tienes permiso para modificar esta suscripción." });
       return;
     }
 
     const subId = subscription.provider_subscription_id;
     if (!subId) {
-      // For simulated or pending checkout with no provider sub ID, just mark cancelled locally
+      // For simulated or pending checkout with no provider sub ID, just mark state locally
       await credentialDatabase.query(
         `UPDATE clientum_platform_billing_checkouts
-         SET status = 'cancelled', updated_at = NOW()
-         WHERE id = $1`,
-        [checkoutId]
+         SET status = $1, updated_at = NOW()
+         WHERE id = $2`,
+        [targetStatus, checkoutId]
       );
-      res.json({ success: true, message: "Suscripción cancelada localmente." });
+      res.json({ success: true, message: isPause ? "Suscripción pausada localmente." : "Suscripción cancelada localmente." });
       return;
     }
 
@@ -1397,28 +1399,28 @@ app.put("/api/billing/subscription/:checkoutId/cancel", async (req, res) => {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status: "cancelled" }),
+        body: JSON.stringify({ status: targetStatus }),
       });
 
       if (!response.ok) {
         const payload = await response.json().catch(() => ({}));
-        console.error("Cancel Mercado Pago subscription failed:", response.status, payload);
-        res.status(502).json({ error: "Mercado Pago rechazó la cancelación de la suscripción." });
+        console.error(`${isPause ? "Pause" : "Cancel"} Mercado Pago subscription failed:`, response.status, payload);
+        res.status(502).json({ error: `Mercado Pago rechazó la ${isPause ? "pausa" : "cancelación"} de la suscripción.` });
         return;
       }
     }
 
     await credentialDatabase.query(
       `UPDATE clientum_platform_billing_checkouts
-       SET status = 'cancelled', updated_at = NOW()
-       WHERE id = $1`,
-      [checkoutId]
+       SET status = $1, updated_at = NOW()
+       WHERE id = $2`,
+      [targetStatus, checkoutId]
     );
 
-    res.json({ success: true, message: "Suscripción cancelada exitosamente." });
+    res.json({ success: true, message: isPause ? "Suscripción pausada exitosamente." : "Suscripción cancelada exitosamente." });
   } catch (error: any) {
-    console.error("Platform billing subscription cancel error:", error?.message || error);
-    res.status(500).json({ error: "No se pudo cancelar la suscripción." });
+    console.error(`Platform billing subscription ${targetStatus} error:`, error?.message || error);
+    res.status(500).json({ error: `No se pudo ${isPause ? "pausar" : "cancelar"} la suscripción.` });
   }
 });
 
