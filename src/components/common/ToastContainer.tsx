@@ -1,10 +1,10 @@
 import React from 'react';
-import { useCRM } from '../../context/CRMContext';
+import { useToast } from '../../context/ToastContext';
 import { CheckCircle2, Info, AlertTriangle, AlertCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const ToastContainer: React.FC = () => {
-  const { toasts, removeToast } = useCRM();
+  const { toasts, removeToast } = useToast();
 
   const getIcon = (type: string) => {
     switch (type) {

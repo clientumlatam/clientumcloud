@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { CRMProvider, useCRM } from './context/CRMContext';
+import { ToastProvider } from './context/ToastContext';
 import { ToastContainer } from './components/common/ToastContainer';
 import { AuthModal } from './components/auth/AuthModal';
 import { PublicSite } from './components/public/PublicSite';
@@ -119,7 +120,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <CRMProvider>
-        <AppContent />
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
       </CRMProvider>
     </ThemeProvider>
   );
