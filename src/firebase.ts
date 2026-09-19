@@ -179,7 +179,7 @@ export function subscribeToAuthState(
 
 // Safe Analytics initialization
 export let analytics: Analytics | null = null;
-if (typeof window !== 'undefined' && isLiveFirebaseReady && app) {
+if (typeof window !== 'undefined' && isLiveFirebaseReady && app && (import.meta as any)?.env?.MODE === 'production') {
   isSupported().then((supported) => {
     if (supported) {
       try {

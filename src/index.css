@@ -18,7 +18,7 @@
   --color-blue-300: #a9bfe0;
   --color-blue-400: #5b7ebd;
   --color-blue-500: #3d5f99;
-  --color-blue-600: #0a2558; /* navy exacto del logo */
+  --color-blue-600: #06213F; /* Official Clientum Brand Navy */
   --color-blue-700: #071b3d;
   --color-blue-800: #051530;
   --color-blue-900: #030f24;
@@ -71,32 +71,13 @@ body {
 [data-theme="light"],
 .light {
   /* Canvas & Base Surfaces — Refined Enterprise Palette */
-  --bg-canvas: #f8fafc;          /* Brighter, cleaner base */
+  --bg-canvas: #f8fafc;          /* Brighter, cleaner corporate base */
   --bg-surface: #ffffff;
-  --bg-surface-elevated: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-navbar: #ffffff;
-  --bg-input: #fdfdfd;
-  --bg-muted: #f1f5f9;
-  --bg-accent-subtle: #eff6ff;
-
-  /* High Contrast Typography — Deep Slate & Obsidian */
-  --text-primary: #0f172a;       /* Slate 900 */
+  --text-primary: #0f172a;       /* Slate 900 for high readability */
   --text-secondary: #475569;     /* Slate 600 */
-  --text-muted: #64748b;         /* Slate 500 */
-  --text-inverse: #ffffff;
-  --text-brand: #2563eb;         /* High-contrast Blue */
-  --text-brand-hover: #1d4ed8;
-
-  /* Border & Divider System — Subtle but Defined */
   --border-subtle: #e2e8f0;      /* Slate 200 */
-  --border-default: #cbd5e1;     /* Slate 300 */
-  --border-strong: #94a3b8;      /* Slate 400 */
-  --border-focus: #3b82f6;
-
-  /* Brand Accents — Clientum Deep Blue & Action Blue */
-  --color-primary: #0a2558;      /* Brand Navy */
+  --color-primary: #06213F;      /* Brand Navy */
   --color-primary-hover: #071b3d;
   --color-primary-light: #eef1f6;
   --color-primary-text: #0a2558;
@@ -201,32 +182,12 @@ body {
 
 [data-theme="dark"],
 .dark {
-  /* Canvas & Base Surfaces — Refined Obsidian Palette */
-  --bg-canvas: #040711;
+  --bg-canvas: #040711;          /* Clientum Obsidian Dark */
   --bg-surface: #0a0f1d;
-  --bg-surface-elevated: #111a2d;
   --bg-card: #0d1527;
-  --bg-card-hover: #14203a;
-  --bg-navbar: #060a16;
-  --bg-input: #070c18;
-  --bg-muted: #111a2e;
-  --bg-accent-subtle: rgba(14, 165, 233, 0.12);
-
-  /* High Contrast Typography */
-  --text-primary: #ffffff;       /* 21:1 contrast on #040711 (WCAG AAA) */
-  --text-secondary: #cbd5e1;     /* 11.8:1 contrast */
-  --text-muted: #94a3b8;         /* 7.2:1 contrast */
-  --text-inverse: #040711;
-  --text-brand: #60a5fa;
-  --text-brand-hover: #93c5fd;
-
-  /* Border & Divider System (High Contrast Obsidian) */
+  --text-primary: #ffffff;       /* WCAG AAA High Contrast */
+  --text-secondary: #cbd5e1;
   --border-subtle: #141f33;
-  --border-default: #1e2e4a;
-  --border-strong: #2d436a;
-  --border-focus: #3b82f6;
-
-  /* Brand Accents (Obsidian Navy & Cyan Palette) */
   --color-primary: #1e40af;
   --color-primary-hover: #2563eb;
   --color-primary-light: rgba(30, 64, 175, 0.25);
@@ -360,16 +321,6 @@ body,
   background-color: var(--sidebar-bg) !important;
   border-right-color: var(--sidebar-border) !important;
   color: var(--sidebar-text-primary);
-}
-
-#clientum-sidebar .sidebar-header {
-  background-color: var(--sidebar-header-bg) !important;
-  border-color: var(--sidebar-border) !important;
-}
-
-#clientum-sidebar .sidebar-footer {
-  background-color: var(--sidebar-footer-bg) !important;
-  border-color: var(--sidebar-border) !important;
 }
 
 /* Form element focus states */
