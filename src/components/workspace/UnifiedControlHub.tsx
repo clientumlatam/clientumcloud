@@ -893,9 +893,9 @@ export const UnifiedControlHub: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto bg-[var(--bg-muted)] dark:bg-slate-950 text-[var(--text-primary)] dark:text-slate-100 pb-16">
+    <div className="flex-1 overflow-y-auto bg-[var(--bg-muted)] dark:bg-slate-950 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 pb-16">
       {/* Header Unificado */}
-      <header className="border-b border-[var(--border-subtle)] dark:border-slate-800 bg-[var(--bg-card)] dark:bg-slate-900 px-6 sm:px-8 py-6 shadow-xs">
+      <header className="border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 bg-[var(--bg-card)] dark:bg-slate-900 px-6 sm:px-8 py-6 shadow-xs">
         <div className="max-w-7xl w-full mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
@@ -913,10 +913,10 @@ export const UnifiedControlHub: React.FC = () => {
                   Control de Workspace 360°
                 </span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] dark:text-slate-100 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 tracking-tight">
                 Centro de Control Unificado del Workspace
               </h1>
-              <p className="text-sm text-[var(--text-muted)] dark:text-slate-400 mt-1 max-w-3xl leading-relaxed">
+              <p className="text-sm text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 max-w-3xl leading-relaxed">
                 Navegación centralizada, orquestación de módulos canónicos, auditoría de salud del sistema y herramientas esenciales de Clientum CRM en una sola consola coherente.
               </p>
             </div>
@@ -938,7 +938,7 @@ export const UnifiedControlHub: React.FC = () => {
                 type="button"
                 id="btn-disable-all-modules"
                 onClick={() => handleToggleAll(false)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-[var(--border-subtle)] dark:border-slate-700 transition"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 transition"
                 title="Pausar todos los módulos del ecosistema"
               >
                 <X className="w-3.5 h-3.5 text-[var(--text-muted)]" />
@@ -949,7 +949,7 @@ export const UnifiedControlHub: React.FC = () => {
                 type="button"
                 id="btn-reset-default-modules"
                 onClick={handleResetToDefault}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-[var(--border-subtle)] dark:border-slate-700 transition"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 transition"
                 title="Restaurar prioridades y estados de fábrica"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-[var(--text-muted)]" />
@@ -970,16 +970,12 @@ export const UnifiedControlHub: React.FC = () => {
           </div>
 
           {/* Navegación por Pestañas del Hub */}
-          <div className="flex items-center gap-2 mt-6 pt-5 border-t border-[var(--border-subtle)]/80 dark:border-slate-800 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 mt-6 pt-5 border-t border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 overflow-x-auto no-scrollbar">
             <button
               type="button"
               id="tab-hub-overview"
               onClick={() => setActiveViewTab('overview')}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
-                activeViewTab === 'overview'
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ activeViewTab === 'overview' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800' }`}
             >
               <LayoutGrid className="w-4 h-4" />
               Vista Integral & Control
@@ -989,11 +985,7 @@ export const UnifiedControlHub: React.FC = () => {
               type="button"
               id="tab-hub-canonical-modules"
               onClick={() => setActiveViewTab('canonical-modules')}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
-                activeViewTab === 'canonical-modules'
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ activeViewTab === 'canonical-modules' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800' }`}
             >
               <Boxes className="w-4 h-4" />
               Módulos Canónicos (15)
@@ -1006,11 +998,7 @@ export const UnifiedControlHub: React.FC = () => {
               type="button"
               id="tab-hub-ecosystem-repos"
               onClick={() => setActiveViewTab('ecosystem-repos')}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
-                activeViewTab === 'ecosystem-repos'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ activeViewTab === 'ecosystem-repos' ? 'bg-purple-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800' }`}
             >
               <GitBranch className="w-4 h-4" />
               Repositorios Ecosistema (14 Repos)
@@ -1020,11 +1008,7 @@ export const UnifiedControlHub: React.FC = () => {
               type="button"
               id="tab-hub-workspace-tools"
               onClick={() => setActiveViewTab('workspace-tools')}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
-                activeViewTab === 'workspace-tools'
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ activeViewTab === 'workspace-tools' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800' }`}
             >
               <Wrench className="w-4 h-4" />
               Herramientas de Workspace (6)
@@ -1034,11 +1018,7 @@ export const UnifiedControlHub: React.FC = () => {
               type="button"
               id="tab-hub-extended-catalog"
               onClick={() => setActiveViewTab('extended-catalog')}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${
-                activeViewTab === 'extended-catalog'
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800'
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ activeViewTab === 'extended-catalog' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800' }`}
             >
               <Compass className="w-4 h-4" />
               Catálogo Extendido (46)
@@ -1049,12 +1029,12 @@ export const UnifiedControlHub: React.FC = () => {
 
       {/* Barra de Estado & Sincronización Realtime */}
       <div className="max-w-7xl w-full mx-auto px-6 sm:px-8 mt-5">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[var(--bg-card)] dark:bg-slate-900 p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[var(--bg-card)] dark:bg-slate-900 p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
           <div className="flex items-center gap-2.5">
             {isOnline && !isSyncPending ? (
               <>
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                <span className="text-xs font-medium text-[var(--text-secondary)] dark:text-slate-300">
+                <span className="text-xs font-medium text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   Sincronizado con Firebase Firestore en tiempo real
                 </span>
               </>
@@ -1076,9 +1056,9 @@ export const UnifiedControlHub: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--text-muted)] dark:text-slate-400">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              Salud Operativa: <strong className="text-[var(--text-primary)] dark:text-slate-200">100% Zero-Downtime</strong>
+              Salud Operativa: <strong className="text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200">100% Zero-Downtime</strong>
             </span>
             <button
               type="button"
@@ -1087,7 +1067,7 @@ export const UnifiedControlHub: React.FC = () => {
                 runAppScan();
               }}
               disabled={isScanning}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-md bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 transition"
+              className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-md bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 transition"
             >
               <RefreshCw className={`w-3 h-3 ${isScanning ? 'animate-spin text-blue-600' : ''}`} />
               {isScanning ? 'Revisando…' : 'Revisar Sistema'}
@@ -1099,15 +1079,15 @@ export const UnifiedControlHub: React.FC = () => {
       {/* Métricas Vitales Unificadas */}
       <div className="max-w-7xl w-full mx-auto px-6 sm:px-8 mt-5">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Módulos Activos
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 {activeCount}
               </span>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
                 de {CANONICAL_ECOSYSTEM_MODULES.length}
               </span>
             </div>
@@ -1119,64 +1099,64 @@ export const UnifiedControlHub: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Negocios
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 {opportunities.length}
               </span>
-              <span className="text-xs text-slate-400 font-medium">en pipeline</span>
+              <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">en pipeline</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 truncate">Etapas activas de venta</p>
+            <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-2 truncate">Etapas activas de venta</p>
           </div>
 
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Empresas
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 {companies.length}
               </span>
-              <span className="text-xs text-slate-400 font-medium">cuentas</span>
+              <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">cuentas</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 truncate">Directorio corporativo</p>
+            <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-2 truncate">Directorio corporativo</p>
           </div>
 
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Contactos
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 {people.length}
               </span>
-              <span className="text-xs text-slate-400 font-medium">personas</span>
+              <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">personas</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 truncate">Decisores mapeados</p>
+            <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-2 truncate">Decisores mapeados</p>
           </div>
 
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Actividades
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 {tasks.length}
               </span>
-              <span className="text-xs text-slate-400 font-medium">tareas</span>
+              <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">tareas</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 truncate">Acciones de seguimiento</p>
+            <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-2 truncate">Acciones de seguimiento</p>
           </div>
 
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
-            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider block">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
+            <span className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
               Documentación
             </span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-black text-[var(--text-primary)] dark:text-slate-100">
+              <span className="text-xl font-black text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                 15/15
               </span>
               <span className="text-xs text-emerald-600 font-bold">100%</span>
@@ -1195,10 +1175,10 @@ export const UnifiedControlHub: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-3.5">
                 <div>
-                  <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-slate-100">
+                  <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                     Capacidades Fundamentales del Workspace
                   </h2>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-0.5">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
                     Herramientas transversales para auditar, cobrar, comunicar e interactuar con el CRM
                   </p>
                 </div>
@@ -1218,11 +1198,11 @@ export const UnifiedControlHub: React.FC = () => {
                   return (
                     <div
                       key={tool.id}
-                      className="group bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 p-5 shadow-2xs hover:shadow-md hover:border-blue-300 dark:hover:border-blue-800 transition-all flex flex-col justify-between"
+                      className="group bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-5 shadow-2xs hover:shadow-md hover:border-blue-300 dark:hover:border-blue-800 transition-all flex flex-col justify-between"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-slate-300">
+                          <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                             {tool.badge}
                           </span>
                           <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
@@ -1235,17 +1215,17 @@ export const UnifiedControlHub: React.FC = () => {
                             <Icon className="w-5 h-5" />
                           </div>
                           <div>
-                            <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100 leading-snug">
+                            <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 leading-snug">
                               {tool.title}
                             </h3>
-                            <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-1 leading-relaxed">
+                            <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 leading-relaxed">
                               {tool.description}
                             </p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800/80 flex items-center justify-between">
+                      <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 flex items-center justify-between">
                         <button
                           type="button"
                           onClick={() => handleToolAction(tool)}
@@ -1265,10 +1245,10 @@ export const UnifiedControlHub: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-3.5">
                 <div>
-                  <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-slate-100">
+                  <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                     Módulos Canónicos Destacados (#01 a #06)
                   </h2>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-0.5">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
                     Prioridades operativas del CRM con switches directos y accesos rápidos
                   </p>
                 </div>
@@ -1289,48 +1269,40 @@ export const UnifiedControlHub: React.FC = () => {
                   return (
                     <div
                       key={module.id}
-                      className={`bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border p-5 transition shadow-2xs flex flex-col justify-between ${
-                        isEnabled
-                          ? 'border-[var(--border-subtle)] dark:border-slate-800 hover:border-blue-200'
-                          : 'border-[var(--border-subtle)]/60 dark:border-slate-800/60 opacity-60 bg-[var(--bg-muted)]/50'
-                      }`}
+                      className={`bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border p-5 transition shadow-2xs flex flex-col justify-between ${ isEnabled ? 'border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 hover:border-blue-200' : 'border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60 opacity-60 bg-[var(--bg-muted)]/50' }`}
                     >
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-[11px] font-black text-slate-400">
+                          <span className="text-[11px] font-black text-[var(--text-muted,#64748b)] dark:text-slate-400">
                             #{String(index + 1).padStart(2, '0')}
                           </span>
                           <button
                             type="button"
                             onClick={() => handleToggleModule(module.id)}
-                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
-                              isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
-                            }`}
+                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${ isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700' }`}
                           >
                             <span
-                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-[var(--bg-card)] shadow-sm ring-0 transition duration-200 ease-in-out ${
-                                isEnabled ? 'translate-x-4' : 'translate-x-0'
-                              }`}
+                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-[var(--bg-card)] shadow-sm ring-0 transition duration-200 ease-in-out ${ isEnabled ? 'translate-x-4' : 'translate-x-0' }`}
                             />
                           </button>
                         </div>
 
                         <div className="flex items-start gap-3">
-                          <div className="p-2.5 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300 shrink-0">
+                          <div className="p-2.5 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 shrink-0">
                             <Icon className="w-5 h-5" />
                           </div>
                           <div>
-                            <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100">
+                            <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                               {module.title}
                             </h3>
-                            <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-1 line-clamp-2">
+                            <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 line-clamp-2">
                               {module.description}
                             </p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800/80 flex items-center justify-between">
+                      <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 flex items-center justify-between">
                         <button
                           type="button"
                           onClick={() => handleOpenDoc(module)}
@@ -1343,7 +1315,7 @@ export const UnifiedControlHub: React.FC = () => {
                           type="button"
                           disabled={!isEnabled}
                           onClick={() => setActiveTab(module.activeTabTarget)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-[var(--text-secondary)] dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-1 text-xs font-bold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           Abrir Módulo
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -1361,15 +1333,15 @@ export const UnifiedControlHub: React.FC = () => {
         {activeViewTab === 'canonical-modules' && (
           <div className="space-y-6">
             {/* Barra de Filtros y Búsqueda */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
               <div className="relative flex-1 max-w-md">
-                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar módulo, capacidad o ID..."
-                  className="w-full pl-10 pr-4 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -1379,11 +1351,7 @@ export const UnifiedControlHub: React.FC = () => {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition ${
-                      selectedCategory === cat
-                        ? 'bg-blue-600 text-white shadow-2xs'
-                        : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300'
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition ${ selectedCategory === cat ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300' }`}
                   >
                     {cat}
                   </button>
@@ -1392,7 +1360,7 @@ export const UnifiedControlHub: React.FC = () => {
             </div>
 
             {/* Reordenamiento interactivo hint */}
-            <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-slate-400 px-1">
+            <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 px-1">
               <span>
                 Mostrando {filteredModules.length} de {CANONICAL_ECOSYSTEM_MODULES.length} módulos canónicos. Arrastra desde el icono ⋮⋮ para ajustar la prioridad en el pipeline.
               </span>
@@ -1415,26 +1383,22 @@ export const UnifiedControlHub: React.FC = () => {
                     onDragStart={(e) => handleDragStart(e, module.id)}
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, module.id)}
-                    className={`group relative bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border p-5 shadow-2xs transition-all flex flex-col justify-between ${
-                      isEnabled
-                        ? 'border-[var(--border-subtle)] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800'
-                        : 'border-[var(--border-subtle)]/60 dark:border-slate-800/60 opacity-60 bg-[var(--bg-muted)]/50'
-                    }`}
+                    className={`group relative bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border p-5 shadow-2xs transition-all flex flex-col justify-between ${ isEnabled ? 'border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800' : 'border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60 opacity-60 bg-[var(--bg-muted)]/50' }`}
                   >
                     <div>
                       {/* Top bar: Handle, orden, badge y switch */}
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <div className="flex items-center gap-2">
                           <span
-                            className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 p-1 rounded-sm"
+                            className="cursor-grab active:cursor-grabbing text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 p-1 rounded-sm"
                             title="Arrastra para cambiar la prioridad"
                           >
                             <GripVertical className="w-4 h-4" />
                           </span>
-                          <span className="text-xs font-black text-slate-400 font-mono">
+                          <span className="text-xs font-black text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                             #{String(index + 1).padStart(2, '0')}
                           </span>
-                          <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-slate-300">
+                          <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                             {module.category}
                           </span>
                         </div>
@@ -1444,15 +1408,11 @@ export const UnifiedControlHub: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleToggleModule(module.id)}
-                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
-                              isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
-                            }`}
+                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${ isEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700' }`}
                             title={isEnabled ? 'Pausar módulo' : 'Activar módulo'}
                           >
                             <span
-                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-[var(--bg-card)] shadow-sm ring-0 transition duration-200 ease-in-out ${
-                                isEnabled ? 'translate-x-4' : 'translate-x-0'
-                              }`}
+                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-[var(--bg-card)] shadow-sm ring-0 transition duration-200 ease-in-out ${ isEnabled ? 'translate-x-4' : 'translate-x-0' }`}
                             />
                           </button>
                         </div>
@@ -1460,14 +1420,14 @@ export const UnifiedControlHub: React.FC = () => {
 
                       {/* Header del módulo */}
                       <div className="flex items-start gap-3">
-                        <div className="p-2.5 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-200 shrink-0">
+                        <div className="p-2.5 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 shrink-0">
                           <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
-                          <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100 leading-snug">
+                          <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 leading-snug">
                             {module.title}
                           </h3>
-                          <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
+                          <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
                             {module.description}
                           </p>
                         </div>
@@ -1478,7 +1438,7 @@ export const UnifiedControlHub: React.FC = () => {
                         {module.capabilities.map((cap, i) => (
                           <span
                             key={i}
-                            className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-400"
+                            className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400"
                           >
                             {cap}
                           </span>
@@ -1487,7 +1447,7 @@ export const UnifiedControlHub: React.FC = () => {
                     </div>
 
                     {/* Footer con acciones */}
-                    <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800/80 flex items-center justify-between gap-2">
+                    <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
@@ -1503,7 +1463,7 @@ export const UnifiedControlHub: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setCredentialModuleId(module.activeTabTarget)}
-                            className="inline-flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:text-slate-400 dark:hover:text-slate-200 transition"
+                            className="inline-flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 transition"
                             title="Configurar credenciales y claves de API"
                           >
                             <KeyRound className="w-3.5 h-3.5" />
@@ -1518,7 +1478,7 @@ export const UnifiedControlHub: React.FC = () => {
                           type="button"
                           disabled={index === 0}
                           onClick={() => handleMovePosition(module.id, 'up')}
-                          className="p-1 text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 disabled:opacity-20"
+                          className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 disabled:opacity-20"
                           title="Subir prioridad"
                         >
                           <ArrowUp className="w-3.5 h-3.5" />
@@ -1527,7 +1487,7 @@ export const UnifiedControlHub: React.FC = () => {
                           type="button"
                           disabled={index === orderedModules.length - 1}
                           onClick={() => handleMovePosition(module.id, 'down')}
-                          className="p-1 text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 disabled:opacity-20"
+                          className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 disabled:opacity-20"
                           title="Bajar prioridad"
                         >
                           <ArrowDown className="w-3.5 h-3.5" />
@@ -1537,11 +1497,7 @@ export const UnifiedControlHub: React.FC = () => {
                           type="button"
                           disabled={!isEnabled}
                           onClick={() => setActiveTab(module.activeTabTarget)}
-                          className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-md transition ${
-                            isEnabled
-                              ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                              : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-slate-400 cursor-not-allowed'
-                          }`}
+                          className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-md transition ${ isEnabled ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400 cursor-not-allowed' }`}
                         >
                           Abrir
                           <ArrowRight className="w-3 h-3" />
@@ -1564,11 +1520,11 @@ export const UnifiedControlHub: React.FC = () => {
                 return (
                   <div
                     key={tool.id}
-                    className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 p-6 shadow-2xs flex flex-col justify-between"
+                    className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-6 shadow-2xs flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-slate-300">
+                        <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                           {tool.badge}
                         </span>
                         <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
@@ -1582,17 +1538,17 @@ export const UnifiedControlHub: React.FC = () => {
                           <Icon className="w-6 h-6" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-[var(--text-primary)] dark:text-slate-100">
+                          <h3 className="text-base font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                             {tool.title}
                           </h3>
-                          <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-1.5 leading-relaxed">
+                          <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1.5 leading-relaxed">
                             {tool.description}
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] dark:border-slate-800">
+                    <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
                       <button
                         type="button"
                         onClick={() => handleToolAction(tool)}
@@ -1612,18 +1568,18 @@ export const UnifiedControlHub: React.FC = () => {
         {/* SECCIÓN 4: CATÁLOGO EXTENDIDO (46 MÓDULOS) */}
         {activeViewTab === 'extended-catalog' && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xs">
+            <div className="flex items-center justify-between bg-[var(--bg-card)] dark:bg-slate-900 p-4 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xs">
               <div className="relative flex-1 max-w-md">
-                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar en los 46 módulos del CRM..."
-                  className="w-full pl-10 pr-4 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400 ml-4">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 ml-4">
                 Mostrando {filteredExtendedModules.length} de {EXTENDED_CATALOG_MODULES.length} módulos
               </span>
             </div>
@@ -1634,11 +1590,11 @@ export const UnifiedControlHub: React.FC = () => {
                 return (
                   <div
                     key={mod.id}
-                    className="group bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800 p-4 shadow-2xs hover:border-blue-300 dark:hover:border-blue-800 transition flex flex-col justify-between"
+                    className="group bg-[var(--bg-card)] dark:bg-slate-900 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-4 shadow-2xs hover:border-blue-300 dark:hover:border-blue-800 transition flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400">
                           {mod.group}
                         </span>
                         {mod.badge && (
@@ -1648,21 +1604,21 @@ export const UnifiedControlHub: React.FC = () => {
                         )}
                       </div>
                       <div className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-300 shrink-0">
+                        <div className="p-2 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 shrink-0">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-[var(--text-primary)] dark:text-slate-100">
+                          <h4 className="text-xs font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                             {mod.title}
                           </h4>
-                          <p className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 mt-0.5 line-clamp-2">
+                          <p className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5 line-clamp-2">
                             {mod.description}
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-end">
+                    <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-end">
                       <button
                         type="button"
                         onClick={() => setActiveTab(mod.id)}
@@ -1690,17 +1646,17 @@ export const UnifiedControlHub: React.FC = () => {
       {/* Modal / Drawer de Diagnóstico de Salud del Workspace */}
       {activeToolModal === 'health' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xl max-w-lg w-full p-6 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xl max-w-lg w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
                   <ScanSearch className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                     Diagnóstico de Salud del Workspace
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Auditoría de integridad y rutas críticas
                   </p>
                 </div>
@@ -1708,7 +1664,7 @@ export const UnifiedControlHub: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveToolModal(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
+                className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1718,7 +1674,7 @@ export const UnifiedControlHub: React.FC = () => {
               {scanResults.map((res) => (
                 <div
                   key={res.id}
-                  className="p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)] dark:bg-slate-950/50 flex items-start gap-3"
+                  className="p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 bg-[var(--bg-muted)] dark:bg-slate-950/50 flex items-start gap-3"
                 >
                   {res.status === 'running' ? (
                     <RefreshCw className="w-4 h-4 text-blue-600 animate-spin shrink-0 mt-0.5" />
@@ -1728,10 +1684,10 @@ export const UnifiedControlHub: React.FC = () => {
                     <CircleAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                   )}
                   <div>
-                    <h4 className="text-xs font-bold text-[var(--text-primary)] dark:text-slate-200">
+                    <h4 className="text-xs font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200">
                       {res.label}
                     </h4>
-                    <p className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 mt-0.5 leading-relaxed">
+                    <p className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5 leading-relaxed">
                       {res.detail}
                     </p>
                   </div>
@@ -1739,12 +1695,12 @@ export const UnifiedControlHub: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-between">
+            <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-between">
               <button
                 type="button"
                 onClick={runAppScan}
                 disabled={isScanning}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 transition"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 transition"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isScanning ? 'animate-spin' : ''}`} />
                 Reejecutar diagnóstico
@@ -1764,17 +1720,17 @@ export const UnifiedControlHub: React.FC = () => {
       {/* Modal / Drawer de Consola SMS */}
       {activeToolModal === 'sms' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xl max-w-lg w-full p-6 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xl max-w-lg w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400">
                   <MessageSquareText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                     Consola SMS Transaccional
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Envío de alertas y notificaciones comerciales
                   </p>
                 </div>
@@ -1782,7 +1738,7 @@ export const UnifiedControlHub: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveToolModal(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
+                className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1790,7 +1746,7 @@ export const UnifiedControlHub: React.FC = () => {
 
             <form onSubmit={sendSms} className="space-y-4 mt-4">
               <div>
-                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Proveedor de Mensajería
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -1799,11 +1755,7 @@ export const UnifiedControlHub: React.FC = () => {
                       key={p}
                       type="button"
                       onClick={() => setSmsProvider(p)}
-                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition ${
-                        smsProvider === p
-                          ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
-                          : 'border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-400'
-                      }`}
+                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition ${ smsProvider === p ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300' : 'border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400' }`}
                     >
                       {p}
                     </button>
@@ -1812,27 +1764,27 @@ export const UnifiedControlHub: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Teléfono de Destino (+Prefijo)
                 </label>
                 <input
                   type="text"
                   value={smsPhone}
                   onChange={(e) => setSmsPhone(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono"
+                  className="w-full px-3.5 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono"
                   placeholder="+54 11 5555 5555"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Mensaje SMS
                 </label>
                 <textarea
                   rows={3}
                   value={smsMessage}
                   onChange={(e) => setSmsMessage(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500 resize-none"
+                  className="w-full px-3.5 py-2 text-xs rounded-lg border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500 resize-none"
                   placeholder="Escribe el mensaje..."
                 />
               </div>
@@ -1844,11 +1796,11 @@ export const UnifiedControlHub: React.FC = () => {
                 </div>
               )}
 
-              <div className="pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-end gap-2">
+              <div className="pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setActiveToolModal(null)}
-                  className="px-4 py-2 rounded-lg text-xs font-bold text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
+                  className="px-4 py-2 rounded-lg text-xs font-bold text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
                 >
                   Cancelar
                 </button>
@@ -1868,14 +1820,14 @@ export const UnifiedControlHub: React.FC = () => {
       {/* Modal de Lectura de Documentación Técnica de Migración */}
       {selectedDoc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-slate-800 shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 rounded-2xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-slate-100">
+                  <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
                     {selectedDoc.title}
                   </h3>
                   <p className="text-xs text-[var(--text-muted)] font-mono">
@@ -1886,17 +1838,17 @@ export const UnifiedControlHub: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedDoc(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
+                className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1 text-xs text-[var(--text-secondary)] dark:text-slate-300 font-mono whitespace-pre-wrap leading-relaxed">
+            <div className="p-6 overflow-y-auto flex-1 text-xs text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 font-mono whitespace-pre-wrap leading-relaxed">
               {loadingDoc ? (
                 <div className="flex flex-col items-center justify-center py-12 gap-3">
                   <RefreshCw className="w-6 h-6 text-blue-600 animate-spin" />
-                  <span className="text-xs text-slate-400">Cargando análisis técnico...</span>
+                  <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">Cargando análisis técnico...</span>
                 </div>
               ) : docError ? (
                 <div className="p-4 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
@@ -1907,7 +1859,7 @@ export const UnifiedControlHub: React.FC = () => {
               )}
             </div>
 
-            <div className="px-6 py-4 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-end">
+            <div className="px-6 py-4 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-end">
               <button
                 type="button"
                 onClick={() => setSelectedDoc(null)}

@@ -166,15 +166,15 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-[#0c1018] border border-[#1e2538] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div className="w-full max-w-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c1018] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2538] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="p-4 border-b border-[#1b2234] bg-[#0f1420] flex items-center justify-between">
+        <div className="p-4 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b2234] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0f1420] flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
               <Zap className="w-4 h-4 text-emerald-400" />
               <span>Agregar Nueva Etapa al Flujo</span>
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
               {targetInfo?.insertBetween ? (
                 <span>Insertar etapa intermedia entre nodos seleccionados.</span>
               ) : targetInfo?.parentNodeId ? (
@@ -186,62 +186,42 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-[#151c2c] hover:bg-[#1f283d] text-slate-400 hover:text-white cursor-pointer"
+            className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#151c2c] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f283d] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="p-3 border-b border-[#171e2e] bg-[#0a0e16] flex flex-wrap items-center justify-between gap-2">
+        <div className="p-3 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#171e2e] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0e16] flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-                selectedCategory === 'all'
-                  ? 'bg-emerald-500 text-black'
-                  : 'bg-[#141b2b] text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${ selectedCategory === 'all' ? 'bg-emerald-500 text-black' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#141b2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               Todos
             </button>
             <button
               onClick={() => setSelectedCategory('ai')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-                selectedCategory === 'ai'
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-[#141b2b] text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${ selectedCategory === 'ai' ? 'bg-purple-600 text-white' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#141b2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               ✨ Inteligencia Artificial
             </button>
             <button
               onClick={() => setSelectedCategory('comm')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-                selectedCategory === 'comm'
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-[#141b2b] text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${ selectedCategory === 'comm' ? 'bg-teal-600 text-white' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#141b2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               📲 WhatsApp / Email
             </button>
             <button
               onClick={() => setSelectedCategory('crm')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-                selectedCategory === 'crm'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-[#141b2b] text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${ selectedCategory === 'crm' ? 'bg-blue-600 text-white' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#141b2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               💼 Operaciones CRM
             </button>
             <button
               onClick={() => setSelectedCategory('logic')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-                selectedCategory === 'logic'
-                  ? 'bg-amber-600 text-white'
-                  : 'bg-[#141b2b] text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${ selectedCategory === 'logic' ? 'bg-amber-600 text-white' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#141b2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               🔀 Lógica / Espera
             </button>
@@ -252,7 +232,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
             placeholder="Buscar bloque de acción..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-3 py-1 text-xs rounded-lg bg-[#121826] border border-[#20293d] text-white focus:outline-none focus:border-emerald-500 w-44"
+            className="px-3 py-1 text-xs rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#121826] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20293d] text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-emerald-500 w-44"
           />
         </div>
 
@@ -265,26 +245,26 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
                 onAddNode(preset, targetInfo);
                 onClose();
               }}
-              className="p-3 rounded-xl bg-[#111624] hover:bg-[#161d2f] border border-[#1e263a] hover:border-emerald-500/40 text-left cursor-pointer transition-all flex flex-col justify-between group shadow-sm"
+              className="p-3 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#111624] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161d2f] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e263a] hover:border-emerald-500/40 text-left cursor-pointer transition-all flex flex-col justify-between group shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] uppercase font-mono px-2 py-0.5 rounded bg-[#182136] text-slate-300 font-semibold">
+                  <span className="text-[9px] uppercase font-mono px-2 py-0.5 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#182136] text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold">
                     {preset.category}
                   </span>
                   <span className="text-emerald-400 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
                     Agregar <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
-                <h4 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
+                <h4 className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-white group-hover:text-emerald-300 transition-colors">
                   {preset.title}
                 </h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed mt-1">
+                <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed mt-1">
                   {preset.description}
                 </p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-[#182033] flex items-center justify-between text-[10px] text-[var(--text-muted)]">
+              <div className="mt-3 pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#182033] flex items-center justify-between text-[10px] text-[var(--text-muted)]">
                 <span>Tipo: {preset.type.toUpperCase()}</span>
                 {preset.branchLabel && (
                   <span className="text-cyan-400 font-mono">Bifurcación: {preset.branchLabel}</span>

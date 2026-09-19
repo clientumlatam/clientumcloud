@@ -92,11 +92,7 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({ isOpen, on
             <button
               type="button"
               onClick={handleToggleRecording}
-              className={`relative flex h-16 w-16 items-center justify-center rounded-full shadow-lg transition-all cursor-pointer ${
-                isRecording
-                  ? 'bg-rose-600 text-white animate-pulse shadow-rose-500/50'
-                  : 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/30'
-              }`}
+              className={`relative flex h-16 w-16 items-center justify-center rounded-full shadow-lg transition-all cursor-pointer ${ isRecording ? 'bg-rose-600 text-[var(--text-primary,#0f172a)] dark:text-white animate-pulse shadow-rose-500/50' : 'bg-blue-600 hover:bg-blue-500 text-[var(--text-primary,#0f172a)] dark:text-white shadow-blue-500/30' }`}
             >
               {isRecording ? <Square className="h-6 w-6" /> : <Mic className="h-7 w-7" />}
               {isRecording && (

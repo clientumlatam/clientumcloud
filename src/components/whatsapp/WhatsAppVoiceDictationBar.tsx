@@ -124,10 +124,10 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
   const displayText = (dictatedText || transcript || interimText).trim();
 
   return (
-    <div className={`w-full bg-[#121722] border border-[#232d42] rounded-2xl p-3.5 shadow-xl text-xs select-none ${className}`}>
+    <div className={`w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#121722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232d42] rounded-2xl p-3.5 shadow-xl text-xs select-none ${className}`}>
       
       {/* Header Bar with Live Indicator, Audio Wave, Timer & Language */}
-      <div className="flex items-center justify-between gap-3 pb-2.5 border-b border-[#1c2436]">
+      <div className="flex items-center justify-between gap-3 pb-2.5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c2436]">
         
         {/* Live Recording Status */}
         <div className="flex items-center gap-2">
@@ -135,7 +135,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 font-mono text-[11px]">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
               <span className="font-semibold">DICTANDO EN VIVO</span>
-              <span className="text-slate-400 font-normal">({formatTime(duration)})</span>
+              <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 font-normal">({formatTime(duration)})</span>
             </div>
           ) : isProcessing ? (
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 font-mono text-[11px]">
@@ -143,7 +143,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
               <span>Transcribiendo con IA...</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 font-mono text-[11px]">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono text-[11px]">
               <Volume2 className="w-3 h-3" />
               <span>Micrófono en Pausa</span>
             </div>
@@ -176,16 +176,16 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
             <button
               type="button"
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#181f2f] hover:bg-[#20293d] border border-[#27344f] text-slate-300 text-[11px] transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181f2f] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#20293d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#27344f] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-[11px] transition-colors"
             >
               <span>{SUPPORTED_LANGUAGES.find(l => l.code === selectedLang)?.flag}</span>
               <span className="hidden md:inline">{SUPPORTED_LANGUAGES.find(l => l.code === selectedLang)?.label.split(' ')[0]}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
             </button>
 
             {showLangMenu && (
-              <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#151a26] border border-[#26334a] rounded-xl shadow-2xl py-1 z-50">
-                <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 border-b border-[#212b3e]">
+              <div className="absolute right-0 top-full mt-1.5 w-52 bg-[var(--bg-card,#ffffff)] dark:bg-[#151a26] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#26334a] rounded-xl shadow-2xl py-1 z-50">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#212b3e]">
                   Idioma de Reconocimiento
                 </div>
                 {SUPPORTED_LANGUAGES.map(lang => (
@@ -199,9 +199,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
                         stopListening().then(() => startListening());
                       }
                     }}
-                    className={`w-full px-3 py-1.5 text-left flex items-center justify-between text-xs hover:bg-[#1f2738] ${
-                      selectedLang === lang.code ? 'text-emerald-400 font-semibold bg-emerald-500/10' : 'text-slate-300'
-                    }`}
+                    className={`w-full px-3 py-1.5 text-left flex items-center justify-between text-xs hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f2738] ${ selectedLang === lang.code ? 'text-emerald-400 font-semibold bg-emerald-500/10' : 'text-[var(--text-secondary,#475569)] dark:text-slate-300' }`}
                   >
                     <span className="flex items-center gap-2">
                       <span>{lang.flag}</span>
@@ -219,9 +217,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
             type="button"
             onClick={() => setShowTips(!showTips)}
             title="Comandos de puntuación por voz"
-            className={`p-1.5 rounded-lg border transition-colors ${
-              showTips ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : 'bg-[#181f2f] text-slate-400 hover:text-slate-200 border-[#27344f]'
-            }`}
+            className={`p-1.5 rounded-lg border transition-colors ${ showTips ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#181f2f] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 border-[var(--border-subtle,#e2e8f0)] dark:border-[#27344f]' }`}
           >
             <HelpCircle className="w-3.5 h-3.5" />
           </button>
@@ -233,7 +229,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
               cancelListening();
               if (onClose) onClose();
             }}
-            className="p-1.5 rounded-lg bg-[#181f2f] hover:bg-red-500/20 text-slate-400 hover:text-red-300 border border-[#27344f] transition-colors"
+            className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181f2f] hover:bg-red-500/20 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-red-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#27344f] transition-colors"
             title="Descartar y cerrar"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -248,20 +244,20 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-[#181f2e] border-b border-[#243046] px-3 py-2 text-[11px] text-slate-300 space-y-1"
+            className="overflow-hidden bg-[var(--bg-card,#ffffff)] dark:bg-[#181f2e] border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#243046] px-3 py-2 text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 space-y-1"
           >
             <div className="font-semibold text-emerald-400 flex items-center gap-1.5">
               <span>🎙️ Comandos de Puntuación por Voz Automática:</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[10px] text-slate-400 pt-1">
-              <div><strong className="text-white">"punto"</strong> → .</div>
-              <div><strong className="text-white">"coma"</strong> → ,</div>
-              <div><strong className="text-white">"dos puntos"</strong> → :</div>
-              <div><strong className="text-white">"nuevo párrafo"</strong> → ↵↵</div>
-              <div><strong className="text-white">"signo de pregunta"</strong> → ?</div>
-              <div><strong className="text-white">"signo de exclamación"</strong> → !</div>
-              <div><strong className="text-white">"abrir comillas"</strong> → "</div>
-              <div><strong className="text-white">"arroba"</strong> → @</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 pt-1">
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"punto"</strong> → .</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"coma"</strong> → ,</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"dos puntos"</strong> → :</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"nuevo párrafo"</strong> → ↵↵</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"signo de pregunta"</strong> → ?</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"signo de exclamación"</strong> → !</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"abrir comillas"</strong> → "</div>
+              <div><strong className="text-[var(--text-primary,#0f172a)] dark:text-white">"arroba"</strong> → @</div>
             </div>
           </motion.div>
         )}
@@ -288,9 +284,9 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
       )}
 
       {/* Live Transcribed Text Box */}
-      <div className="my-2.5 p-3 bg-[#0c0f16] border border-[#1e2636] rounded-xl min-h-[68px] max-h-[140px] overflow-y-auto">
+      <div className="my-2.5 p-3 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c0f16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2636] rounded-xl min-h-[68px] max-h-[140px] overflow-y-auto">
         {displayText ? (
-          <p className="text-slate-100 text-xs leading-relaxed whitespace-pre-wrap">
+          <p className="text-[var(--text-primary,#0f172a)] dark:text-slate-100 text-xs leading-relaxed whitespace-pre-wrap">
             {displayText}
             {interimText && <span className="text-emerald-400/80 italic font-mono"> {interimText}</span>}
           </p>
@@ -347,7 +343,7 @@ Devuelve únicamente el texto final pulido, sin explicaciones ni comillas.`
               type="button"
               onClick={() => handleStopAndInsert('replace')}
               disabled={!displayText}
-              className="px-3 py-1.5 rounded-lg bg-[#182030] hover:bg-[#202b40] text-slate-300 border border-[#29364f] font-medium text-xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#182030] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202b40] text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#29364f] font-medium text-xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
               Reemplazar Texto
             </button>

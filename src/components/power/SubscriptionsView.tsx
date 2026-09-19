@@ -53,7 +53,7 @@ export const SubscriptionsView: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 bg-[#0a0c10] text-slate-300 text-xs max-w-5xl">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs max-w-5xl">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -61,10 +61,10 @@ export const SubscriptionsView: React.FC = () => {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Facturación & Suscripciones Clientum</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
             Gestión de Suscripción & Pagos Mercado Pago
           </h2>
-          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 max-w-2xl">
             Controlá tu período de Free Trial de una semana, la renovación de tus planes y tus comprobantes fiscales AFIP en pesos argentinos (ARS).
           </p>
         </div>
@@ -73,7 +73,7 @@ export const SubscriptionsView: React.FC = () => {
           <button
             type="button"
             onClick={() => openMercadoPagoCheckout('professional')}
-            className="px-4 py-2.5 rounded-xl bg-[#009ee3] hover:bg-[#0089c7] text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-[#009ee3]/20 cursor-pointer transition-all"
+            className="px-4 py-2.5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#009ee3] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#0089c7] text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-[#009ee3]/20 cursor-pointer transition-all"
           >
             <CreditCard className="w-4 h-4" />
             <span>Suscribirme con Mercado Pago</span>
@@ -82,11 +82,11 @@ export const SubscriptionsView: React.FC = () => {
       </div>
 
       {/* Main Status Card: Free Trial or Active Plan */}
-      <div className="bg-[#131722] p-6 rounded-2xl border border-[#212a3d] space-y-6">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-6 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] space-y-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-1">
-            <div className="text-xs text-slate-400">Estado de tu cuenta:</div>
-            <div className="text-xl font-black text-white flex items-center gap-2">
+            <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">Estado de tu cuenta:</div>
+            <div className="text-xl font-black text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
               <span>{currentPlanTitle}</span>
               {isActivePaid && (
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 font-bold text-[11px] border border-emerald-500/20">
@@ -110,10 +110,10 @@ export const SubscriptionsView: React.FC = () => {
             {isTrial && !isExpired && (
               <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-800/40 text-left sm:text-right">
                 <div className="text-[11px] text-blue-300 font-semibold">Tiempo restante de prueba:</div>
-                <div className="text-lg font-black text-white">
+                <div className="text-lg font-black text-[var(--text-primary,#0f172a)] dark:text-white">
                   {trialSubscription.daysRemaining} {trialSubscription.daysRemaining === 1 ? 'Día' : 'Días'}
                 </div>
-                <div className="text-[10px] text-slate-400">
+                <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Vence el {new Date(trialSubscription.trialEndDate).toLocaleDateString('es-AR')}
                 </div>
               </div>
@@ -122,12 +122,12 @@ export const SubscriptionsView: React.FC = () => {
             {isActivePaid && (
               <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/40 text-left sm:text-right">
                 <div className="text-[11px] text-emerald-300 font-semibold">Próxima renovación automática:</div>
-                <div className="text-base font-bold text-white">
+                <div className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white">
                   {trialSubscription.nextBillingDate
                     ? new Date(trialSubscription.nextBillingDate).toLocaleDateString('es-AR')
                     : 'Próximo mes'}
                 </div>
-                <div className="text-[10px] text-slate-400">
+                <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Mercado Pago • Débito automático
                 </div>
               </div>
@@ -139,11 +139,11 @@ export const SubscriptionsView: React.FC = () => {
         {isTrial && (
           <div className="p-4 rounded-xl bg-gradient-to-r from-blue-950/40 to-indigo-950/40 border border-blue-800/40 flex flex-wrap items-center justify-between gap-4">
             <div className="space-y-0.5 max-w-xl">
-              <div className="font-bold text-white text-xs flex items-center gap-1.5">
+              <div className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-xs flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 <span>¿Deseás asegurar la continuidad de tu cuenta?</span>
               </div>
-              <p className="text-[11px] text-slate-300 leading-relaxed">
+              <p className="text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 leading-relaxed">
                 Activá la suscripción mensual o anual con <strong>Mercado Pago</strong> antes de que termine tu semana de prueba para no perder las integraciones de WhatsApp ni la emisión de comprobantes AFIP.
               </p>
             </div>
@@ -151,7 +151,7 @@ export const SubscriptionsView: React.FC = () => {
             <button
               type="button"
               onClick={() => openMercadoPagoCheckout('professional')}
-              className="px-4 py-2.5 rounded-xl bg-[#009ee3] hover:bg-[#0089c7] text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-all shadow-md shrink-0"
+              className="px-4 py-2.5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#009ee3] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#0089c7] text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-all shadow-md shrink-0"
             >
               <span>Elegir Plan en Mercado Pago</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -160,35 +160,35 @@ export const SubscriptionsView: React.FC = () => {
         )}
 
         {/* Feature limits and meters */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[#1e2638]">
-          <div className="bg-[#181d2c] p-4 rounded-xl border border-[#273248] space-y-1">
-            <div className="text-slate-400 text-[11px] flex justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2638]">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] space-y-1">
+            <div className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] flex justify-between">
               <span>Mensajes WhatsApp CRM</span>
               <span className="text-emerald-400 font-bold">Ilimitados</span>
             </div>
-            <div className="text-white font-black text-base">Activo en Pro</div>
+            <div className="text-[var(--text-primary,#0f172a)] dark:text-white font-black text-base">Activo en Pro</div>
             <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2">
               <div className="bg-emerald-500 h-full w-[45%]" />
             </div>
           </div>
 
-          <div className="bg-[#181d2c] p-4 rounded-xl border border-[#273248] space-y-1">
-            <div className="text-slate-400 text-[11px] flex justify-between">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] space-y-1">
+            <div className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] flex justify-between">
               <span>Chatbot Gemini IA 24/7</span>
               <span className="text-blue-400 font-bold">Habilitado</span>
             </div>
-            <div className="text-white font-black text-base">Gemini 3.6 Flash</div>
+            <div className="text-[var(--text-primary,#0f172a)] dark:text-white font-black text-base">Gemini 3.6 Flash</div>
             <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2">
               <div className="bg-blue-500 h-full w-[60%]" />
             </div>
           </div>
 
-          <div className="bg-[#181d2c] p-4 rounded-xl border border-[#273248] space-y-1">
-            <div className="text-slate-400 text-[11px] flex justify-between">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] space-y-1">
+            <div className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] flex justify-between">
               <span>Facturación Electrónica AFIP</span>
               <span className="text-emerald-400 font-bold">CAE Online</span>
             </div>
-            <div className="text-white font-black text-base">Factura A y B</div>
+            <div className="text-[var(--text-primary,#0f172a)] dark:text-white font-black text-base">Factura A y B</div>
             <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2">
               <div className="bg-purple-500 h-full w-[30%]" />
             </div>
@@ -198,7 +198,7 @@ export const SubscriptionsView: React.FC = () => {
 
       {/* Available Plans Selector within Private Dashboard */}
       <div className="space-y-4">
-        <h3 className="text-sm font-bold text-white flex items-center gap-2">
+        <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
           <CreditCard className="w-4 h-4 text-blue-400" />
           <span>Planes de Suscripción Oficiales con Mercado Pago</span>
         </h3>
@@ -234,15 +234,11 @@ export const SubscriptionsView: React.FC = () => {
           ].map((plan) => (
             <div
               key={plan.id}
-              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
-                trialSubscription.plan === plan.id
-                  ? 'border-blue-500 bg-blue-950/20'
-                  : 'border-[#212a3d] bg-[#111520] hover:border-slate-700'
-              }`}
+              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${ trialSubscription.plan === plan.id ? 'border-blue-500 bg-blue-950/20' : 'border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] bg-[var(--bg-card,#ffffff)] dark:bg-[#111520] border-[var(--border-subtle,#e2e8f0)] dark:hover:border-slate-700' }`}
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="font-bold text-white text-sm">{plan.name}</div>
+                  <div className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">{plan.name}</div>
                   {plan.badge && (
                     <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-blue-600 text-white">
                       {plan.badge}
@@ -251,13 +247,13 @@ export const SubscriptionsView: React.FC = () => {
                 </div>
 
                 <div>
-                  <span className="text-xl font-black text-white">{plan.price}</span>
+                  <span className="text-xl font-black text-[var(--text-primary,#0f172a)] dark:text-white">{plan.price}</span>
                   <span className="text-xs text-[var(--text-muted)]"> {plan.period}</span>
                 </div>
 
-                <div className="text-[11px] text-slate-400">{plan.users}</div>
+                <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{plan.users}</div>
 
-                <ul className="space-y-1.5 pt-2 border-t border-[#1e2638] text-[11px] text-slate-300">
+                <ul className="space-y-1.5 pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2638] text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   {plan.features.map((feat, i) => (
                     <li key={i} className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -271,11 +267,7 @@ export const SubscriptionsView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => openMercadoPagoCheckout(plan.id)}
-                  className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all ${
-                    trialSubscription.plan === plan.id && isActivePaid
-                      ? 'bg-slate-800 text-slate-400 cursor-default'
-                      : 'bg-[#009ee3] hover:bg-[#0089c7] text-white shadow-xs'
-                  }`}
+                  className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all ${ trialSubscription.plan === plan.id && isActivePaid ? 'bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400 cursor-default' : 'bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#009ee3] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#0089c7] text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' }`}
                 >
                   <CreditCard className="w-3.5 h-3.5" />
                   <span>
@@ -291,9 +283,9 @@ export const SubscriptionsView: React.FC = () => {
       </div>
 
       {/* Billing & Invoices History */}
-      <div className="bg-[#131722] p-6 rounded-2xl border border-[#212a3d] space-y-4">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-6 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-white text-sm">
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">
             <Receipt className="w-4 h-4 text-emerald-400" />
             <span>Historial de Comprobantes y Facturación AFIP</span>
           </div>
@@ -303,7 +295,7 @@ export const SubscriptionsView: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-[#212a3d] text-slate-400">
+              <tr className="border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 <th className="pb-3 font-semibold">Comprobante</th>
                 <th className="pb-3 font-semibold">Fecha</th>
                 <th className="pb-3 font-semibold">Concepto</th>
@@ -312,23 +304,17 @@ export const SubscriptionsView: React.FC = () => {
                 <th className="pb-3 font-semibold">Estado</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#1c2333]">
+            <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#1c2333]">
               {sampleInvoices.map((inv, idx) => (
-                <tr key={idx} className="text-slate-300">
+                <tr key={idx} className="text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   <td className="py-3 font-mono text-[11px] text-blue-400">{inv.id}</td>
                   <td className="py-3">{inv.date}</td>
-                  <td className="py-3 font-medium text-white">{inv.concept}</td>
-                  <td className="py-3 text-slate-400">{inv.method}</td>
-                  <td className="py-3 font-bold text-white">{inv.amount}</td>
+                  <td className="py-3 font-medium text-[var(--text-primary,#0f172a)] dark:text-white">{inv.concept}</td>
+                  <td className="py-3 text-[var(--text-muted,#64748b)] dark:text-slate-400">{inv.method}</td>
+                  <td className="py-3 font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{inv.amount}</td>
                   <td className="py-3">
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        inv.status === 'Aprobado'
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : inv.status.includes('Prueba')
-                          ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                          : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                      }`}
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${ inv.status === 'Aprobado' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : inv.status.includes('Prueba') ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20' }`}
                     >
                       {inv.status}
                     </span>

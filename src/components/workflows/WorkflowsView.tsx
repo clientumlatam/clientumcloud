@@ -582,23 +582,23 @@ export const WorkflowsView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#07090e] text-[#d4daf0] select-none">
+    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#07090e] text-[#d4daf0] select-none">
       {/* Top Banner Header */}
-      <div className="px-6 py-3.5 border-b border-[#182032] bg-[#0c1018] flex items-center justify-between shrink-0">
+      <div className="px-6 py-3.5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#182032] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c1018] flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 shadow-inner">
             <Workflow className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-base font-bold text-white tracking-tight">
+              <h1 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
                 Editor Visual de Flujos & Automatizaciones
               </h1>
               <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
                 Auto-Layout DAG Engine
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Diseña etapas, bifurcaciones de decisión, agentes IA y webhooks con reorganización automática de líneas y etapas.
             </p>
           </div>
@@ -618,7 +618,7 @@ export const WorkflowsView: React.FC = () => {
       {/* Main Studio Body */}
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Left Sidebar: Workflow List */}
-        <div className="w-72 border-r border-[#182032] bg-[#0a0d14] p-3 flex flex-col gap-2 shrink-0 overflow-y-auto">
+        <div className="w-72 border-r border-[var(--border-subtle,#e2e8f0)] dark:border-[#182032] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0d14] p-3 flex flex-col gap-2 shrink-0 overflow-y-auto">
           <div className="flex items-center justify-between px-2 pt-1 pb-2">
             <span className="text-[10px] uppercase font-bold tracking-wider text-[var(--text-muted)]">
               Flujos Activos ({workflows.length})
@@ -631,39 +631,31 @@ export const WorkflowsView: React.FC = () => {
               <div
                 key={wf.id}
                 onClick={() => setSelectedWorkflowId(wf.id)}
-                className={`w-full p-3 rounded-xl text-left cursor-pointer transition-all border ${
-                  isSelected
-                    ? 'bg-[#151c2b] border-cyan-500/40 text-white shadow-lg'
-                    : 'bg-[#0f131f] border-[#182030] text-slate-400 hover:text-slate-200 hover:bg-[#131926]'
-                }`}
+                className={`w-full p-3 rounded-xl text-left cursor-pointer transition-all border ${ isSelected ? 'bg-[var(--bg-card,#ffffff)] dark:bg-[#151c2b] border-cyan-500/40 text-[var(--text-primary,#0f172a)] dark:text-white shadow-lg' : 'bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0f131f] border-[var(--border-subtle,#e2e8f0)] dark:border-[#182030] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#131926]' }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-xs truncate text-white">{wf.name}</span>
+                  <span className="font-bold text-xs truncate text-[var(--text-primary,#0f172a)] dark:text-white">{wf.name}</span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleWorkflow(wf.id);
                     }}
-                    className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold transition-all cursor-pointer ${
-                      wf.isActive
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-slate-800 text-slate-400'
-                    }`}
+                    className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold transition-all cursor-pointer ${ wf.isActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400' }`}
                   >
                     {wf.isActive ? 'ACTIVO' : 'PAUSADO'}
                   </button>
                 </div>
 
-                <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
+                <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed">
                   {wf.description}
                 </p>
 
-                <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] pt-1.5 border-t border-[#1a2233]">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] pt-1.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1a2233]">
                   <span className="flex items-center gap-1 font-mono">
                     <Clock className="w-3 h-3 text-[var(--text-muted)]" />
                     {wf.nodes.length} etapas
                   </span>
-                  <span className="uppercase text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#171e2e] text-slate-300">
+                  <span className="uppercase text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#171e2e] text-[var(--text-secondary,#475569)] dark:text-slate-300">
                     {wf.targetObject}
                   </span>
                 </div>
@@ -674,28 +666,24 @@ export const WorkflowsView: React.FC = () => {
 
         {/* Right Canvas Area */}
         {selectedWf ? (
-          <div className="flex-1 flex flex-col min-w-0 bg-[#06080d] overflow-hidden relative">
+          <div className="flex-1 flex flex-col min-w-0 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#06080d] overflow-hidden relative">
             {/* Canvas Interactive Toolbar */}
-            <div className="px-5 py-2.5 border-b border-[#182032] bg-[#0c1018] flex flex-wrap items-center justify-between gap-3 shrink-0 z-20">
+            <div className="px-5 py-2.5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#182032] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c1018] flex flex-wrap items-center justify-between gap-3 shrink-0 z-20">
               <div className="flex items-center gap-3">
                 <div>
-                  <h2 className="text-xs font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                     <span>{selectedWf.name}</span>
-                    <span className="text-[11px] font-normal text-slate-400">
+                    <span className="text-[11px] font-normal text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       ({selectedWf.nodes.length} etapas · {layoutResult.stages.length} columnas organizadas)
                     </span>
                   </h2>
                 </div>
 
                 {/* Auto-Layout Active Indicator */}
-                <div className="flex items-center gap-2 pl-3 border-l border-[#1f283d]">
+                <div className="flex items-center gap-2 pl-3 border-l border-[var(--border-subtle,#e2e8f0)] dark:border-[#1f283d]">
                   <button
                     onClick={() => setAutoLayoutEnabled(!autoLayoutEnabled)}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all border ${
-                      autoLayoutEnabled
-                        ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
-                        : 'bg-[#151c2b] text-slate-400 border-[#222b3f]'
-                    }`}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all border ${ autoLayoutEnabled ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#151c2b] text-[var(--text-muted,#64748b)] dark:text-slate-400 border-[var(--border-subtle,#e2e8f0)] dark:border-[#222b3f]' }`}
                     title="Reorganiza automáticamente las etapas y líneas al agregar o mover cualquier nodo"
                   >
                     <Layers className="w-3.5 h-3.5" />
@@ -716,25 +704,17 @@ export const WorkflowsView: React.FC = () => {
               {/* View Controls & Action Buttons */}
               <div className="flex items-center gap-2">
                 {/* Orientation Selector: LR vs TB */}
-                <div className="flex items-center bg-[#131926] p-0.5 rounded-lg border border-[#20293d]">
+                <div className="flex items-center bg-[var(--bg-card,#ffffff)] dark:bg-[#131926] p-0.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20293d]">
                   <button
                     onClick={() => setDirection('LR')}
-                    className={`px-2 py-1 rounded-md text-[11px] font-semibold cursor-pointer transition-all ${
-                      direction === 'LR'
-                        ? 'bg-cyan-500 text-black shadow-sm'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
+                    className={`px-2 py-1 rounded-md text-[11px] font-semibold cursor-pointer transition-all ${ direction === 'LR' ? 'bg-cyan-500 text-black shadow-sm' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
                     title="Disposición Horizontal (Izquierda a Derecha)"
                   >
                     ↔ Horizontal
                   </button>
                   <button
                     onClick={() => setDirection('TB')}
-                    className={`px-2 py-1 rounded-md text-[11px] font-semibold cursor-pointer transition-all ${
-                      direction === 'TB'
-                        ? 'bg-cyan-500 text-black shadow-sm'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
+                    className={`px-2 py-1 rounded-md text-[11px] font-semibold cursor-pointer transition-all ${ direction === 'TB' ? 'bg-cyan-500 text-black shadow-sm' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
                     title="Disposición Vertical (Arriba a Abajo)"
                   >
                     ↕ Vertical
@@ -742,27 +722,27 @@ export const WorkflowsView: React.FC = () => {
                 </div>
 
                 {/* Zoom Controls */}
-                <div className="flex items-center gap-1 bg-[#131926] px-1 py-0.5 rounded-lg border border-[#20293d]">
+                <div className="flex items-center gap-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#131926] px-1 py-0.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20293d]">
                   <button
                     onClick={() => setZoom((z) => Math.max(0.6, z - 0.1))}
-                    className="p-1 rounded text-slate-400 hover:text-white cursor-pointer"
+                    className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
                     title="Reducir zoom"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-[10px] font-mono text-slate-300 px-1">
+                  <span className="text-[10px] font-mono text-[var(--text-secondary,#475569)] dark:text-slate-300 px-1">
                     {Math.round(zoom * 100)}%
                   </span>
                   <button
                     onClick={() => setZoom((z) => Math.min(1.4, z + 0.1))}
-                    className="p-1 rounded text-slate-400 hover:text-white cursor-pointer"
+                    className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
                     title="Aumentar zoom"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => setZoom(1)}
-                    className="px-1 text-[10px] text-slate-400 hover:text-cyan-300 font-semibold cursor-pointer"
+                    className="px-1 text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-cyan-300 font-semibold cursor-pointer"
                     title="Restablecer zoom a 100%"
                   >
                     100%
@@ -775,7 +755,7 @@ export const WorkflowsView: React.FC = () => {
                     setAddNodeTarget(undefined);
                     setIsAddNodeModalOpen(true);
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#151c2c] hover:bg-[#1f283d] text-cyan-300 border border-cyan-500/30 text-xs font-semibold cursor-pointer transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#151c2c] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f283d] text-cyan-300 border border-cyan-500/30 text-xs font-semibold cursor-pointer transition-all"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Agregar Etapa</span>
@@ -794,7 +774,7 @@ export const WorkflowsView: React.FC = () => {
                 {/* Delete Workflow */}
                 <button
                   onClick={() => deleteWorkflow(selectedWf.id)}
-                  className="p-1.5 rounded-lg bg-[#141a26] hover:bg-rose-500/20 hover:text-rose-300 text-slate-400 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141a26] hover:bg-rose-500/20 hover:text-rose-300 text-[var(--text-muted,#64748b)] dark:text-slate-400 transition-colors cursor-pointer"
                   title="Eliminar flujo"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -805,7 +785,7 @@ export const WorkflowsView: React.FC = () => {
             {/* Canvas Scrollable Viewport */}
             <div
               ref={canvasRef}
-              className="flex-1 overflow-auto relative p-8 cursor-default bg-[#07090e]"
+              className="flex-1 overflow-auto relative p-8 cursor-default bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#07090e]"
               style={{
                 backgroundImage: `radial-gradient(#1a2233 1px, transparent 1px)`,
                 backgroundSize: '24px 24px',
@@ -832,9 +812,9 @@ export const WorkflowsView: React.FC = () => {
                       width: `${stage.bounds.width}px`,
                       height: `${stage.bounds.height}px`,
                     }}
-                    className="rounded-2xl border border-[#141b2b] bg-[#0a0d16]/60 backdrop-blur-xs p-3.5 pointer-events-none transition-all duration-300"
+                    className="rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#141b2b] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0d16]/60 backdrop-blur-xs p-3.5 pointer-events-none transition-all duration-300"
                   >
-                    <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#141b2a]">
+                    <div className="flex items-center justify-between pb-2 mb-2 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#141b2a]">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-cyan-400" />
                         <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-cyan-300">
@@ -845,7 +825,7 @@ export const WorkflowsView: React.FC = () => {
                         {stage.nodeIds.length} {stage.nodeIds.length === 1 ? 'bloque' : 'bloques'}
                       </span>
                     </div>
-                    <p className="text-[10px] font-semibold text-slate-300 truncate">
+                    <p className="text-[10px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 truncate">
                       {stage.name}
                     </p>
                     <p className="text-[9px] text-[var(--text-muted)] truncate">
@@ -938,22 +918,22 @@ export const WorkflowsView: React.FC = () => {
 
             {/* Bottom Real-time Simulation Console */}
             {simulationLogs.length > 0 && (
-              <div className="border-t border-[#182032] bg-[#080b12] p-3 max-h-44 overflow-y-auto shrink-0 font-mono text-xs z-30">
-                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-[#141a29]">
+              <div className="border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#182032] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#080b12] p-3 max-h-44 overflow-y-auto shrink-0 font-mono text-xs z-30">
+                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#141a29]">
                   <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400">
                     <Activity className="w-3.5 h-3.5 animate-pulse" />
                     Terminal de Ejecución en Vivo
                   </span>
                   <button
                     onClick={() => setSimulationLogs([])}
-                    className="text-[10px] text-[var(--text-muted)] hover:text-slate-300 cursor-pointer"
+                    className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-secondary,#475569)] dark:hover:text-slate-300 cursor-pointer"
                   >
                     Limpiar
                   </button>
                 </div>
                 <div className="space-y-1">
                   {simulationLogs.map((log, i) => (
-                    <div key={i} className="text-slate-300 text-[11px] leading-relaxed">
+                    <div key={i} className="text-[var(--text-secondary,#475569)] dark:text-slate-300 text-[11px] leading-relaxed">
                       {log}
                     </div>
                   ))}
@@ -965,7 +945,7 @@ export const WorkflowsView: React.FC = () => {
           <div className="flex-1 flex items-center justify-center p-8 text-center text-[var(--text-muted)]">
             <div>
               <Workflow className="w-12 h-12 mx-auto text-[var(--text-secondary)] mb-3" />
-              <h3 className="text-sm font-bold text-slate-300">Ningún flujo seleccionado</h3>
+              <h3 className="text-sm font-bold text-[var(--text-secondary,#475569)] dark:text-slate-300">Ningún flujo seleccionado</h3>
               <p className="text-xs text-[var(--text-muted)] mt-1">Selecciona un flujo del panel lateral o crea uno nuevo.</p>
             </div>
           </div>
@@ -986,45 +966,45 @@ export const WorkflowsView: React.FC = () => {
       {/* Modal: New Workflow */}
       {isNewWfModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#0d1017] border border-[#1e2538] rounded-2xl shadow-2xl p-6 text-xs text-slate-200">
-            <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+          <div className="w-full max-w-md bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2538] rounded-2xl shadow-2xl p-6 text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200">
+            <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white mb-1 flex items-center gap-2">
               <Zap className="w-4 h-4 text-emerald-400" />
               Crear Nuevo Flujo Automatizado
             </h3>
-            <p className="text-slate-400 mb-4">
+            <p className="text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-4">
               El motor de auto-layout organizará las etapas y líneas automáticamente a medida que construyas el flujo.
             </p>
 
             <form onSubmit={handleCreateWorkflow} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Nombre del Flujo</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre del Flujo</label>
                 <input
                   type="text"
                   placeholder="ej. Calificación Instantánea & Bienvenida WhatsApp"
                   value={wfName}
                   onChange={(e) => setWfName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#131824] border border-[#21293d] text-white focus:outline-none focus:border-emerald-500 text-xs"
+                  className="w-full px-3 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#131824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21293d] text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-emerald-500 text-xs"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-300 mb-1">Descripción</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Descripción</label>
                 <textarea
                   placeholder="Resumen del objetivo del flujo..."
                   value={wfDescription}
                   onChange={(e) => setWfDescription(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#131824] border border-[#21293d] text-white focus:outline-none focus:border-emerald-500 h-16 text-xs"
+                  className="w-full px-3 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#131824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21293d] text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-emerald-500 h-16 text-xs"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">Tipo de Disparador</label>
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Tipo de Disparador</label>
                   <select
                     value={wfTrigger}
                     onChange={(e) => setWfTrigger(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#131824] border border-[#21293d] text-white focus:outline-none focus:border-emerald-500 text-xs cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#131824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21293d] text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-emerald-500 text-xs cursor-pointer"
                   >
                     <option value="record_created">Registro Creado</option>
                     <option value="stage_changed">Etapa Cambiada</option>
@@ -1035,11 +1015,11 @@ export const WorkflowsView: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">Objeto Principal</label>
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Objeto Principal</label>
                   <select
                     value={wfTarget}
                     onChange={(e) => setWfTarget(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#131824] border border-[#21293d] text-white focus:outline-none focus:border-emerald-500 text-xs cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#131824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21293d] text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-emerald-500 text-xs cursor-pointer"
                   >
                     <option value="person">Contactos / Leads</option>
                     <option value="opportunity">Oportunidades / Deals</option>
@@ -1049,11 +1029,11 @@ export const WorkflowsView: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1b2234]">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b2234]">
                 <button
                   type="button"
                   onClick={() => setIsNewWfModalOpen(false)}
-                  className="px-3.5 py-2 rounded-lg bg-[#182030] hover:bg-[#202a3f] text-slate-300 font-medium cursor-pointer"
+                  className="px-3.5 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#182030] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202a3f] text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium cursor-pointer"
                 >
                   Cancelar
                 </button>

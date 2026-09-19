@@ -431,7 +431,7 @@ export const IndustryLandingPage: React.FC<{
             >
               ← Portal General
             </button>
-            <span className="text-slate-300">|</span>
+            <span className="text-[#475569] dark:text-slate-300">|</span>
             <span className="text-[11px] text-slate-500 font-bold px-1 hidden sm:inline">
               Verticales de Industria:
             </span>

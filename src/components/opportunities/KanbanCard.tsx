@@ -67,11 +67,11 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
       {/* Company & Contact Link */}
       {opp.companyName && (
         <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-muted)] mb-2 truncate font-medium">
-          <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
+          <Building2 className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
           <span className="truncate">{opp.companyName}</span>
           {opp.contactName && (
             <>
-              <span className="text-slate-300">•</span>
+              <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300">•</span>
               <span className="truncate text-[var(--text-muted)]">{opp.contactName}</span>
             </>
           )}
@@ -81,7 +81,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
       {contact && (
         <div className="mb-2 space-y-1 text-[10px] text-[var(--text-muted)]">
           <div className="flex items-center gap-1.5 truncate">
-            <User className="w-3 h-3 text-slate-400 shrink-0" />
+            <User className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
             <span className="truncate">{opp.contactName || `${contact.firstName} ${contact.lastName}`}</span>
           </div>
           {!compactCards && (contact.email || contact.phone) && (
@@ -116,9 +116,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
       {showCardTags && (
         <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
           <span
-            className={`text-[10px] font-semibold px-1.5 py-0.2 rounded border ${getPriorityColor(
-              opp.priority
-            )}`}
+            className={`text-[10px] font-semibold px-1.5 py-0.2 rounded border ${getPriorityColor( opp.priority )}`}
           >
             {opp.priority}
           </span>
@@ -137,7 +135,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
       <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)]">
         {showCardDates ? (
           <div className="flex items-center gap-1 font-mono text-[10px]">
-            <Calendar className="w-3 h-3 text-slate-400" />
+            <Calendar className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
             <span>{opp.closeDate}</span>
           </div>
         ) : (
@@ -151,7 +149,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
               e.stopPropagation();
               onWhatsAppClick(opp);
             }}
-            className="p-1 rounded hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
+            className="p-1 rounded hover:bg-emerald-50 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
             title="Enviar WhatsApp al contacto del negocio"
           >
             <MessageCircle className="w-3 h-3 text-emerald-500" />
@@ -162,7 +160,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
               e.stopPropagation();
               onAICopilotClick(opp);
             }}
-            className="p-1 rounded hover:bg-blue-50 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
+            className="p-1 rounded hover:bg-blue-50 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
             title="Generar análisis de IA"
           >
             <Sparkles className="w-3 h-3" />

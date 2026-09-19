@@ -213,21 +213,21 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
   };
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-[#090F1E] p-4 text-slate-200 shadow-md font-['Inter',sans-serif]">
+    <div className="rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] p-4 text-[var(--text-primary,#0f172a)] dark:text-slate-200 shadow-md font-['Inter',sans-serif]">
       {/* Header Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
+      <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400">
             <Mail className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+            <h4 className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-1.5">
               <span>Emails Transaccionales</span>
-              <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-slate-800 text-sky-400 border border-slate-700">
+              <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-slate-800 text-sky-400 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                 Resend API
               </span>
             </h4>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Seguimiento de entrega y apertura en tiempo real
             </p>
           </div>
@@ -237,7 +237,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
           <button
             type="button"
             onClick={() => setShowAnalyticsModal(true)}
-            className="px-2 py-1 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+            className="px-2 py-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
             title="Ver métricas de entrega, apertura y clics (Recharts)"
           >
             <TrendingUp className="w-3.5 h-3.5" />
@@ -247,7 +247,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
           <button
             type="button"
             onClick={() => setShowTemplatesModal(true)}
-            className="px-2 py-1 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-purple-400 hover:text-purple-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+            className="px-2 py-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-purple-400 hover:text-purple-300 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
             title="Diseñar y gestionar plantillas con editor WYSIWYG"
           >
             <LayoutTemplate className="w-3.5 h-3.5" />
@@ -257,7 +257,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
           <button
             onClick={handleRefreshAll}
             disabled={isRefreshing}
-            className="p-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 hover:bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 text-xs transition-colors cursor-pointer"
             title="Sincronizar estado con Resend API"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-blue-400' : ''}`} />
@@ -278,7 +278,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
 
       {/* Email Status Timeline List */}
       {emails.length === 0 ? (
-        <div className="py-6 text-center text-xs text-[var(--text-muted)] border border-dashed border-slate-800/80 rounded-lg">
+        <div className="py-6 text-center text-xs text-[var(--text-muted)] border border-dashed border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-lg">
           <Mail className="w-6 h-6 mx-auto text-[var(--text-secondary)] mb-1.5 opacity-60" />
           <p>No hay correos transaccionales registrados para este registro.</p>
           <button
@@ -297,25 +297,25 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
           {emails.map((email) => (
             <div
               key={email.id}
-              className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex flex-col gap-1.5"
+              className="p-2.5 rounded-lg bg-slate-900/80 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 border-[var(--border-subtle,#e2e8f0)] dark:hover:border-slate-700 transition-all flex flex-col gap-1.5"
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 truncate">
-                  <span className="text-xs font-semibold text-white truncate max-w-[200px]" title={email.subject}>
+                  <span className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white truncate max-w-[200px]" title={email.subject}>
                     {email.subject}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                     {email.to.join(', ')}
                   </span>
                 </div>
                 <div>{getStatusBadge(email.status)}</div>
               </div>
 
-              <p className="text-[11px] text-slate-400 line-clamp-1">
+              <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 line-clamp-1">
                 {email.bodySnippet}
               </p>
 
-              <div className="flex items-center justify-between text-[9px] text-[var(--text-muted)] pt-1 border-t border-slate-800/60 font-mono">
+              <div className="flex items-center justify-between text-[9px] text-[var(--text-muted)] pt-1 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60 font-mono">
                 <span>
                   {new Date(email.createdAt).toLocaleDateString('es-AR', {
                     day: '2-digit',
@@ -337,17 +337,17 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
       {/* Compose Transactional Modal */}
       {showComposeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
-          <div className="w-full max-w-lg rounded-2xl bg-[#090F1E] border border-slate-800 p-6 text-slate-200 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="w-full max-w-lg rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-6 text-[var(--text-primary,#0f172a)] dark:text-slate-200 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <Send className="w-4 h-4 text-blue-400" />
-                <h3 className="text-sm font-bold text-white">
+                <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white">
                   Redactar Email Transaccional (Resend API)
                 </h3>
               </div>
               <button
                 onClick={() => setShowComposeModal(false)}
-                className="text-slate-400 hover:text-white text-xs p-1"
+                className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white text-xs p-1"
               >
                 ✕
               </button>
@@ -355,40 +355,28 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
 
             {/* Template Selector Quick Pills */}
             <div>
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider mb-1.5">
                 Plantillas Rápidas
               </label>
               <div className="flex flex-wrap gap-1.5">
                 <button
                   type="button"
                   onClick={() => handleApplyTemplate('presupuesto')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${
-                    selectedTemplate === 'presupuesto'
-                      ? 'bg-blue-600/20 text-blue-400 border-blue-500/40'
-                      : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-                  }`}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${ selectedTemplate === 'presupuesto' ? 'bg-blue-600/20 text-blue-400 border-blue-500/40' : 'bg-slate-900 text-[var(--text-muted,#64748b)] dark:text-slate-400 border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                 >
                   Presupuesto Comercial
                 </button>
                 <button
                   type="button"
                   onClick={() => handleApplyTemplate('factura')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${
-                    selectedTemplate === 'factura'
-                      ? 'bg-sky-600/20 text-sky-400 border-sky-500/40'
-                      : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-                  }`}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${ selectedTemplate === 'factura' ? 'bg-sky-600/20 text-sky-400 border-sky-500/40' : 'bg-slate-900 text-[var(--text-muted,#64748b)] dark:text-slate-400 border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                 >
                   Factura AFIP CAE
                 </button>
                 <button
                   type="button"
                   onClick={() => handleApplyTemplate('seguimiento')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${
-                    selectedTemplate === 'seguimiento'
-                      ? 'bg-purple-600/20 text-purple-400 border-purple-500/40'
-                      : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-                  }`}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-all ${ selectedTemplate === 'seguimiento' ? 'bg-purple-600/20 text-purple-400 border-purple-500/40' : 'bg-slate-900 text-[var(--text-muted,#64748b)] dark:text-slate-400 border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                 >
                   Seguimiento Lead
                 </button>
@@ -398,38 +386,38 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
             {/* Email Form */}
             <form onSubmit={handleSendEmail} className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Destinatario:</label>
+                <label className="block text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold mb-1">Destinatario:</label>
                 <input
                   type="email"
                   required
                   value={toEmail}
                   onChange={(e) => setToEmail(e.target.value)}
                   placeholder="cliente@empresa.com"
-                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Asunto:</label>
+                <label className="block text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold mb-1">Asunto:</label>
                 <input
                   type="text"
                   required
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Asunto del correo"
-                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Cuerpo del Mensaje:</label>
+                <label className="block text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold mb-1">Cuerpo del Mensaje:</label>
                 <textarea
                   required
                   rows={6}
                   value={bodyText}
                   onChange={(e) => setBodyText(e.target.value)}
                   placeholder="Escriba el contenido del mensaje..."
-                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans leading-relaxed"
+                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500 font-sans leading-relaxed"
                 />
               </div>
 
@@ -443,7 +431,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
                   <button
                     type="button"
                     onClick={() => setShowComposeModal(false)}
-                    className="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 font-semibold cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:bg-slate-800 font-semibold cursor-pointer"
                   >
                     Cancelar
                   </button>
@@ -465,17 +453,17 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
       {/* Modal: MailAnalyticsPanel (Recharts) */}
       {showAnalyticsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#090F1E] border border-slate-800 p-6 shadow-2xl text-slate-200 custom-scrollbar">
-            <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800">
+          <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-6 shadow-2xl text-[var(--text-primary,#0f172a)] dark:text-slate-200 custom-scrollbar">
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400">
                   <TrendingUp className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">
+                  <h3 className="text-base font-extrabold text-[var(--text-primary,#0f172a)] dark:text-white">
                     Panel de Rendimiento & Analítica de Correo (Recharts)
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Tasas de entrega, apertura y clics (CTR) en tiempo real
                   </p>
                 </div>
@@ -484,7 +472,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
               <button
                 type="button"
                 onClick={() => setShowAnalyticsModal(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                className="p-2 rounded-xl text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -503,17 +491,17 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
       {/* Modal: MailTemplateEditor (WYSIWYG) */}
       {showTemplatesModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="relative w-full max-w-6xl max-h-[92vh] overflow-y-auto rounded-2xl bg-[#090F1E] border border-slate-800 p-6 shadow-2xl text-slate-200 custom-scrollbar">
-            <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800">
+          <div className="relative w-full max-w-6xl max-h-[92vh] overflow-y-auto rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-6 shadow-2xl text-[var(--text-primary,#0f172a)] dark:text-slate-200 custom-scrollbar">
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400">
                   <LayoutTemplate className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">
+                  <h3 className="text-base font-extrabold text-[var(--text-primary,#0f172a)] dark:text-white">
                     Editor de Plantillas de Correo Transaccional (WYSIWYG)
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Diseñá y guardá plantillas comerciales reutilizables con tokens dinámicos
                   </p>
                 </div>
@@ -522,7 +510,7 @@ export const EmailStatusTrackerPanel: React.FC<EmailStatusTrackerPanelProps> = (
               <button
                 type="button"
                 onClick={() => setShowTemplatesModal(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                className="p-2 rounded-xl text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

@@ -278,9 +278,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
               <h3 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                  Redactar Correo • SMTP transaccional
               </h3>
-               <span className={`text-[10px] font-mono flex items-center gap-1 font-semibold ${
-                 smtpConfigured === false ? 'text-amber-600' : 'text-emerald-600'
-               }`}>
+               <span className={`text-[10px] font-mono flex items-center gap-1 font-semibold ${ smtpConfigured === false ? 'text-amber-600' : 'text-emerald-600' }`}>
                 <ShieldCheck className="w-3 h-3" />
                  {smtpConfigured === null
                    ? 'verificando configuración SMTP...'
@@ -292,7 +290,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-slate-400 hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
+            className="p-1 rounded-md text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -339,7 +337,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                 value={toInput}
                 onChange={(e) => setToInput(e.target.value)}
                 onKeyDown={(e) => handleAddRecipient(e, false)}
-                className="flex-1 min-w-[160px] bg-transparent text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
+                className="flex-1 min-w-[160px] bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden text-xs py-0.5"
               />
               {!showCc && (
                 <button
@@ -379,7 +377,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                   value={ccInput}
                   onChange={(e) => setCcInput(e.target.value)}
                   onKeyDown={(e) => handleAddRecipient(e, true)}
-                  className="flex-1 min-w-[140px] bg-transparent text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden text-xs py-0.5"
+                  className="flex-1 min-w-[140px] bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden text-xs py-0.5"
                 />
               </div>
             </div>
@@ -394,7 +392,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
               placeholder="Asunto del correo electrónico..."
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="flex-1 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md px-3 py-1.5 text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 focus:bg-[var(--bg-card)]"
+              className="flex-1 bg-[var(--bg-muted)] border border-[var(--border-subtle)] rounded-md px-3 py-1.5 text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden focus:border-blue-600 focus:bg-[var(--bg-card)]"
             />
           </div>
 
@@ -451,7 +449,7 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
               placeholder="Escribe aquí tu mensaje formal..."
               value={bodyText}
               onChange={(e) => setBodyText(e.target.value)}
-              className="w-full bg-[var(--bg-card)] border border-[var(--border-default)] rounded-md p-3 text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans text-xs resize-y min-h-[160px]"
+              className="w-full bg-[var(--bg-card)] border border-[var(--border-default)] rounded-md p-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans text-xs resize-y min-h-[160px]"
             />
           </div>
 
@@ -467,11 +465,11 @@ export const ComposeEmailModal: React.FC<ComposeEmailModalProps> = ({
                   >
                     <Paperclip className="w-3 h-3 text-blue-600" />
                     <span className="font-mono text-[11px] font-medium">{att.name}</span>
-                    <span className="text-[9px] text-slate-400 font-mono">({Math.round(att.size / 1024)} KB)</span>
+                    <span className="text-[9px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">({Math.round(att.size / 1024)} KB)</span>
                     <button
                       type="button"
                       onClick={() => setAttachments(attachments.filter((a) => a.id !== att.id))}
-                      className="text-slate-400 hover:text-rose-600 ml-1 cursor-pointer"
+                      className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-600 ml-1 cursor-pointer"
                     >
                       <X className="w-3 h-3" />
                     </button>

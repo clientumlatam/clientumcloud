@@ -365,11 +365,11 @@ Which deal or pipeline strategy can I assist you with today?`;
 
                 {/* Optional Action Button for Assistant Messages */}
                 {!isUser && m.action && (
-                  <div className="mt-2.5 pt-2 border-t border-slate-700/40 flex items-center justify-between gap-2">
+                  <div className="mt-2.5 pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/40 flex items-center justify-between gap-2">
                     <button
                       type="button"
                       onClick={() => handleCreateTask(m.content)}
-                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#36ded0] hover:text-white transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#36ded0] hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors cursor-pointer"
                     >
                       <Plus className="w-3 h-3" />
                       <span>{m.action.label}</span>
@@ -383,7 +383,7 @@ Which deal or pipeline strategy can I assist you with today?`;
                     <button
                       type="button"
                       onClick={() => copyToClipboard(m.content, m.id)}
-                      className="ml-2 hover:text-white transition-colors inline-flex items-center gap-1 cursor-pointer"
+                      className="ml-2 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors inline-flex items-center gap-1 cursor-pointer"
                       title={language === 'es' ? 'Copiar' : 'Copy'}
                     >
                       {copiedId === m.id ? (
@@ -414,7 +414,7 @@ Which deal or pipeline strategy can I assist you with today?`;
       </div>
 
       {/* Quick Suggestion Prompts */}
-      <div className="px-3 py-1.5 border-t border-slate-800/60 bg-[#0b1625]/80 flex items-center gap-1.5 overflow-x-auto custom-scrollbar">
+      <div className="px-3 py-1.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b1625]/80 flex items-center gap-1.5 overflow-x-auto custom-scrollbar">
         {getQuickPrompts().map((qp, idx) => {
           const Icon = qp.icon;
           return (
@@ -422,7 +422,7 @@ Which deal or pipeline strategy can I assist you with today?`;
               key={idx}
               type="button"
               onClick={() => handleSendPrompt(qp.prompt)}
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#101f32] hover:bg-[#182c44] text-[#8ea4be] hover:text-[#eaf5ff] border border-[#20364f] text-[9.5px] font-medium transition-colors cursor-pointer whitespace-nowrap"
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#101f32] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#182c44] text-[#8ea4be] hover:text-[#eaf5ff] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20364f] text-[9.5px] font-medium transition-colors cursor-pointer whitespace-nowrap"
             >
               <Icon className="w-3 h-3 text-[#1bd3c2]" />
               <span>{qp.title}</span>

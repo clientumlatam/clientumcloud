@@ -8,22 +8,22 @@ export const ChatbotView: React.FC = () => {
   const [tone, setTone] = useState('Comercial y Amigable');
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#0a0c10] text-slate-300 text-xs max-w-3xl">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs max-w-3xl">
       <div>
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
+        <h3 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
           <Bot className="w-5 h-5 text-purple-400" />
           Configuración del Chatbot de IA de ClientumCRM
         </h3>
-        <p className="text-xs text-slate-400 mt-0.5">Configura el prompt del sistema, tono de voz y directrices para que la IA responda automáticamente en WhatsApp.</p>
+        <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">Configura el prompt del sistema, tono de voz y directrices para que la IA responda automáticamente en WhatsApp.</p>
       </div>
 
-      <div className="bg-[#131722] p-6 rounded-2xl border border-[#212a3d] space-y-4">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-6 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] space-y-4">
         <div>
-          <label className="block text-[11px] font-semibold text-slate-300 mb-1">Tono de Voz del Asistente</label>
+          <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Tono de Voz del Asistente</label>
           <select
             value={tone}
             onChange={(e) => setTone(e.target.value)}
-            className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-purple-500"
+            className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-purple-500"
           >
             <option>Comercial y Amigable</option>
             <option>Formal y Corporativo</option>
@@ -32,12 +32,12 @@ export const ChatbotView: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-[11px] font-semibold text-slate-300 mb-1">Prompt del Sistema (Instrucciones de la IA)</label>
+          <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Prompt del Sistema (Instrucciones de la IA)</label>
           <textarea
             rows={4}
             value={systemPrompt}
             onChange={(e) => setSystemPrompt(e.target.value)}
-            className="w-full bg-[#181d2c] text-white p-3 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-purple-500 leading-relaxed"
+            className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white p-3 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-purple-500 leading-relaxed"
           />
         </div>
 

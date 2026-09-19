@@ -83,11 +83,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
             <div
               id="theme-option-light"
               onClick={() => applyTheme('light')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                theme === 'light'
-                  ? 'border-blue-500 bg-[#f8fafc] text-[var(--text-primary)] shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30'
-                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
-              }`}
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${ theme === 'light' ? 'border-blue-500 bg-[#f8fafc] text-[var(--text-primary)] shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30' : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]' }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
@@ -142,15 +138,11 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
             <div
               id="theme-option-dark"
               onClick={() => applyTheme('dark')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                theme === 'dark'
-                  ? 'border-blue-500 bg-[#09132b] text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30'
-                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
-              }`}
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${ theme === 'dark' ? 'border-blue-500 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#09132b] text-[var(--text-primary,#0f172a)] dark:text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30' : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]' }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#040c1a] border border-[#131b2e] flex items-center justify-center text-blue-400 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#040c1a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#131b2e] flex items-center justify-center text-blue-400 shadow-2xs">
                     <Moon className="w-4 h-4" />
                   </div>
                   <div>
@@ -172,11 +164,11 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               {/* Simulated Workspace Preview */}
-              <div className="rounded-lg bg-[#040c1a] p-3 border border-[#131b2e] space-y-2 mb-3 shadow-2xs">
-                <div className="flex items-center justify-between text-[10px] text-slate-300 pb-1.5 border-b border-[#131b2e]">
+              <div className="rounded-lg bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#040c1a] p-3 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#131b2e] space-y-2 mb-3 shadow-2xs">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-secondary,#475569)] dark:text-slate-300 pb-1.5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#131b2e]">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-blue-500" />
-                    <span className="text-white font-bold">Acme Latam Corp</span>
+                    <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-bold">Acme Latam Corp</span>
                   </div>
                   <span className="text-emerald-400 font-mono font-bold">$120,000</span>
                 </div>
@@ -184,7 +176,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
                   <span className="px-1.5 py-0.5 rounded bg-blue-900/50 text-blue-300 font-mono font-semibold border border-blue-800">
                     Negociación
                   </span>
-                  <span className="text-slate-400 font-medium">Cierre: 15 Dic</span>
+                  <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">Cierre: 15 Dic</span>
                 </div>
               </div>
 
@@ -201,11 +193,7 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
             <div
               id="theme-option-system"
               onClick={() => applyTheme('system')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                theme === 'system'
-                  ? 'border-blue-500 bg-[#09132b] text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30'
-                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]'
-              }`}
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${ theme === 'system' ? 'border-blue-500 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#09132b] text-[var(--text-primary,#0f172a)] dark:text-white shadow-md shadow-blue-500/20 ring-1 ring-blue-500/30' : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]' }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
@@ -231,15 +219,15 @@ export const ThemeModeSettings: React.FC<ThemeModeSettingsProps> = ({
               </div>
 
               {/* Simulated Workspace Preview */}
-              <div className="rounded-lg bg-[#0a1120] p-3 border border-[#1b2742] space-y-2 mb-3 shadow-2xs">
-                <div className="flex items-center justify-between text-[10px] text-slate-300 pb-1.5 border-b border-[#1b2742]">
+              <div className="rounded-lg bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a1120] p-3 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b2742] space-y-2 mb-3 shadow-2xs">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-secondary,#475569)] dark:text-slate-300 pb-1.5 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b2742]">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                    <span className="text-white font-bold">Auto-Sync Activo</span>
+                    <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-bold">Auto-Sync Activo</span>
                   </div>
                   <span className="text-indigo-400 font-mono font-bold">prefers-color-scheme</span>
                 </div>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Sigue las preferencias de pantalla y horario de tu sistema operativo automáticamente.
                 </p>
               </div>

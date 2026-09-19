@@ -56,7 +56,7 @@ export const PublicSearchDialog: React.FC<PublicSearchDialogProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-lg p-1 text-[#64748b] dark:text-slate-400 hover:bg-slate-100 hover:text-slate-700"
             aria-label="Cerrar búsqueda"
           >
             <X className="h-4 w-4" aria-hidden="true" />
@@ -64,12 +64,12 @@ export const PublicSearchDialog: React.FC<PublicSearchDialogProps> = ({
         </div>
 
         <div className="max-h-[380px] space-y-1 overflow-y-auto p-2">
-          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#64748b] dark:text-slate-400">
             {normalizedQuery ? `Resultados (${results.length})` : 'Sugerencias Populares'}
           </div>
 
           {results.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-400">
+            <div className="p-8 text-center text-xs text-[#64748b] dark:text-slate-400">
               No se encontraron resultados para &quot;{query}&quot;. Prueba con &quot;AFIP&quot;, &quot;WhatsApp&quot;,
               &quot;Agro&quot; o &quot;Precios&quot;.
             </div>
@@ -90,7 +90,7 @@ export const PublicSearchDialog: React.FC<PublicSearchDialogProps> = ({
                   </div>
                   <p className="mt-0.5 text-[11px] text-slate-500">{item.desc}</p>
                 </div>
-                <ArrowRight className="ml-2 h-4 w-4 shrink-0 text-slate-300 group-hover:text-blue-600" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-4 w-4 shrink-0 text-[#475569] dark:text-slate-300 group-hover:text-blue-600" aria-hidden="true" />
               </button>
             ))
           )}

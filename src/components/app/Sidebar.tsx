@@ -92,26 +92,24 @@ export const Sidebar: React.FC = React.memo(() => {
 
   const { resolvedTheme, toggleTheme } = useTheme();
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
     opportunities: true,
     people: true,
     tasks: true,
     whatsapp: true,
-    ecosystemHub: true,
-    sites: true,
     agenteOS: true,
     operations: true,
-    erpAvanzado: true,
     customObjects: true,
   });
 
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({
-    'Administración & Sistema': false,
+    '5. Infraestructura & Sistema': false,
   });
 
   const [activeConfigModule, setActiveConfigModule] = useState<string | null>(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [sidebarMenuMode, setSidebarMenuMode] = useState<'operativo' | 'plataforma'>('operativo');
 
   const userDisplayName = useMemo(() => {
     if (currentUser?.name && currentUser.name.trim()) {
@@ -155,48 +153,48 @@ export const Sidebar: React.FC = React.memo(() => {
     }));
   }, []);
 
-  // MENÚ 1: OPERATIVO & COMERCIAL
-  const operativoNavSections: NavSection[] = [
+  const navSections: NavSection[] = [
     {
       id: 'main',
-      label: '1. Gestión Comercial & CRM',
+      label: '1. Dirección Comercial & CRM',
       categoryIcon: null,
       items: [
-        { id: 'dashboard', label: 'Resumen Ejecutivo', icon: Home },
+        { id: 'dashboard', label: 'Dashboard Directivo', icon: Home, badge: 'Live', badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono' },
         {
           id: 'opportunities',
-          label: 'Pipeline de Ventas (Deals)',
+          label: 'Embudo de Ventas [Pipeline]',
           icon: Briefcase,
-          badge: 'Ventas',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'Kanban',
+          badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
           subItems: [
-            { id: 'meddic', label: 'Lead Scoring MEDDIC', icon: Target },
-            { id: 'competitorHub', label: 'Comparativa de Plataformas', icon: ArrowLeftRight },
+            { id: 'meddic', label: 'Matriz MEDDIC & Scoring', icon: Target },
+            { id: 'analytics', label: 'Análisis de Desvíos CRM', icon: BarChart3 },
           ],
         },
         {
           id: 'people',
-          label: 'Base de Clientes (B2B)',
+          label: 'Directorio B2B & Leads',
           icon: Users2,
           subItems: [
-            { id: 'companies', label: 'Empresas Corporativas', icon: Building2 },
+            { id: 'companies', label: 'Cuentas Clave Enterprise', icon: Building2 },
+            { id: 'activityInbox', label: 'Historial de Interacciones', icon: Inbox },
           ],
         },
         {
           id: 'tasks',
-          label: 'Agenda & Actividades',
+          label: 'Agenda & Tareas Comerciales',
           icon: CheckSquare,
           subItems: [
-            { id: 'calendar', label: 'Calendario Comercial', icon: Calendar },
-            { id: 'activityInbox', label: 'Notas & Recordatorios', icon: Inbox },
+            { id: 'calendar', label: 'Calendario de Reuniones', icon: Calendar },
+            { id: 'workflows', label: 'Recordatorios Automatizados', icon: Workflow },
           ],
         },
         {
           id: 'propuestas',
-          label: 'Propuestas & Brochure PDF',
-          icon: FileCheck,
-          badge: 'PDF Gen',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          label: 'Generador de Propuestas [PDF]',
+          icon: FileSpreadsheet,
+          badge: 'Pro',
+          badgeColor: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 font-mono',
         },
       ],
     },
@@ -207,181 +205,105 @@ export const Sidebar: React.FC = React.memo(() => {
       items: [
         {
           id: 'whatsapp',
-          label: 'Canal de WhatsApp WACE',
+          label: 'WhatsApp WACE Hub [IA]',
           icon: MessageSquare,
-          badge: 'WACE',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'En Línea',
+          badgeColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono',
           subItems: [
-            { id: 'messages', label: 'Mensajes Directos', icon: Send },
-            { id: 'campaigns', label: 'Campañas Masivas', icon: Send },
-            { id: 'chatbot', label: 'Bots & Respuestas IA', icon: Bot },
-            { id: 'activityInbox', label: 'Voz a Texto (Voice)', icon: Mic },
+            { id: 'messages', label: 'Bandeja de Entrada Unificada', icon: Send },
+            { id: 'campaigns', label: 'Campañas de Difusión', icon: Send },
+            { id: 'chatbot', label: 'Reglas de Auto-Respuesta IA', icon: Bot },
           ],
         },
         {
           id: 'webmail',
-          label: 'Correo Profesional (Webmail)',
+          label: 'Correo Corporativo [Webmail]',
           icon: Mail,
           badge: 'Cloudflare',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-        },
-      ],
-    },
-  ];
-
-  // MENÚ 2: PLATAFORMA & ECOSISTEMA
-  const plataformaNavSections: NavSection[] = [
-    {
-      id: 'main',
-      label: '1. Inteligencia & Analíticas',
-      categoryIcon: null,
-      items: [
-        {
-          id: 'ecosystemHub',
-          label: 'Hub de Ecosistema',
-          icon: Boxes,
-          badge: 'Ecosistema',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-          subItems: [
-            { id: 'dashboardDocs', label: 'Documentación de la Plataforma', icon: BookOpen },
-          ],
-        },
-        {
-          id: 'analytics',
-          label: 'Clientum Dashboard & BI',
-          icon: BarChart3,
-          badge: 'Módulo #4',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-        },
-      ],
-    },
-    {
-      id: 'prospecting',
-      label: '2. Prospección & Canales Web',
-      categoryIcon: 'sales',
-      items: [
-        { id: 'googleMaps', label: 'Radar de Prospectos (Google Maps)', icon: MapPin, badge: 'GPS Radar', badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold' },
-        {
-          id: 'industryLanding',
-          label: 'Sitio Web Público (Captura)',
-          icon: Globe,
-          badge: 'Módulo #10',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-        },
-        {
-          id: 'sites',
-          label: 'Portal Web & Comercio',
-          icon: Store,
-          badge: 'Portal',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-          subItems: [
-            { id: 'tiendaDigital', label: 'Tienda Digital & Catálogo', icon: Store },
-            { id: 'domainManager', label: 'Gestor de Dominios Web', icon: Globe },
-          ],
+          badgeColor: 'bg-sky-500/20 text-sky-400 border border-sky-500/30 font-mono',
         },
       ],
     },
     {
       id: 'ai',
-      label: '3. Automatizaciones & IA',
+      label: '3. Inteligencia Artificial & Agentes',
       categoryIcon: 'ai',
       items: [
         {
           id: 'agenteOS',
-          label: 'Agentes IA (AgenteOS)',
+          label: 'AgenteOS [14 Roles IA]',
           icon: Cpu,
-          badge: 'AgenteOS',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'Autónomo',
+          badgeColor: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30',
           subItems: [
-            { id: 'sdrOutreach', label: 'Agente SDR Prospección', icon: Bot },
-            { id: 'aiAssistant', label: 'Copilot Gemini Comercial', icon: Sparkles },
-            { id: 'workflows', label: 'Diseñador de Workflows', icon: Workflow },
+            { id: 'sdrOutreach', label: 'Agente SDR Prospección 24/7', icon: Bot },
+            { id: 'aiAssistant', label: 'Capital Gemini Forecasting', icon: Sparkles },
           ],
         },
       ],
     },
     {
       id: 'operations',
-      label: '4. Operaciones & ERP Avanzado',
+      label: '4. Operaciones, ERP & Facturación',
       categoryIcon: 'erp',
       items: [
         {
           id: 'operations',
-          label: 'ERP & Logística',
+          label: 'ERP & Logística Avanzada',
           icon: Compass,
-          badge: 'Módulo #14',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'Módulo 414',
+          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
           subItems: [
-            { id: 'restaurant', label: 'Restaurante & Delivery', icon: Store },
+            { id: 'erp', label: 'Control de Stock & Delivery', icon: Receipt },
             { id: 'campusLMS', label: 'Campus LMS & Academia', icon: GraduationCap },
           ],
         },
         {
           id: 'erpAvanzado',
-          label: 'Facturación & ERP Avanzado',
+          label: 'Facturación Electrónica [AFIP]',
           icon: Receipt,
-          badge: 'AFIP CAE',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-          subItems: [
-            { id: 'erp', label: 'Inventario & Gastos', icon: Receipt },
-            { id: 'ecommerce', label: 'E-Commerce & Pagos', icon: CreditCard },
-          ],
+          badge: 'CAE Nativo',
+          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
         },
       ],
     },
     {
       id: 'control',
-      label: '5. Infraestructura & Motor de Datos',
+      label: '5. Infraestructura & Sistema',
       categoryIcon: 'admin',
       items: [
         {
           id: 'customObjects',
-          label: 'Motor de Datos (Schemas)',
+          label: 'Motor de Datos [Schema SQL]',
           icon: Database,
-          badge: 'Módulo #9',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'Módulo 49',
+          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
           subItems: [
             { id: 'csvStudio', label: 'Importador CSV Studio', icon: FileSpreadsheet },
           ],
         },
         {
           id: 'workspaceIntegrations',
-          label: 'Sincronización Cloud & Drive',
+          label: 'Sincronización Cloud & Backups',
           icon: HardDrive,
-          badge: 'Módulo #8',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
+          badge: 'Módulo 48',
+          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
         },
-        {
-          id: 'vscrmSuite',
-          label: 'Arquitectura Cloud Run',
-          icon: Layers,
-          badge: 'Módulo #2',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-        },
-        {
-          id: 'payments',
-          label: 'Despliegues & Vercel Edge',
-          icon: Cloud,
-          badge: 'Módulo #3',
-          badgeColor: 'bg-slate-800 text-slate-200 border border-slate-700/80 font-mono font-semibold',
-        },
-        {
-          id: 'wordpressIntegracion',
-          label: 'WordPress & API Gateway',
-          icon: Code2,
-        },
-      ],
-    },
-    {
-      id: 'system',
-      label: '6. Administración & Auditoría',
-      categoryIcon: 'admin',
-      items: [
-        { id: 'settings', label: 'Ajustes del Sistema & Roles', icon: Settings },
-        { id: 'adminConsole', label: 'Consola de Auditoría', icon: ShieldAlert },
       ],
     },
   ];
+
+  const filteredNavSections = useMemo(() => {
+    if (!searchTerm.trim()) return navSections;
+    const term = searchTerm.toLowerCase();
+    return navSections.map(section => ({
+      ...section,
+      items: section.items.filter(item => 
+        item.label.toLowerCase().includes(term) || 
+        (item.subItems && item.subItems.some(sub => sub.label.toLowerCase().includes(term)))
+      )
+    })).filter(section => section.items.length > 0);
+  }, [searchTerm, navSections]);
 
   const handleNavClick = useCallback((tabId: ActiveTab) => {
     setActiveTab(tabId);
@@ -410,136 +332,117 @@ export const Sidebar: React.FC = React.memo(() => {
         id="clientum-unified-sidebar"
         role="navigation"
         aria-label="Menú principal de navegación"
-        className={`fixed top-0 bottom-0 left-0 z-50 flex w-72 flex-col border-r transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
-          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        } ${
-          resolvedTheme === 'dark'
-            ? 'border-[#1c2d47] bg-[#060a14] text-slate-100'
-            : 'border-[var(--border-subtle)]/90 bg-[var(--bg-card)] text-[var(--text-primary)]'
-        }`}
+        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col border-r transition-all duration-200 ease-in-out lg:static lg:translate-x-0 ${ isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0' } ${isCollapsed ? 'w-20' : 'w-72'} bg-[var(--sidebar-bg)] border-[var(--sidebar-border)] text-[var(--sidebar-text-primary)]`}
       >
+        {/* Collapse Toggle Button (Floating on Edge) */}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3.5 top-20 hidden lg:flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface-elevated)] text-[var(--text-muted)] shadow-md hover:bg-blue-600 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors z-30 cursor-pointer"
+          title={isCollapsed ? "Expandir menú" : "Colapsar menú"}
+        >
+          <ChevronRight className={`h-3 w-3 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} />
+        </button>
+
         {/* Encabezado del Sistema */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4 border-[var(--border-subtle)]">
           <button
-            onClick={() => setActiveTab('dashboard')}
-            className="flex items-center gap-2.5 text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md p-1"
+            onClick={() => handleNavClick('dashboard')}
+            className="flex items-center gap-3 text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md p-1 overflow-hidden group cursor-pointer"
             aria-label="Ir al Resumen Ejecutivo"
           >
-            <ClientumLogo className="h-8 w-auto" />
-            <div>
-              <span className="block font-bold leading-tight tracking-tight text-[var(--text-primary)] dark:text-white">
-                ClientumOS
-              </span>
-              <span className="block text-[10px] font-medium text-[var(--text-muted)] dark:text-slate-300">
-                Sistema Operativo PyME
-              </span>
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 shrink-0">
+              <Boxes className="w-5 h-5 text-[var(--text-primary,#0f172a)] dark:text-white" />
             </div>
+            {!isCollapsed && (
+              <div className="animate-in fade-in slide-in-from-left-2 duration-300">
+                <span className="block font-bold leading-tight tracking-tight text-[var(--text-primary)] whitespace-nowrap text-sm">
+                  ClientumOS
+                </span>
+                <span className="block text-[10px] font-medium text-[var(--text-muted)] whitespace-nowrap">
+                  Enterprise Suite v4.2
+                </span>
+              </div>
+            )}
           </button>
 
-          <button
-            onClick={() => openNewRecordModal('opportunity')}
-            aria-label="Crear nuevo registro"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-xs hover:bg-blue-700 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-400"
-            title="Nuevo Registro (+)"
-          >
-            <Plus className="h-4 w-4" />
-          </button>
+          {!isCollapsed && (
+            <button
+              onClick={() => openNewRecordModal('opportunity')}
+              aria-label="Creación Rápida"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/10 text-blue-500 hover:bg-blue-600 hover:text-white transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-400 shrink-0 shadow-sm"
+              title="Creación Rápida"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          )}
         </div>
 
         {/* Acceso a Buscador y Portal Público */}
         <div className="space-y-1.5 border-b p-3 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
-          <button
-            onClick={() => setIsCommandPaletteOpen(true)}
-            className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-xs font-medium transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 ${
-              resolvedTheme === 'dark'
-                ? 'border-[#1c2d47] bg-[#0a0f1d] text-slate-200 hover:border-[#2d436a] hover:text-white'
-                : 'border-[var(--border-subtle)] bg-[var(--bg-muted)] text-[var(--text-muted)] hover:border-[var(--border-default)] hover:text-[var(--text-primary)]'
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <Search className="h-3.5 w-3.5" />
-              <span>Buscar en todo el CRM...</span>
-            </span>
-            <kbd className="rounded bg-[var(--bg-muted)]/60 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--text-secondary)] dark:bg-[#142034] dark:text-slate-200">
-              ⌘K
-            </kbd>
-          </button>
-
-          <button
-            onClick={exitToPublicSite}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/40 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500"
-          >
-            <span className="flex items-center gap-2">
-              <Globe className="h-3.5 w-3.5" />
-              <span>Ver Portal Público</span>
-            </span>
-            <ExternalLink className="h-3 w-3" />
-          </button>
-        </div>
-
-        {/* Selector de Menú Doble en el Sidebar */}
-        <div className="p-2 border-b border-[var(--border-subtle)]/80 dark:border-[#1c2d47] bg-slate-900/30">
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/80 border border-slate-800">
-            <button
-              type="button"
-              onClick={() => setSidebarMenuMode('operativo')}
-              className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                sidebarMenuMode === 'operativo'
-                  ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-400/40'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Briefcase className="w-3.5 h-3.5 shrink-0" />
-              <span>1. Operativo</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSidebarMenuMode('plataforma')}
-              className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                sidebarMenuMode === 'plataforma'
-                  ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400/40'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Boxes className="w-3.5 h-3.5 shrink-0" />
-              <span>2. Ecosistema</span>
-            </button>
+          <div className="relative group">
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 transition-colors ${searchTerm ? 'text-blue-500' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted,#64748b)] dark:text-slate-500 group-focus-within:text-blue-500'}`} />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={isCollapsed ? "" : "Buscar en ClientumOS..."}
+              className={`w-full bg-slate-50 dark:bg-[#0a0f1d] border border-slate-200 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 rounded-lg text-xs py-2 focus:outline-hidden focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all ${isCollapsed ? 'px-0 text-center w-10 mx-auto' : 'pl-9 pr-3'}`}
+            />
           </div>
+
+          {!isCollapsed && (
+            <button
+              onClick={exitToPublicSite}
+              className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/40 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              <span className="flex items-center gap-2">
+                <Globe className="h-3.5 w-3.5" />
+                <span>Ver Portal Público</span>
+              </span>
+              <ExternalLink className="h-3 w-3" />
+            </button>
+          )}
         </div>
 
         {/* Lista Jerárquica de Secciones */}
         <div className="flex-1 space-y-4 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-[#1c2d47]">
-          {(sidebarMenuMode === 'operativo' ? operativoNavSections : plataformaNavSections).map((section) => {
-            const isCollapsed = collapsedSections[section.label];
+          {filteredNavSections.map((section) => {
+            const isSectionCollapsed = collapsedSections[section.label];
             return (
               <div key={section.id} className="space-y-1">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:text-slate-300 dark:hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
-                  onClick={() =>
-                    setCollapsedSections((prev) => ({
-                      ...prev,
-                      [section.label]: !isCollapsed,
-                    }))
-                  }
-                  aria-expanded={!isCollapsed}
-                >
-                  <span className="flex items-center gap-1.5">
-                    {section.categoryIcon && (
-                      <ClientumNavyIcon
-                        category={section.categoryIcon}
-                        size={14}
-                        className="shrink-0 rounded shadow-xs"
-                      />
-                    )}
-                    <span>{section.label}</span>
-                  </span>
-                  <ChevronDown
-                    className={`h-3 w-3 transition-transform ${isCollapsed ? '-rotate-90' : ''}`}
-                  />
-                </button>
-
                 {!isCollapsed && (
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 dark:hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                    onClick={() =>
+                      setCollapsedSections((prev) => ({
+                        ...prev,
+                        [section.label]: !isSectionCollapsed,
+                      }))
+                    }
+                    aria-expanded={!isSectionCollapsed}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <span className={`w-1.5 h-1.5 rounded-full inline-block ${ section.id === 'main' ? 'bg-blue-500' : section.id === 'communication' ? 'bg-emerald-500' : section.id === 'ai' ? 'bg-indigo-500' : section.id === 'operations' ? 'bg-amber-500' : 'bg-purple-500' }`} />
+                      <span>{section.label}</span>
+                    </span>
+                    <ChevronDown
+                      className={`h-3 w-3 transition-transform ${isSectionCollapsed ? '-rotate-90' : ''}`}
+                    />
+                  </button>
+                )}
+
+                {isCollapsed && section.categoryIcon && (
+                  <div className="flex justify-center py-2 border-b border-slate-100 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/40 mb-2">
+                    <ClientumNavyIcon
+                      category={section.categoryIcon}
+                      size={18}
+                      className="shrink-0 rounded shadow-sm opacity-60"
+                    />
+                  </div>
+                )}
+
+                {(!isSectionCollapsed || isCollapsed) && (
                   <nav className="space-y-0.5" aria-label={`Submenú ${section.label}`}>
                     {section.items.map((item) => (
                       <SidebarItem
@@ -547,6 +450,7 @@ export const Sidebar: React.FC = React.memo(() => {
                         item={item}
                         isActive={activeTab === item.id}
                         isExpanded={Boolean(expandedMenus[item.id])}
+                        isCollapsed={isCollapsed}
                         activeTab={activeTab}
                         onNavClick={handleNavClick}
                         onToggleSubmenu={toggleSubmenu}
@@ -560,17 +464,17 @@ export const Sidebar: React.FC = React.memo(() => {
         </div>
 
         {/* Perfil & Controles de Usuario */}
-        <div className="flex items-center justify-between border-t p-3 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
+        <div className={`flex flex-col border-t border-[var(--border-subtle)]/80 dark:border-[#1c2d47] bg-slate-50 dark:bg-slate-900/10 ${isCollapsed ? 'items-center py-4 px-2' : 'p-3'}`}>
           <button
             onClick={() => setIsProfileModalOpen(true)}
-            className="flex items-center gap-2 truncate text-left group hover:opacity-90 transition-opacity cursor-pointer flex-1 min-w-0 mr-1.5"
-            title="Ver y editar perfil de usuario"
+            className={`flex items-center gap-2 truncate text-left group hover:opacity-90 transition-all cursor-pointer ${isCollapsed ? 'justify-center w-full' : 'w-full mb-3'}`}
+            title={`Perfil: ${userDisplayName}`}
           >
             {currentUser?.avatar ? (
               <img
                 src={currentUser.avatar}
                 alt={userDisplayName}
-                className="h-8 w-8 shrink-0 rounded-full object-cover border border-[var(--border-default)] dark:border-slate-700 shadow-xs"
+                className="h-8 w-8 shrink-0 rounded-full object-cover border border-[var(--border-default)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 shadow-xs"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   const sibling = e.currentTarget.nextElementSibling;
@@ -579,48 +483,37 @@ export const Sidebar: React.FC = React.memo(() => {
               />
             ) : null}
             <div
-              className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs shadow-xs ${
-                currentUser?.avatar ? 'hidden' : 'flex'
-              }`}
+              className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs shadow-xs ${ currentUser?.avatar ? 'hidden' : 'flex' }`}
             >
               {userInitials}
             </div>
-            <div className="truncate min-w-0">
-              <span className="block truncate text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-500 transition-colors">
-                {userDisplayName}
-              </span>
-              <span className="block truncate text-[10px] text-slate-400">
-                {currentUser?.role || 'Admin'}
-              </span>
-            </div>
+            {!isCollapsed && (
+              <div className="truncate min-w-0">
+                <span className="block truncate text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-500 transition-colors">
+                  {userDisplayName}
+                </span>
+                <span className="block truncate text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
+                  {currentUser?.role || 'Admin'}
+                </span>
+              </div>
+            )}
           </button>
 
-          <div className="flex items-center gap-1 shrink-0">
+          <div className={`flex items-center gap-1 shrink-0 ${isCollapsed ? 'flex-col mt-4 w-full' : 'justify-between w-full'}`}>
             <button
               onClick={toggleTheme}
-              aria-label={`Cambiar a modo ${resolvedTheme === 'dark' ? 'claro' : 'oscuro'}`}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
             </button>
             <button
-              onClick={() => setActiveTab('dashboardDocs')}
-              aria-label="Documentación de la plataforma"
-              title="Documentación y guías (18 Docs)"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
-            >
-              <BookOpen className="h-4 w-4" />
-            </button>
-            <button
               onClick={() => setActiveTab('settings')}
-              aria-label="Abrir ajustes"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <Settings className="h-4 w-4" />
             </button>
             <button
               onClick={() => logout()}
-              aria-label="Cerrar sesión"
               className="flex h-8 w-8 items-center justify-center rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
               title="Cerrar sesión"
             >

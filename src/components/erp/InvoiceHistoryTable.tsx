@@ -106,7 +106,7 @@ export const InvoiceHistoryTable: React.FC = () => {
         );
       case 'Draft':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-500/10 text-slate-300 border border-slate-500/20">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-500/10 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-slate-500/20">
             <Clock className="w-3 h-3" /> Draft
           </span>
         );
@@ -142,65 +142,61 @@ export const InvoiceHistoryTable: React.FC = () => {
     <div className="space-y-5 text-xs">
       {/* Top Aggregates Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="text-[11px] text-slate-400 font-medium mb-1">Total Generated Invoices</div>
-          <div className="text-xl font-bold font-mono text-white">{invoices.length}</div>
-          <div className="text-[10px] text-slate-400 mt-1">
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium mb-1">Total Generated Invoices</div>
+          <div className="text-xl font-bold font-mono text-[var(--text-primary,#0f172a)] dark:text-white">{invoices.length}</div>
+          <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             Total Value: <span className="font-mono text-emerald-400">${totalInvoiced.toLocaleString()}</span>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="text-[11px] text-slate-400 font-medium mb-1">Total Paid Invoices</div>
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium mb-1">Total Paid Invoices</div>
           <div className="text-xl font-bold font-mono text-emerald-400">
             ${paidInvoiced.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[10px] text-slate-400 mt-1">
+          <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {invoices.filter((i) => i.status === 'Paid').length} paid entries
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="text-[11px] text-slate-400 font-medium mb-1">Pending / Sent</div>
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium mb-1">Pending / Sent</div>
           <div className="text-xl font-bold font-mono text-blue-400">
             ${pendingInvoiced.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[10px] text-slate-400 mt-1">Awaiting customer payment</div>
+          <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Awaiting customer payment</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="text-[11px] text-slate-400 font-medium mb-1">Overdue Outstanding</div>
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium mb-1">Overdue Outstanding</div>
           <div className="text-xl font-bold font-mono text-rose-400">
             ${overdueInvoiced.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[10px] text-slate-400 mt-1">Requires follow-up</div>
+          <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Requires follow-up</div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12151d] p-4 rounded-xl border border-[#1e2330]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
         <div className="flex items-center gap-2 flex-1">
           <div className="relative flex-1 max-w-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search invoice history by client or ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#181d29] text-xs text-white pl-8 pr-3 py-1.5 rounded-lg border border-[#273044] focus:outline-none focus:border-emerald-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-xs text-[var(--text-primary,#0f172a)] dark:text-white pl-8 pr-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-emerald-500"
             />
           </div>
 
-          <div className="flex items-center gap-1 bg-[#181d29] border border-[#273044] p-1 rounded-lg">
+          <div className="flex items-center gap-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] p-1 rounded-lg">
             {['all', 'Paid', 'Sent', 'Overdue', 'Draft'].map((st) => (
               <button
                 key={st}
                 onClick={() => setSelectedStatus(st)}
-                className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all cursor-pointer ${
-                  selectedStatus === st
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all cursor-pointer ${ selectedStatus === st ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-sm' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
               >
                 {st === 'all' ? 'All Statuses' : st}
               </button>
@@ -208,23 +204,23 @@ export const InvoiceHistoryTable: React.FC = () => {
           </div>
         </div>
 
-        <div className="text-right text-[11px] text-slate-400">
-          Showing <strong className="text-white">{sortedInvoices.length}</strong> of {invoices.length} records
+        <div className="text-right text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
+          Showing <strong className="text-[var(--text-primary,#0f172a)] dark:text-white">{sortedInvoices.length}</strong> of {invoices.length} records
         </div>
       </div>
 
       {/* Sortable Invoice History Table */}
-      <div className="bg-[#12151d] border border-[#1e2330] rounded-xl overflow-hidden shadow-md">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#151924] text-slate-400 font-semibold border-b border-[#1e2330] select-none">
+            <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#151924] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] select-none">
               <tr>
                 <th className="p-3.5">Invoice #</th>
 
                 {/* Sortable Column: Client */}
                 <th
                   onClick={() => handleSort('clientName')}
-                  className="p-3.5 hover:bg-[#1c2232] cursor-pointer transition-colors"
+                  className="p-3.5 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2232] cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Client / Organization</span>
@@ -235,7 +231,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                 {/* Sortable Column: Issue Date */}
                 <th
                   onClick={() => handleSort('issueDate')}
-                  className="p-3.5 hover:bg-[#1c2232] cursor-pointer transition-colors"
+                  className="p-3.5 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2232] cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Issue Date</span>
@@ -248,7 +244,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                 {/* Sortable Column: Status */}
                 <th
                   onClick={() => handleSort('status')}
-                  className="p-3.5 hover:bg-[#1c2232] cursor-pointer transition-colors"
+                  className="p-3.5 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2232] cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Status</span>
@@ -259,7 +255,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                 {/* Sortable Column: Total Amount */}
                 <th
                   onClick={() => handleSort('totalAmount')}
-                  className="p-3.5 text-right hover:bg-[#1c2232] cursor-pointer transition-colors"
+                  className="p-3.5 text-right hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2232] cursor-pointer transition-colors"
                 >
                   <div className="flex items-center justify-end gap-1.5">
                     <span>Total Amount ($)</span>
@@ -270,28 +266,28 @@ export const InvoiceHistoryTable: React.FC = () => {
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#181d28] text-slate-300">
+            <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#181d28] text-[var(--text-secondary,#475569)] dark:text-slate-300">
               {sortedInvoices.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-400">
+                  <td colSpan={7} className="p-8 text-center text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     No invoice history matches your criteria.
                   </td>
                 </tr>
               ) : (
                 sortedInvoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-[#161b26] transition-colors">
-                    <td className="p-3.5 font-mono font-bold text-white flex items-center gap-2">
+                  <tr key={inv.id} className="hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161b26] transition-colors">
+                    <td className="p-3.5 font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                       <FileText className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>{inv.id}</span>
                     </td>
-                    <td className="p-3.5 font-medium text-white">
+                    <td className="p-3.5 font-medium text-[var(--text-primary,#0f172a)] dark:text-white">
                       <div>{inv.clientName}</div>
                       {inv.clientEmail && (
-                        <div className="text-[10px] text-slate-400 font-mono">{inv.clientEmail}</div>
+                        <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{inv.clientEmail}</div>
                       )}
                     </td>
-                    <td className="p-3.5 font-mono text-slate-400">{inv.issueDate}</td>
-                    <td className="p-3.5 font-mono text-slate-400">{inv.dueDate}</td>
+                    <td className="p-3.5 font-mono text-[var(--text-muted,#64748b)] dark:text-slate-400">{inv.issueDate}</td>
+                    <td className="p-3.5 font-mono text-[var(--text-muted,#64748b)] dark:text-slate-400">{inv.dueDate}</td>
                     <td className="p-3.5">{getStatusBadge(inv.status)}</td>
                     <td className="p-3.5 text-right font-mono font-bold text-emerald-400 text-sm">
                       ${inv.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -300,7 +296,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => setSelectedInvoice(inv)}
-                          className="p-1.5 rounded-lg bg-[#181d29] hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
                           title="View / Print PDF"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -309,7 +305,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                         <select
                           value={inv.status}
                           onChange={(e) => updateInvoiceStatus(inv.id, e.target.value as InvoiceStatus)}
-                          className="bg-[#181d29] text-[11px] text-slate-300 px-2 py-1 rounded border border-[#273044] focus:outline-none"
+                          className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 px-2 py-1 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                         >
                           <option value="Draft">Draft</option>
                           <option value="Sent">Sent</option>
@@ -320,7 +316,7 @@ export const InvoiceHistoryTable: React.FC = () => {
 
                         <button
                           onClick={() => deleteInvoice(inv.id)}
-                          className="p-1.5 rounded-lg bg-[#181d29] hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-rose-500/20 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
                           title="Delete Invoice"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -339,7 +335,7 @@ export const InvoiceHistoryTable: React.FC = () => {
       {selectedInvoice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
           <div className="bg-[var(--bg-card)] text-[var(--text-primary)] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-3 bg-slate-900 text-white flex items-center justify-between">
+            <div className="p-3 bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-emerald-400" />
                 <span className="font-bold text-xs">{selectedInvoice.id} — Official Tax Invoice</span>
@@ -351,7 +347,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                 >
                   <Printer className="w-3.5 h-3.5" /> Print / Save PDF
                 </button>
-                <button onClick={() => setSelectedInvoice(null)} className="p-1 text-slate-400 hover:text-white">
+                <button onClick={() => setSelectedInvoice(null)} className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -381,7 +377,7 @@ export const InvoiceHistoryTable: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-6 bg-[var(--bg-muted)] p-4 rounded-xl border border-[var(--border-subtle)]">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">
                     Billed To:
                   </span>
                   <div className="font-bold text-sm text-[var(--text-primary)]">{selectedInvoice.clientName}</div>
@@ -389,7 +385,7 @@ export const InvoiceHistoryTable: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">
                     Status:
                   </span>
                   <div className="font-bold text-sm text-emerald-700">{selectedInvoice.status.toUpperCase()}</div>

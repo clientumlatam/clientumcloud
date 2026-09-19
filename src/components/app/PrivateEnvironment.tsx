@@ -303,7 +303,7 @@ const MainContent: React.FC = () => {
 };
 
 export const PrivateEnvironment: React.FC = () => (
-  <div className="clientum-light-dashboard flex h-[100dvh] min-h-screen w-screen overflow-hidden bg-[var(--clientum-surface,#F5F7FA)] text-[var(--clientum-ink,#212121)] dark:bg-[#040711] dark:text-slate-100 font-['Inter',sans-serif]">
+  <div className="clientum-light-dashboard flex h-[100dvh] min-h-screen w-screen overflow-hidden bg-[var(--clientum-surface,#F5F7FA)] text-[var(--clientum-ink,#212121)] dark:bg-[#040711] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 font-['Inter',sans-serif]">
     <Sidebar />
     <MainContent />
   </div>

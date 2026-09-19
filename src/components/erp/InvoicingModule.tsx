@@ -161,7 +161,7 @@ export const InvoicingModule: React.FC = () => {
         );
       case 'Draft':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-500/10 text-slate-300 border border-slate-500/20">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-500/10 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-slate-500/20">
             <Clock className="w-3 h-3" /> Draft
           </span>
         );
@@ -185,29 +185,25 @@ export const InvoicingModule: React.FC = () => {
   return (
     <div className="space-y-5">
       {/* Top Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12151d] p-4 rounded-xl border border-[#1e2330]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
         <div className="flex items-center gap-2 flex-1">
           <div className="relative flex-1 max-w-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search invoices by ID, client..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#181d29] text-xs text-white pl-8 pr-3 py-1.5 rounded-lg border border-[#273044] focus:outline-none focus:border-emerald-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-xs text-[var(--text-primary,#0f172a)] dark:text-white pl-8 pr-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-emerald-500"
             />
           </div>
 
-          <div className="flex items-center gap-1 bg-[#181d29] border border-[#273044] p-1 rounded-lg">
+          <div className="flex items-center gap-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] p-1 rounded-lg">
             {['all', 'Paid', 'Sent', 'Draft', 'Overdue'].map((st) => (
               <button
                 key={st}
                 onClick={() => setFilterStatus(st)}
-                className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all cursor-pointer ${
-                  filterStatus === st
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all cursor-pointer ${ filterStatus === st ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-sm' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
               >
                 {st === 'all' ? 'All Invoices' : st}
               </button>
@@ -225,10 +221,10 @@ export const InvoicingModule: React.FC = () => {
       </div>
 
       {/* Invoices List Table */}
-      <div className="bg-[#12151d] border border-[#1e2330] rounded-xl overflow-hidden shadow-md">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#151924] text-slate-400 font-semibold border-b border-[#1e2330]">
+            <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#151924] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
               <tr>
                 <th className="p-3.5">Invoice ID</th>
                 <th className="p-3.5">Client / Company</th>
@@ -241,30 +237,30 @@ export const InvoicingModule: React.FC = () => {
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#181d28] text-slate-300">
+            <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#181d28] text-[var(--text-secondary,#475569)] dark:text-slate-300">
               {filteredInvoices.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-8 text-center text-slate-400">
+                  <td colSpan={9} className="p-8 text-center text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     No invoices found matching your criteria.
                   </td>
                 </tr>
               ) : (
                 filteredInvoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-[#161b26] transition-colors">
-                    <td className="p-3.5 font-mono font-bold text-white flex items-center gap-2">
+                  <tr key={inv.id} className="hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161b26] transition-colors">
+                    <td className="p-3.5 font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                       <FileText className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>{inv.id}</span>
                     </td>
-                    <td className="p-3.5 font-medium text-white">
+                    <td className="p-3.5 font-medium text-[var(--text-primary,#0f172a)] dark:text-white">
                       <div>{inv.clientName}</div>
                       {inv.clientEmail && (
-                        <div className="text-[10px] text-slate-400 font-mono">{inv.clientEmail}</div>
+                        <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{inv.clientEmail}</div>
                       )}
                     </td>
-                    <td className="p-3.5 text-slate-400 font-mono">{inv.issueDate}</td>
-                    <td className="p-3.5 text-slate-400 font-mono">{inv.dueDate}</td>
-                    <td className="p-3.5 font-mono text-slate-300">${inv.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                    <td className="p-3.5 font-mono text-slate-400">${inv.taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="p-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{inv.issueDate}</td>
+                    <td className="p-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{inv.dueDate}</td>
+                    <td className="p-3.5 font-mono text-[var(--text-secondary,#475569)] dark:text-slate-300">${inv.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="p-3.5 font-mono text-[var(--text-muted,#64748b)] dark:text-slate-400">${inv.taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                     <td className="p-3.5 font-mono font-bold text-emerald-400 text-sm">
                       ${inv.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
@@ -273,7 +269,7 @@ export const InvoicingModule: React.FC = () => {
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => setSelectedInvoice(inv)}
-                          className="p-1.5 rounded-lg bg-[#181d29] hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
                           title="View / Print PDF Invoice"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -282,7 +278,7 @@ export const InvoicingModule: React.FC = () => {
                         <select
                           value={inv.status}
                           onChange={(e) => updateInvoiceStatus(inv.id, e.target.value as InvoiceStatus)}
-                          className="bg-[#181d29] text-[11px] text-slate-300 px-2 py-1 rounded border border-[#273044] focus:outline-none"
+                          className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 px-2 py-1 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                         >
                           <option value="Draft">Draft</option>
                           <option value="Sent">Sent</option>
@@ -293,7 +289,7 @@ export const InvoicingModule: React.FC = () => {
 
                         <button
                           onClick={() => deleteInvoice(inv.id)}
-                          className="p-1.5 rounded-lg bg-[#181d29] hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-rose-500/20 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
                           title="Delete Invoice"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -311,15 +307,15 @@ export const InvoicingModule: React.FC = () => {
       {/* CREATE INVOICE MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
-          <div className="bg-[#12151d] border border-[#212838] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-4 bg-[#161a25] border-b border-[#212838] flex items-center justify-between">
-              <h3 className="font-bold text-white text-sm flex items-center gap-2">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212838] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-4 bg-[var(--bg-card,#ffffff)] dark:bg-[#161a25] border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#212838] flex items-center justify-between">
+              <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm flex items-center gap-2">
                 <FileText className="w-4 h-4 text-emerald-400" />
                 Generate Tax Invoice from Closed Deal
               </h3>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-[#202738]"
+                className="p-1 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202738]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -327,14 +323,14 @@ export const InvoicingModule: React.FC = () => {
 
             <form onSubmit={handleCreateInvoice} className="p-5 space-y-4 overflow-y-auto flex-1 text-xs">
               {/* Select Deal auto-fill */}
-              <div className="p-3 bg-[#181d2a] rounded-xl border border-[#273248] space-y-1.5">
-                <label className="block text-slate-300 font-semibold text-[11px]">
+              <div className="p-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] space-y-1.5">
+                <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold text-[11px]">
                   Link Closed Opportunity (Autofill Client & Line Items)
                 </label>
                 <select
                   value={selectedOppId}
                   onChange={(e) => handleSelectOpportunity(e.target.value)}
-                  className="w-full bg-[#12151d] text-white px-3 py-2 rounded-lg border border-[#2c364e] focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c364e] focus:outline-none focus:border-emerald-500"
                 >
                   <option value="">-- Choose a Closed Opportunity --</option>
                   {closedDeals.map((opp) => (
@@ -347,56 +343,56 @@ export const InvoicingModule: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Client Name / Business Name *</label>
+                  <label className="block font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Client Name / Business Name *</label>
                   <input
                     type="text"
                     required
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="e.g. ABEPOL S.R.L."
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-emerald-500"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Client Email</label>
+                  <label className="block font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Client Email</label>
                   <input
                     type="email"
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
                     placeholder="billing@client.com"
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Issue Date</label>
+                  <label className="block font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Issue Date</label>
                   <input
                     type="date"
                     value={issueDate}
                     onChange={(e) => setIssueDate(e.target.value)}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Due Date</label>
+                  <label className="block font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Due Date</label>
                   <input
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Tax Rate (%)</label>
+                  <label className="block font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Tax Rate (%)</label>
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={taxRate}
                     onChange={(e) => setTaxRate(Number(e.target.value))}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -404,7 +400,7 @@ export const InvoicingModule: React.FC = () => {
               {/* Line Items Builder */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="font-semibold text-white">Line Items & Services</label>
+                  <label className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">Line Items & Services</label>
                   <button
                     type="button"
                     onClick={handleAddItem}
@@ -416,13 +412,13 @@ export const InvoicingModule: React.FC = () => {
 
                 <div className="space-y-2">
                   {lineItems.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2 bg-[#161a26] p-2.5 rounded-lg border border-[#222a3d]">
+                    <div key={idx} className="flex items-center gap-2 bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] p-2.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d]">
                       <input
                         type="text"
                         placeholder="Description..."
                         value={item.description}
                         onChange={(e) => handleItemChange(idx, 'description', e.target.value)}
-                        className="flex-1 bg-[#12151d] text-white px-2.5 py-1.5 rounded border border-[#273044] focus:outline-none"
+                        className="flex-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                       />
                       <input
                         type="number"
@@ -430,14 +426,14 @@ export const InvoicingModule: React.FC = () => {
                         placeholder="Qty"
                         value={item.quantity}
                         onChange={(e) => handleItemChange(idx, 'quantity', e.target.value)}
-                        className="w-16 bg-[#12151d] text-white px-2 py-1.5 rounded border border-[#273044] text-center focus:outline-none"
+                        className="w-16 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-primary,#0f172a)] dark:text-white px-2 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] text-center focus:outline-none"
                       />
                       <input
                         type="number"
                         placeholder="Price"
                         value={item.unitPrice}
                         onChange={(e) => handleItemChange(idx, 'unitPrice', e.target.value)}
-                        className="w-24 bg-[#12151d] text-white px-2 py-1.5 rounded border border-[#273044] font-mono text-right focus:outline-none"
+                        className="w-24 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-primary,#0f172a)] dark:text-white px-2 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] font-mono text-right focus:outline-none"
                       />
                       <div className="w-24 text-right font-mono font-bold text-emerald-400 text-xs">
                         ${((item.quantity || 1) * (item.unitPrice || 0)).toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -445,7 +441,7 @@ export const InvoicingModule: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(idx)}
-                        className="p-1 text-slate-400 hover:text-rose-400"
+                        className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -455,16 +451,16 @@ export const InvoicingModule: React.FC = () => {
               </div>
 
               {/* Automatic Tax Calculation Breakdown */}
-              <div className="bg-[#181d2a] p-3.5 rounded-xl border border-[#273248] space-y-1.5 text-right font-mono">
-                <div className="flex justify-between text-slate-300">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-3.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] space-y-1.5 text-right font-mono">
+                <div className="flex justify-between text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   <span>Subtotal:</span>
                   <span>${calculatedSubtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                 </div>
-                <div className="flex justify-between text-slate-400 text-[11px]">
+                <div className="flex justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px]">
                   <span>Automatic Tax ({taxRate}%):</span>
                   <span>+${calculatedTax.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                 </div>
-                <div className="flex justify-between text-emerald-400 font-bold text-sm pt-1 border-t border-[#29344c]">
+                <div className="flex justify-between text-emerald-400 font-bold text-sm pt-1 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#29344c]">
                   <span>Total Due:</span>
                   <span>${calculatedTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                 </div>
@@ -489,7 +485,7 @@ export const InvoicingModule: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
           <div className="bg-[var(--bg-card)] text-[var(--text-primary)] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Controls Header */}
-            <div className="p-3 bg-slate-900 text-white flex items-center justify-between">
+            <div className="p-3 bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-emerald-400" />
                 <span className="font-bold text-xs">{selectedInvoice.id} — Official Tax Invoice</span>
@@ -503,7 +499,7 @@ export const InvoicingModule: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setSelectedInvoice(null)}
-                  className="p-1 text-slate-400 hover:text-white"
+                  className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -537,7 +533,7 @@ export const InvoicingModule: React.FC = () => {
               {/* Seller & Buyer Details */}
               <div className="grid grid-cols-2 gap-6 bg-[var(--bg-muted)] p-4 rounded-xl border border-[var(--border-subtle)]">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">
                     Billed To (Client):
                   </span>
                   <div className="font-bold text-sm text-[var(--text-primary)]">{selectedInvoice.clientName}</div>
@@ -550,7 +546,7 @@ export const InvoicingModule: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">
                     Payment Status:
                   </span>
                   <div className="font-bold text-sm text-emerald-700">{selectedInvoice.status.toUpperCase()}</div>

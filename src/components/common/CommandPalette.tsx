@@ -523,7 +523,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Oportunidades / Pipeline Comercial',
         subtitle: 'Ver embudo de ventas, etapas kanban y pronóstico de ingresos',
         icon: Briefcase,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Pipeline',
         onSelect: () => {
           ensureInApp();
@@ -537,7 +537,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Contactos & Leads',
         subtitle: 'Directorio unificado de personas, teléfonos y cuentas de correo',
         icon: Users2,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Personas',
         onSelect: () => {
           ensureInApp();
@@ -551,7 +551,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Empresas / Cuentas Corporativas',
         subtitle: 'Directorio de organizaciones B2B y cartera de clientes',
         icon: Building2,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Empresas',
         onSelect: () => {
           ensureInApp();
@@ -565,7 +565,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Tareas y Agenda',
         subtitle: 'Calendario de llamadas, compromisos y tareas pendientes',
         icon: CheckSquare,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Agenda',
         onSelect: () => {
           ensureInApp();
@@ -579,7 +579,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Analíticas & Pronóstico de Ventas',
         subtitle: 'Métricas de conversión, velocidad de cierre y rendimiento comercial',
         icon: BarChart3,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Reportes',
         onSelect: () => {
           ensureInApp();
@@ -593,7 +593,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Bandeja de Entrada Webmail Cloudflare',
         subtitle: 'Bandeja sincronizada con Cloudflare Workers & SQLite D1',
         icon: Mail,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Webmail',
         onSelect: () => {
           ensureInApp();
@@ -607,7 +607,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Unified Control Hub (Workspace & Ecosistema)',
         subtitle: 'Diagnóstico, herramientas, 15 módulos canónicos y catálogo completo',
         icon: Sparkles,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Hub',
         onSelect: () => {
           ensureInApp();
@@ -621,7 +621,7 @@ export const CommandPalette: React.FC = () => {
         title: 'Ir a Configuración & Campos Personalizados',
         subtitle: 'Ajustes del espacio, permisos, roles y apariencia',
         icon: Settings,
-        iconColor: 'bg-slate-800 text-slate-200',
+        iconColor: 'bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-slate-200',
         badge: 'Ajustes',
         onSelect: () => {
           ensureInApp();
@@ -850,11 +850,7 @@ export const CommandPalette: React.FC = () => {
           
           <button
             onClick={() => setActiveCategory('all')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'all'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'all' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <span>Todos</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[var(--bg-card)]/15">{categoryCounts.all}</span>
@@ -862,11 +858,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('contacts')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'contacts'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'contacts' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Users2 className="w-3.5 h-3.5" />
             <span>Contactos</span>
@@ -875,11 +867,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('deals')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'deals'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'deals' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Briefcase className="w-3.5 h-3.5" />
             <span>Deals</span>
@@ -888,11 +876,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('erp')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'erp'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'erp' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Boxes className="w-3.5 h-3.5 text-teal-400" />
             <span>ERP & Stock</span>
@@ -901,11 +885,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('invoices')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'invoices'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'invoices' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Receipt className="w-3.5 h-3.5 text-emerald-400" />
             <span>Facturas AFIP</span>
@@ -914,11 +894,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('projects')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'projects'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'projects' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <FolderKanban className="w-3.5 h-3.5" />
             <span>Proyectos</span>
@@ -927,11 +903,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('actions')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'actions'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'actions' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Acciones</span>
@@ -940,11 +912,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('companies')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'companies'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'companies' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Building2 className="w-3.5 h-3.5" />
             <span>Empresas</span>
@@ -953,11 +921,7 @@ export const CommandPalette: React.FC = () => {
 
           <button
             onClick={() => setActiveCategory('navigation')}
-            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${
-              activeCategory === 'navigation'
-                ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs'
-                : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`text-xs px-2.5 py-1 rounded-lg font-medium transition cursor-pointer shrink-0 flex items-center gap-1.5 ${ activeCategory === 'navigation' ? 'bg-[var(--color-primary)] text-[var(--text-inverse)] shadow-xs' : 'bg-[var(--bg-card-hover)]/70 hover:bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
           >
             <Globe className="w-3.5 h-3.5" />
             <span>Navegación</span>
@@ -971,13 +935,13 @@ export const CommandPalette: React.FC = () => {
         >
           {filtered.length === 0 ? (
             <div className="py-12 px-4 text-center space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-slate-700/60 text-slate-400 flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center justify-center mx-auto">
                 <Search className="w-6 h-6 text-[var(--text-muted)]" />
               </div>
-              <p className="text-sm font-semibold text-slate-300">
+              <p className="text-sm font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 No se encontraron resultados para &ldquo;{query}&rdquo;
               </p>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 max-w-sm mx-auto">
                 Puedes dar de alta un nuevo registro inmediatamente usando los accesos rápidos:
               </p>
               <div className="flex items-center justify-center gap-2 pt-2">
@@ -1020,25 +984,19 @@ export const CommandPalette: React.FC = () => {
                     setIsCommandPaletteOpen(false);
                   }}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`px-3 py-2.5 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all text-xs group ${
-                    isSelected
-                      ? 'bg-gradient-to-r from-blue-900/60 to-slate-800/80 text-white border border-blue-500/40 shadow-sm'
-                      : 'hover:bg-slate-900/60 text-slate-300 border border-transparent'
-                  }`}
+                  className={`px-3 py-2.5 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all text-xs group ${ isSelected ? 'bg-gradient-to-r from-blue-900/60 to-slate-800/80 text-white border border-blue-500/40 shadow-sm' : 'hover:bg-slate-900/60 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-transparent' }`}
                 >
                   {/* Left Icon and Details */}
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div
-                      className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center transition-transform ${
-                        isSelected ? 'scale-105' : ''
-                      } ${item.iconColor || 'bg-slate-800 text-slate-300'}`}
+                      className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center transition-transform ${ isSelected ? 'scale-105' : '' } ${item.iconColor || 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300'}`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className={`font-semibold truncate text-sm ${isSelected ? 'text-white' : 'text-slate-200'}`}>
+                        <span className={`font-semibold truncate text-sm ${isSelected ? 'text-white' : 'text-[var(--text-primary,#0f172a)] dark:text-slate-200'}`}>
                           {item.title}
                         </span>
 
@@ -1050,7 +1008,7 @@ export const CommandPalette: React.FC = () => {
                       </div>
 
                       {item.subtitle && (
-                        <div className="text-[11px] text-slate-400 truncate mt-0.5 group-hover:text-slate-300 transition-colors">
+                        <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 truncate mt-0.5 group-hover:text-[var(--text-secondary,#475569)] dark:group-hover:text-slate-300 transition-colors">
                           {item.subtitle}
                         </div>
                       )}
@@ -1069,7 +1027,7 @@ export const CommandPalette: React.FC = () => {
                               key={qidx}
                               onClick={qa.onClick}
                               title={qa.label}
-                              className="p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white transition-colors cursor-pointer border border-slate-700/60"
+                              className="p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors cursor-pointer border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60"
                             >
                               <QAIcon className="w-3 h-3" />
                             </button>
@@ -1080,24 +1038,20 @@ export const CommandPalette: React.FC = () => {
 
                     {item.badge && (
                       <span
-                        className={`text-[11px] px-2 py-0.5 rounded-lg font-mono font-medium border ${
-                          item.badgeColor || 'bg-slate-800 text-slate-300 border-slate-700'
-                        }`}
+                        className={`text-[11px] px-2 py-0.5 rounded-lg font-mono font-medium border ${ item.badgeColor || 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700' }`}
                       >
                         {item.badge}
                       </span>
                     )}
 
                     <div className="hidden md:flex items-center">
-                      <span className="text-[10px] text-slate-400 uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-900/60">
+                      <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-900/60">
                         {item.category}
                       </span>
                     </div>
 
                     <ArrowRight
-                      className={`w-3.5 h-3.5 transition-transform ${
-                        isSelected ? 'text-blue-400 translate-x-0.5 opacity-100' : 'opacity-0'
-                      }`}
+                      className={`w-3.5 h-3.5 transition-transform ${ isSelected ? 'text-blue-400 translate-x-0.5 opacity-100' : 'opacity-0' }`}
                     />
                   </div>
                 </div>
@@ -1107,35 +1061,35 @@ export const CommandPalette: React.FC = () => {
         </div>
 
         {/* Bottom Footer Shortcuts Legend */}
-        <div className="p-3 bg-[#0a0d14] border-t border-slate-800/90 flex flex-wrap items-center justify-between text-[11px] text-slate-400 px-4 gap-2">
+        <div className="p-3 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0d14] border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/90 flex flex-wrap items-center justify-between text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 px-4 gap-2">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-mono">
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[10px] font-mono">
                 ↑↓
               </kbd>{' '}
               Navegar
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-mono">
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[10px] font-mono">
                 ↵
               </kbd>{' '}
               Seleccionar
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-mono">
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[10px] font-mono">
                 Tab
               </kbd>{' '}
               Filtro
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-mono">
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[10px] font-mono">
                 esc
               </kbd>{' '}
               Cerrar
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-[var(--text-muted,#64748b)] dark:text-slate-400">
             <span>Atajo global:</span>
             <span className="font-bold text-blue-400 bg-blue-950/80 px-1.5 py-0.5 rounded border border-blue-800/60">
               {shortcutKey}

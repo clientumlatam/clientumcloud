@@ -105,13 +105,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onSelect(node.id)}
-      className={`absolute select-none cursor-grab active:cursor-grabbing group transition-all duration-200 rounded-xl p-3.5 flex flex-col justify-between border shadow-xl ${
-        isSelected
-          ? 'bg-[#151b29] ring-2 ring-emerald-500 shadow-emerald-500/20 z-30'
-          : 'bg-[#0f131d]/95 hover:bg-[#141a27] z-10'
-      } ${borderAccent} ${
-        node.status === 'running' ? 'ring-2 ring-blue-500 animate-pulse' : ''
-      } ${node.status === 'success' ? 'ring-1 ring-emerald-500/60' : ''}`}
+      className={`absolute select-none cursor-grab active:cursor-grabbing group transition-all duration-200 rounded-xl p-3.5 flex flex-col justify-between border shadow-xl ${ isSelected ? 'bg-[var(--bg-card,#ffffff)] dark:bg-[#151b29] ring-2 ring-emerald-500 shadow-emerald-500/20 z-30' : 'bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0f131d]/95 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#141a27] z-10' } ${borderAccent} ${ node.status === 'running' ? 'ring-2 ring-blue-500 animate-pulse' : '' } ${node.status === 'success' ? 'ring-1 ring-emerald-500/60' : ''}`}
     >
       {/* Node Header & Drag Handle */}
       <div
@@ -131,7 +125,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
             )}
           </div>
           <div className="min-w-0">
-            <h4 className="text-xs font-bold text-white truncate group-hover:text-cyan-300 transition-colors">
+            <h4 className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-white truncate group-hover:text-cyan-300 transition-colors">
               {node.title}
             </h4>
             <div className="flex items-center gap-1.5 mt-0.5">
@@ -157,7 +151,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
               onMoveStage(node.id, 'prev');
             }}
             disabled={node.stageIndex === 0}
-            className="p-1 rounded bg-[#1c2438] hover:bg-[#253048] disabled:opacity-30 text-slate-300 hover:text-white cursor-pointer"
+            className="p-1 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2438] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#253048] disabled:opacity-30 text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
           >
             {direction === 'LR' ? (
               <ChevronLeft className="w-3 h-3" />
@@ -173,7 +167,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
               e.stopPropagation();
               onMoveStage(node.id, 'next');
             }}
-            className="p-1 rounded bg-[#1c2438] hover:bg-[#253048] text-slate-300 hover:text-white cursor-pointer"
+            className="p-1 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2438] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#253048] text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
           >
             {direction === 'LR' ? (
               <ChevronRight className="w-3 h-3" />
@@ -189,7 +183,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
               e.stopPropagation();
               onDuplicate(node.id);
             }}
-            className="p-1 rounded bg-[#1c2438] hover:bg-[#253048] text-slate-400 hover:text-white cursor-pointer"
+            className="p-1 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2438] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#253048] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white cursor-pointer"
           >
             <Copy className="w-3 h-3" />
           </button>
@@ -202,7 +196,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
                 e.stopPropagation();
                 onDelete(node.id);
               }}
-              className="p-1 rounded bg-[#1c2438] hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 cursor-pointer"
+              className="p-1 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2438] hover:bg-rose-500/20 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 cursor-pointer"
             >
               <Trash2 className="w-3 h-3" />
             </button>
@@ -211,14 +205,14 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
       </div>
 
       {/* Description Snippet */}
-      <p className="text-[10.5px] text-slate-400 line-clamp-2 leading-relaxed mt-1">
+      <p className="text-[10.5px] text-[var(--text-muted,#64748b)] dark:text-slate-400 line-clamp-2 leading-relaxed mt-1">
         {node.description}
       </p>
 
       {/* Footer Details / Action Triggers */}
-      <div className="flex items-center justify-between pt-1.5 border-t border-[#1c2333] text-[9.5px]">
+      <div className="flex items-center justify-between pt-1.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c2333] text-[9.5px]">
         {node.branchLabel ? (
-          <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#1b2230] text-cyan-300 font-mono">
+          <span className="text-[9px] px-1.5 py-0.5 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] text-cyan-300 font-mono">
             Rama: {node.branchLabel}
           </span>
         ) : (
@@ -243,11 +237,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
       {!isTrigger && (
         <div
           title="Punto de entrada de datos"
-          className={`absolute w-3 h-3 rounded-full bg-[#1e273b] border-2 border-emerald-400 shadow-sm z-20 ${
-            direction === 'LR'
-              ? '-left-1.5 top-1/2 -translate-y-1/2'
-              : '-top-1.5 left-1/2 -translate-x-1/2'
-          }`}
+          className={`absolute w-3 h-3 rounded-full bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e273b] border-2 border-emerald-400 shadow-sm z-20 ${ direction === 'LR' ? '-left-1.5 top-1/2 -translate-y-1/2' : '-top-1.5 left-1/2 -translate-x-1/2' }`}
         />
       )}
 
@@ -258,11 +248,7 @@ export const FlowNodeCard: React.FC<FlowNodeCardProps> = ({
           e.stopPropagation();
           onAddChildNode(node.id);
         }}
-        className={`absolute w-3 h-3 rounded-full bg-[#1e273b] border-2 border-cyan-400 hover:scale-125 transition-transform cursor-pointer shadow-sm z-20 ${
-          direction === 'LR'
-            ? '-right-1.5 top-1/2 -translate-y-1/2'
-            : '-bottom-1.5 left-1/2 -translate-x-1/2'
-        }`}
+        className={`absolute w-3 h-3 rounded-full bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e273b] border-2 border-cyan-400 hover:scale-125 transition-transform cursor-pointer shadow-sm z-20 ${ direction === 'LR' ? '-right-1.5 top-1/2 -translate-y-1/2' : '-bottom-1.5 left-1/2 -translate-x-1/2' }`}
       />
     </div>
   );

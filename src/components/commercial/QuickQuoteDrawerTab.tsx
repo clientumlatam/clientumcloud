@@ -253,27 +253,23 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
   };
 
   return (
-    <div className="space-y-4 text-xs text-slate-300">
+    <div className="space-y-4 text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300">
       {/* Top Controls Bar */}
-      <div className="p-3 rounded-xl bg-[#141824] border border-[#22293d] flex flex-wrap items-center justify-between gap-2">
+      <div className="p-3 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293d] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-slate-400 font-medium">Moneda:</span>
-          <div className="flex bg-[#0e111a] rounded-lg p-0.5 border border-[#22293b]">
+          <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">Moneda:</span>
+          <div className="flex bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e111a] rounded-lg p-0.5 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b]">
             <button
               type="button"
               onClick={() => setCurrency('USD')}
-              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-all ${
-                currency === 'USD' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-all ${ currency === 'USD' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               USD (US$)
             </button>
             <button
               type="button"
               onClick={() => setCurrency('ARS')}
-              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-all ${
-                currency === 'ARS' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-all ${ currency === 'ARS' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               ARS ($)
             </button>
@@ -284,7 +280,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
           <button
             type="button"
             onClick={handlePrintPDF}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-[11px] font-semibold border border-slate-700 transition-all cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-[var(--text-primary,#0f172a)] dark:text-white text-[11px] font-semibold border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 transition-all cursor-pointer shadow-xs"
           >
             <Printer className="w-3.5 h-3.5 text-blue-400" />
             <span>Imprimir / PDF</span>
@@ -304,7 +300,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
       {/* Items Table */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <h4 className="font-semibold text-white text-xs flex items-center gap-1.5">
+          <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs flex items-center gap-1.5">
             <FileText className="w-3.5 h-3.5 text-blue-400" />
             Líneas del Presupuesto ({items.length})
           </h4>
@@ -326,10 +322,10 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
             return (
               <div
                 key={it.id}
-                className="p-3 rounded-xl bg-[#131724] border border-[#20273a] space-y-2"
+                className="p-3 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#131724] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20273a] space-y-2"
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-md bg-[#1f2638] text-slate-400 font-bold flex items-center justify-center text-[10px] shrink-0">
+                  <span className="w-5 h-5 rounded-md bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1f2638] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-bold flex items-center justify-center text-[10px] shrink-0">
                     {idx + 1}
                   </span>
                   <input
@@ -337,7 +333,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                     value={it.description}
                     onChange={(e) => updateItem(it.id, 'description', e.target.value)}
                     placeholder="Descripción del servicio..."
-                    className="flex-1 bg-[#0b0e16] border border-[#1e2536] rounded-lg px-2.5 py-1.5 text-white text-xs focus:border-blue-500 focus:outline-none"
+                    className="flex-1 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2536] rounded-lg px-2.5 py-1.5 text-[var(--text-primary,#0f172a)] dark:text-white text-xs focus:border-blue-500 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -356,7 +352,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                       min="1"
                       value={it.quantity}
                       onChange={(e) => updateItem(it.id, 'quantity', Number(e.target.value))}
-                      className="w-full bg-[#0b0e16] border border-[#1e2536] rounded-lg p-1.5 text-white font-mono text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2536] rounded-lg p-1.5 text-[var(--text-primary,#0f172a)] dark:text-white font-mono text-xs focus:outline-none"
                     />
                   </div>
 
@@ -366,7 +362,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                       type="number"
                       value={it.unitPrice}
                       onChange={(e) => updateItem(it.id, 'unitPrice', Number(e.target.value))}
-                      className="w-full bg-[#0b0e16] border border-[#1e2536] rounded-lg p-1.5 text-white font-mono text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2536] rounded-lg p-1.5 text-[var(--text-primary,#0f172a)] dark:text-white font-mono text-xs focus:outline-none"
                     />
                   </div>
 
@@ -378,7 +374,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                       max="100"
                       value={it.discount}
                       onChange={(e) => updateItem(it.id, 'discount', Number(e.target.value))}
-                      className="w-full bg-[#0b0e16] border border-[#1e2536] rounded-lg p-1.5 text-white font-mono text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2536] rounded-lg p-1.5 text-[var(--text-primary,#0f172a)] dark:text-white font-mono text-xs focus:outline-none"
                     />
                   </div>
 
@@ -387,7 +383,7 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
                     <select
                       value={it.ivaRate}
                       onChange={(e) => updateItem(it.id, 'ivaRate', Number(e.target.value))}
-                      className="w-full bg-[#0b0e16] border border-[#1e2536] rounded-lg p-1.5 text-white text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e16] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2536] rounded-lg p-1.5 text-[var(--text-primary,#0f172a)] dark:text-white text-xs focus:outline-none"
                     >
                       <option value="21">21%</option>
                       <option value="10.5">10.5%</option>
@@ -409,17 +405,17 @@ export const QuickQuoteDrawerTab: React.FC<QuickQuoteDrawerTabProps> = ({
       </div>
 
       {/* Summary Box */}
-      <div className="p-4 rounded-xl bg-[#141824] border border-[#22293d] space-y-2">
-        <div className="flex items-center justify-between text-[11px] text-slate-400">
+      <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293d] space-y-2">
+        <div className="flex items-center justify-between text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
           <span>Subtotal Neto:</span>
-          <span className="font-mono text-white">{currency === 'ARS' ? '$' : 'US$'}{Math.round(netSubtotal).toLocaleString()}</span>
+          <span className="font-mono text-[var(--text-primary,#0f172a)] dark:text-white">{currency === 'ARS' ? '$' : 'US$'}{Math.round(netSubtotal).toLocaleString()}</span>
         </div>
-        <div className="flex items-center justify-between text-[11px] text-slate-400">
+        <div className="flex items-center justify-between text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
           <span>IVA Estimado:</span>
-          <span className="font-mono text-white">{currency === 'ARS' ? '$' : 'US$'}{Math.round(totalIva).toLocaleString()}</span>
+          <span className="font-mono text-[var(--text-primary,#0f172a)] dark:text-white">{currency === 'ARS' ? '$' : 'US$'}{Math.round(totalIva).toLocaleString()}</span>
         </div>
-        <div className="border-t border-[#22293d] pt-2 flex items-center justify-between font-bold text-sm">
-          <span className="text-white">Total Presupuesto:</span>
+        <div className="border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293d] pt-2 flex items-center justify-between font-bold text-sm">
+          <span className="text-[var(--text-primary,#0f172a)] dark:text-white">Total Presupuesto:</span>
           <span className="text-emerald-400 font-mono text-base">
             {currency === 'ARS' ? '$' : 'US$'}{grandTotal.toLocaleString()}
           </span>

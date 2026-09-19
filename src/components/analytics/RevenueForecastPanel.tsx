@@ -149,7 +149,7 @@ export const RevenueForecastPanel: React.FC = () => {
                 Próximos 3 Meses
               </span>
             </div>
-            <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+            <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Ventas estimadas ponderando el valor de cada oportunidad según su probabilidad de etapa.
             </p>
           </div>
@@ -160,33 +160,21 @@ export const RevenueForecastPanel: React.FC = () => {
           <button
             type="button"
             onClick={() => setSelectedScenario('all')}
-            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-              selectedScenario === 'all'
-                ? 'bg-teal-600 text-white shadow-2xs'
-                : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)]'
-            }`}
+            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${ selectedScenario === 'all' ? 'bg-teal-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)]' }`}
           >
             Todos los Escenarios
           </button>
           <button
             type="button"
             onClick={() => setSelectedScenario('weighted')}
-            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-              selectedScenario === 'weighted'
-                ? 'bg-blue-600 text-white shadow-2xs'
-                : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)]'
-            }`}
+            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${ selectedScenario === 'weighted' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)]' }`}
           >
             Ponderado (Esperado)
           </button>
           <button
             type="button"
             onClick={() => setSelectedScenario('committed')}
-            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-              selectedScenario === 'committed'
-                ? 'bg-emerald-600 text-white shadow-2xs'
-                : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)]'
-            }`}
+            className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${ selectedScenario === 'committed' ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)]' }`}
           >
             Comprometido
           </button>
@@ -204,7 +192,7 @@ export const RevenueForecastPanel: React.FC = () => {
           <div className="text-xl font-extrabold text-blue-700 dark:text-blue-300 font-mono">
             $ {forecastData.totalQuarterWeighted.toLocaleString('es-AR')}
           </div>
-          <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 mt-1">
+          <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             Monto esperado según % de avance de cada negocio
           </div>
         </div>
@@ -218,21 +206,21 @@ export const RevenueForecastPanel: React.FC = () => {
           <div className="text-xl font-extrabold text-emerald-700 dark:text-emerald-300 font-mono">
             $ {forecastData.totalQuarterCommitted.toLocaleString('es-AR')}
           </div>
-          <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 mt-1">
+          <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             Etapas avanzadas (Negociación y Ganado)
           </div>
         </div>
 
         {/* Mejor Caso */}
         <div className="p-3.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-muted)]/50 dark:bg-slate-900/40">
-          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-slate-400 font-semibold mb-1">
+          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold mb-1">
             <span>Pipeline Total (Best Case)</span>
             <Layers size={14} />
           </div>
           <div className="text-xl font-extrabold text-[var(--text-primary)] dark:text-white font-mono">
             $ {forecastData.totalQuarterBestCase.toLocaleString('es-AR')}
           </div>
-          <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 mt-1">
+          <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {forecastData.activeDealsCount} oportunidades abiertas evaluadas
           </div>
         </div>
@@ -345,7 +333,7 @@ export const RevenueForecastPanel: React.FC = () => {
       </div>
 
       {/* Detail breakdown footer */}
-      <div className="p-3 rounded-xl bg-[var(--bg-muted)]/60 border border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[var(--text-muted)] dark:text-slate-400">
+      <div className="p-3 rounded-xl bg-[var(--bg-muted)]/60 border border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
         <div className="flex items-center gap-2">
           <HelpCircle size={14} className="text-teal-500" />
           <span>

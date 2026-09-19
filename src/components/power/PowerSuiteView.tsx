@@ -93,7 +93,7 @@ const MERCADO_PAGO_STATUS_META: Record<MercadoPagoCheckoutStatus, {
   cancelled: {
     label: 'Cancelado',
     detail: 'El checkout fue cancelado.',
-    className: 'text-slate-300 bg-slate-500/10 border-slate-500/30',
+    className: 'text-[var(--text-secondary,#475569)] dark:text-slate-300 bg-slate-500/10 border-slate-500/30',
     icon: AlertCircle,
   },
 };
@@ -650,9 +650,9 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
     const Icon = feat.icon;
 
     return (
-      <div id={`power-module-workspace-${selectedModule}`} className="flex-1 flex flex-col h-full bg-[#0a0c10] overflow-hidden select-none relative">
+      <div id={`power-module-workspace-${selectedModule}`} className="flex-1 flex flex-col h-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] overflow-hidden select-none relative">
         {/* Top Workspace Navigation Bar */}
-        <div className="p-4 bg-[#11141e] border-b border-[#1e2434] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+        <div className="p-4 bg-[var(--bg-card,#ffffff)] dark:bg-[#11141e] border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2434] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => {
@@ -661,29 +661,29 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   setActiveTab('powerSuite');
                 }
               }}
-              className="px-3.5 py-1.5 bg-[#1e2330] hover:bg-[#283042] text-slate-200 hover:text-white rounded-lg border border-[#2c354a] text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="px-3.5 py-1.5 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#283042] text-[var(--text-primary,#0f172a)] dark:text-slate-200 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c354a] text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
             >
               <span>← Volver a Suite de Poder (16 Módulos)</span>
             </button>
-            <div className="h-5 w-[1px] bg-[#222a3d] hidden sm:block" />
+            <div className="h-5 w-[1px] bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#222a3d] hidden sm:block" />
             <div className="flex items-center gap-2.5">
               <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 border border-blue-500/20">
                 <Icon className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="font-bold text-sm sm:text-base text-white">{feat.title}</h2>
+                  <h2 className="font-bold text-sm sm:text-base text-[var(--text-primary,#0f172a)] dark:text-white">{feat.title}</h2>
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
                     Módulo Activo en Tiempo Real
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">{feat.description}</p>
+                <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">{feat.description}</p>
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-slate-400 hidden md:flex items-center gap-1.5 bg-[#171c2a] px-3 py-1.5 rounded-lg border border-[#232c40]">
+            <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hidden md:flex items-center gap-1.5 bg-[var(--bg-card,#ffffff)] dark:bg-[#171c2a] px-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40]">
               <Clock className="w-3.5 h-3.5 text-blue-400" />
               Sincronizado con ClientumCRM
             </span>
@@ -701,16 +701,16 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
         </div>
 
         {/* Scrollable Main Workspace Container */}
-        <div className="flex-1 overflow-y-auto p-6 text-slate-300 text-xs relative max-w-6xl mx-auto w-full space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs relative max-w-6xl mx-auto w-full space-y-6">
           
           {/* 1. CRM Inteligente sandbox */}
           {selectedModule === 'crm' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-bold text-base text-white">Centro Operativo del Pipeline CRM</h3>
-                    <p className="text-slate-400 leading-relaxed text-xs mt-1">
+                    <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Centro Operativo del Pipeline CRM</h3>
+                    <p className="text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed text-xs mt-1">
                       El motor principal de pipeline gestiona prospectos, estados de trato y sincronización automática con WhatsApp y automatizaciones.
                     </p>
                   </div>
@@ -726,20 +726,20 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  <div className="bg-[#1b2130] p-4 rounded-xl border border-[#2b354c]">
-                    <div className="text-xs text-slate-400 font-semibold">Oportunidades Activas</div>
-                    <div className="text-xl font-bold text-white mt-1">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c]">
+                    <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold">Oportunidades Activas</div>
+                    <div className="text-xl font-bold text-[var(--text-primary,#0f172a)] dark:text-white mt-1">
                       {opportunities.filter(o => o.stage !== 'won' && o.stage !== 'lost').length} deals
                     </div>
                   </div>
-                  <div className="bg-[#1b2130] p-4 rounded-xl border border-[#2b354c]">
-                    <div className="text-xs text-slate-400 font-semibold">Valor Total del Pipeline</div>
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c]">
+                    <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold">Valor Total del Pipeline</div>
                     <div className="text-xl font-bold text-emerald-400 mt-1">
                       ${opportunities.reduce((acc, o) => acc + o.amount, 0).toLocaleString()} USD
                     </div>
                   </div>
-                  <div className="bg-[#1b2130] p-4 rounded-xl border border-[#2b354c]">
-                    <div className="text-xs text-slate-400 font-semibold">Tasa de Conversión</div>
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c]">
+                    <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold">Tasa de Conversión</div>
                     <div className="text-xl font-bold text-blue-400 mt-1">
                       68.4%
                     </div>
@@ -748,14 +748,14 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
               </div>
 
               {/* Opportunities list preview */}
-              <div className="bg-[#12151f] p-5 rounded-2xl border border-[#1e2332] space-y-3">
-                <h4 className="font-bold text-sm text-white">Últimos Deals en Pipeline</h4>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151f] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2332] space-y-3">
+                <h4 className="font-bold text-sm text-[var(--text-primary,#0f172a)] dark:text-white">Últimos Deals en Pipeline</h4>
                 <div className="space-y-2">
                   {opportunities.slice(0, 5).map((opp) => (
-                    <div key={opp.id} className="bg-[#181d2a] p-3 rounded-xl border border-[#262f42] flex items-center justify-between text-xs">
+                    <div key={opp.id} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-3 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#262f42] flex items-center justify-between text-xs">
                       <div>
-                        <div className="font-semibold text-white">{opp.name}</div>
-                        <div className="text-[11px] text-slate-400">{opp.companyName || 'Empresa No Asignada'} • Asignado: {opp.assignedTo}</div>
+                        <div className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">{opp.name}</div>
+                        <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{opp.companyName || 'Empresa No Asignada'} • Asignado: {opp.assignedTo}</div>
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="font-mono text-emerald-400 font-bold">${opp.amount.toLocaleString()} {opp.currency}</span>
@@ -773,29 +773,29 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 2. Maps Prospección Sandbox */}
           {selectedModule === 'maps' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Prospección Territorial e Inteligencia Geográfica</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Prospección Territorial e Inteligencia Geográfica</h3>
+                <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed">
                   Localiza negocios por ciudad y rubro utilizando Gemini AI para identificar prospectos de alta intención comercial, teléfono y dirección física.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Zona / Ciudad</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Zona / Ciudad</label>
                     <input
                       type="text"
                       value={mapsCity}
                       onChange={(e) => setMapsCity(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] focus:outline-none focus:border-blue-500 text-xs"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] focus:outline-none focus:border-blue-500 text-xs"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Rubro / Tipo de Negocio</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Rubro / Tipo de Negocio</label>
                     <input
                       type="text"
                       value={mapsNiche}
                       onChange={(e) => setMapsNiche(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] focus:outline-none focus:border-blue-500 text-xs"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] focus:outline-none focus:border-blue-500 text-xs"
                     />
                   </div>
                 </div>
@@ -821,10 +821,10 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
 
               {mapsResults.length > 0 && (
                 <div className="space-y-3">
-                  <h4 className="font-bold text-sm text-white">Prospectos Encontrados ({mapsResults.length}):</h4>
+                  <h4 className="font-bold text-sm text-[var(--text-primary,#0f172a)] dark:text-white">Prospectos Encontrados ({mapsResults.length}):</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {mapsResults.map((place, idx) => (
-                      <div key={idx} className="bg-[#141824] border border-[#21283a] p-4 rounded-xl flex flex-col justify-between gap-3 hover:border-blue-500/30 transition-all">
+                      <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] p-4 rounded-xl flex flex-col justify-between gap-3 hover:border-blue-500/30 transition-all">
                         <div>
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] font-mono font-semibold px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20">
@@ -832,9 +832,9 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                             </span>
                             <span className="text-xs text-amber-400 font-bold">{place.rating || '4.5 ★'}</span>
                           </div>
-                          <div className="font-bold text-white text-sm mt-2">{place.name}</div>
-                          <div className="text-xs text-slate-400 mt-1">{place.address}</div>
-                          <div className="text-xs text-slate-300 mt-1 font-mono">{place.phone}</div>
+                          <div className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm mt-2">{place.name}</div>
+                          <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">{place.address}</div>
+                          <div className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 mt-1 font-mono">{place.phone}</div>
                         </div>
 
                         <button
@@ -854,77 +854,77 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 3. Lead Scoring MEDDIC Sandbox */}
           {selectedModule === 'meddic' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Calculadora y Diagnóstico MEDDIC B2B</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Calculadora y Diagnóstico MEDDIC B2B</h3>
+                <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed">
                   Evalúa cuantitativamente la solidez de cualquier trato comercial analizando las 6 variables esenciales de compra corporativa.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                   {/* M */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Metrics (Métricas Cuantitativas)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Metrics (Métricas Cuantitativas)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicM}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicM} onChange={(e) => setMeddicM(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                   {/* E */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Economic Buyer (Comprador Económico)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Economic Buyer (Comprador Económico)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicE}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicE} onChange={(e) => setMeddicE(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                   {/* Dc */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Decision Criteria (Criterios de Decisión)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Decision Criteria (Criterios de Decisión)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicDc}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicDc} onChange={(e) => setMeddicDc(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                   {/* Dp */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Decision Process (Proceso Técnico de Compra)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Decision Process (Proceso Técnico de Compra)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicDp}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicDp} onChange={(e) => setMeddicDp(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                   {/* I */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Identify Pain (Dolor Crítico Identificado)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Identify Pain (Dolor Crítico Identificado)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicI}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicI} onChange={(e) => setMeddicI(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                   {/* C */}
-                  <div className="bg-[#181d2a] p-4 rounded-xl border border-[#242d40]">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242d40]">
                     <div className="flex justify-between mb-2">
-                      <span className="font-bold text-slate-200">Champion (Sponsor o Embajador Interno)</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Champion (Sponsor o Embajador Interno)</span>
                       <span className="text-blue-400 font-bold text-sm">{meddicC}/5</span>
                     </div>
                     <input
                       type="range" min="1" max="5" value={meddicC} onChange={(e) => setMeddicC(Number(e.target.value))}
-                      className="w-full accent-blue-500 bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-blue-500 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] h-2 rounded-lg appearance-none cursor-pointer"
                     />
                   </div>
                 </div>
@@ -937,14 +937,14 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </button>
 
                 {meddicCalculated && (
-                  <div className="bg-[#141824] p-5 rounded-2xl border border-blue-500/30 space-y-3">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-blue-500/30 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-bold text-sm">Calificación Global de Cierre:</span>
+                      <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-sm">Calificación Global de Cierre:</span>
                       <span className="text-2xl font-bold text-emerald-400">
                         {Math.round(((meddicM + meddicE + meddicDc + meddicDp + meddicI + meddicC) / 30) * 100)}%
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed bg-[#1b2130] p-4 rounded-xl border border-[#2b354c]">
+                    <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 leading-relaxed bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c]">
                       <strong>Recomendación IA:</strong> {meddicC < 3 ? 'Alerta Crítica: El valor del Champion es bajo. Asegúrate de agendar una llamada con un sponsor interno que valide la propuesta antes de presentarla al Comprador Económico.' : 'Estructura de compra con alto nivel de cualificación. Se recomienda presentar propuesta comercial formal y solicitar compromiso de firma.'}
                     </p>
                   </div>
@@ -956,47 +956,47 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 4. Business Intelligence Sandbox */}
           {selectedModule === 'bi' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Simulador de Unit Economics y BI</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Simulador de Unit Economics y BI</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs text-slate-300 font-semibold mb-1.5">Costo Adquisición (CAC)</label>
+                    <label className="block text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold mb-1.5">Costo Adquisición (CAC)</label>
                     <input
                       type="number" value={biCac} onChange={(e) => setBiCac(Number(e.target.value))}
-                      className="w-full bg-[#161a26] text-white px-3 py-2 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-slate-300 font-semibold mb-1.5">Valor de Vida (LTV)</label>
+                    <label className="block text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold mb-1.5">Valor de Vida (LTV)</label>
                     <input
                       type="number" value={biLtv} onChange={(e) => setBiLtv(Number(e.target.value))}
-                      className="w-full bg-[#161a26] text-white px-3 py-2 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-slate-300 font-semibold mb-1.5">Conversión Web (%)</label>
+                    <label className="block text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold mb-1.5">Conversión Web (%)</label>
                     <input
                       type="number" step="0.1" value={biConversion} onChange={(e) => setBiConversion(Number(e.target.value))}
-                      className="w-full bg-[#161a26] text-white px-3 py-2 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                  <div className="bg-[#1b2130] p-4 rounded-xl border border-[#2a3449]">
-                    <div className="text-xs text-slate-400 font-semibold">Relación LTV : CAC</div>
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2a3449]">
+                    <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold">Relación LTV : CAC</div>
                     <div className={`text-2xl font-bold mt-1 ${(biLtv / biCac) >= 3 ? 'text-emerald-400' : 'text-amber-400'}`}>
                       {(biLtv / biCac).toFixed(1)}x
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">Óptimo recomendado: 3.0x en adelante</div>
+                    <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Óptimo recomendado: 3.0x en adelante</div>
                   </div>
 
-                  <div className="bg-[#1b2130] p-4 rounded-xl border border-[#2a3449]">
-                    <div className="text-xs text-slate-400 font-semibold">Retorno de Inversión (ROI)</div>
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2a3449]">
+                    <div className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold">Retorno de Inversión (ROI)</div>
                     <div className="text-2xl font-bold text-blue-400 mt-1">
                       {Math.round(((biLtv - biCac) / biCac) * 100)}%
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">Por cada dólar invertido en adquisición</div>
+                    <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Por cada dólar invertido en adquisición</div>
                   </div>
                 </div>
 
@@ -1016,26 +1016,26 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 5. Campañas & Automatización Sandbox */}
           {selectedModule === 'campaigns' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Configuración de Campaña Drip & Nurturing</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Configuración de Campaña Drip & Nurturing</h3>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Nombre de la Campaña</label>
+                  <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Nombre de la Campaña</label>
                   <input
                     type="text" value={dripName} onChange={(e) => setDripName(e.target.value)}
-                    className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-xs font-semibold text-slate-300">Secuencia de Pasos Automatizados:</div>
+                  <div className="text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Secuencia de Pasos Automatizados:</div>
                   {dripSteps.map((step, idx) => (
-                    <div key={idx} className="bg-[#181d2a] border border-[#222b3d] p-3.5 rounded-xl flex items-center gap-3">
+                    <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222b3d] p-3.5 rounded-xl flex items-center gap-3">
                       <div className="w-7 h-7 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-xs shrink-0">
                         {idx + 1}
                       </div>
                       <div className="flex-1 flex items-center justify-between text-xs">
-                        <span className="text-white font-semibold">{step.action}</span>
-                        <span className="text-slate-400 text-[11px] bg-[#1e2330] px-2.5 py-1 rounded-lg border border-[#2b3346] font-mono">
+                        <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-semibold">{step.action}</span>
+                        <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] px-2.5 py-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3346] font-mono">
                           Día {step.delay}
                         </span>
                       </div>
@@ -1059,8 +1059,8 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* Gmail Inbox Sandbox */}
           {selectedModule === 'gmail' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Gmail Inbox</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Gmail Inbox</h3>
                 <button
                   onClick={async () => {
                     if (!gmailAccessToken) {
@@ -1084,15 +1084,15 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 {gmailLoading && <p className="text-xs">Cargando...</p>}
                 <div className="space-y-2">
                   {gmailMessages.map((msg: any) => (
-                    <div key={msg.id} className="p-3 bg-[#181d2a] rounded-lg text-xs">ID: {msg.id}</div>
+                    <div key={msg.id} className="p-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] rounded-lg text-xs">ID: {msg.id}</div>
                   ))}
                 </div>
               </div>
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Enviar Email</h3>
-                <input type="email" placeholder="Para" value={emailTo} onChange={e => setEmailTo(e.target.value)} className="w-full bg-[#161a26] text-white p-2 rounded-lg text-xs" />
-                <input type="text" placeholder="Asunto" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} className="w-full bg-[#161a26] text-white p-2 rounded-lg text-xs" />
-                <textarea placeholder="Mensaje" value={emailBody} onChange={e => setEmailBody(e.target.value)} className="w-full bg-[#161a26] text-white p-2 rounded-lg text-xs h-24" />
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Enviar Email</h3>
+                <input type="email" placeholder="Para" value={emailTo} onChange={e => setEmailTo(e.target.value)} className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white p-2 rounded-lg text-xs" />
+                <input type="text" placeholder="Asunto" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white p-2 rounded-lg text-xs" />
+                <textarea placeholder="Mensaje" value={emailBody} onChange={e => setEmailBody(e.target.value)} className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white p-2 rounded-lg text-xs h-24" />
                 <button
                   onClick={async () => {
                     if (!gmailAccessToken) {
@@ -1122,13 +1122,13 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 6. Chatbot WhatsApp Sandbox */}
           {selectedModule === 'chatbot' && (
             <div className="space-y-6">
-              <div className="bg-[#10141e] border border-[#1e2330] rounded-2xl overflow-hidden flex flex-col h-[420px]">
+              <div className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10141e] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-2xl overflow-hidden flex flex-col h-[420px]">
                 {/* Phone Header */}
-                <div className="bg-[#0b141a] p-3.5 px-5 flex items-center justify-between border-b border-[#1b252c]">
+                <div className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b141a] p-3.5 px-5 flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b252c]">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
                     <div>
-                      <div className="text-xs font-bold text-slate-200">Bot Conversacional de WhatsApp 24/7</div>
+                      <div className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Bot Conversacional de WhatsApp 24/7</div>
                       <div className="text-[10px] text-emerald-400">Atención en línea sin intervención humana</div>
                     </div>
                   </div>
@@ -1141,14 +1141,10 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </div>
 
                 {/* Chat Log */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#0b0d11]">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0d11]">
                   {waMessages.map((m, idx) => (
                     <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`p-3 rounded-2xl max-w-[80%] whitespace-pre-wrap leading-relaxed text-xs ${
-                        m.sender === 'user'
-                          ? 'bg-emerald-600 text-white rounded-tr-none'
-                          : 'bg-[#1b212c] text-slate-200 rounded-tl-none border border-[#27303f]'
-                      }`}>
+                      <div className={`p-3 rounded-2xl max-w-[80%] whitespace-pre-wrap leading-relaxed text-xs ${ m.sender === 'user' ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white rounded-tr-none' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#1b212c] text-[var(--text-primary,#0f172a)] dark:text-slate-200 rounded-tl-none border border-[var(--border-subtle,#e2e8f0)] dark:border-[#27303f]' }`}>
                         {m.text}
                       </div>
                     </div>
@@ -1156,11 +1152,11 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </div>
 
                 {/* Phone Input */}
-                <form onSubmit={handleWaSubmit} className="p-3 bg-[#121620] border-t border-[#1e2330] flex gap-2">
+                <form onSubmit={handleWaSubmit} className="p-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#121620] border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] flex gap-2">
                   <input
                     type="text" value={waInput} onChange={(e) => setWaInput(e.target.value)}
                     placeholder="Escribe '1' para precios, '2' para demo o '3' para soporte..."
-                    className="flex-1 bg-[#1a202d] text-white px-4 py-2 rounded-xl border border-[#283247] text-xs focus:outline-none"
+                    className="flex-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#1a202d] text-[var(--text-primary,#0f172a)] dark:text-white px-4 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#283247] text-xs focus:outline-none"
                   />
                   <button type="submit" className="px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors cursor-pointer">
                     <Send className="w-4 h-4" />
@@ -1173,9 +1169,9 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 7. SDR Outreach Sandbox */}
           {selectedModule === 'outreach' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Agente Autónomo de Prospección SDR</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Agente Autónomo de Prospección SDR</h3>
+                <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed">
                   El agente inteligente escanea cuentas, identifica tomadores de decisión en LinkedIn y envía secuencias frías de alto impacto directo a tu CRM.
                 </p>
 
@@ -1198,7 +1194,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </button>
 
                 {sdrLogs.length > 0 && (
-                  <div className="bg-[#0b0c10] border border-[#1d2433] rounded-xl p-4 font-mono text-xs space-y-2 h-[220px] overflow-y-auto shadow-inner">
+                  <div className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0c10] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1d2433] rounded-xl p-4 font-mono text-xs space-y-2 h-[220px] overflow-y-auto shadow-inner">
                     {sdrLogs.map((log, idx) => (
                       <div key={idx} className="text-emerald-400">
                         <span className="text-[var(--text-muted)] mr-2">&gt;</span>
@@ -1214,18 +1210,16 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 8. Portal del Cliente Sandbox */}
           {selectedModule === 'portal' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#21283a] space-y-4">
-                <h3 className="font-bold text-base text-white">Soporte y Gestión de Tickets del Portal de Clientes</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Soporte y Gestión de Tickets del Portal de Clientes</h3>
                 <div className="space-y-2.5">
                   {portalTickets.map((t) => (
-                    <div key={t.id} className="bg-[#1b2130] p-3.5 rounded-xl border border-[#2a3449] flex items-center justify-between text-xs">
+                    <div key={t.id} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] p-3.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2a3449] flex items-center justify-between text-xs">
                       <div>
                         <span className="text-blue-400 font-mono font-bold mr-2">{t.id}</span>
-                        <span className="text-white font-semibold">{t.title}</span>
+                        <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-semibold">{t.title}</span>
                       </div>
-                      <span className={`text-[10px] px-2.5 py-1 rounded-full font-semibold ${
-                        t.status === 'Abierto' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
-                      }`}>
+                      <span className={`text-[10px] px-2.5 py-1 rounded-full font-semibold ${ t.status === 'Abierto' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-slate-500/10 text-[var(--text-muted,#64748b)] dark:text-slate-400 border border-slate-500/20' }`}>
                         {t.status}
                       </span>
                     </div>
@@ -1236,7 +1230,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   <input
                     type="text" value={newTicketTitle} onChange={(e) => setNewTicketTitle(e.target.value)}
                     placeholder="Registrar nuevo ticket de soporte desde el portal..."
-                    className="flex-1 bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                    className="flex-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                   />
                   <button type="submit" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs cursor-pointer shadow-md">
                     Crear Ticket
@@ -1249,13 +1243,13 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 9. Asistente IA Gemini 3.8 Sandbox */}
           {selectedModule === 'gemini' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#252c3f] space-y-4">
-                <h3 className="font-bold text-base text-white">Consulta Estratégica al Asistente IA CMO</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Consulta Estratégica al Asistente IA CMO</h3>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Pregunta o Escenario Comercial</label>
+                  <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Pregunta o Escenario Comercial</label>
                   <textarea
                     rows={3} value={geminiQuery} onChange={(e) => setGeminiQuery(e.target.value)}
-                    className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none resize-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none resize-none"
                   />
                 </div>
 
@@ -1278,7 +1272,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </button>
 
                 {geminiResponse && (
-                  <div className="bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-slate-200 leading-relaxed text-xs whitespace-pre-wrap">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-[var(--text-primary,#0f172a)] dark:text-slate-200 leading-relaxed text-xs whitespace-pre-wrap">
                     {geminiResponse}
                   </div>
                 )}
@@ -1289,21 +1283,21 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 10. Generador de Estrategias Sandbox */}
           {selectedModule === 'gtm' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Generador de Planes Go-To-Market</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Generador de Planes Go-To-Market</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Producto o Servicio</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Producto o Servicio</label>
                     <input
                       type="text" value={gtmProduct} onChange={(e) => setGtmProduct(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Público Objetivo / Nicho</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Público Objetivo / Nicho</label>
                     <input
                       type="text" value={gtmAudience} onChange={(e) => setGtmAudience(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                 </div>
@@ -1327,7 +1321,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </button>
 
                 {gtmStrategy && (
-                  <div className="bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-slate-200 leading-relaxed text-xs whitespace-pre-wrap">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-[var(--text-primary,#0f172a)] dark:text-slate-200 leading-relaxed text-xs whitespace-pre-wrap">
                     {gtmStrategy}
                   </div>
                 )}
@@ -1338,21 +1332,21 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 11. AI Ad Copy Studio Sandbox */}
           {selectedModule === 'adcopy' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Estudio de Redacción Publicitaria IA</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Estudio de Redacción Publicitaria IA</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Nombre del Producto</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Nombre del Producto</label>
                     <input
                       type="text" value={adProduct} onChange={(e) => setAdProduct(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Plataforma</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Plataforma</label>
                     <select
                       value={adPlatform} onChange={(e) => setAdPlatform(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     >
                       <option value="LinkedIn">LinkedIn</option>
                       <option value="Facebook Ads">Facebook Ads</option>
@@ -1383,14 +1377,14 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 {adCopies.length > 0 && (
                   <div className="space-y-3 pt-2">
                     {adCopies.map((copy, idx) => (
-                      <div key={idx} className="bg-[#121622] border border-[#21283a] p-4 rounded-xl text-slate-200 text-xs leading-relaxed flex items-start justify-between gap-3">
+                      <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] p-4 rounded-xl text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-xs leading-relaxed flex items-start justify-between gap-3">
                         <div className="flex-1 whitespace-pre-wrap">{copy}</div>
                         <button
                           onClick={() => {
                             navigator.clipboard.writeText(copy);
                             showToast('Copiado al portapapeles', 'success');
                           }}
-                          className="px-3 py-1.5 bg-[#1e2536] hover:bg-[#283248] text-slate-300 rounded-lg text-[11px] font-semibold shrink-0 cursor-pointer"
+                          className="px-3 py-1.5 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2536] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#283248] text-[var(--text-secondary,#475569)] dark:text-slate-300 rounded-lg text-[11px] font-semibold shrink-0 cursor-pointer"
                         >
                           Copiar
                         </button>
@@ -1405,13 +1399,13 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 12. SEO Suite Complete Sandbox */}
           {selectedModule === 'seo' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Auditoría y Suite SEO Completa</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Auditoría y Suite SEO Completa</h3>
                 <div className="flex gap-3">
                   <input
                     type="text" value={seoDomain} onChange={(e) => setSeoDomain(e.target.value)}
                     placeholder="mi-empresa.com"
-                    className="flex-1 bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                    className="flex-1 bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                   />
                   <button
                     onClick={runSEOSuite}
@@ -1424,18 +1418,18 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </div>
 
                 {seoResult && (
-                  <div className="bg-[#121622] p-5 rounded-2xl border border-[#21283a] space-y-4 text-xs">
-                    <div className="flex items-center justify-between border-b border-[#1e2434] pb-3">
-                      <span className="text-slate-200 font-bold text-sm">Puntaje de Salud SEO:</span>
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] space-y-4 text-xs">
+                    <div className="flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2434] pb-3">
+                      <span className="text-[var(--text-primary,#0f172a)] dark:text-slate-200 font-bold text-sm">Puntaje de Salud SEO:</span>
                       <span className="text-xl font-bold text-emerald-400">{seoResult.score} / 100</span>
                     </div>
 
                     <div className="space-y-2">
-                      <div className="font-bold text-slate-200">Palabras Clave Destacadas:</div>
+                      <div className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200">Palabras Clave Destacadas:</div>
                       {seoResult.keywords.map((kw: any, idx: number) => (
-                        <div key={idx} className="bg-[#181d2a] p-3 rounded-xl border border-[#252e42] flex justify-between text-xs">
-                          <span className="text-white font-semibold">{kw.word}</span>
-                          <span className="text-slate-400">Búsquedas: {kw.search} • Dificultad: {kw.difficulty}</span>
+                        <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2a] p-3 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252e42] flex justify-between text-xs">
+                          <span className="text-[var(--text-primary,#0f172a)] dark:text-white font-semibold">{kw.word}</span>
+                          <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400">Búsquedas: {kw.search} • Dificultad: {kw.difficulty}</span>
                         </div>
                       ))}
                     </div>
@@ -1448,13 +1442,13 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 13. Webhooks & Integrations Sandbox */}
           {selectedModule === 'integrations' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Consola de Webhooks e Integraciones</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Consola de Webhooks e Integraciones</h3>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Endpoint URL de Destino</label>
+                  <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Endpoint URL de Destino</label>
                   <input
                     type="text" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)}
-                    className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                   />
                 </div>
 
@@ -1472,9 +1466,9 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
 
                 {webhookLogs.length > 0 && (
                   <div className="space-y-2 pt-2">
-                    <div className="text-xs font-bold text-slate-300">Registro de Transmisiones:</div>
+                    <div className="text-xs font-bold text-[var(--text-secondary,#475569)] dark:text-slate-300">Registro de Transmisiones:</div>
                     {webhookLogs.map((log, idx) => (
-                      <div key={idx} className="bg-[#0b0c10] border border-[#21283a] p-3 rounded-xl text-xs font-mono text-blue-400">
+                      <div key={idx} className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0c10] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] p-3 rounded-xl text-xs font-mono text-blue-400">
                         {log}
                       </div>
                     ))}
@@ -1487,21 +1481,21 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 14. Facturación AFIP Sandbox */}
           {selectedModule === 'afip' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Emisión de Factura Electrónica AFIP</h3>
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Emisión de Factura Electrónica AFIP</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">CUIT del Cliente</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">CUIT del Cliente</label>
                     <input
                       type="text" value={afipCuit} onChange={(e) => setAfipCuit(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Tipo de Factura</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Tipo de Factura</label>
                     <select
                       value={afipType} onChange={(e) => setAfipType(e.target.value)}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     >
                       <option value="Factura A">Factura A (Responsable Inscripto)</option>
                       <option value="Factura B">Factura B (Consumidor Final)</option>
@@ -1513,7 +1507,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 <button
                   onClick={emitirFacturaAFIP}
                   disabled={afipLoading}
-                  className="w-full py-3 bg-[#252d42] hover:bg-[#2d364e] disabled:opacity-50 text-white font-bold rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                  className="w-full py-3 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#252d42] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#2d364e] disabled:opacity-50 text-[var(--text-primary,#0f172a)] dark:text-white font-bold rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-md"
                 >
                   {afipLoading ? (
                     <>
@@ -1529,23 +1523,23 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </button>
 
                 {afipInvoice && (
-                  <div className="bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-xs space-y-3 relative overflow-hidden">
-                    <div className="flex justify-between items-center border-b border-[#21283a] pb-2 font-bold text-white text-sm">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] p-5 rounded-2xl border border-blue-500/30 text-xs space-y-3 relative overflow-hidden">
+                    <div className="flex justify-between items-center border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] pb-2 font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">
                       <span>Comprobante Electrónico Oficial</span>
                       <span className="text-blue-400">{afipType}</span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 text-xs text-slate-200">
+                    <div className="grid grid-cols-2 gap-3 text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200">
                       <div><strong>Nro Comprobante:</strong> {afipInvoice.number}</div>
                       <div><strong>Fecha Emisión:</strong> {afipInvoice.date}</div>
                       <div><strong>Receptor CUIT:</strong> {afipCuit}</div>
                       <div><strong>Total:</strong> {afipInvoice.amount}</div>
                     </div>
 
-                    <div className="pt-3 border-t border-[#21283a] flex items-center justify-between">
+                    <div className="pt-3 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] flex items-center justify-between">
                       <div>
                         <div className="text-emerald-400 font-bold text-xs">CAE Autorizado: {afipInvoice.cae}</div>
-                        <div className="text-slate-400 text-[11px] mt-0.5">Vencimiento CAE: {afipInvoice.vto}</div>
+                        <div className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] mt-0.5">Vencimiento CAE: {afipInvoice.vto}</div>
                       </div>
                       <div className="p-1.5 bg-[var(--bg-card)] rounded-lg">
                         <QrCode className="w-9 h-9 text-black" />
@@ -1560,35 +1554,31 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 15. Cobros MercadoPago Sandbox */}
           {selectedModule === 'mercadopago' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-bold text-base text-white">Cobros Mercado Pago</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Cobros Mercado Pago</h3>
+                    <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
                       Genera checkouts reales y confirma su estado desde el webhook del proveedor.
                     </p>
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-full border ${
-                    mpProviderConfigured === false
-                      ? 'text-amber-300 bg-amber-500/10 border-amber-500/30'
-                      : 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30'
-                  }`}>
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded-full border ${ mpProviderConfigured === false ? 'text-amber-300 bg-amber-500/10 border-amber-500/30' : 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' }`}>
                     {mpProviderConfigured === false ? 'Proveedor sin configurar' : 'Mercado Pago'}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Monto ($ ARS / USD)</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Monto ($ ARS / USD)</label>
                     <input
                       type="number" value={mpAmount} onChange={(e) => setMpAmount(Number(e.target.value))}
-                      className="w-full bg-[#161a26] text-white px-3.5 py-2.5 rounded-xl border border-[#252c3f] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] text-[var(--text-primary,#0f172a)] dark:text-white px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Cuenta Asignada</label>
+                    <label className="block text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1.5">Cuenta Asignada</label>
                     <input
                       type="text" value="TechCorp Solutions" disabled
-                      className="w-full bg-[#12151d] text-slate-400 px-3.5 py-2.5 rounded-xl border border-[#1e2330] text-xs focus:outline-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-muted,#64748b)] dark:text-slate-400 px-3.5 py-2.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] text-xs focus:outline-none"
                     />
                   </div>
                 </div>
@@ -1602,11 +1592,11 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   <span>Generar Link de Cobro y Código QR</span>
                 </button>
 
-                <div className="bg-[#10131d] rounded-2xl border border-[#252c3f] p-4 space-y-3">
+                <div className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131d] rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] p-4 space-y-3">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <h4 className="text-sm font-bold text-white">Estado confirmado</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">
+                      <h4 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white">Estado confirmado</h4>
+                      <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
                         Se actualiza con la información persistida del webhook de Mercado Pago.
                       </p>
                     </div>
@@ -1614,7 +1604,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                       type="button"
                       onClick={() => void loadMercadoPagoStatus(mpCheckoutId || undefined)}
                       disabled={mpStatusLoading}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#2c3751] text-[11px] font-semibold text-slate-200 hover:bg-[#1c2233] disabled:opacity-50 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c3751] text-[11px] font-semibold text-[var(--text-primary,#0f172a)] dark:text-slate-200 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2233] disabled:opacity-50 cursor-pointer"
                     >
                       <RefreshCw className={`w-3.5 h-3.5 ${mpStatusLoading ? 'animate-spin' : ''}`} />
                       Actualizar
@@ -1646,7 +1636,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   })()}
 
                   {!mpStatus && !mpStatusLoading && mpCheckouts.length === 0 && (
-                    <div className="rounded-lg border border-dashed border-[#2c3751] px-3 py-3 text-[11px] text-slate-400">
+                    <div className="rounded-lg border border-dashed border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c3751] px-3 py-3 text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       Todavía no hay checkouts registrados para este workspace.
                     </div>
                   )}
@@ -1669,14 +1659,10 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                               setMpLink(checkout.checkoutUrl || '');
                               void loadMercadoPagoStatus(checkout.checkoutId);
                             }}
-                            className={`w-full flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors cursor-pointer ${
-                              checkout.checkoutId === mpCheckoutId
-                                ? 'border-blue-500/50 bg-blue-500/10'
-                                : 'border-[#252c3f] hover:bg-[#1c2233]'
-                            }`}
+                            className={`w-full flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors cursor-pointer ${ checkout.checkoutId === mpCheckoutId ? 'border-blue-500/50 bg-blue-500/10' : 'border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3f] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2233]' }`}
                           >
                             <span className="min-w-0">
-                              <span className="block text-xs font-semibold text-slate-200 truncate">{checkout.title}</span>
+                              <span className="block text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-slate-200 truncate">{checkout.title}</span>
                               <span className="block text-[10px] text-[var(--text-muted)]">
                                 {checkout.currency} {checkout.amount.toLocaleString()} · {new Date(checkout.createdAt).toLocaleString()}
                               </span>
@@ -1693,10 +1679,10 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                 </div>
 
                 {mpLink && (
-                  <div className="bg-[#121622] p-5 rounded-2xl border border-blue-500/30 space-y-4">
+                  <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#121622] p-5 rounded-2xl border border-blue-500/30 space-y-4">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-200 font-bold">Link de Pago Activo:</span>
-                      <span className="text-xs text-blue-400 select-all font-mono bg-[#1c2233] px-3 py-1 rounded-lg border border-[#2c3751]">
+                      <span className="text-[var(--text-primary,#0f172a)] dark:text-slate-200 font-bold">Link de Pago Activo:</span>
+                      <span className="text-xs text-blue-400 select-all font-mono bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2233] px-3 py-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c3751]">
                         {mpLink}
                       </span>
                     </div>
@@ -1721,24 +1707,24 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
           {/* 16. Desarrollo Web Widget Sandbox */}
           {selectedModule === 'webdev' && (
             <div className="space-y-6">
-              <div className="bg-[#141824] p-5 rounded-2xl border border-[#232a3d] space-y-4">
-                <h3 className="font-bold text-base text-white">Widget Web Embebido de Captura de Leads</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+              <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232a3d] space-y-4">
+                <h3 className="font-bold text-base text-[var(--text-primary,#0f172a)] dark:text-white">Widget Web Embebido de Captura de Leads</h3>
+                <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 leading-relaxed">
                   Copia el snippet de código e insértalo en tu sitio web. Los registros generarán prospectos y oportunidades automáticamente en ClientumCRM.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Live Widget Form Preview */}
-                  <div className="bg-[#10131d] p-5 rounded-2xl border border-[#21283a] space-y-3">
-                    <h4 className="font-bold text-white text-center text-xs">{formWidgetTitle}</h4>
+                  <div className="bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131d] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] space-y-3">
+                    <h4 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-center text-xs">{formWidgetTitle}</h4>
                     <form onSubmit={handleWebformDemo} className="space-y-3">
                       <input
                         type="text" placeholder="Tu Nombre Completo" value={webFormName} onChange={(e) => setWebFormName(e.target.value)}
-                        className="w-full bg-[#1c2231] text-white px-3 py-2 rounded-xl border border-[#2c3751] text-xs focus:outline-none"
+                        className="w-full bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2231] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c3751] text-xs focus:outline-none"
                       />
                       <input
                         type="email" placeholder="Tu Correo Electrónico" value={webFormEmail} onChange={(e) => setWebFormEmail(e.target.value)}
-                        className="w-full bg-[#1c2231] text-white px-3 py-2 rounded-xl border border-[#2c3751] text-xs focus:outline-none"
+                        className="w-full bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2231] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2c3751] text-xs focus:outline-none"
                       />
                       <button type="submit" className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs cursor-pointer shadow-md">
                         Enviar Consulta
@@ -1748,12 +1734,12 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
 
                   {/* Copiable Code Embed */}
                   <div className="space-y-2">
-                    <div className="text-xs font-bold text-slate-300">Código de Integración HTML:</div>
+                    <div className="text-xs font-bold text-[var(--text-secondary,#475569)] dark:text-slate-300">Código de Integración HTML:</div>
                     <textarea
                       readOnly
                       rows={6}
                       value={`<!-- ClientumCRM Form Integration -->\n<form action="https://hooks.clientum.com/v1/webform/new-lead" method="POST">\n  <input type="text" name="name" placeholder="Tu Nombre" required />\n  <input type="email" name="email" placeholder="Tu Email" required />\n  <button type="submit">Enviar</button>\n</form>`}
-                      className="w-full bg-[#0b0c10] text-xs font-mono text-blue-400 p-3.5 rounded-xl border border-[#21283a] focus:outline-none resize-none leading-relaxed"
+                      className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0c10] text-xs font-mono text-blue-400 p-3.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21283a] focus:outline-none resize-none leading-relaxed"
                     />
                   </div>
                 </div>
@@ -1767,7 +1753,7 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
   }
 
   return (
-    <div id="clientum-power-suite" className="flex-1 flex flex-col h-full bg-[#0a0c10] overflow-y-auto p-5 select-none relative">
+    <div id="clientum-power-suite" className="flex-1 flex flex-col h-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] overflow-y-auto p-5 select-none relative">
       {/* Dynamic Background Accents */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -1775,11 +1761,11 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
       {/* Header and Callout */}
       <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <h2 className="text-lg font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400 animate-pulse" />
             Suite de Poder / Power Apps CRM
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
             Automatizaciones, bots conversacionales, pasarelas de pago y asistentas de IA listos para potenciar tus ventas desde el primer día.
           </p>
         </div>
@@ -1804,30 +1790,22 @@ export const PowerSuiteView: React.FC<{ defaultModule?: string }> = ({ defaultMo
                   key={f.id}
                   id={`feature-card-${f.id}`}
                   onClick={() => setSelectedModule(f.id)}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all hover:scale-[1.02] flex items-start gap-3.5 relative ${
-                    isChatbotSpecial
-                      ? 'border-emerald-500 bg-emerald-500/5 shadow-lg shadow-emerald-500/5 border-l-[3.5px] border-l-emerald-400'
-                      : 'border-[#1e2330] bg-[#12151d] hover:border-[#2a3348] hover:bg-[#161a26]'
-                  }`}
+                  className={`p-4 rounded-xl border cursor-pointer transition-all hover:scale-[1.02] flex items-start gap-3.5 relative ${ isChatbotSpecial ? 'border-emerald-500 bg-emerald-500/5 shadow-lg shadow-emerald-500/5 border-l-[3.5px] border-l-emerald-400' : 'border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border-[var(--border-subtle,#e2e8f0)] dark:hover:border-[#2a3348] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161a26]' }`}
                 >
-                  <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${
-                    isChatbotSpecial 
-                      ? 'bg-emerald-500/20 text-emerald-400' 
-                      : 'bg-[#1b212f] text-blue-400'
-                  }`}>
+                  <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${ isChatbotSpecial ? 'bg-emerald-500/20 text-emerald-400' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#1b212f] text-blue-400' }`}>
                     <Icon className="w-4 h-4" />
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-[13px] font-semibold text-white truncate leading-tight">
+                      <h3 className="text-[13px] font-semibold text-[var(--text-primary,#0f172a)] dark:text-white truncate leading-tight">
                         {f.title}
                       </h3>
                       {isChatbotSpecial && (
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                       )}
                     </div>
-                    <p className="text-[11px] text-slate-400 mt-1 leading-snug">
+                    <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 leading-snug">
                       {f.description}
                     </p>
                   </div>

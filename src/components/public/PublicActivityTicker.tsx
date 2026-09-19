@@ -116,7 +116,7 @@ export const PublicActivityTicker: React.FC = () => {
         isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
       }`}
     >
-      <div className="bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 rounded-2xl p-3.5 shadow-2xl flex items-start gap-3 relative group">
+      <div className="bg-slate-900/95 backdrop-blur-md text-[#0f172a] dark:text-white border border-slate-700/80 rounded-2xl p-3.5 shadow-2xl flex items-start gap-3 relative group">
         
         {/* Type Icon Badge */}
         <div className="p-2 rounded-xl bg-slate-800 border border-slate-700 shrink-0 mt-0.5">
@@ -129,13 +129,13 @@ export const PublicActivityTicker: React.FC = () => {
             <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${getBadgeColor(current.type)}`}>
               {current.actionText}
             </span>
-            <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
+            <span className="text-[10px] text-[#64748b] dark:text-slate-400 flex items-center gap-1 font-mono">
               <Clock className="w-3 h-3" />
               {current.timeAgo}
             </span>
           </div>
 
-          <div className="text-xs font-bold text-slate-100 truncate">
+          <div className="text-xs font-bold text-[#1e293b] dark:text-slate-100 truncate">
             {current.title}
           </div>
 
@@ -143,7 +143,7 @@ export const PublicActivityTicker: React.FC = () => {
             {current.company}
           </div>
 
-          <div className="text-[10px] text-slate-400 flex items-center gap-1">
+          <div className="text-[10px] text-[#64748b] dark:text-slate-400 flex items-center gap-1">
             <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
             <span className="truncate">{current.location}</span>
           </div>
@@ -152,7 +152,7 @@ export const PublicActivityTicker: React.FC = () => {
         {/* Dismiss Button */}
         <button
           onClick={() => setIsDismissed(true)}
-          className="text-slate-500 hover:text-slate-300 p-1 rounded-md transition-colors cursor-pointer shrink-0"
+          className="text-slate-500 hover:text-[#475569] hover:dark:text-slate-300 p-1 rounded-md transition-colors cursor-pointer shrink-0"
           title="Ocultar notificaciones"
         >
           <X className="w-3.5 h-3.5" />

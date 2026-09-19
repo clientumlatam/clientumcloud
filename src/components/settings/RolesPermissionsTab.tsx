@@ -280,26 +280,12 @@ export const RolesPermissionsTab: React.FC = () => {
                   key={role.id}
                   id={`role-item-${role.id}`}
                   onClick={() => setSelectedRoleId(role.id)}
-                  className={`p-3 rounded-lg border transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-blue-500/10 border-blue-500/50 shadow-sm ring-1 ring-blue-500/30'
-                      : 'bg-[var(--bg-card)] border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] hover:border-[var(--border-strong)]'
-                  }`}
+                  className={`p-3 rounded-lg border transition-all cursor-pointer ${ isSelected ? 'bg-blue-500/10 border-blue-500/50 shadow-sm ring-1 ring-blue-500/30' : 'bg-[var(--bg-card)] border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] hover:border-[var(--border-strong)]' }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
                       <div
-                        className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-                          role.color === 'blue'
-                            ? 'bg-blue-400'
-                            : role.color === 'emerald'
-                            ? 'bg-emerald-400'
-                            : role.color === 'amber'
-                            ? 'bg-amber-400'
-                            : role.color === 'purple'
-                            ? 'bg-purple-400'
-                            : 'bg-rose-400'
-                        }`}
+                        className={`w-2.5 h-2.5 rounded-full shrink-0 ${ role.color === 'blue' ? 'bg-blue-400' : role.color === 'emerald' ? 'bg-emerald-400' : role.color === 'amber' ? 'bg-amber-400' : role.color === 'purple' ? 'bg-purple-400' : 'bg-rose-400' }`}
                       />
                       <span className="text-xs font-semibold text-[var(--text-primary)] truncate">{role.name}</span>
                     </div>
@@ -456,11 +442,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'view')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.view
-                              ? 'bg-blue-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.view ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Permitir ver ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -472,11 +454,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'create')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.create
-                              ? 'bg-emerald-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.create ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Permitir crear en ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -488,11 +466,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'edit')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.edit
-                              ? 'bg-amber-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.edit ? 'bg-amber-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Permitir editar ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -504,11 +478,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'delete')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.delete
-                              ? 'bg-rose-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.delete ? 'bg-rose-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Permitir eliminar ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -520,11 +490,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'export')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.export
-                              ? 'bg-purple-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.export ? 'bg-purple-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Permitir exportar ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -536,11 +502,7 @@ export const RolesPermissionsTab: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleTogglePermission(resourceKey, 'manage')}
-                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                            perms.manage
-                              ? 'bg-indigo-600 text-white shadow-2xs'
-                              : 'bg-[var(--bg-input)] border border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400'
-                          }`}
+                          className={`w-6 h-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer ${ perms.manage ? 'bg-indigo-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-input)] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b354c] dark:border-[var(--border-strong)] text-transparent hover:border-slate-400' }`}
                           title={`Acceso Administrador a ${resourceInfo.label}`}
                         >
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -704,21 +666,9 @@ export const RolesPermissionsTab: React.FC = () => {
                       key={color}
                       type="button"
                       onClick={() => setNewRoleColor(color)}
-                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                        newRoleColor === color ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'
-                      } ${
-                        color === 'blue'
-                          ? 'bg-blue-500'
-                          : color === 'emerald'
-                          ? 'bg-emerald-500'
-                          : color === 'amber'
-                          ? 'bg-amber-500'
-                          : color === 'purple'
-                          ? 'bg-purple-500'
-                          : 'bg-rose-500'
-                      }`}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${ newRoleColor === color ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100' } ${ color === 'blue' ? 'bg-blue-500' : color === 'emerald' ? 'bg-emerald-500' : color === 'amber' ? 'bg-amber-500' : color === 'purple' ? 'bg-purple-500' : 'bg-rose-500' }`}
                     >
-                      {newRoleColor === color && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
+                      {newRoleColor === color && <Check className="w-3.5 h-3.5 text-[var(--text-primary,#0f172a)] dark:text-white stroke-[3]" />}
                     </button>
                   ))}
                 </div>

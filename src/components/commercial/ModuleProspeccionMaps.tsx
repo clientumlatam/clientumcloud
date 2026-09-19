@@ -492,7 +492,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
               Rubro Comercial / Palabra Clave
             </label>
             <div className="relative">
-              <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <Building2 className="w-4 h-4 text-[var(--text-muted,#64748b)] dark:text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={keyword}
@@ -546,7 +546,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
             >
               {isSearching ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                  <RefreshCw className="w-4 h-4 animate-spin text-[var(--text-primary,#0f172a)] dark:text-white" />
                   <span>Buscando...</span>
                 </>
               ) : (
@@ -561,7 +561,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
 
         {/* Sugerencias Rápidas de Nichos */}
         <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-[var(--border-subtle)]">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400">
             Sugerencias:
           </span>
           {[
@@ -577,11 +577,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
               key={sug}
               type="button"
               onClick={() => setKeyword(sug)}
-              className={`px-2 py-1 rounded-lg text-[10px] font-medium transition-colors cursor-pointer ${
-                keyword === sug
-                  ? 'bg-blue-100 text-blue-700 font-bold border border-blue-300'
-                  : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]'
-              }`}
+              className={`px-2 py-1 rounded-lg text-[10px] font-medium transition-colors cursor-pointer ${ keyword === sug ? 'bg-blue-100 text-blue-700 font-bold border border-blue-300' : 'bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]' }`}
             >
               {sug}
             </button>
@@ -595,11 +591,11 @@ export const ModuleProspeccionMaps: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           <div className="bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-xs overflow-hidden flex flex-col">
             {/* Header del Mapa */}
-            <div className="p-3.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+            <div className="p-3.5 bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-white flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
                 <span className="font-bold text-xs">Radar Cartográfico Google Maps</span>
-                <span className="text-[10px] text-slate-400 font-mono">
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                   {city} ({radiusKm} km)
                 </span>
               </div>
@@ -608,7 +604,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setMapType(mapType === 'streets' ? 'satellite' : 'streets')}
-                  className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-slate-200 text-[10px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-[10px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Layers className="w-3 h-3" />
                   <span>{mapType === 'streets' ? 'Satélite' : 'Calles'}</span>
@@ -616,7 +612,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setZoomLevel((z) => Math.min(z + 1, 16))}
-                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
+                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-[var(--text-primary,#0f172a)] dark:text-white font-bold flex items-center justify-center text-xs cursor-pointer"
                   title="Zoom In"
                 >
                   +
@@ -624,7 +620,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setZoomLevel((z) => Math.max(z - 1, 8))}
-                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-white font-bold flex items-center justify-center text-xs cursor-pointer"
+                  className="w-6 h-6 rounded bg-[var(--bg-card)]/10 hover:bg-[var(--bg-card)]/20 text-[var(--text-primary,#0f172a)] dark:text-white font-bold flex items-center justify-center text-xs cursor-pointer"
                   title="Zoom Out"
                 >
                   -
@@ -647,7 +643,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                   </div>
                 </>
               ) : (
-                <div className="absolute inset-0 bg-[#08131d] opacity-90">
+                <div className="absolute inset-0 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#08131d] opacity-90">
                   <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]" />
                 </div>
               )}
@@ -675,13 +671,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setSelectedLead(lead)}
-                      className={`relative p-2 rounded-full transition-all cursor-pointer shadow-lg flex items-center justify-center ${
-                        isSelected
-                          ? 'bg-rose-600 text-white scale-125 ring-4 ring-rose-400/40'
-                          : lead.isImported
-                          ? 'bg-emerald-600 text-white hover:scale-110'
-                          : 'bg-blue-600 text-white hover:bg-blue-500 hover:scale-110'
-                      }`}
+                      className={`relative p-2 rounded-full transition-all cursor-pointer shadow-lg flex items-center justify-center ${ isSelected ? 'bg-rose-600 text-[var(--text-primary,#0f172a)] dark:text-white scale-125 ring-4 ring-rose-400/40' : lead.isImported ? 'bg-emerald-600 text-[var(--text-primary,#0f172a)] dark:text-white hover:scale-110' : 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white hover:bg-blue-500 hover:scale-110' }`}
                       title={`${lead.name} (${lead.rating}★)`}
                     >
                       {lead.isImported ? (
@@ -691,7 +681,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                       )}
 
                       {/* Tooltip con nombre flotante */}
-                      <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 hidden group-hover:flex items-center gap-1 bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded shadow-md whitespace-nowrap z-30 font-medium">
+                      <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 hidden group-hover:flex items-center gap-1 bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-white text-[10px] px-2 py-0.5 rounded shadow-md whitespace-nowrap z-30 font-medium">
                         <span>{lead.name}</span>
                         <span className="text-amber-300">★{lead.rating}</span>
                       </span>
@@ -701,7 +691,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
               })}
 
               {/* Leyenda Inferior del Mapa */}
-              <div className="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-[11px] text-slate-300 border border-slate-700 flex items-center gap-3">
+              <div className="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 flex items-center gap-3">
                 <span className="flex items-center gap-1">
                   <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block" />
                   Prospecto Detectado ({filteredLeads.length})
@@ -739,11 +729,11 @@ export const ModuleProspeccionMaps: React.FC = () => {
                   <h3 className="font-bold text-sm text-[var(--text-primary)]">{selectedLead.name}</h3>
                   <div className="flex items-center gap-3 text-[11px] text-[var(--text-secondary)] flex-wrap">
                     <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      <MapPin className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                       {selectedLead.address}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Phone className="w-3.5 h-3.5 text-slate-400" />
+                      <Phone className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                       {selectedLead.phone}
                     </span>
                     <a
@@ -763,11 +753,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                     type="button"
                     onClick={() => handleExportSingleToLeads(selectedLead)}
                     disabled={selectedLead.isImported}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                      selectedLead.isImported
-                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                        : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs'
-                    }`}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ selectedLead.isImported ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-emerald-600 hover:bg-emerald-500 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' }`}
                   >
                     {selectedLead.isImported ? (
                       <>
@@ -807,7 +793,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
 
               {/* Filtro por estrellas */}
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] text-slate-400">Filtrar:</span>
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Filtrar:</span>
                 <select
                   value={minRating}
                   onChange={(e) => setMinRating(Number(e.target.value))}
@@ -830,11 +816,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                   <div
                     key={lead.id}
                     onClick={() => setSelectedLead(lead)}
-                    className={`pt-2.5 first:pt-0 p-2 rounded-xl transition-all cursor-pointer flex items-start gap-3 ${
-                      isCurrentActive
-                        ? 'bg-blue-50/70 border border-blue-200'
-                        : 'hover:bg-[var(--bg-muted)] border border-transparent'
-                    }`}
+                    className={`pt-2.5 first:pt-0 p-2 rounded-xl transition-all cursor-pointer flex items-start gap-3 ${ isCurrentActive ? 'bg-blue-50/70 border border-blue-200' : 'hover:bg-[var(--bg-muted)] border border-transparent' }`}
                   >
                     <input
                       type="checkbox"
@@ -876,7 +858,7 @@ export const ModuleProspeccionMaps: React.FC = () => {
                               e.stopPropagation();
                               handleExportSingleToLeads(lead);
                             }}
-                            className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-slate-900 hover:bg-slate-800 text-white ml-auto flex items-center gap-1 transition-colors cursor-pointer"
+                            className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-slate-900 hover:bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white ml-auto flex items-center gap-1 transition-colors cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
                             <span>Exportar</span>

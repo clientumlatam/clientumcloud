@@ -160,7 +160,7 @@ export const WhatsAppSimulatorModal: React.FC<{ isOpen: boolean; onClose: () => 
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 absolute bottom-0 right-0 border-2 border-emerald-700" />
             </div>
             <div>
-              <h3 className="font-bold text-sm leading-tight flex items-center gap-1.5 text-white">
+              <h3 className="font-bold text-sm leading-tight flex items-center gap-1.5 text-[#0f172a] dark:text-white">
                 Clientum Bot IA
                 <span className="px-1.5 py-0.5 rounded text-[9px] bg-emerald-800 text-emerald-100 font-semibold">
                   Verificado ✓
@@ -173,7 +173,7 @@ export const WhatsAppSimulatorModal: React.FC<{ isOpen: boolean; onClose: () => 
           </div>
 
           <div className="flex items-center gap-3 text-emerald-100">
-            <button onClick={onClose} className="p-1 hover:text-white cursor-pointer transition-colors">
+            <button onClick={onClose} className="p-1 hover:text-[#0f172a] hover:dark:text-white cursor-pointer transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -208,7 +208,7 @@ export const WhatsAppSimulatorModal: React.FC<{ isOpen: boolean; onClose: () => 
         </div>
 
         {/* Chat Messages Body with WhatsApp light pattern */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#f0f2f5] relative">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#eef1f6] dark:bg-[#f0f2f5] relative">
           <div className="text-center my-2">
             <span className="px-3 py-1 rounded-full bg-white text-slate-500 text-[10px] shadow-xs border border-slate-200">
               🔒 Los mensajes están cifrados de extremo a extremo
@@ -223,12 +223,12 @@ export const WhatsAppSimulatorModal: React.FC<{ isOpen: boolean; onClose: () => 
               <div
                 className={`max-w-[82%] p-3 rounded-2xl text-slate-900 relative leading-relaxed shadow-xs ${
                   m.sender === 'user'
-                    ? 'bg-[#d9fdd3] rounded-tr-none border border-emerald-200'
+                    ? 'bg-[#eef1f6] dark:bg-[#d9fdd3] rounded-tr-none border border-emerald-200'
                     : 'bg-white rounded-tl-none border border-slate-200'
                 }`}
               >
                 <p className="text-xs whitespace-pre-line text-slate-800">{m.text}</p>
-                <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-slate-400">
+                <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-[#64748b] dark:text-slate-400">
                   <span>{m.time}</span>
                   {m.sender === 'user' && <CheckCheck className="w-3.5 h-3.5 text-blue-500" />}
                 </div>
@@ -237,7 +237,7 @@ export const WhatsAppSimulatorModal: React.FC<{ isOpen: boolean; onClose: () => 
           ))}
 
           {isTyping && (
-            <div className="flex items-center gap-1.5 p-2 rounded-xl bg-white border border-slate-200 text-slate-400 w-24 shadow-xs">
+            <div className="flex items-center gap-1.5 p-2 rounded-xl bg-white border border-slate-200 text-[#64748b] dark:text-slate-400 w-24 shadow-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-bounce" />
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-bounce [animation-delay:0.2s]" />
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-bounce [animation-delay:0.4s]" />

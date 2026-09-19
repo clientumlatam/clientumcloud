@@ -89,7 +89,7 @@ const AppContent: React.FC = () => {
   const privateEnvironment = (
     <Suspense
       fallback={
-        <div className="flex h-screen w-screen items-center justify-center bg-[#0a0c10] text-sm text-slate-400">
+        <div className="flex h-screen w-screen items-center justify-center bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-sm text-[var(--text-muted,#64748b)] dark:text-slate-400">
           Cargando Clientum CRM…
         </div>
       }
@@ -100,7 +100,7 @@ const AppContent: React.FC = () => {
 
   if (!isAuthReady && isPrivateRoute) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-[#07090e] text-sm text-slate-300">
+      <div className="flex h-screen w-screen items-center justify-center bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#07090e] text-sm text-[var(--text-secondary,#475569)] dark:text-slate-300">
         Verificando tu sesión segura con Firebase…
       </div>
     );

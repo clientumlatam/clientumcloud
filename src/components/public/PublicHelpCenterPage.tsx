@@ -102,7 +102,7 @@ export const PublicHelpCenterPage: React.FC<PublicHelpCenterPageProps> = ({
 
         {/* Search Input */}
         <div className="pt-2 max-w-lg mx-auto relative">
-          <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="w-5 h-5 text-[#64748b] dark:text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Buscar por servicio, AFIP, WhatsApp, facturación..."
@@ -219,7 +219,7 @@ export const PublicHelpCenterPage: React.FC<PublicHelpCenterPageProps> = ({
               </div>
               <button
                 onClick={() => setIsTicketModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                className="text-[#64748b] dark:text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
               >
                 ✕
               </button>

@@ -256,11 +256,11 @@ export const PublicCrmLanding: React.FC<PublicCrmLandingProps> = ({ onNavigate }
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
+      <section className="bg-slate-900 text-[#0f172a] dark:text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
           Moderniza el Equipo Comercial de tu Empresa
         </h2>
-        <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
           Comienza con nuestra demo guiada o conversa con uno de nuestros directores para diseñar la arquitectura adecuada para tu negocio.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
@@ -273,7 +273,7 @@ export const PublicCrmLanding: React.FC<PublicCrmLandingProps> = ({ onNavigate }
           </button>
           <button
             onClick={() => onNavigate('/contacto')}
-            className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all cursor-pointer"
+            className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#0f172a] dark:text-white font-bold text-xs transition-all cursor-pointer"
           >
             Agendar Sesión con un Especialista
           </button>

@@ -70,38 +70,38 @@ export const TemplateView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#0a0c10] text-slate-300 text-xs">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <h3 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
             <FileText className="w-5 h-5 text-emerald-400" />
             Plantillas Oficiales de WhatsApp (Meta Business API)
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">Diseña y gestiona plantillas con variables dinámicas para notificaciones masivas y automatizaciones.</p>
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">Diseña y gestiona plantillas con variables dinámicas para notificaciones masivas y automatizaciones.</p>
         </div>
       </div>
 
       {/* Create Template Form */}
-      <div className="bg-[#131722] p-5 rounded-2xl border border-[#212a3d] space-y-4 max-w-2xl">
-        <h4 className="font-semibold text-white text-sm">Crear Nueva Plantilla</h4>
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] space-y-4 max-w-2xl">
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">Crear Nueva Plantilla</h4>
         <form onSubmit={createTemplate} className="space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">Nombre de Plantilla (slug)</label>
+              <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre de Plantilla (slug)</label>
               <input
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="ej. promocion_verano_2026"
-                className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-emerald-500 font-mono"
+                className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-emerald-500 font-mono"
               />
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">Categoría</label>
+              <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Categoría</label>
               <select
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value as any)}
-                className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-emerald-500"
               >
                 <option value="Marketing">Marketing (Promociones)</option>
                 <option value="Utility">Utilidad (Avisos, Facturas)</option>
@@ -110,13 +110,13 @@ export const TemplateView: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-[11px] font-semibold text-slate-300 mb-1">Contenido del Mensaje (Usa {`{{1}}`}, {`{{2}}`} para variables)</label>
+            <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Contenido del Mensaje (Usa {`{{1}}`}, {`{{2}}`} para variables)</label>
             <textarea
               rows={3}
               value={newContent}
               onChange={(e) => setNewContent(e.target.value)}
               placeholder="Hola {{1}}, tenemos una oferta exclusiva para tu empresa..."
-              className="w-full bg-[#181d2c] text-white p-3 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-emerald-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white p-3 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-emerald-500"
             />
           </div>
           <button
@@ -131,13 +131,13 @@ export const TemplateView: React.FC = () => {
 
       {/* Templates List */}
       <div className="space-y-3">
-        <h4 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400">Plantillas Registradas ({templates.length})</h4>
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400">Plantillas Registradas ({templates.length})</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {templates.map(tpl => (
-            <div key={tpl.id} className="bg-[#131722] border border-[#212a3d] p-4 rounded-xl space-y-3 flex flex-col justify-between">
+            <div key={tpl.id} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] p-4 rounded-xl space-y-3 flex flex-col justify-between">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono font-bold text-white text-xs bg-[#1a2133] px-2.5 py-1 rounded border border-[#28324a]">
+                  <span className="font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-xs bg-[var(--bg-card,#ffffff)] dark:bg-[#1a2133] px-2.5 py-1 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#28324a]">
                     {tpl.name}
                   </span>
                   <div className="flex items-center gap-2">
@@ -150,15 +150,15 @@ export const TemplateView: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-300 bg-[#171d2b] p-3 rounded-lg border border-[#232d42] leading-relaxed">
+                <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 bg-[var(--bg-card,#ffffff)] dark:bg-[#171d2b] p-3 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232d42] leading-relaxed">
                   {tpl.content}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-[#1e2638] text-[11px] text-slate-400">
+              <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2638] text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 <div className="flex items-center gap-1">
                   <span>Variables:</span>
-                  <strong className="text-white">{tpl.variables.join(', ')}</strong>
+                  <strong className="text-[var(--text-primary,#0f172a)] dark:text-white">{tpl.variables.join(', ')}</strong>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -166,7 +166,7 @@ export const TemplateView: React.FC = () => {
                       navigator.clipboard.writeText(tpl.content);
                       showToast('Plantilla copiada al portapapeles', 'success');
                     }}
-                    className="p-1.5 bg-[#1c2333] hover:bg-[#252f44] text-slate-300 rounded transition-colors cursor-pointer"
+                    className="p-1.5 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2333] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#252f44] text-[var(--text-secondary,#475569)] dark:text-slate-300 rounded transition-colors cursor-pointer"
                     title="Copiar contenido"
                   >
                     <Copy className="w-3.5 h-3.5" />

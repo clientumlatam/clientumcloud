@@ -255,7 +255,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
     >
       {/* LEFT COLUMN: Template Navigator & Library (4 cols) */}
       <div className="lg:col-span-4 space-y-4">
-        <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs space-y-3">
+        <div className="p-4 rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-xs space-y-3">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-extrabold text-[var(--text-primary)] dark:text-white flex items-center gap-2">
               <Mail className="w-4 h-4 text-blue-600" />
@@ -278,7 +278,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
             placeholder="Buscar plantilla..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800/80 border border-[var(--border-subtle)] dark:border-slate-700 text-xs text-[var(--text-primary)] dark:text-slate-200 focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800/80 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-xs text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 focus:outline-none focus:border-blue-500"
           />
 
           {/* Category Filter Badges */}
@@ -288,11 +288,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 key={cat}
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
-                className={`px-2 py-0.5 rounded-full font-semibold transition-colors cursor-pointer ${
-                  categoryFilter === cat
-                    ? 'bg-blue-600 text-white shadow-2xs'
-                    : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-slate-400 hover:bg-[var(--bg-muted)]'
-                }`}
+                className={`px-2 py-0.5 rounded-full font-semibold transition-colors cursor-pointer ${ categoryFilter === cat ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:bg-[var(--bg-muted)]' }`}
               >
                 {cat === 'all'
                   ? 'Todas'
@@ -315,48 +311,36 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               <div
                 key={t.id}
                 onClick={() => setSelectedId(t.id)}
-                className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                  selectedId === t.id
-                    ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-400 dark:border-blue-600 shadow-xs'
-                    : 'bg-[var(--bg-card)] dark:bg-slate-800/50 border-[var(--border-subtle)] dark:border-slate-700 hover:border-[var(--border-default)]'
-                }`}
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${ selectedId === t.id ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-400 dark:border-blue-600 shadow-xs' : 'bg-[var(--bg-card)] dark:bg-slate-800/50 border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 hover:border-[var(--border-default)]' }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <span className="font-bold text-xs text-[var(--text-primary)] dark:text-white line-clamp-1">
                     {t.name}
                   </span>
                   <span
-                    className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase tracking-wider shrink-0 ${
-                      t.category === 'quote'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300'
-                        : t.category === 'invoice'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300'
-                        : t.category === 'demo'
-                        ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-300'
-                        : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-700 dark:text-slate-300'
-                    }`}
+                    className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase tracking-wider shrink-0 ${ t.category === 'quote' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300' : t.category === 'invoice' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300' : t.category === 'demo' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-300' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-700 dark:text-[var(--text-secondary,#475569)] dark:text-slate-300' }`}
                   >
                     {t.category}
                   </span>
                 </div>
-                <p className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 line-clamp-2 mt-1">
+                <p className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 line-clamp-2 mt-1">
                   {t.subject}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-between text-xs">
+          <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-between text-xs">
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="text-slate-400 hover:text-slate-200 text-[11px] flex items-center gap-1 cursor-pointer"
+              className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 text-[11px] flex items-center gap-1 cursor-pointer"
               title="Restaurar plantillas de fábrica"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Restaurar originales</span>
             </button>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
               {templates.length} plantillas guardadas
             </span>
           </div>
@@ -365,28 +349,28 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
 
       {/* RIGHT COLUMN: WYSIWYG Editor Canvas & Toolbar (8 cols) */}
       <div className="lg:col-span-8 space-y-4">
-        <div className="p-5 rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs space-y-4">
+        <div className="p-5 rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-xs space-y-4">
           {/* Metadata Inputs (Name, Category, Subject) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="sm:col-span-2">
-              <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider mb-1">
                 Nombre de la Plantilla
               </label>
               <input
                 type="text"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-xs font-bold text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-xs font-bold text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider mb-1">
                 Categoría
               </label>
               <select
                 value={formCategory}
                 onChange={(e) => setFormCategory(e.target.value as any)}
-                className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-xs font-semibold text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-xs font-semibold text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
               >
                 <option value="quote">Cotización</option>
                 <option value="invoice">Factura AFIP</option>
@@ -399,7 +383,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider mb-1">
               Asunto del Correo (Soporta variables)
             </label>
             <input
@@ -407,14 +391,14 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               value={formSubject}
               onChange={(e) => setFormSubject(e.target.value)}
               placeholder="Ej: Propuesta Comercial #{{numero_cotizacion}} — Clientum CRM"
-              className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-xs text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-1.5 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-xs text-[var(--text-primary)] dark:text-white focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Dynamic Variable Tokens Inserter */}
-          <div className="p-3 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800/60 border border-[var(--border-subtle)] dark:border-slate-700/80 space-y-2">
+          <div className="p-3 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800/60 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-[var(--text-secondary)] dark:text-slate-300 flex items-center gap-1.5 text-[11px]">
+              <span className="font-bold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 flex items-center gap-1.5 text-[11px]">
                 <Tag className="w-3.5 h-3.5 text-blue-500" />
                 Variables Dinámicas (Hacé clic para insertar en el cursor):
               </span>
@@ -436,7 +420,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                   key={item.token}
                   type="button"
                   onClick={() => insertToken(item.token)}
-                  className="px-2 py-0.8 rounded-lg bg-[var(--bg-card)] dark:bg-slate-700 border border-[var(--border-subtle)] dark:border-slate-600 text-[10px] font-mono text-blue-600 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-slate-600 transition-colors cursor-pointer shadow-2xs"
+                  className="px-2 py-0.8 rounded-lg bg-[var(--bg-card)] dark:bg-slate-700 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600 text-[10px] font-mono text-blue-600 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-slate-600 transition-colors cursor-pointer shadow-2xs"
                   title={item.desc}
                 >
                   {item.token}
@@ -446,17 +430,13 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
           </div>
 
           {/* WYSIWYG Toolbar & Mode Switcher */}
-          <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
             {/* View Mode Switcher */}
-            <div className="inline-flex rounded-lg bg-[var(--bg-card)] dark:bg-slate-900 p-0.5 border border-[var(--border-subtle)] dark:border-slate-700 text-xs">
+            <div className="inline-flex rounded-lg bg-[var(--bg-card)] dark:bg-slate-900 p-0.5 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-xs">
               <button
                 type="button"
                 onClick={() => setViewMode('wysiwyg')}
-                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  viewMode === 'wysiwyg'
-                    ? 'bg-blue-600 text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
-                }`}
+                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ viewMode === 'wysiwyg' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white' }`}
               >
                 <Edit3 className="w-3.5 h-3.5" />
                 <span>Editor Visual</span>
@@ -464,11 +444,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               <button
                 type="button"
                 onClick={() => setViewMode('preview')}
-                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  viewMode === 'preview'
-                    ? 'bg-blue-600 text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
-                }`}
+                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ viewMode === 'preview' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white' }`}
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>Vista Previa</span>
@@ -476,11 +452,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               <button
                 type="button"
                 onClick={() => setViewMode('html')}
-                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  viewMode === 'html'
-                    ? 'bg-blue-600 text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white'
-                }`}
+                className={`px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ viewMode === 'html' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white' }`}
               >
                 <Code className="w-3.5 h-3.5" />
                 <span>Código HTML</span>
@@ -493,7 +465,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('bold')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Negrita"
                 >
                   <Bold className="w-3.5 h-3.5" />
@@ -501,7 +473,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('italic')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Cursiva"
                 >
                   <Italic className="w-3.5 h-3.5" />
@@ -509,7 +481,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('underline')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Subrayado"
                 >
                   <Underline className="w-3.5 h-3.5" />
@@ -518,7 +490,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('justifyLeft')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Alinear Izquierda"
                 >
                   <AlignLeft className="w-3.5 h-3.5" />
@@ -526,7 +498,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('justifyCenter')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Centrar"
                 >
                   <AlignCenter className="w-3.5 h-3.5" />
@@ -534,7 +506,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('justifyRight')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Alinear Derecha"
                 >
                   <AlignRight className="w-3.5 h-3.5" />
@@ -543,7 +515,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('insertUnorderedList')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Lista con viñetas"
                 >
                   <List className="w-3.5 h-3.5" />
@@ -551,7 +523,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => execCmd('insertOrderedList')}
-                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer"
                   title="Lista numerada"
                 >
                   <ListOrdered className="w-3.5 h-3.5" />
@@ -571,7 +543,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
           </div>
 
           {/* MAIN EDITOR CANVAS */}
-          <div className="rounded-xl border border-[var(--border-subtle)] dark:border-slate-700 bg-[var(--bg-card)] min-h-[380px] overflow-hidden">
+          <div className="rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-[var(--bg-card)] min-h-[380px] overflow-hidden">
             {viewMode === 'wysiwyg' && (
               <div
                 ref={editorRef}
@@ -604,28 +576,28 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               <textarea
                 value={formHtml}
                 onChange={(e) => setFormHtml(e.target.value)}
-                className="w-full p-4 font-mono text-xs text-[var(--text-primary)] bg-slate-900 text-slate-100 min-h-[380px] focus:outline-none resize-y"
+                className="w-full p-4 font-mono text-xs text-[var(--text-primary)] bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-slate-100 min-h-[380px] focus:outline-none resize-y"
                 spellCheck={false}
               />
             )}
           </div>
 
           {/* Bottom Action Footer */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={handleSave}
                 className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
               >
-                {savedSuccess ? <Check className="w-4 h-4 text-white" /> : <Save className="w-4 h-4" />}
+                {savedSuccess ? <Check className="w-4 h-4 text-[var(--text-primary,#0f172a)] dark:text-white" /> : <Save className="w-4 h-4" />}
                 <span>{savedSuccess ? '¡Guardado con éxito!' : 'Guardar Plantilla'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleDuplicate}
-                className="px-3 py-2 rounded-xl bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-xl bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5" />
                 <span>Duplicar</span>
@@ -634,7 +606,7 @@ export const MailTemplateEditor: React.FC<MailTemplateEditorProps> = ({
               <button
                 type="button"
                 onClick={handleCopyHtml}
-                className="px-3 py-2 rounded-xl bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-xl bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedHtml ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Code className="w-3.5 h-3.5" />}
                 <span>{copiedHtml ? 'Copiado' : 'Copiar HTML'}</span>

@@ -235,7 +235,7 @@ export const PublicPartnersPage: React.FC<PublicPartnersPageProps> = ({ onNaviga
                 setSelectedTrack('implementador');
                 setIsApplyModalOpen(true);
               }}
-              className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
+              className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
             >
               <span>Postularme como Partner Certificado</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -306,7 +306,7 @@ export const PublicPartnersPage: React.FC<PublicPartnersPageProps> = ({ onNaviga
               <button
                 type="button"
                 onClick={() => setIsApplyModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
+                className="text-[#64748b] dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
               >
                 ✕
               </button>

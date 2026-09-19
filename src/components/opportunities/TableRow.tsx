@@ -30,36 +30,34 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
     <tr
       id={`table-row-${opp.id}`}
       onClick={() => onSelectRecord(opp.id)}
-      className={`hover:bg-[#141822] cursor-pointer transition-colors group ${
-        isSelected ? 'bg-blue-950/20' : ''
-      }`}
+      className={`hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#141822] cursor-pointer transition-colors group ${ isSelected ? 'bg-blue-950/20' : '' }`}
     >
       {/* Checkbox */}
       <td className="px-3 py-2.5">
         <button
           onClick={(e) => onToggleSelect(opp.id, e)}
-          className="text-slate-400 hover:text-slate-200 p-0.5"
+          className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 p-0.5"
         >
           {isSelected ? (
             <CheckSquare className="w-4 h-4 text-blue-400" />
           ) : (
-            <Square className="w-4 h-4 text-slate-400 group-hover:text-slate-400" />
+            <Square className="w-4 h-4 text-[var(--text-muted,#64748b)] dark:text-slate-400 group-hover:text-[var(--text-muted,#64748b)] dark:group-hover:text-slate-400" />
           )}
         </button>
       </td>
 
       {/* Deal Name */}
-      <td className="px-3 py-2.5 font-medium text-slate-100 group-hover:text-blue-400 transition-colors">
-        <div className="font-semibold text-xs text-white truncate max-w-xs">{opp.name}</div>
+      <td className="px-3 py-2.5 font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-100 group-hover:text-blue-400 transition-colors">
+        <div className="font-semibold text-xs text-[var(--text-primary,#0f172a)] dark:text-white truncate max-w-xs">{opp.name}</div>
         {opp.tags.length > 0 && (
-          <div className="text-[10px] text-slate-400 truncate mt-0.5">
+          <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 truncate mt-0.5">
             {opp.tags.join(', ')}
           </div>
         )}
       </td>
 
       {/* Amount */}
-      <td className="px-3 py-2.5 font-mono font-bold text-slate-100 whitespace-nowrap">
+      <td className="px-3 py-2.5 font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-100 whitespace-nowrap">
         ${opp.amount.toLocaleString()}
       </td>
 
@@ -68,7 +66,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
         <select
           value={opp.stage}
           onChange={(e) => onMoveStage(opp.id, e.target.value as StageId)}
-          className="bg-[#1a1f2b] text-slate-200 text-xs px-2 py-1 rounded-md border border-[#2b3345] hover:border-blue-500/50 cursor-pointer focus:outline-none"
+          className="bg-[var(--bg-card,#ffffff)] dark:bg-[#1a1f2b] text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-xs px-2 py-1 rounded-md border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] hover:border-blue-500/50 cursor-pointer focus:outline-none"
           style={{ borderLeftColor: stageConf?.color, borderLeftWidth: '3px' }}
         >
           {STAGES.map((s) => (
@@ -80,14 +78,14 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
       </td>
 
       {/* Company */}
-      <td className="px-3 py-2.5 text-slate-300 hidden sm:table-cell truncate max-w-[140px]">
+      <td className="px-3 py-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300 hidden sm:table-cell truncate max-w-[140px]">
         {opp.companyName ? (
           <span className="flex items-center gap-1.5">
-            <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
+            <Building2 className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
             <span className="truncate">{opp.companyName}</span>
           </span>
         ) : (
-          <span className="text-slate-400">—</span>
+          <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400">—</span>
         )}
       </td>
 
@@ -99,13 +97,13 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
       </td>
 
       {/* Close Date */}
-      <td className="px-3 py-2.5 font-mono text-[11px] text-slate-400 hidden lg:table-cell whitespace-nowrap">
+      <td className="px-3 py-2.5 font-mono text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hidden lg:table-cell whitespace-nowrap">
         {opp.closeDate}
       </td>
 
       {/* Owner */}
-      <td className="px-3 py-2.5 text-slate-300 hidden xl:table-cell whitespace-nowrap">
-        <span className="text-[11px] text-slate-400">{opp.assignedTo}</span>
+      <td className="px-3 py-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300 hidden xl:table-cell whitespace-nowrap">
+        <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{opp.assignedTo}</span>
       </td>
 
       {/* Actions */}
@@ -114,7 +112,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
           <button
             id={`table-ai-btn-${opp.id}`}
             onClick={() => onOpenAICopilot(opp)}
-            className="p-1 rounded text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors cursor-pointer"
+            className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors cursor-pointer"
             title="AI Deal Brief"
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -122,7 +120,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({
           <button
             id={`table-delete-btn-${opp.id}`}
             onClick={() => onDelete(opp.id, opp.name)}
-            className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+            className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
             title="Delete"
           >
             <Trash2 className="w-3.5 h-3.5" />

@@ -27,36 +27,36 @@ export const KnowledgeBaseView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#0a0c10] text-slate-300 text-xs">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs">
       <div>
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
+        <h3 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
           <BookOpen className="w-5 h-5 text-purple-400" />
           Base de Conocimientos (Entrenamiento IA Gemini)
         </h3>
-        <p className="text-xs text-slate-400 mt-0.5">Sube manuales, políticas y FAQs para que el chatbot responda con precisión exacta basada en tus documentos.</p>
+        <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">Sube manuales, políticas y FAQs para que el chatbot responda con precisión exacta basada en tus documentos.</p>
       </div>
 
-      <div className="bg-[#131722] p-5 rounded-2xl border border-[#212a3d] space-y-4 max-w-2xl">
-        <h4 className="font-semibold text-white text-sm">Añadir Documento o FAQ</h4>
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-5 rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] space-y-4 max-w-2xl">
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">Añadir Documento o FAQ</h4>
         <form onSubmit={addDoc} className="space-y-3">
           <div>
-            <label className="block text-[11px] font-semibold text-slate-300 mb-1">Título del Documento</label>
+            <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Título del Documento</label>
             <input
               type="text"
               value={docTitle}
               onChange={(e) => setDocTitle(e.target.value)}
               placeholder="ej. Manual de Garantías y Devoluciones"
-              className="w-full bg-[#181d2c] text-white px-3 py-2 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-purple-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-purple-500"
             />
           </div>
           <div>
-            <label className="block text-[11px] font-semibold text-slate-300 mb-1">Contenido / Preguntas y Respuestas</label>
+            <label className="block text-[11px] font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Contenido / Preguntas y Respuestas</label>
             <textarea
               rows={4}
               value={docContent}
               onChange={(e) => setDocContent(e.target.value)}
               placeholder="Pega aquí el contenido detallado que la IA debe aprender..."
-              className="w-full bg-[#181d2c] text-white p-3 rounded-lg border border-[#273248] text-xs focus:outline-none focus:border-purple-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] text-[var(--text-primary,#0f172a)] dark:text-white p-3 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273248] text-xs focus:outline-none focus:border-purple-500"
             />
           </div>
           <button
@@ -70,13 +70,13 @@ export const KnowledgeBaseView: React.FC = () => {
       </div>
 
       <div className="space-y-3">
-        <h4 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400">Documentos Indexados</h4>
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400">Documentos Indexados</h4>
         <div className="space-y-3">
           {documents.map((d, idx) => (
-            <div key={idx} className="bg-[#131722] border border-[#212a3d] p-4 rounded-xl flex items-center justify-between">
+            <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] p-4 rounded-xl flex items-center justify-between">
               <div>
-                <div className="font-semibold text-white text-xs">{d.title}</div>
-                <div className="text-[11px] text-slate-400">Categoría: {d.category} • {d.words} • Actualizado: {d.date}</div>
+                <div className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs">{d.title}</div>
+                <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Categoría: {d.category} • {d.words} • Actualizado: {d.date}</div>
               </div>
               <span className="px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-300 font-medium text-[10px] border border-purple-500/25 flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />

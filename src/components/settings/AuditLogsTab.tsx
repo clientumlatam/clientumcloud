@@ -119,7 +119,7 @@ export const AuditLogsTab: React.FC = () => {
       case 'warning':
         return <span className="text-[10px] text-amber-400 font-medium">Warning</span>;
       default:
-        return <span className="text-[10px] text-slate-400 font-medium">Completado</span>;
+        return <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">Completado</span>;
     }
   };
 
@@ -143,9 +143,7 @@ export const AuditLogsTab: React.FC = () => {
         <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-4">
           <div className="flex items-center justify-between">
             <span className="text-xs text-[var(--text-muted)] font-medium">Anomalías Detectadas</span>
-            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-              activeAnomalies.length > 0 ? 'bg-amber-500/20 text-amber-500' : 'bg-emerald-500/10 text-emerald-500'
-            }`}>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${ activeAnomalies.length > 0 ? 'bg-amber-500/20 text-amber-500' : 'bg-emerald-500/10 text-emerald-500' }`}>
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
@@ -216,13 +214,7 @@ export const AuditLogsTab: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <h5 className="text-xs font-bold text-[var(--text-primary)]">{anomaly.title}</h5>
-                      <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold uppercase tracking-wider ${
-                        anomaly.severity === 'critical'
-                          ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
-                          : anomaly.severity === 'high'
-                          ? 'bg-amber-500/20 text-amber-650 dark:text-amber-400 border border-amber-500/30'
-                          : 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30'
-                      }`}>
+                      <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold uppercase tracking-wider ${ anomaly.severity === 'critical' ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30' : anomaly.severity === 'high' ? 'bg-amber-500/20 text-amber-650 dark:text-amber-400 border border-amber-500/30' : 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30' }`}>
                         Riesgo {anomaly.severity}
                       </span>
                       <span className="text-[10px] text-[var(--text-muted)]">
@@ -329,11 +321,7 @@ export const AuditLogsTab: React.FC = () => {
             <button
               key={sev}
               onClick={() => setSeverityFilter(sev)}
-              className={`px-2.5 py-1 rounded-md text-[11px] font-medium capitalize transition-all cursor-pointer ${
-                severityFilter === sev
-                  ? 'bg-blue-600 text-white shadow-2xs font-semibold'
-                  : 'bg-[var(--bg-muted)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--border-subtle)] border border-[var(--border-subtle)]'
-              }`}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-medium capitalize transition-all cursor-pointer ${ severityFilter === sev ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs font-semibold' : 'bg-[var(--bg-muted)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--border-subtle)] border border-[var(--border-subtle)]' }`}
             >
               {sev === 'all' ? 'Todos' : sev}
             </button>

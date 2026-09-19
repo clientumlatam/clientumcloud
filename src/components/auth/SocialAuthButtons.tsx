@@ -85,11 +85,11 @@ export const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({
   return (
     <div className="w-full space-y-2">
       <div className="relative flex items-center my-3">
-        <div className="flex-grow border-t border-[#1e2434]"></div>
-        <span className="flex-shrink-0 mx-3 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+        <div className="flex-grow border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2434]"></div>
+        <span className="flex-shrink-0 mx-3 text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium uppercase tracking-wider">
           O continuar con SSO
         </span>
-        <div className="flex-grow border-t border-[#1e2434]"></div>
+        <div className="flex-grow border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2434]"></div>
       </div>
 
       <div
@@ -106,7 +106,7 @@ export const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({
           onClick={() => handleProviderLogin('google')}
           disabled={isBusy}
           title="Iniciar sesión con cuenta Google"
-          className="flex items-center justify-center gap-2 py-2 px-3 bg-[#111624] hover:bg-[#182033] text-slate-200 hover:text-white border border-[#21293c] hover:border-blue-500/40 rounded-xl text-xs font-medium transition-all shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
+          className="flex items-center justify-center gap-2 py-2 px-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#111624] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#182033] text-[var(--text-primary,#0f172a)] dark:text-slate-200 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white border border-[var(--border-subtle,#e2e8f0)] dark:border-[#21293c] hover:border-blue-500/40 rounded-xl text-xs font-medium transition-all shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
         >
           {loadingProvider === 'google' ? (
             <span className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />

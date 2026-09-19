@@ -310,7 +310,7 @@ export const MailAnalyticsPanel: React.FC<{
       className={`space-y-6 font-['Plus_Jakarta_Sans',sans-serif] ${className}`}
     >
       {/* 1. Header Card & Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#090F1E] border border-slate-800 text-white shadow-xl relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-1">
@@ -322,10 +322,10 @@ export const MailAnalyticsPanel: React.FC<{
               Analítica de Correo Transaccional (Recharts)
             </span>
           </div>
-          <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
+          <h3 className="text-lg sm:text-xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
             Evolución de Tasa de Entrega, Apertura y Clics (Últimos {daysCount} Días)
           </h3>
-          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 max-w-2xl leading-relaxed">
             Monitoreo en tiempo real de correspondencia comercial emitida mediante Resend API y servidores corporativos SMTP.
           </p>
         </div>
@@ -333,31 +333,25 @@ export const MailAnalyticsPanel: React.FC<{
         {/* Action Controls & Filters */}
         <div className="relative z-10 flex flex-wrap items-center gap-2.5">
           {/* Time Range Selector */}
-          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs shadow-inner">
+          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-xs shadow-inner">
             <button
               type="button"
               onClick={() => setTimeRange('7d')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                timeRange === '7d' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${ timeRange === '7d' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               7 Días
             </button>
             <button
               type="button"
               onClick={() => setTimeRange('30d')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                timeRange === '30d' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${ timeRange === '30d' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               30 Días
             </button>
             <button
               type="button"
               onClick={() => setTimeRange('90d')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                timeRange === '90d' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${ timeRange === '90d' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
             >
               90 Días
             </button>
@@ -367,7 +361,7 @@ export const MailAnalyticsPanel: React.FC<{
           <select
             value={providerFilter}
             onChange={(e) => setProviderFilter(e.target.value as any)}
-            className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer"
+            className="px-3 py-2 rounded-xl bg-slate-900 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer"
           >
             <option value="all">Todos los Proveedores</option>
             <option value="resend">Solo Resend API</option>
@@ -379,7 +373,7 @@ export const MailAnalyticsPanel: React.FC<{
             type="button"
             onClick={() => fetchAnalytics(daysCount)}
             disabled={isRefreshing}
-            className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer shadow-xs disabled:opacity-50"
+            className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors cursor-pointer shadow-xs disabled:opacity-50"
             title="Refrescar métricas desde el servicio de correo"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-blue-400' : ''}`} />
@@ -390,9 +384,9 @@ export const MailAnalyticsPanel: React.FC<{
       {/* 2. Top KPI Metric Cards (Highlighting Delivery Rate, Open Rate, and Click-Through Rate) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Delivery Rate */}
-        <div className="p-4.5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md relative overflow-hidden group">
+        <div className="p-4.5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
               Tasa de Entrega (Delivery Rate)
             </span>
             <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
@@ -400,7 +394,7 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-white tracking-tight">
+            <span className="text-3xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
               {overallStats.deliveryRate}%
             </span>
             <span className="text-xs font-bold text-emerald-400 flex items-center gap-0.5">
@@ -408,7 +402,7 @@ export const MailAnalyticsPanel: React.FC<{
               +0.8%
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {overallStats.totalDelivered} de {overallStats.totalSent} correos entregados
           </p>
           <div className="mt-3 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
@@ -420,9 +414,9 @@ export const MailAnalyticsPanel: React.FC<{
         </div>
 
         {/* Metric 2: Open Rate */}
-        <div className="p-4.5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md relative overflow-hidden group">
+        <div className="p-4.5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
               Tasa de Apertura (Open Rate)
             </span>
             <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-400">
@@ -430,7 +424,7 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-white tracking-tight">
+            <span className="text-3xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
               {overallStats.openRate}%
             </span>
             <span className="text-xs font-bold text-sky-400 flex items-center gap-0.5">
@@ -438,7 +432,7 @@ export const MailAnalyticsPanel: React.FC<{
               +2.3%
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {overallStats.totalOpened} lecturas confirmadas (pixel & headers)
           </p>
           <div className="mt-3 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
@@ -450,9 +444,9 @@ export const MailAnalyticsPanel: React.FC<{
         </div>
 
         {/* Metric 3: Click-Through Rate (CTR) */}
-        <div className="p-4.5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md relative overflow-hidden group">
+        <div className="p-4.5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
               Clics (Click-Through Rate)
             </span>
             <div className="p-2 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400">
@@ -460,7 +454,7 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-white tracking-tight">
+            <span className="text-3xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
               {overallStats.clickRate}%
             </span>
             <span className="text-xs font-bold text-purple-400 flex items-center gap-0.5">
@@ -468,7 +462,7 @@ export const MailAnalyticsPanel: React.FC<{
               +1.1%
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {overallStats.totalClicked} clics en botones de acción y cotizaciones
           </p>
           <div className="mt-3 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
@@ -480,9 +474,9 @@ export const MailAnalyticsPanel: React.FC<{
         </div>
 
         {/* Metric 4: Total Volume & Bounce Rate */}
-        <div className="p-4.5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md relative overflow-hidden group">
+        <div className="p-4.5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
               Tasa de Rebote (Bounce Rate)
             </span>
             <div className="p-2 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400">
@@ -490,14 +484,14 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-white tracking-tight">
+            <span className="text-3xl font-black text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
               {overallStats.bounceRate}%
             </span>
             <span className="text-xs font-bold text-emerald-400">
               Óptimo (&lt;2%)
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             {overallStats.totalBounced} rebotados en {overallStats.totalSent} despachos
           </p>
           <div className="mt-3 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
@@ -510,12 +504,12 @@ export const MailAnalyticsPanel: React.FC<{
       </div>
 
       {/* 3. Primary Interactive Line Charts Visualization (Recharts) */}
-      <div className="p-6 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-xl space-y-5">
+      <div className="p-6 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-xl space-y-5">
         {/* Chart Top Header & Interactive Line Filters */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-base font-extrabold text-white flex items-center gap-2">
+              <h4 className="text-base font-extrabold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-cyan-400" />
                 Gráfico Interactivo de Tasas Porcentuales (%)
               </h4>
@@ -523,7 +517,7 @@ export const MailAnalyticsPanel: React.FC<{
                 Recharts LineChart
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
               Hacé clic en cualquiera de las series para aislar o alternar la visualización de Delivery Rate, Open Rate y CTR.
             </p>
           </div>
@@ -531,16 +525,12 @@ export const MailAnalyticsPanel: React.FC<{
           {/* Interactive Line Filters and View Mode Switcher */}
           <div className="flex flex-wrap items-center gap-3">
             {/* Interactive Series Toggle Pills */}
-            <div className="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 text-xs">
+            <div className="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-xs">
               {/* Delivery Rate Toggle */}
               <button
                 type="button"
                 onClick={() => toggleLine('deliveryRate')}
-                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  visibleLines.deliveryRate
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-[var(--text-muted)] hover:text-slate-300'
-                }`}
+                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ visibleLines.deliveryRate ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary,#475569)] dark:hover:text-slate-300' }`}
                 title="Mostrar/ocultar Delivery Rate"
               >
                 <span className={`w-2 h-2 rounded-full ${visibleLines.deliveryRate ? 'bg-emerald-400' : 'bg-slate-600'}`} />
@@ -551,11 +541,7 @@ export const MailAnalyticsPanel: React.FC<{
               <button
                 type="button"
                 onClick={() => toggleLine('openRate')}
-                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  visibleLines.openRate
-                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                    : 'text-[var(--text-muted)] hover:text-slate-300'
-                }`}
+                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ visibleLines.openRate ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary,#475569)] dark:hover:text-slate-300' }`}
                 title="Mostrar/ocultar Open Rate"
               >
                 <span className={`w-2 h-2 rounded-full ${visibleLines.openRate ? 'bg-sky-400' : 'bg-slate-600'}`} />
@@ -566,11 +552,7 @@ export const MailAnalyticsPanel: React.FC<{
               <button
                 type="button"
                 onClick={() => toggleLine('clickRate')}
-                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  visibleLines.clickRate
-                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
-                    : 'text-[var(--text-muted)] hover:text-slate-300'
-                }`}
+                className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer ${ visibleLines.clickRate ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary,#475569)] dark:hover:text-slate-300' }`}
                 title="Mostrar/ocultar Click-Through Rate"
               >
                 <span className={`w-2 h-2 rounded-full ${visibleLines.clickRate ? 'bg-purple-400' : 'bg-slate-600'}`} />
@@ -579,31 +561,25 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
 
             {/* View Mode Toggle */}
-            <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs">
+            <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-xs">
               <button
                 type="button"
                 onClick={() => setActiveChartType('lineRates')}
-                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                  activeChartType === 'lineRates' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${ activeChartType === 'lineRates' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
               >
                 Líneas (%)
               </button>
               <button
                 type="button"
                 onClick={() => setActiveChartType('volumeArea')}
-                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                  activeChartType === 'volumeArea' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${ activeChartType === 'volumeArea' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
               >
                 Volumen (Área)
               </button>
               <button
                 type="button"
                 onClick={() => setActiveChartType('categoryBars')}
-                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                  activeChartType === 'categoryBars' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                }`}
+                className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${ activeChartType === 'categoryBars' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white' }`}
               >
                 Categorías (Barras)
               </button>
@@ -705,8 +681,8 @@ export const MailAnalyticsPanel: React.FC<{
             </div>
 
             {/* Quick Context & Insight Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-xs">
-              <div className="flex items-center gap-2 text-slate-400">
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/60 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 text-xs">
+              <div className="flex items-center gap-2 text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>
                   <strong>Benchmarking:</strong> Delivery Rate superior al 98% garantiza reputación positiva en dominios Gmail, Outlook y corporativos.
@@ -806,13 +782,13 @@ export const MailAnalyticsPanel: React.FC<{
       {/* 4. Bottom Grid: Conversion Donut & Breakdown Table */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Donut Funnel */}
-        <div className="p-5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md flex flex-col justify-between space-y-4">
+        <div className="p-5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md flex flex-col justify-between space-y-4">
           <div>
-            <h4 className="text-sm font-bold text-white flex items-center gap-2">
+            <h4 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
               <Eye className="w-4 h-4 text-emerald-400" />
               Embudo de Conversión de Correspondencia
             </h4>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Distribución total en los últimos {daysCount} días
             </p>
           </div>
@@ -846,28 +822,28 @@ export const MailAnalyticsPanel: React.FC<{
             </ResponsiveContainer>
           </div>
 
-          <div className="space-y-1.5 border-t border-slate-800 pt-3 text-xs">
+          <div className="space-y-1.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 pt-3 text-xs">
             {statusPieData.map((item, idx) => (
               <div key={idx} className="flex items-center justify-between text-[11px]">
-                <span className="flex items-center gap-2 text-slate-400">
+                <span className="flex items-center gap-2 text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
                   {item.name}
                 </span>
-                <span className="font-bold text-white">{item.value.toLocaleString()}</span>
+                <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{item.value.toLocaleString()}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Right: Email Category Breakdown Table (2 spans) */}
-        <div className="lg:col-span-2 p-5 rounded-2xl bg-[#090F1E] border border-slate-800 shadow-md space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="lg:col-span-2 p-5 rounded-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#090F1E] border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-md space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+              <h4 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                 <Zap className="w-4 h-4 text-cyan-400" />
                 Desglose por Tipología Comercial de Correo
               </h4>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Resumen de efectividad y tasas registradas en cotizaciones, facturas CAE y seguimientos
               </p>
             </div>
@@ -884,8 +860,8 @@ export const MailAnalyticsPanel: React.FC<{
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-900 text-slate-400 font-semibold border-b border-slate-800 uppercase text-[10px] tracking-wider">
+            <table className="w-full text-left text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300">
+              <thead className="bg-slate-900 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 uppercase text-[10px] tracking-wider">
                 <tr>
                   <th className="py-2.5 px-3">Categoría</th>
                   <th className="py-2.5 px-3 text-right">Enviados</th>
@@ -898,7 +874,7 @@ export const MailAnalyticsPanel: React.FC<{
               <tbody className="divide-y divide-slate-800/60 font-medium">
                 {categoryData.map((cat, idx) => (
                   <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-3 font-bold text-white flex items-center gap-2">
+                    <td className="py-3 px-3 font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-blue-400" />
                       {cat.name}
                     </td>

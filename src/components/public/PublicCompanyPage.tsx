@@ -254,7 +254,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           <button
             id="btn-explore-demo"
             onClick={() => enterApp()}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs cursor-pointer transition-all shadow-xs"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-all shadow-xs"
           >
             <span>Explorar Demo en Vivo</span>
             <ArrowRight className="w-4 h-4" />
@@ -281,7 +281,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             "Alcanzar la Excelencia Empresarial"
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
             Sistemas · Desarrollos · Promoción Digital. Trabajamos codo a codo con cada cliente para transformar desafíos comerciales en ventajas competitivas duraderas.
           </p>
         </div>
@@ -290,9 +290,9 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/10">
           {stats.map((s, idx) => (
             <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs space-y-1">
-              <div className="text-xl sm:text-2xl font-extrabold text-white">{s.value}</div>
+              <div className="text-xl sm:text-2xl font-extrabold text-[#0f172a] dark:text-white">{s.value}</div>
               <div className="text-xs font-bold text-cyan-300">{s.label}</div>
-              <div className="text-[10px] text-slate-300/80">{s.sub}</div>
+              <div className="text-[10px] text-[#475569]/80 dark:text-slate-300/80">{s.sub}</div>
             </div>
           ))}
         </div>
@@ -423,13 +423,13 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
       </section>
 
       {/* 9. Hermes Prime Architecture & Named AI Enswarm */}
-      <section className="p-8 sm:p-10 rounded-3xl bg-slate-950 text-white space-y-6 shadow-xl border border-slate-800">
+      <section className="p-8 sm:p-10 rounded-3xl bg-slate-950 text-[#0f172a] dark:text-white space-y-6 shadow-xl border border-slate-800">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">
               Arquitectura Hermes Prime · Enjambre de Agentes IA
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0f172a] dark:text-white">
               Equipo Humano Directivo + 6 Agentes IA Especializados
             </h2>
           </div>
@@ -439,7 +439,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           </div>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed max-w-3xl">
           Jonathan y Matías dirigen una compañía asistida por agentes autónomos especializados que ejecutan tareas críticas de prospección, desarrollo, marketing, facturación AFIP y soporte de forma ininterrumpida.
         </p>
 
@@ -452,9 +452,9 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
                 </span>
                 <Bot className="w-4 h-4 text-slate-500" />
               </div>
-              <h4 className="text-sm font-bold text-white">{ag.name}</h4>
-              <div className="text-[11px] font-semibold text-slate-400">{ag.role}</div>
-              <p className="text-xs text-slate-300 leading-relaxed pt-1">{ag.focus}</p>
+              <h4 className="text-sm font-bold text-[#0f172a] dark:text-white">{ag.name}</h4>
+              <div className="text-[11px] font-semibold text-[#64748b] dark:text-slate-400">{ag.role}</div>
+              <p className="text-xs text-[#475569] dark:text-slate-300 leading-relaxed pt-1">{ag.focus}</p>
             </div>
           ))}
         </div>
@@ -700,7 +700,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           </button>
           <button
             onClick={() => onNavigate('/contacto')}
-            className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs cursor-pointer shadow-xs transition-all"
+            className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-semibold text-xs cursor-pointer shadow-xs transition-all"
           >
             Contactar al Equipo
           </button>

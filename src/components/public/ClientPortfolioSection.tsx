@@ -342,7 +342,7 @@ export const ClientPortfolioSection: React.FC<ClientPortfolioSectionProps> = ({ 
           <h3 className="text-lg sm:text-2xl font-bold">
             Soluciones Especiales para Municipios, Medios y Sindicatos
           </h3>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
             Pliegos técnicos de homologación, facturación oficial, integración con pasarelas bancarias y soporte directo con ingenieros en territorio patagónico.
           </p>
         </div>

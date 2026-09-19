@@ -180,7 +180,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
       
       analyser.getByteTimeDomainData(dataArray);
       
-      // bg-[#1b2230] to match container
+      // bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] to match container
       ctx.fillStyle = 'rgb(27, 34, 48)';
       ctx.fillRect(0, 0, width, height);
       
@@ -431,15 +431,15 @@ export const RecordDrawer: React.FC = React.memo(() => {
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-        className="w-full max-w-2xl bg-[#0f1219] border-l border-[#1e2330] h-full flex flex-col shadow-2xl text-xs text-slate-300"
+        className="w-full max-w-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0f1219] border-l border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] h-full flex flex-col shadow-2xl text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300"
       >
         {/* Drawer Top Header */}
-        <div className="p-4 border-b border-[#1e2330] flex items-center justify-between bg-[#131722]">
+        <div className="p-4 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] flex items-center justify-between bg-[var(--bg-card,#ffffff)] dark:bg-[#131722]">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-[#1e2434] text-slate-400 border border-[#273044]">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2434] text-[var(--text-muted,#64748b)] dark:text-slate-400 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044]">
               {selectedRecord.type}
             </span>
-            <h2 className="text-sm font-semibold text-white truncate">{getRecordTitle()}</h2>
+            <h2 className="text-sm font-semibold text-[var(--text-primary,#0f172a)] dark:text-white truncate">{getRecordTitle()}</h2>
           </div>
 
           <div className="flex items-center gap-1.5">
@@ -476,7 +476,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
             <button
               id="drawer-close-btn"
               onClick={() => setSelectedRecord(null)}
-              className="p-1.5 rounded hover:bg-[#1f2535] text-slate-400 hover:text-slate-200 transition-colors"
+              className="p-1.5 rounded hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f2535] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -485,7 +485,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
 
         {/* Opportunity Quick Stage Ribbon */}
         {opp && (
-          <div className="bg-[#11141d] px-4 py-2 border-b border-[#1a1f2c] flex items-center justify-between gap-2 overflow-x-auto">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#11141d] px-4 py-2 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1a1f2c] flex items-center justify-between gap-2 overflow-x-auto">
             <div className="flex items-center gap-1">
               {STAGES.map((s) => {
                 const isCurrent = opp.stage === s.id;
@@ -494,11 +494,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                     key={s.id}
                     id={`drawer-stage-step-${s.id}`}
                     onClick={() => moveOpportunityStage(opp.id, s.id)}
-                    className={`px-2 py-1 rounded text-[11px] font-medium transition-all ${
-                      isCurrent
-                        ? 'bg-blue-600 text-white font-semibold shadow-xs'
-                        : 'bg-[#181c28] text-slate-400 hover:text-slate-200 hover:bg-[#202535]'
-                    }`}
+                    className={`px-2 py-1 rounded text-[11px] font-medium transition-all ${ isCurrent ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-semibold shadow-xs' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#181c28] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202535]' }`}
                   >
                     {s.name}
                   </button>
@@ -509,37 +505,25 @@ export const RecordDrawer: React.FC = React.memo(() => {
         )}
 
         {/* Drawer Tab Navigation */}
-        <div className="flex items-center border-b border-[#1e2330] px-4 bg-[#11141c]">
+        <div className="flex items-center border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] px-4 bg-[var(--bg-card,#ffffff)] dark:bg-[#11141c]">
           <button
             id="drawer-tab-timeline"
             onClick={() => setActiveTab('timeline')}
-            className={`py-2.5 px-3 border-b-2 font-medium transition-colors ${
-              activeTab === 'timeline'
-                ? 'border-blue-500 text-white'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className={`py-2.5 px-3 border-b-2 font-medium transition-colors ${ activeTab === 'timeline' ? 'border-blue-500 text-white' : 'border-transparent text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
           >
             Activity Timeline ({recordActivities.length})
           </button>
           <button
             id="drawer-tab-details"
             onClick={() => setActiveTab('details')}
-            className={`py-2.5 px-3 border-b-2 font-medium transition-colors ${
-              activeTab === 'details'
-                ? 'border-blue-500 text-white'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className={`py-2.5 px-3 border-b-2 font-medium transition-colors ${ activeTab === 'details' ? 'border-blue-500 text-white' : 'border-transparent text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
           >
             Properties & Details
           </button>
           <button
             id="drawer-tab-ai"
             onClick={() => setActiveTab('ai')}
-            className={`py-2.5 px-3 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
-              activeTab === 'ai'
-                ? 'border-indigo-500 text-indigo-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
-            }`}
+            className={`py-2.5 px-3 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${ activeTab === 'ai' ? 'border-indigo-500 text-indigo-300' : 'border-transparent text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             AI Intelligence
@@ -548,11 +532,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
             <button
               id="drawer-tab-quote"
               onClick={() => setActiveTab('quote')}
-              className={`py-2.5 px-3 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
-                activeTab === 'quote'
-                  ? 'border-blue-500 text-white'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
-              }`}
+              className={`py-2.5 px-3 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${ activeTab === 'quote' ? 'border-blue-500 text-white' : 'border-transparent text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
             >
               <FileText className="w-3.5 h-3.5 text-blue-400" />
               Presupuesto & PDF
@@ -568,16 +548,14 @@ export const RecordDrawer: React.FC = React.memo(() => {
               {/* Activity Input Box */}
               <form
                 onSubmit={handleAddActivity}
-                className="bg-[#141824] border border-[#222838] rounded-xl p-3 space-y-2.5 shadow-sm"
+                className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222838] rounded-xl p-3 space-y-2.5 shadow-sm"
               >
                 {/* Type Switcher */}
-                <div className="flex items-center gap-1 bg-[#0e1118] p-1 rounded-md border border-[#1b202c]">
+                <div className="flex items-center gap-1 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e1118] p-1 rounded-md border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b202c]">
                   <button
                     type="button"
                     onClick={() => setActivityType('note')}
-                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
-                      activityType === 'note' ? 'bg-[#22293b] text-white' : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${ activityType === 'note' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#22293b] text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                   >
                     <MessageSquare className="w-3 h-3" />
                     Note
@@ -585,9 +563,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   <button
                     type="button"
                     onClick={() => setActivityType('call')}
-                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
-                      activityType === 'call' ? 'bg-[#22293b] text-white' : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${ activityType === 'call' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#22293b] text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                   >
                     <Phone className="w-3 h-3" />
                     Call
@@ -595,9 +571,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   <button
                     type="button"
                     onClick={() => setActivityType('email')}
-                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
-                      activityType === 'email' ? 'bg-[#22293b] text-white' : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${ activityType === 'email' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#22293b] text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                   >
                     <Mail className="w-3 h-3" />
                     Email
@@ -605,9 +579,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   <button
                     type="button"
                     onClick={() => setActivityType('meeting')}
-                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
-                      activityType === 'meeting' ? 'bg-[#22293b] text-white' : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${ activityType === 'meeting' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#22293b] text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
                   >
                     <CalendarDays className="w-3 h-3" />
                     Meeting
@@ -621,18 +593,18 @@ export const RecordDrawer: React.FC = React.memo(() => {
                     placeholder="Email subject..."
                     value={emailSubject}
                     onChange={(e) => setEmailSubject(e.target.value)}
-                    className="w-full bg-[#10131c] text-xs text-slate-200 px-3 py-1.5 rounded border border-[#242b3d] focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131c] text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 px-3 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242b3d] focus:outline-none focus:border-blue-500"
                   />
                 )}
 
                 {activityType === 'call' && (
-                  <div className="flex items-center gap-2 text-slate-300">
+                  <div className="flex items-center gap-2 text-[var(--text-secondary,#475569)] dark:text-slate-300">
                     <span className="text-[11px]">Duration (mins):</span>
                     <input
                       type="number"
                       value={callDuration}
                       onChange={(e) => setCallDuration(e.target.value)}
-                      className="w-16 bg-[#10131c] text-xs text-slate-200 px-2 py-1 rounded border border-[#242b3d] focus:outline-none"
+                      className="w-16 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131c] text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 px-2 py-1 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242b3d] focus:outline-none"
                     />
                   </div>
                 )}
@@ -642,12 +614,12 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   value={newNote}
                   onChange={(e) => setNewNote(e.target.value)}
                   rows={2}
-                  className="w-full bg-[#10131c] text-xs text-slate-200 p-2.5 rounded-lg border border-[#242b3d] focus:outline-none focus:border-blue-500 resize-none"
+                  className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131c] text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 p-2.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#242b3d] focus:outline-none focus:border-blue-500 resize-none"
                   disabled={isRecording}
                 />
 
                 {isRecording && (
-                  <div className="flex flex-col gap-2 p-2 bg-[#1b2230] border border-[#232c40] rounded-md">
+                  <div className="flex flex-col gap-2 p-2 bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40] rounded-md">
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                       <span className="text-xs text-red-400 font-medium">
@@ -662,24 +634,24 @@ export const RecordDrawer: React.FC = React.memo(() => {
                         Stop
                       </button>
                     </div>
-                    <canvas ref={canvasRef} width={400} height={40} className="w-full h-10 rounded bg-[#10131c] opacity-80" />
+                    <canvas ref={canvasRef} width={400} height={40} className="w-full h-10 rounded bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10131c] opacity-80" />
                   </div>
                 )}
 
                 {isTranscribing && (
-                  <div className="flex items-center gap-3 p-2 bg-[#1b2230] border border-[#232c40] rounded-md">
+                  <div className="flex items-center gap-3 p-2 bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40] rounded-md">
                     <div className="w-3 h-3 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
-                    <span className="text-xs text-slate-300 font-medium">Transcribing audio with Gemini AI...</span>
+                    <span className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium">Transcribing audio with Gemini AI...</span>
                   </div>
                 )}
 
                 {audioBlobUrl && !isTranscribing && (
-                  <div className="flex items-center gap-3 p-2 bg-[#1b2230] rounded-md border border-[#232c40]">
+                  <div className="flex items-center gap-3 p-2 bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] rounded-md border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40]">
                     <audio src={audioBlobUrl} controls className="h-8 flex-1" />
                     <button
                       type="button"
                       onClick={() => setAudioBlobUrl(null)}
-                      className="p-1 hover:bg-[#232c40] rounded text-slate-400 hover:text-white"
+                      className="p-1 hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#232c40] rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -691,11 +663,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                     <button
                       type="button"
                       onClick={isRecording ? stopRecording : startRecording}
-                      className={`p-1.5 rounded-md border transition-colors ${
-                        isRecording 
-                          ? 'bg-red-500/20 border-red-500/30 text-red-400' 
-                          : 'bg-[#1b2230] border-[#232c40] text-slate-400 hover:text-white hover:bg-[#232c40]'
-                      }`}
+                      className={`p-1.5 rounded-md border transition-colors ${ isRecording ? 'bg-red-500/20 border-red-500/30 text-red-400' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#232c40]' }`}
                       title={isRecording ? 'Detener grabación' : 'Grabar nota de voz'}
                     >
                       {isRecording ? <Square className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
@@ -703,18 +671,14 @@ export const RecordDrawer: React.FC = React.memo(() => {
                     <button
                       type="button"
                       onClick={toggleWebSpeechRecognition}
-                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-xs font-medium transition-all ${
-                        isWebSpeechActive
-                          ? 'bg-red-500/20 border-red-500/40 text-red-300 animate-pulse'
-                          : 'bg-[#1b2230] border-[#232c40] text-slate-300 hover:text-white hover:bg-[#232c40]'
-                      }`}
+                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-xs font-medium transition-all ${ isWebSpeechActive ? 'bg-red-500/20 border-red-500/40 text-red-300 animate-pulse' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2230] border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40] text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#232c40]' }`}
                       title="Dictado de voz Web Speech API (Voice-to-Text)"
                     >
                       <Mic className={`w-3.5 h-3.5 ${isWebSpeechActive ? 'text-red-400 animate-bounce' : 'text-blue-400'}`} />
                       <span>{isWebSpeechActive ? 'Escuchando voz...' : 'Dictado Web Speech'}</span>
                     </button>
-                    <span className="text-[10px] text-slate-400 hidden sm:inline">
-                      Logged as <strong className="text-slate-300">{currentUser.name}</strong>
+                    <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hidden sm:inline">
+                      Logged as <strong className="text-[var(--text-secondary,#475569)] dark:text-slate-300">{currentUser.name}</strong>
                     </span>
                   </div>
                   <button
@@ -730,17 +694,17 @@ export const RecordDrawer: React.FC = React.memo(() => {
               {/* Timeline Stream */}
               <div className="space-y-3 pt-2">
                 {recordActivities.length === 0 ? (
-                  <div className="p-8 text-center border border-dashed border-[#1f2433] rounded-xl text-slate-400 text-xs">
+                  <div className="p-8 text-center border border-dashed border-[var(--border-subtle,#e2e8f0)] dark:border-[#1f2433] rounded-xl text-[var(--text-muted,#64748b)] dark:text-slate-400 text-xs">
                     No activities recorded yet. Log a note, call, or email above.
                   </div>
                 ) : (
                   recordActivities.map((act) => (
                     <div
                       key={act.id}
-                      className="p-3 rounded-lg bg-[#141722] border border-[#202534] space-y-1.5"
+                      className="p-3 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] space-y-1.5"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-xs text-white flex items-center gap-1.5">
+                        <span className="font-semibold text-xs text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-1.5">
                           {act.type === 'stage_change' ? (
                             <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
                           ) : act.type === 'email' ? (
@@ -750,26 +714,26 @@ export const RecordDrawer: React.FC = React.memo(() => {
                           ) : act.type === 'ai_insight' ? (
                             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
                           ) : (
-                            <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
+                            <MessageSquare className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                           )}
                           {act.title}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                           {new Date(act.createdAt).toLocaleDateString()}
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">
+                      <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                         {act.content}
                       </p>
 
                       {act.audioUrl && (
-                        <div className="mt-2 pt-2 border-t border-[#232c40]">
+                        <div className="mt-2 pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#232c40]">
                           <audio src={act.audioUrl} controls className="h-8 w-full" />
                         </div>
                       )}
 
-                      <div className="text-[10px] text-slate-400 pt-1">
+                      <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 pt-1">
                         By {act.author}
                       </div>
                     </div>
@@ -783,59 +747,59 @@ export const RecordDrawer: React.FC = React.memo(() => {
           {activeTab === 'details' && (
             <div className="space-y-4">
               {opp && (
-                <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-[#1e2330]">
-                  <h3 className="text-xs font-semibold text-white mb-2">Deal Properties</h3>
+                <div className="space-y-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+                  <h3 className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white mb-2">Deal Properties</h3>
 
                   <div className="space-y-2">
                     <div>
-                      <label className="text-[11px] text-slate-400">Deal Name</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Deal Name</label>
                       <DebouncedInput
                         type="text"
                         value={opp.name}
                         onDebouncedChange={(val) => updateOpportunity(opp.id, { name: val })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[11px] text-slate-400">Amount ($)</label>
+                        <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Amount ($)</label>
                         <DebouncedInput
                           type="number"
                           value={opp.amount}
                           onDebouncedChange={(val) => updateOpportunity(opp.id, { amount: Number(val) || 0 })}
-                          className="w-full bg-[#191d2a] text-xs font-mono font-bold text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                          className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[11px] text-slate-400">Probability (%)</label>
+                        <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Probability (%)</label>
                         <DebouncedInput
                           type="number"
                           value={opp.probability}
                           onDebouncedChange={(val) => updateOpportunity(opp.id, { probability: Number(val) || 0 })}
-                          className="w-full bg-[#191d2a] text-xs font-mono text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                          className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs font-mono text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[11px] text-slate-400">Close Date</label>
+                        <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Close Date</label>
                         <DebouncedInput
                           type="date"
                           value={opp.closeDate}
                           onDebouncedChange={(val) => updateOpportunity(opp.id, { closeDate: val })}
-                          className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                          className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[11px] text-slate-400">Priority</label>
+                        <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Priority</label>
                         <select
                           value={opp.priority}
                           onChange={(e) => updateOpportunity(opp.id, { priority: e.target.value as any })}
-                          className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                          className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                         >
                           <option value="Low">Low</option>
                           <option value="Medium">Medium</option>
@@ -846,17 +810,17 @@ export const RecordDrawer: React.FC = React.memo(() => {
                     </div>
 
                     <div>
-                      <label className="text-[11px] text-slate-400">Associated Company</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Associated Company</label>
                       <DebouncedInput
                         type="text"
                         value={opp.companyName || ''}
                         onDebouncedChange={(val) => updateOpportunity(opp.id, { companyName: val })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] focus:outline-none focus:border-blue-500 mt-0.5"
                       />
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-[#1e2330] flex justify-end">
+                  <div className="pt-3 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] flex justify-end">
                     <button
                       onClick={() => {
                         if (confirm(`Delete opportunity "${opp.name}"?`)) {
@@ -873,44 +837,44 @@ export const RecordDrawer: React.FC = React.memo(() => {
               )}
 
               {company && (
-                <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-[#1e2330]">
-                  <h3 className="text-xs font-semibold text-white mb-2">Company Information</h3>
+                <div className="space-y-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+                  <h3 className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white mb-2">Company Information</h3>
                   <div>
-                    <label className="text-[11px] text-slate-400">Company Name</label>
+                    <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Company Name</label>
                     <DebouncedInput
                       type="text"
                       value={company.name}
                       onDebouncedChange={(val) => updateCompany(company.id, { name: val })}
-                      className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[11px] text-slate-400">Domain</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Domain</label>
                       <DebouncedInput
                         type="text"
                         value={company.domain}
                         onDebouncedChange={(val) => updateCompany(company.id, { domain: val })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                       />
                     </div>
                     <div>
-                      <label className="text-[11px] text-slate-400">ARR ($)</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">ARR ($)</label>
                       <DebouncedInput
                         type="number"
                         value={company.arr || 0}
                         onDebouncedChange={(val) => updateCompany(company.id, { arr: Number(val) || 0 })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400">Description</label>
+                    <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Description</label>
                     <DebouncedTextarea
                       value={company.description || ''}
                       onDebouncedChange={(val) => updateCompany(company.id, { description: val })}
                       rows={3}
-                      className="w-full bg-[#191d2a] text-xs text-white p-2.5 rounded border border-[#2b3345] mt-0.5 resize-none"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white p-2.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5 resize-none"
                     />
                   </div>
                 </div>
@@ -918,68 +882,68 @@ export const RecordDrawer: React.FC = React.memo(() => {
 
               {person && (
                 <>
-                  <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-[#1e2330]">
-                  <h3 className="text-xs font-semibold text-white mb-2">Contact Information</h3>
+                  <div className="space-y-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+                  <h3 className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white mb-2">Contact Information</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[11px] text-slate-400">First Name</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">First Name</label>
                       <DebouncedInput
                         type="text"
                         value={person.firstName}
                         onDebouncedChange={(val) => updatePerson(person.id, { firstName: val })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                       />
                     </div>
                     <div>
-                      <label className="text-[11px] text-slate-400">Last Name</label>
+                      <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Last Name</label>
                       <DebouncedInput
                         type="text"
                         value={person.lastName}
                         onDebouncedChange={(val) => updatePerson(person.id, { lastName: val })}
-                        className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                        className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400">Email Address</label>
+                    <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Email Address</label>
                     <DebouncedInput
                       type="email"
                       value={person.email}
                       onDebouncedChange={(val) => updatePerson(person.id, { email: val })}
-                      className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400">Job Title</label>
+                    <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Job Title</label>
                     <DebouncedInput
                       type="text"
                       value={person.jobTitle}
                       onDebouncedChange={(val) => updatePerson(person.id, { jobTitle: val })}
-                      className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400">Phone / WhatsApp</label>
+                    <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Phone / WhatsApp</label>
                     <DebouncedInput
                       type="tel"
                       value={person.phone || ''}
                       onDebouncedChange={(val) => updatePerson(person.id, { phone: val })}
                       placeholder="+54 9 11 1234-5678"
-                      className="w-full bg-[#191d2a] text-xs text-white px-2.5 py-1.5 rounded border border-[#2b3345] mt-0.5"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#191d2a] text-xs text-[var(--text-primary,#0f172a)] dark:text-white px-2.5 py-1.5 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] mt-0.5"
                     />
                   </div>
                 </div>
 
                 {/* B2B Intelligence & Contact Enrichment Section */}
-                <div className="space-y-3 bg-[#131722] p-4 rounded-xl border border-indigo-500/30">
+                <div className="space-y-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] p-4 rounded-xl border border-indigo-500/30">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
                         <Sparkles className="w-3.5 h-3.5" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-white">Inteligencia & Redes Sociales</h4>
-                        <span className="text-[10px] text-slate-400">Enriquecimiento automático en background</span>
+                        <h4 className="text-xs font-bold text-[var(--text-primary,#0f172a)] dark:text-white">Inteligencia & Redes Sociales</h4>
+                        <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Enriquecimiento automático en background</span>
                       </div>
                     </div>
 
@@ -1006,11 +970,11 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   {person.enrichmentStatus === 'enriched' && person.enrichmentData && (
                     <div className="space-y-2.5 text-xs">
                       {/* Bio */}
-                      <div className="bg-[#171b26] p-2.5 rounded-lg border border-[#222736]">
-                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#171b26] p-2.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222736]">
+                        <span className="text-[10px] font-semibold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block mb-1">
                           Perfil Profesional Detectado
                         </span>
-                        <p className="text-slate-200 text-xs leading-relaxed">
+                        <p className="text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-xs leading-relaxed">
                           {person.enrichmentData.bio}
                         </p>
                       </div>
@@ -1045,7 +1009,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                             }
                             target="_blank"
                             rel="noreferrer"
-                            className="flex items-center justify-between p-2 rounded bg-[#181d2c] hover:bg-[#1f2538] border border-[#252c3e] text-blue-400 text-[11px] transition-colors"
+                            className="flex items-center justify-between p-2 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f2538] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3e] text-blue-400 text-[11px] transition-colors"
                           >
                             <div className="flex items-center gap-1.5 truncate">
                               <Linkedin className="w-3.5 h-3.5 shrink-0" />
@@ -1064,7 +1028,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                             }
                             target="_blank"
                             rel="noreferrer"
-                            className="flex items-center justify-between p-2 rounded bg-[#181d2c] hover:bg-[#1f2538] border border-[#252c3e] text-emerald-400 text-[11px] transition-colors"
+                            className="flex items-center justify-between p-2 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#181d2c] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1f2538] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#252c3e] text-emerald-400 text-[11px] transition-colors"
                           >
                             <div className="flex items-center gap-1.5 truncate">
                               <Globe className="w-3.5 h-3.5 shrink-0" />
@@ -1078,10 +1042,10 @@ export const RecordDrawer: React.FC = React.memo(() => {
                       {/* Skills */}
                       {person.enrichmentData.skills && person.enrichmentData.skills.length > 0 && (
                         <div className="pt-1">
-                          <span className="text-[10px] text-slate-400 block mb-1">Competencias clave:</span>
+                          <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Competencias clave:</span>
                           <div className="flex flex-wrap gap-1">
                             {person.enrichmentData.skills.map((s, idx) => (
-                              <span key={idx} className="px-2 py-0.5 rounded bg-[#1b2130] text-slate-300 border border-[#283248] text-[10px]">
+                              <span key={idx} className="px-2 py-0.5 rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#1b2130] text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#283248] text-[10px]">
                                 {s}
                               </span>
                             ))}
@@ -1091,11 +1055,11 @@ export const RecordDrawer: React.FC = React.memo(() => {
 
                       {/* Icebreaker */}
                       {person.enrichmentData.suggestedIcebreakers && person.enrichmentData.suggestedIcebreakers.length > 0 && (
-                        <div className="bg-[#171b26] p-2.5 rounded-lg border border-[#222736] space-y-1.5">
-                          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
+                        <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#171b26] p-2.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222736] space-y-1.5">
+                          <span className="text-[10px] font-semibold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
                             Rompehielos Comercial Sugerido
                           </span>
-                          <p className="text-xs italic text-slate-300">
+                          <p className="text-xs italic text-[var(--text-secondary,#475569)] dark:text-slate-300">
                             "{person.enrichmentData.suggestedIcebreakers[0]}"
                           </p>
                           <div className="flex justify-end pt-1">
@@ -1105,7 +1069,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                                 navigator.clipboard.writeText(person.enrichmentData!.suggestedIcebreakers![0]);
                                 showToast('Rompehielos copiado al portapapeles', 'info');
                               }}
-                              className="flex items-center gap-1 px-2 py-1 rounded bg-[#20273a] hover:bg-[#28324a] text-slate-300 text-[10px] font-medium transition-colors"
+                              className="flex items-center gap-1 px-2 py-1 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#20273a] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#28324a] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-[10px] font-medium transition-colors"
                             >
                               <Copy className="w-3 h-3" />
                               <span>Copiar</span>
@@ -1118,7 +1082,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
 
                   {(!person.enrichmentStatus || person.enrichmentStatus === 'idle' || person.enrichmentStatus === 'failed') && (
                     <div className="text-center py-2">
-                      <p className="text-[11px] text-slate-400 mb-2">
+                      <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-2">
                         Obtén seniority, bio profesional y canales sociales con 1 clic.
                       </p>
                       <button
@@ -1145,7 +1109,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                   <Sparkles className="w-4 h-4 text-indigo-400" />
                   <span>ClientumCRM AI Copilot Intelligence</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 leading-relaxed">
                   Real-time deal risk scoring, stakeholder sentiment analysis, and smart sales coaching.
                 </p>
 
@@ -1163,7 +1127,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                           : `Analyze the deal risks and win probability for "${getRecordTitle()}". Outline 3 concrete steps to accelerate closing.`,
                       })
                     }
-                    className="w-full text-left p-2.5 rounded-lg bg-[#161a26] hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-slate-200 flex items-center justify-between group transition-colors"
+                    className="w-full text-left p-2.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 flex items-center justify-between group transition-colors"
                   >
                     <span>🎯 {language === 'es' ? 'Evaluar Riesgos del Negocio y Probabilidad' : language === 'pt' ? 'Avaliar Riscos do Negócio e Probabilidade' : 'Generate Deal Risk & Win Probability Assessment'}</span>
                     <ChevronRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
@@ -1182,7 +1146,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                           : `Draft a concise, high-impact executive follow-up email for "${getRecordTitle()}".`,
                       })
                     }
-                    className="w-full text-left p-2.5 rounded-lg bg-[#161a26] hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-slate-200 flex items-center justify-between group transition-colors"
+                    className="w-full text-left p-2.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 flex items-center justify-between group transition-colors"
                   >
                     <span>✉️ {language === 'es' ? 'Redactar Correo de Seguimiento Personalizado' : language === 'pt' ? 'Redigir E-mail de Follow-Up Personalizado' : 'Draft Personalized Follow-up Email'}</span>
                     <ChevronRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
@@ -1201,7 +1165,7 @@ export const RecordDrawer: React.FC = React.memo(() => {
                           : `Extract key action items and next steps from the latest meetings on "${getRecordTitle()}".`,
                       })
                     }
-                    className="w-full text-left p-2.5 rounded-lg bg-[#161a26] hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-slate-200 flex items-center justify-between group transition-colors"
+                    className="w-full text-left p-2.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a26] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1e2336] border border-indigo-500/20 text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 flex items-center justify-between group transition-colors"
                   >
                     <span>📋 {language === 'es' ? 'Extraer Próximos Pasos y Lista de Tareas' : language === 'pt' ? 'Extrair Próximos Passos e Lista de Tarefas' : 'Extract Next Steps & Action Checklist'}</span>
                     <ChevronRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />

@@ -142,7 +142,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
   onOpenSimulator,
 }) => {
   return (
-    <section className="relative overflow-hidden bg-[#07111f] py-20 sm:py-24 text-white">
+    <section className="relative overflow-hidden bg-[#f8fafc] dark:bg-[#07111f] py-20 sm:py-24 text-[#0f172a] dark:text-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-blue-600/20 blur-3xl" />
         <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-violet-600/10 blur-3xl" />
@@ -160,7 +160,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
               No sumes otra herramienta.
               <span className="block text-blue-300">Conectá todo el negocio.</span>
             </h2>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-300 sm:text-base">
+            <p className="mt-5 max-w-xl text-sm leading-7 text-[#475569] dark:text-slate-300 sm:text-base">
               CRM, conversaciones, inteligencia artificial, finanzas y experiencia digital trabajando sobre la misma base de datos. Una arquitectura para crecer sin volver a unir piezas con planillas.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -175,7 +175,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
               <button
                 type="button"
                 onClick={onOpenWizard}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-bold text-white transition-colors hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-xs font-bold text-[#0f172a] dark:text-white transition-colors hover:bg-white/10"
               >
                 Calcular mi implementación
               </button>
@@ -191,7 +191,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
             ].map((metric) => (
               <div key={metric.label} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
                 <div className={`text-2xl font-black tracking-tight ${metric.color}`}>{metric.value}</div>
-                <div className="mt-1 text-[10px] font-semibold uppercase leading-4 tracking-wide text-slate-400">{metric.label}</div>
+                <div className="mt-1 text-[10px] font-semibold uppercase leading-4 tracking-wide text-[#64748b] dark:text-slate-400">{metric.label}</div>
               </div>
             ))}
           </div>
@@ -211,8 +211,8 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">{group.eyebrow}</span>
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-white">{group.title}</h3>
-                <p className="mt-2 min-h-[3.5rem] text-xs leading-5 text-slate-400">{group.description}</p>
+                <h3 className="mt-4 text-lg font-bold text-[#0f172a] dark:text-white">{group.title}</h3>
+                <p className="mt-2 min-h-[3.5rem] text-xs leading-5 text-[#64748b] dark:text-slate-400">{group.description}</p>
                 <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
                   {group.modules.map((module) => {
                     const ModuleIcon = module.icon;
@@ -225,7 +225,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
                       >
                         <ModuleIcon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${group.accent}`} />
                         <span className="min-w-0">
-                          <span className="block text-xs font-semibold text-slate-100">{module.name}</span>
+                          <span className="block text-xs font-semibold text-[#1e293b] dark:text-slate-100">{module.name}</span>
                           <span className="mt-0.5 block text-[10px] leading-4 text-slate-500">{module.detail}</span>
                         </span>
                         <ArrowRight className="ml-auto mt-1 h-3 w-3 shrink-0 text-slate-600 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -238,11 +238,11 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
           })}
         </div>
 
-        <div className="mt-16 rounded-3xl border border-white/10 bg-[#0d1b2d] p-5 sm:p-8">
+        <div className="mt-16 rounded-3xl border border-white/10 bg-[#ffffff] dark:bg-[#0d1b2d] p-5 sm:p-8">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-300">Del lead al cobro</div>
-              <h3 className="mt-2 text-2xl font-bold tracking-tight text-white">Un solo recorrido, sin perder contexto</h3>
+              <h3 className="mt-2 text-2xl font-bold tracking-tight text-[#0f172a] dark:text-white">Un solo recorrido, sin perder contexto</h3>
             </div>
             <button
               type="button"
@@ -264,9 +264,9 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{stage.label}</span>
                       <StageIcon className="h-4 w-4 text-blue-300" />
                     </div>
-                    <div className="mt-3 text-base font-bold text-white">{stage.title}</div>
-                    <p className="mt-1 text-[10px] leading-4 text-slate-400">{stage.detail}</p>
-                    <CheckCircle2 className="absolute -right-2 -top-2 h-4 w-4 rounded-full bg-[#0d1b2d] text-emerald-300" />
+                    <div className="mt-3 text-base font-bold text-[#0f172a] dark:text-white">{stage.title}</div>
+                    <p className="mt-1 text-[10px] leading-4 text-[#64748b] dark:text-slate-400">{stage.detail}</p>
+                    <CheckCircle2 className="absolute -right-2 -top-2 h-4 w-4 rounded-full bg-[#ffffff] dark:bg-[#0d1b2d] text-emerald-300" />
                   </div>
                   {index < journey.length - 1 && (
                     <div className="hidden items-center justify-center text-slate-600 md:flex">
@@ -291,7 +291,7 @@ export const PublicPlatformMap: React.FC<PublicPlatformMapProps> = ({
           <button
             type="button"
             onClick={() => onNavigate('/contacto')}
-            className="shrink-0 text-xs font-bold text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200"
+            className="shrink-0 text-xs font-bold text-[#0f172a] dark:text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200"
           >
             Hablar con un especialista
           </button>

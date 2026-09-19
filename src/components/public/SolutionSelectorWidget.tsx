@@ -77,7 +77,7 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
   };
 
   return (
-    <section className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-white border border-slate-800 space-y-6 shadow-xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-[#0f172a] dark:text-white border border-slate-800 space-y-6 shadow-xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
       <div className="text-center max-w-2xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs font-bold border border-cyan-500/30">
           <Sparkles className="w-3.5 h-3.5" />
@@ -86,7 +86,7 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
         <h3 className="text-xl sm:text-3xl font-extrabold tracking-tight">
           ¿Qué solución necesita tu negocio hoy?
         </h3>
-        <p className="text-xs sm:text-sm text-slate-300">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300">
           Selecciona tu prioridad y te mostramos el flujo operativo recomendado para tu empresa.
         </p>
       </div>
@@ -109,10 +109,10 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
+              <h4 className="text-sm font-bold text-[#0f172a] dark:text-white group-hover:text-cyan-300 transition-colors">
                 {sol.title}
               </h4>
-              <p className="text-xs text-slate-300/90 leading-relaxed">
+              <p className="text-xs text-[#475569]/90 dark:text-slate-300/90 leading-relaxed">
                 {sol.desc}
               </p>
             </div>

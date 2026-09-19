@@ -319,12 +319,12 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl bg-[#181d29] border border-indigo-500/35 text-white shadow-2xl animate-in slide-in-from-bottom-3 duration-200"
+            className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] border border-indigo-500/35 text-white shadow-2xl animate-in slide-in-from-bottom-3 duration-200"
           >
             <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${toast.type === 'success' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'}`}>
               {toast.type === 'success' ? <Sparkles className="w-4 h-4" /> : <Target className="w-4 h-4" />}
             </div>
-            <div className="text-xs font-medium text-slate-200 leading-relaxed">
+            <div className="text-xs font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 leading-relaxed">
               {toast.message}
             </div>
           </div>
@@ -332,29 +332,29 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
       </div>
 
       {/* DAILY GOAL TRACKER WIDGET */}
-      <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330] mb-5 shadow-lg">
+      <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] mb-5 shadow-lg">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
               <Target className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-semibold text-white">Daily Sales & Outreach Goal Tracker</h3>
-              <p className="text-[11px] text-slate-400">Track and log today&apos;s commercial activity targets with voice commands</p>
+              <h3 className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">Daily Sales & Outreach Goal Tracker</h3>
+              <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Track and log today&apos;s commercial activity targets with voice commands</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-            <div className="flex items-center bg-[#161a24] p-1 rounded-lg border border-[#202534]">
+            <div className="flex items-center bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] p-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534]">
               <button
                 onClick={() => setActiveTab('today')}
-                className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'today' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'today' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white'}`}
               >
                 Today
               </button>
               <button
                 onClick={() => setActiveTab('history')}
-                className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'history' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'history' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white'}`}
               >
                 History Trends
               </button>
@@ -362,7 +362,7 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
 
             <button
               onClick={toggleSpeechRecognition}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${isListening ? 'bg-red-500/20 text-red-300 border-red-500/40 animate-pulse' : 'bg-[#181d29] hover:bg-[#202738] text-slate-200 border-[#273044]'}`}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${isListening ? 'bg-red-500/20 text-red-300 border-red-500/40 animate-pulse' : 'bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202738] text-[var(--text-primary,#0f172a)] dark:text-slate-200 border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044]'}`}
               title="Voice Command (e.g. 'Add 2000 revenue', 'Add 3 calls')"
             >
               {isListening ? <MicOff className="w-3.5 h-3.5 text-red-400" /> : <Mic className="w-3.5 h-3.5 text-indigo-400" />}
@@ -371,9 +371,9 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
 
             <button
               onClick={() => setIsEditingGoals(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181d29] hover:bg-[#202738] border border-[#273044] text-xs font-medium text-slate-200 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202738] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] text-xs font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors"
             >
-              <Settings className="w-3.5 h-3.5 text-slate-400" />
+              <Settings className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
               <span className="hidden sm:inline">Configure</span>
             </button>
           </div>
@@ -385,22 +385,22 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
             {(() => {
               const pct = Math.min(100, Math.round((dailyProgress.revenueAchieved / dailyGoals.revenueTarget) * 100));
               return (
-                <div className="p-3.5 rounded-lg bg-[#161a24] border border-[#202534] flex flex-col justify-between">
+                <div className="p-3.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] flex flex-col justify-between">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <DollarSign className="w-4 h-4 text-emerald-400" />
-                      <span className="text-xs font-medium text-slate-300">Daily Revenue Closed</span>
+                      <span className="text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300">Daily Revenue Closed</span>
                     </div>
-                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-[#202738] text-slate-300'}`}>
+                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#202738] text-[var(--text-secondary,#475569)] dark:text-slate-300'}`}>
                       {pct}%
                     </span>
                   </div>
                   <div className="mb-3">
                     <div className="flex items-baseline justify-between font-mono text-xs mb-1">
-                      <span className="font-bold text-white">${dailyProgress.revenueAchieved.toLocaleString()}</span>
-                      <span className="text-slate-400">Goal: ${dailyGoals.revenueTarget.toLocaleString()}</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white">${dailyProgress.revenueAchieved.toLocaleString()}</span>
+                      <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400">Goal: ${dailyGoals.revenueTarget.toLocaleString()}</span>
                     </div>
-                    <div className="h-2.5 w-full bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[#232938]">
+                    <div className="h-2.5 w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232938]">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
                         style={{ width: `${pct}%` }}
@@ -410,14 +410,14 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => incrementProgress('revenue', 1000)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-emerald-400" />
                       <span>+$1k</span>
                     </button>
                     <button
                       onClick={() => incrementProgress('revenue', 5000)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-emerald-400" />
                       <span>+$5k</span>
@@ -431,22 +431,22 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
             {(() => {
               const pct = Math.min(100, Math.round((dailyProgress.outreachDone / dailyGoals.outreachTarget) * 100));
               return (
-                <div className="p-3.5 rounded-lg bg-[#161a24] border border-[#202534] flex flex-col justify-between">
+                <div className="p-3.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] flex flex-col justify-between">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs font-medium text-slate-300">Outreach & Calls</span>
+                      <span className="text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300">Outreach & Calls</span>
                     </div>
-                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-[#202738] text-slate-300'}`}>
+                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#202738] text-[var(--text-secondary,#475569)] dark:text-slate-300'}`}>
                       {pct}%
                     </span>
                   </div>
                   <div className="mb-3">
                     <div className="flex items-baseline justify-between font-mono text-xs mb-1">
-                      <span className="font-bold text-white">{dailyProgress.outreachDone} done</span>
-                      <span className="text-slate-400">Target: {dailyGoals.outreachTarget}</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{dailyProgress.outreachDone} done</span>
+                      <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400">Target: {dailyGoals.outreachTarget}</span>
                     </div>
-                    <div className="h-2.5 w-full bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[#232938]">
+                    <div className="h-2.5 w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232938]">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500 shadow-[0_0_10px_rgba(59,130,246,0.4)]"
                         style={{ width: `${pct}%` }}
@@ -456,14 +456,14 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => incrementProgress('outreach', 1)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-blue-400" />
                       <span>+1 Call</span>
                     </button>
                     <button
                       onClick={() => incrementProgress('outreach', 5)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-blue-400" />
                       <span>+5 Calls</span>
@@ -477,22 +477,22 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
             {(() => {
               const pct = Math.min(100, Math.round((dailyProgress.meetingsDone / dailyGoals.meetingsTarget) * 100));
               return (
-                <div className="p-3.5 rounded-lg bg-[#161a24] border border-[#202534] flex flex-col justify-between">
+                <div className="p-3.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] flex flex-col justify-between">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-purple-400" />
-                      <span className="text-xs font-medium text-slate-300">Demos & Meetings</span>
+                      <span className="text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300">Demos & Meetings</span>
                     </div>
-                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[#202738] text-slate-300'}`}>
+                    <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded font-bold ${pct >= 100 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#202738] text-[var(--text-secondary,#475569)] dark:text-slate-300'}`}>
                       {pct}%
                     </span>
                   </div>
                   <div className="mb-3">
                     <div className="flex items-baseline justify-between font-mono text-xs mb-1">
-                      <span className="font-bold text-white">{dailyProgress.meetingsDone} booked</span>
-                      <span className="text-slate-400">Target: {dailyGoals.meetingsTarget}</span>
+                      <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{dailyProgress.meetingsDone} booked</span>
+                      <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400">Target: {dailyGoals.meetingsTarget}</span>
                     </div>
-                    <div className="h-2.5 w-full bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[#232938]">
+                    <div className="h-2.5 w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#1b202c] rounded-full overflow-hidden p-0.5 border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232938]">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]"
                         style={{ width: `${pct}%` }}
@@ -502,14 +502,14 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => incrementProgress('meetings', 1)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-purple-400" />
                       <span>+1 Meeting</span>
                     </button>
                     <button
                       onClick={() => incrementProgress('meetings', 2)}
-                      className="flex-1 py-1.5 rounded bg-[#1e2330] hover:bg-[#273044] text-[11px] font-medium text-slate-200 transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1e2330] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#273044] text-[11px] font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
                       <Plus className="w-3 h-3 text-purple-400" />
                       <span>+2 Meetings</span>
@@ -521,26 +521,26 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
           </div>
         ) : (
           /* HISTORY RECHARTS VIEW WITH 7D/30D TOGGLE & CSV EXPORT */
-          <div className="p-4 rounded-lg bg-[#161a24] border border-[#202534]">
+          <div className="p-4 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534]">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
               <div>
-                <h4 className="text-xs font-semibold text-white">
+                <h4 className="text-xs font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">
                   {chartWindow === '7d' ? '7-Day Goal Achievement & Revenue Trend' : '30-Day Monthly Trend Analysis'}
                 </h4>
-                <p className="text-[11px] text-slate-400">Historical performance over selected timeframe</p>
+                <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Historical performance over selected timeframe</p>
               </div>
 
               <div className="flex items-center gap-2">
-                <div className="flex items-center bg-[#12151d] p-1 rounded-lg border border-[#202534]">
+                <div className="flex items-center bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-1 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534]">
                   <button
                     onClick={() => setChartWindow('7d')}
-                    className={`px-2.5 py-1 rounded text-[11px] font-medium transition-colors ${chartWindow === '7d' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                    className={`px-2.5 py-1 rounded text-[11px] font-medium transition-colors ${chartWindow === '7d' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white'}`}
                   >
                     7 Days
                   </button>
                   <button
                     onClick={() => setChartWindow('30d')}
-                    className={`px-2.5 py-1 rounded text-[11px] font-medium transition-colors ${chartWindow === '30d' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                    className={`px-2.5 py-1 rounded text-[11px] font-medium transition-colors ${chartWindow === '30d' ? 'bg-blue-600 text-white' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-white'}`}
                   >
                     30 Days
                   </button>
@@ -548,7 +548,7 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
 
                 <button
                   onClick={handleExportCSV}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12151d] hover:bg-[#1a202c] border border-[#202534] text-xs font-medium text-slate-200 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1a202c] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] text-xs font-medium text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors"
                   title="Export History & Analytics CSV"
                 >
                   <span>Export CSV</span>
@@ -589,15 +589,15 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
       {/* Goal Configuration Modal */}
       {isEditingGoals && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#12151d] border border-[#1e2330] rounded-xl w-full max-w-md p-5 shadow-2xl">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-xl w-full max-w-md p-5 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                 <Target className="w-4 h-4 text-indigo-400" />
                 Configure Daily Targets & Reminder
               </h3>
               <button
                 onClick={() => setIsEditingGoals(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -617,44 +617,44 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
 
             <form onSubmit={handleSaveGoals} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Daily Revenue Target ($)
                 </label>
                 <input
                   type="number"
                   value={tempRevenue}
                   onChange={(e) => setTempRevenue(Number(e.target.value))}
-                  className="w-full bg-[#161a24] border border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Daily Outreach / Calls Target
                 </label>
                 <input
                   type="number"
                   value={tempOutreach}
                   onChange={(e) => setTempOutreach(Number(e.target.value))}
-                  className="w-full bg-[#161a24] border border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">
                   Daily Meetings Booked Target
                 </label>
                 <input
                   type="number"
                   value={tempMeetings}
                   onChange={(e) => setTempMeetings(Number(e.target.value))}
-                  className="w-full bg-[#161a24] border border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="pt-2 border-t border-[#1e2330]">
+              <div className="pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                  <label className="text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 flex items-center gap-1.5">
                     <Bell className="w-3.5 h-3.5 text-amber-400" />
                     Scheduled Daily Reminder
                   </label>
@@ -662,7 +662,7 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                     type="checkbox"
                     checked={tempReminderEnabled}
                     onChange={(e) => setTempReminderEnabled(e.target.checked)}
-                    className="rounded bg-[#161a24] border-[#202534] text-blue-600 focus:ring-0"
+                    className="rounded bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] text-blue-600 focus:ring-0"
                   />
                 </div>
                 {tempReminderEnabled && (
@@ -671,7 +671,7 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                       type="time"
                       value={tempReminderTime}
                       onChange={(e) => setTempReminderTime(e.target.value)}
-                      className="w-full bg-[#161a24] border border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#202534] rounded-lg px-3 py-2 text-xs font-mono text-[var(--text-primary,#0f172a)] dark:text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 )}
@@ -681,7 +681,7 @@ export const DailyGoalsWidget: React.FC<DailyGoalsWidgetProps> = ({ opportunitie
                 <button
                   type="button"
                   onClick={() => setIsEditingGoals(false)}
-                  className="px-4 py-2 rounded-lg bg-[#161a24] hover:bg-[#202534] text-xs font-medium text-slate-300 transition-colors"
+                  className="px-4 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#161a24] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#202534] text-xs font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 transition-colors"
                 >
                   Cancel
                 </button>

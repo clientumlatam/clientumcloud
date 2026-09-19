@@ -259,7 +259,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
         <div className="px-5 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center shadow-xs">
-              <Mic className="w-5 h-5 text-white" />
+              <Mic className="w-5 h-5 text-[var(--text-primary,#0f172a)] dark:text-white" />
             </div>
             <div>
               <h3 className="text-sm font-bold flex items-center gap-2">
@@ -268,14 +268,14 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   Gemini Speech
                 </span>
               </h3>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 Dicta o graba lo hablado en tu reunión y extrae tareas automáticas
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -319,7 +319,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   <p className="text-xs font-bold text-[var(--text-primary)]">
                     Presiona para comenzar a grabar
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     O escribe/edita la nota en el cuadro de abajo
                   </p>
                 </div>
@@ -335,7 +335,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                 <span>Transcripción / Notas de la Reunión:</span>
               </label>
               {transcript && (
-                <span className="text-[10px] text-slate-400">
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   {transcript.split(' ').filter(Boolean).length} palabras
                 </span>
               )}
@@ -355,11 +355,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
             <button
               onClick={handleProcessWithGemini}
               disabled={isProcessing || !transcript.trim()}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer ${
-                isProcessing || !transcript.trim()
-                  ? 'bg-[var(--bg-muted)] text-slate-400 cursor-not-allowed'
-                  : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
-              }`}
+              className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer ${ isProcessing || !transcript.trim() ? 'bg-[var(--bg-muted)] text-[var(--text-muted,#64748b)] dark:text-slate-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-[var(--text-primary,#0f172a)] dark:text-white shadow-indigo-600/20' }`}
             >
               <Sparkles className="w-4 h-4 text-indigo-200" />
               <span>
@@ -379,13 +375,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                     <span>Resumen Ejecutivo</span>
                   </span>
                   <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                      analysis.sentiment === 'Positivo'
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : analysis.sentiment === 'En Riesgo'
-                        ? 'bg-rose-100 text-rose-800'
-                        : 'bg-amber-100 text-amber-800'
-                    }`}
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${ analysis.sentiment === 'Positivo' ? 'bg-emerald-100 text-emerald-800' : analysis.sentiment === 'En Riesgo' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800' }`}
                   >
                     {analysis.sentiment === 'Positivo' ? (
                       <Smile className="w-3 h-3" />
@@ -435,11 +425,7 @@ export const VoiceNoteModal: React.FC<VoiceNoteModalProps> = ({
                   <button
                     onClick={handleCreateSuggestedTask}
                     disabled={taskCreated}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold shrink-0 transition-all cursor-pointer ${
-                      taskCreated
-                        ? 'bg-emerald-200 text-emerald-800 cursor-default'
-                        : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs'
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold shrink-0 transition-all cursor-pointer ${ taskCreated ? 'bg-emerald-200 text-emerald-800 cursor-default' : 'bg-emerald-600 hover:bg-emerald-500 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' }`}
                   >
                     {taskCreated ? '✓ Tarea Creada' : 'Crear Tarea'}
                   </button>

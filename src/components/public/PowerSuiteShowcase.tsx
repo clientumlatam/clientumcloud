@@ -167,7 +167,7 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
   ];
 
   return (
-    <section className="bg-slate-950 text-white rounded-3xl p-8 sm:p-12 space-y-10 border border-slate-800 shadow-2xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="bg-slate-950 text-[#0f172a] dark:text-white rounded-3xl p-8 sm:p-12 space-y-10 border border-slate-800 shadow-2xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header */}
@@ -177,10 +177,10 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>Power Suite · 16/16 Módulos Activos</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#0f172a] dark:text-white leading-tight">
             El Ecosistema Integral que Sustituye más de 12 Suscripciones
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
             Elimina la dispersión de herramientas y gastos en dólares: todo lo que tu empresa necesita en una sola plataforma en moneda local.
           </p>
         </div>
@@ -188,14 +188,14 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
         {/* ROI Savings Card */}
         <div className="bg-slate-900/90 border border-cyan-500/30 rounded-2xl p-5 shrink-0 max-w-sm w-full space-y-2.5 shadow-lg">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-slate-400 font-medium">Costo de contratar por separado:</span>
+            <span className="text-[#64748b] dark:text-slate-400 font-medium">Costo de contratar por separado:</span>
             <span className="text-rose-400 font-bold line-through">~$160 USD/mes</span>
           </div>
           <div className="flex items-center justify-between text-sm font-bold">
             <span className="text-cyan-300">Plan Clientum Todo Incluido:</span>
             <span className="text-emerald-400 text-lg">$79 USD/mes</span>
           </div>
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-300">
+          <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-[#475569] dark:text-slate-300">
             <span>Ahorro mensual directo:</span>
             <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-extrabold border border-emerald-500/30">
               Ahorrás $81 USD/m
@@ -220,17 +220,17 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
               <div className="p-2 rounded-xl bg-slate-800/80 border border-slate-700/60">
                 {mod.icon}
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b] dark:text-slate-400">
                 {mod.category}
               </span>
             </div>
 
             <div>
-              <h3 className="text-sm font-bold text-white leading-snug">{mod.name}</h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">{mod.subtitle}</p>
+              <h3 className="text-sm font-bold text-[#0f172a] dark:text-white leading-snug">{mod.name}</h3>
+              <p className="text-[11px] text-[#64748b] dark:text-slate-400 mt-0.5">{mod.subtitle}</p>
             </div>
 
-            <p className="text-xs text-slate-300/90 leading-relaxed pt-1">
+            <p className="text-xs text-[#475569]/90 dark:text-slate-300/90 leading-relaxed pt-1">
               {mod.desc}
             </p>
           </div>
@@ -239,7 +239,7 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
 
       {/* Bottom Action Bar */}
       <div className="relative z-10 pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-800">
-        <div className="flex items-center gap-2 text-xs text-slate-400">
+        <div className="flex items-center gap-2 text-xs text-[#64748b] dark:text-slate-400">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>Incluye onboarding guiado, migración de datos y soporte por WhatsApp.</span>
         </div>
@@ -253,7 +253,7 @@ export const PowerSuiteShowcase: React.FC<PowerSuiteShowcaseProps> = ({ onNaviga
           </button>
           <button
             onClick={() => onNavigate('/planes')}
-            className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs cursor-pointer transition-all"
+            className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#0f172a] dark:text-white font-semibold text-xs cursor-pointer transition-all"
           >
             Ver Planes & Precios
           </button>

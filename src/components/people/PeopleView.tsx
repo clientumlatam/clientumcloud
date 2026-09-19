@@ -65,38 +65,34 @@ export const PeopleView: React.FC = () => {
       case 'Lead':
         return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
       default:
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-[var(--text-muted,#64748b)] dark:text-slate-400 border-slate-500/20';
     }
   };
 
   return (
-    <div id="clientum-people-view" className="flex-1 flex flex-col h-full bg-[#0a0c10] overflow-y-auto select-none">
+    <div id="clientum-people-view" className="flex-1 flex flex-col h-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] overflow-y-auto select-none">
       <SavedViewsBar target="people" />
       <div className="p-4 flex-1 flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-base font-semibold text-white">{t('people')}</h2>
-          <p className="text-xs text-slate-400">
+          <h2 className="text-base font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">{t('people')}</h2>
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
             {filteredPeople.length} {t('records')}
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="bg-[#141822] p-0.5 rounded-md border border-[#232838] flex items-center text-xs">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141822] p-0.5 rounded-md border border-[var(--border-subtle,#e2e8f0)] dark:border-[#232838] flex items-center text-xs">
             <button
               onClick={() => setViewStyle('cards')}
-              className={`px-2 py-1 rounded transition-all ${
-                viewStyle === 'cards' ? 'bg-[#202636] text-white font-medium' : 'text-slate-400 hover:text-slate-200'
-              }`}
+              className={`px-2 py-1 rounded transition-all ${ viewStyle === 'cards' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#202636] text-[var(--text-primary,#0f172a)] dark:text-white font-medium' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
             >
               {t('boardView')}
             </button>
             <button
               onClick={() => setViewStyle('table')}
-              className={`px-2 py-1 rounded transition-all ${
-                viewStyle === 'table' ? 'bg-[#202636] text-white font-medium' : 'text-slate-400 hover:text-slate-200'
-              }`}
+              className={`px-2 py-1 rounded transition-all ${ viewStyle === 'table' ? 'bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#202636] text-[var(--text-primary,#0f172a)] dark:text-white font-medium' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200' }`}
             >
               {t('tableView')}
             </button>
@@ -163,7 +159,7 @@ export const PeopleView: React.FC = () => {
               key={person.id}
               id={`person-card-${person.id}`}
               onClick={() => setSelectedRecord({ type: 'person', id: person.id })}
-              className="bg-[#12151d] hover:bg-[#161a24] border border-[#1e2330] hover:border-[#2d3548] p-4 rounded-xl shadow-sm transition-all cursor-pointer flex flex-col justify-between group"
+              className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161a24] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] border-[var(--border-subtle,#e2e8f0)] dark:hover:border-[#2d3548] p-4 rounded-xl shadow-sm transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
                 {/* Top Profile Bar */}
@@ -175,13 +171,13 @@ export const PeopleView: React.FC = () => {
                         `https://api.dicebear.com/7.x/avataaars/svg?seed=${person.firstName}-${person.lastName}`
                       }
                       alt={`${person.firstName} ${person.lastName}`}
-                      className="w-10 h-10 rounded-full object-cover border border-[#2b3345] shrink-0"
+                      className="w-10 h-10 rounded-full object-cover border border-[var(--border-subtle,#e2e8f0)] dark:border-[#2b3345] shrink-0"
                     />
                     <div className="min-w-0">
-                      <h3 className="font-semibold text-sm text-white group-hover:text-blue-400 transition-colors truncate">
+                      <h3 className="font-semibold text-sm text-[var(--text-primary,#0f172a)] dark:text-white group-hover:text-blue-400 transition-colors truncate">
                         {person.firstName} {person.lastName}
                       </h3>
-                      <p className="text-xs text-slate-400 truncate">{person.jobTitle}</p>
+                      <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 truncate">{person.jobTitle}</p>
                       {person.enrichmentStatus === 'enriched' && person.enrichmentData ? (
                         <div
                           onClick={(e) => {
@@ -210,26 +206,26 @@ export const PeopleView: React.FC = () => {
 
                 {/* Company Link */}
                 {person.companyName && (
-                  <div className="flex items-center gap-1.5 text-xs text-slate-300 mb-3 bg-[#171b26] px-2.5 py-1.5 rounded-lg border border-[#222736]">
+                  <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#171b26] px-2.5 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222736]">
                     <Building2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                     <span className="font-medium truncate">{person.companyName}</span>
                   </div>
                 )}
 
                 {/* Contact details */}
-                <div className="space-y-1.5 text-[11px] text-slate-400 mb-3">
+                <div className="space-y-1.5 text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-3">
                   <div className="flex items-center gap-2">
-                    <Mail className="w-3 h-3 text-slate-400 shrink-0" />
-                    <span className="text-slate-300 truncate">{person.email}</span>
+                    <Mail className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
+                    <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300 truncate">{person.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
-                    <span className="text-slate-300 truncate">{person.phone}</span>
+                    <Phone className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
+                    <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300 truncate">{person.phone}</span>
                   </div>
                   {person.city && (
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                      <span className="text-slate-300 truncate">
+                      <MapPin className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
+                      <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300 truncate">
                         {person.city}, {person.country || ''}
                       </span>
                     </div>
@@ -237,15 +233,15 @@ export const PeopleView: React.FC = () => {
                 </div>
 
                 {person.notes && (
-                  <p className="text-[11px] text-slate-400 italic line-clamp-2 bg-[#10121a] p-2 rounded border border-[#1b202c]">
+                  <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 italic line-clamp-2 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#10121a] p-2 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b202c]">
                     "{person.notes}"
                   </p>
                 )}
               </div>
 
               {/* Footer Actions */}
-              <div className="mt-3 pt-2.5 border-t border-[#1a1f2c] flex items-center justify-between text-xs text-slate-400">
-                <span className="text-[10px] text-slate-400">
+              <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1a1f2c] flex items-center justify-between text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Rep: {person.assignedTo ? person.assignedTo.split(' ')[0] : 'Sin asignar'}
                 </span>
 
@@ -259,13 +255,7 @@ export const PeopleView: React.FC = () => {
                         void enrichContact(person.id, true);
                       }
                     }}
-                    className={`p-1 rounded transition-colors ${
-                      person.enrichmentStatus === 'enriched'
-                        ? 'text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10'
-                        : person.enrichmentStatus === 'enriching'
-                        ? 'text-amber-400 animate-pulse'
-                        : 'text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10'
-                    }`}
+                    className={`p-1 rounded transition-colors ${ person.enrichmentStatus === 'enriched' ? 'text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10' : person.enrichmentStatus === 'enriching' ? 'text-amber-400 animate-pulse' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10' }`}
                     title={
                       person.enrichmentStatus === 'enriched'
                         ? 'Ver inteligencia social y profesional'
@@ -278,7 +268,7 @@ export const PeopleView: React.FC = () => {
                   <button
                     id={`person-whatsapp-${person.id}`}
                     onClick={() => setWhatsAppPerson(person)}
-                    className="p-1 rounded text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                    className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
                     title="Enviar WhatsApp"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
@@ -298,7 +288,7 @@ export const PeopleView: React.FC = () => {
                           : `Draft a personalized, high-conversion sales outreach email to ${person.firstName} (${person.jobTitle} at ${person.companyName || 'their company'}).`,
                       })
                     }
-                    className="p-1 rounded text-slate-400 hover:text-indigo-300 hover:bg-indigo-500/10 transition-colors"
+                    className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-indigo-300 hover:bg-indigo-500/10 transition-colors"
                     title="Draft AI Email"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
@@ -311,7 +301,7 @@ export const PeopleView: React.FC = () => {
                         deletePerson(person.id);
                       }
                     }}
-                    className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                     title="Delete"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -323,29 +313,29 @@ export const PeopleView: React.FC = () => {
         </div>
       ) : (
         /* Table View */
-        <div className="bg-[#11141c] border border-[#1e2330] rounded-xl overflow-hidden">
+        <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#11141c] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-xl overflow-hidden">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-[#141822] text-slate-400 border-b border-[#1e2330]">
+            <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141822] text-[var(--text-muted,#64748b)] dark:text-slate-400 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
               <tr>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Name</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Title</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Company</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Email</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Status</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Inteligencia IA</th>
-                <th className="px-3 py-2.5 font-semibold text-slate-300">Owner</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Name</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Title</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Company</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Email</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Status</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Inteligencia IA</th>
+                <th className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300">Owner</th>
                 <th className="w-20 px-3 py-2.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#191e2a]">
+            <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#191e2a]">
               {filteredPeople.map((p) => (
                 <tr
                   key={p.id}
                   id={`person-row-${p.id}`}
                   onClick={() => setSelectedRecord({ type: 'person', id: p.id })}
-                  className="hover:bg-[#161a24] cursor-pointer transition-colors"
+                  className="hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161a24] cursor-pointer transition-colors"
                 >
-                  <td className="px-3 py-2.5 font-semibold text-white flex items-center gap-2">
+                  <td className="px-3 py-2.5 font-semibold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                     <img
                       src={
                         p.avatar ||
@@ -358,9 +348,9 @@ export const PeopleView: React.FC = () => {
                       {p.firstName} {p.lastName}
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 text-slate-300">{p.jobTitle}</td>
-                  <td className="px-3 py-2.5 text-slate-300">{p.companyName || '—'}</td>
-                  <td className="px-3 py-2.5 text-slate-400 font-mono text-[11px]">{p.email}</td>
+                  <td className="px-3 py-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">{p.jobTitle}</td>
+                  <td className="px-3 py-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">{p.companyName || '—'}</td>
+                  <td className="px-3 py-2.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono text-[11px]">{p.email}</td>
                   <td className="px-3 py-2.5">
                     <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${getStatusBadge(p.status)}`}>
                       {p.status}
@@ -384,7 +374,7 @@ export const PeopleView: React.FC = () => {
                     ) : (
                       <button
                         onClick={() => void enrichContact(p.id, true)}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] text-slate-400 hover:text-indigo-300 hover:bg-indigo-950/30 transition-colors"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-indigo-300 hover:bg-indigo-950/30 transition-colors"
                         title="Ejecutar enriquecimiento"
                       >
                         <Sparkles className="w-2.5 h-2.5" />
@@ -392,7 +382,7 @@ export const PeopleView: React.FC = () => {
                       </button>
                     )}
                   </td>
-                  <td className="px-3 py-2.5 text-slate-400">{p.assignedTo}</td>
+                  <td className="px-3 py-2.5 text-[var(--text-muted,#64748b)] dark:text-slate-400">{p.assignedTo}</td>
                   <td className="px-3 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-end gap-1">
                       <button
@@ -403,7 +393,7 @@ export const PeopleView: React.FC = () => {
                             void enrichContact(p.id, true);
                           }
                         }}
-                        className="p-1 rounded text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors"
+                        className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors"
                         title="Inteligencia de contacto"
                       >
                         <Sparkles className="w-3.5 h-3.5" />
@@ -411,7 +401,7 @@ export const PeopleView: React.FC = () => {
                       <button
                         id={`table-whatsapp-person-${p.id}`}
                         onClick={() => setWhatsAppPerson(p)}
-                        className="p-1 rounded text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                        className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
                         title="Enviar WhatsApp"
                       >
                         <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
@@ -421,7 +411,7 @@ export const PeopleView: React.FC = () => {
                         onClick={() => {
                           if (confirm(`Delete ${p.firstName}?`)) deletePerson(p.id);
                         }}
-                        className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                        className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>

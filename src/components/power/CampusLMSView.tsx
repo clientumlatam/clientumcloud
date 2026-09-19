@@ -187,11 +187,7 @@ export const CampusLMSView: React.FC = () => {
                       <div
                         key={lesson.id}
                         onClick={() => setSelectedLessonId(lesson.id)}
-                        className={`p-2.5 rounded-xl border text-xs flex items-center justify-between cursor-pointer transition-all shadow-xs ${
-                          selectedLessonId === lesson.id
-                            ? 'bg-[var(--bg-card)] border-blue-400 text-blue-950 font-bold'
-                            : 'bg-[var(--bg-card)]/80 border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]'
-                        }`}
+                        className={`p-2.5 rounded-xl border text-xs flex items-center justify-between cursor-pointer transition-all shadow-xs ${ selectedLessonId === lesson.id ? 'bg-[var(--bg-card)] border-blue-400 text-blue-950 font-bold' : 'bg-[var(--bg-card)]/80 border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]' }`}
                       >
                         <div className="flex items-center gap-2">
                           <button
@@ -200,17 +196,13 @@ export const CampusLMSView: React.FC = () => {
                               e.stopPropagation();
                               handleToggleComplete(lesson.id);
                             }}
-                            className={`w-4 h-4 rounded flex items-center justify-center border transition-colors cursor-pointer ${
-                              lesson.isCompleted
-                                ? 'bg-emerald-600 border-emerald-600 text-white'
-                                : 'border-[var(--border-default)] hover:border-amber-500 bg-[var(--bg-card)]'
-                            }`}
+                            className={`w-4 h-4 rounded flex items-center justify-center border transition-colors cursor-pointer ${ lesson.isCompleted ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-[var(--border-default)] hover:border-amber-500 bg-[var(--bg-card)]' }`}
                           >
                             {lesson.isCompleted && <Check className="w-3 h-3 stroke-[3]" />}
                           </button>
                           <span>{lesson.title}</span>
                         </div>
-                        <span className="text-[10px] text-slate-400">{lesson.duration}</span>
+                        <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{lesson.duration}</span>
                       </div>
                     ))}
                   </div>
@@ -233,11 +225,7 @@ export const CampusLMSView: React.FC = () => {
 
               <button
                 onClick={() => handleToggleComplete(activeLesson.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs ${
-                  activeLesson.isCompleted
-                    ? 'bg-emerald-50 border border-emerald-300 text-emerald-800'
-                    : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                }`}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs ${ activeLesson.isCompleted ? 'bg-emerald-50 border border-emerald-300 text-emerald-800' : 'bg-emerald-600 hover:bg-emerald-700 text-white' }`}
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>{activeLesson.isCompleted ? 'Completada' : 'Marcar como Completada'}</span>
@@ -275,7 +263,7 @@ export const CampusLMSView: React.FC = () => {
           <div className="max-w-2xl w-full bg-[var(--bg-card)] text-[var(--text-primary)] rounded-3xl shadow-2xl p-8 space-y-6 relative border-4 border-amber-400 font-sans">
             <button
               onClick={() => setShowCertificateModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-[var(--text-primary)] font-bold text-lg cursor-pointer"
+              className="absolute top-4 right-4 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] font-bold text-lg cursor-pointer"
             >
               ✕
             </button>

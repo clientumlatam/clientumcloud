@@ -197,38 +197,34 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--text-primary)] dark:text-slate-200 transition-colors">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
               Módulo ERP & Servicios
             </span>
-            <span className="text-xs text-slate-400 dark:text-[var(--text-muted)]">vscrm_suite_dashboard.md</span>
+            <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)]">vscrm_suite_dashboard.md</span>
           </div>
           <h1 className="text-xl font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2.5">
             <Briefcase className="w-6 h-6 text-blue-500 dark:text-blue-400" />
             VS CRM & ERP Suite - Gestión de Proyectos y Horas
           </h1>
-          <p className="text-xs text-[var(--text-secondary)] dark:text-slate-400 mt-1 max-w-3xl">
+          <p className="text-xs text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 max-w-3xl">
             Suite empresarial especializada en la gestión unificada de proyectos, control de horas trabajadas (Time Tracking), gastos de equipo y facturación para empresas de servicios profesionales y agencias.
           </p>
         </div>
 
         {/* Live Timer Widget */}
-        <div className="flex items-center gap-3 bg-[var(--bg-card)] dark:bg-slate-800/80 border border-[var(--border-subtle)] dark:border-slate-700/80 p-2.5 rounded-xl shadow-xs shrink-0">
+        <div className="flex items-center gap-3 bg-[var(--bg-card)] dark:bg-slate-800/80 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80 p-2.5 rounded-xl shadow-xs shrink-0">
           <div className="text-right">
-            <div className="text-[10px] text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider font-semibold">Time Tracking Activo</div>
+            <div className="text-[10px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider font-semibold">Time Tracking Activo</div>
             <div className="text-lg font-mono font-bold text-emerald-600 dark:text-emerald-400">{formatTimer(timerSeconds)}</div>
           </div>
           <button
             onClick={toggleTimer}
-            className={`p-2.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
-              isTimerRunning
-                ? 'bg-rose-600 hover:bg-rose-500 text-white animate-pulse'
-                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-            }`}
+            className={`p-2.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer ${ isTimerRunning ? 'bg-rose-600 hover:bg-rose-500 text-[var(--text-primary,#0f172a)] dark:text-white animate-pulse' : 'bg-emerald-600 hover:bg-emerald-500 text-white' }`}
           >
             {isTimerRunning ? <Square className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
             <span>{isTimerRunning ? 'Detener' : 'Iniciar'}</span>
@@ -237,7 +233,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] dark:border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 pb-2">
         {[
           { id: 'projects', label: '1. Proyectos y Tareas', icon: FolderKanban },
           { id: 'tracking', label: '2. Time Tracking (Horas)', icon: Clock },
@@ -249,11 +245,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === tab.id
-                  ? 'bg-[var(--clientum-blue,#002B5C)] text-white shadow-xs font-bold'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800/60'
-              }`}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${ activeTab === tab.id ? 'bg-[var(--clientum-blue,#002B5C)] text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs font-bold' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800/60' }`}
             >
               <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
@@ -272,7 +264,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             </h2>
             <button
               onClick={() => setIsNewProjectModalOpen(true)}
-              className="px-3 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+              className="px-3 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
             >
               <Plus className="w-3.5 h-3.5" />
               Nuevo Proyecto
@@ -283,17 +275,13 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             {projects.map((p) => {
               const progress = Math.min(100, Math.round((p.spentHours / p.estimatedHours) * 100));
               return (
-                <div key={p.id} className="bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl p-4 space-y-3 hover:border-blue-400/60 dark:hover:border-slate-600 shadow-xs transition-all">
+                <div key={p.id} className="bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl p-4 space-y-3 hover:border-blue-400/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:hover:border-slate-600 shadow-xs transition-all">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] dark:text-slate-400 bg-[var(--bg-muted)] dark:bg-slate-800 px-2 py-0.5 rounded border border-[var(--border-subtle)] dark:border-slate-700">
+                    <span className="text-[10px] font-mono text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 bg-[var(--bg-muted)] dark:bg-slate-800 px-2 py-0.5 rounded border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                       {p.id}
                     </span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                        p.status === 'Activo'
-                          ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
-                          : 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-500/30'
-                      }`}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded border ${ p.status === 'Activo' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30' : 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-500/30' }`}
                     >
                       {p.status}
                     </span>
@@ -301,11 +289,11 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
 
                   <div>
                     <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">{p.name}</h3>
-                    <p className="text-xs text-[var(--text-muted)] dark:text-slate-400 mt-0.5">{p.client}</p>
+                    <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">{p.client}</p>
                   </div>
 
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[11px] text-[var(--text-muted)] dark:text-slate-400">
+                    <div className="flex justify-between text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       <span>Progreso de Horas</span>
                       <span className="font-semibold text-[var(--text-primary)] dark:text-white">
                         {p.spentHours}h / {p.estimatedHours}h ({progress}%)
@@ -313,16 +301,14 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                     </div>
                     <div className="w-full bg-[var(--bg-muted)] dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all ${
-                          progress > 90 ? 'bg-amber-500' : 'bg-blue-500'
-                        }`}
+                        className={`h-full rounded-full transition-all ${ progress > 90 ? 'bg-amber-500' : 'bg-blue-500' }`}
                         style={{ width: `${progress}%` }}
                       />
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-slate-700/60 flex items-center justify-between text-xs">
-                    <span className="text-[var(--text-muted)] dark:text-slate-400">Presupuesto:</span>
+                  <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 flex items-center justify-between text-xs">
+                    <span className="text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Presupuesto:</span>
                     <span className="font-bold text-[var(--text-primary)] dark:text-white font-mono">$ {p.budget.toLocaleString('es-AR')}</span>
                   </div>
                 </div>
@@ -350,7 +336,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
 
           <div className="bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl overflow-hidden shadow-xs">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[var(--bg-muted)] dark:bg-slate-900/80 text-[var(--text-muted)] dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-[var(--border-subtle)] dark:border-slate-700">
+              <thead className="bg-[var(--bg-muted)] dark:bg-slate-900/80 text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                 <tr>
                   <th className="p-3">Fecha</th>
                   <th className="p-3">Operador</th>
@@ -361,27 +347,23 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                   <th className="p-3 text-center">Estado</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border-subtle)] dark:divide-slate-800 text-[var(--text-secondary)] dark:text-slate-300">
+              <tbody className="divide-y divide-[var(--border-subtle)] dark:divide-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 {timeLogs.map((tl) => (
                   <tr key={tl.id} className="hover:bg-[var(--bg-muted)]/80 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="p-3 font-mono text-[var(--text-muted)] dark:text-slate-400">{tl.date}</td>
+                    <td className="p-3 font-mono text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">{tl.date}</td>
                     <td className="p-3 font-semibold text-[var(--text-primary)] dark:text-white">{tl.operator}</td>
                     <td className="p-3">
-                      <div className="font-semibold text-[var(--text-primary)] dark:text-slate-200">{tl.project}</div>
-                      <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">{tl.task}</div>
+                      <div className="font-semibold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200">{tl.project}</div>
+                      <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">{tl.task}</div>
                     </td>
                     <td className="p-3 text-right font-mono font-bold text-[var(--text-primary)] dark:text-white">{tl.hours}h</td>
-                    <td className="p-3 text-right font-mono text-[var(--text-muted)] dark:text-slate-400">$ {tl.ratePerHour.toLocaleString('es-AR')}</td>
+                    <td className="p-3 text-right font-mono text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">$ {tl.ratePerHour.toLocaleString('es-AR')}</td>
                     <td className="p-3 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">
                       $ {(tl.hours * tl.ratePerHour).toLocaleString('es-AR')}
                     </td>
                     <td className="p-3 text-center">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
-                          tl.billable
-                            ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30'
-                            : 'bg-[var(--bg-muted)] dark:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-400 border-[var(--border-subtle)] dark:border-slate-600'
-                        }`}
+                        className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${ tl.billable ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30' : 'bg-[var(--bg-muted)] dark:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600' }`}
                       >
                         {tl.billable ? 'Facturable' : 'No facturable'}
                       </span>
@@ -401,18 +383,18 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             Cuentas y Clientes Vinculados a VS CRM
           </h2>
           <div className="p-4 bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl space-y-3 shadow-xs">
-            <p className="text-xs text-[var(--text-secondary)] dark:text-slate-400">
+            <p className="text-xs text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Las cuentas comerciales registradas en el CRM sincronizan automáticamente sus centros de costos, contratos vigentes y acuerdos de SLA con la suite VS CRM.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800/70 border border-[var(--border-subtle)] dark:border-slate-700">
+              <div className="p-3 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800/70 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                 <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white">Distribuidora del Sur S.A.</div>
-                <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Contrato: Retainer Mensual 40hs</div>
+                <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Contrato: Retainer Mensual 40hs</div>
                 <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">SLA: 4 horas de respuesta garantizada</div>
               </div>
-              <div className="p-3 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800/70 border border-[var(--border-subtle)] dark:border-slate-700">
+              <div className="p-3 rounded-lg bg-[var(--bg-muted)] dark:bg-slate-800/70 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                 <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white">Logística & Envíos Express</div>
-                <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Contrato: Llave en Mano - Implementación</div>
+                <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Contrato: Llave en Mano - Implementación</div>
                 <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">SLA: Soporte 24/7 post lanzamiento</div>
               </div>
             </div>
@@ -427,10 +409,10 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             Emisión de Presupuestos y Certificación de Servicios
           </h2>
           <div className="p-5 bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl space-y-4 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border-subtle)] dark:border-slate-700">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
               <div>
                 <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white">Resumen de Horas Acumuladas Pendientes de Cobro</div>
-                <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">Total acumulado durante el ciclo actual: 52.5 horas facturables.</div>
+                <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Total acumulado durante el ciclo actual: 52.5 horas facturables.</div>
               </div>
               <button
                 onClick={() => {
@@ -457,7 +439,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
             </h3>
             <form onSubmit={handleCreateProject} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Nombre del Proyecto</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre del Proyecto</label>
                 <input
                   type="text"
                   required
@@ -468,7 +450,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Empresa / Cliente</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Empresa / Cliente</label>
                 <input
                   type="text"
                   required
@@ -480,7 +462,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Presupuesto ($ ARS)</label>
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Presupuesto ($ ARS)</label>
                   <input
                     type="number"
                     value={newProjectBudget}
@@ -489,7 +471,7 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Horas Estimadas</label>
+                  <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Horas Estimadas</label>
                   <input
                     type="number"
                     value={newProjectEstimatedHours}
@@ -502,13 +484,13 @@ export const VscrmSuiteDashboardPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsNewProjectModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
                 >
                   Guardar Proyecto
                 </button>

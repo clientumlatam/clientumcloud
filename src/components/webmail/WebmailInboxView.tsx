@@ -220,7 +220,7 @@ export const WebmailInboxView: React.FC = () => {
         {/* Left Column: Folders Navigation */}
         <div className="w-56 bg-[var(--bg-card)] border-r border-[var(--border-subtle)] flex flex-col p-3 space-y-4 shrink-0">
           <div>
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1.5">
+            <div className="text-[10px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider px-2 mb-1.5">
               Carpetas
             </div>
             <nav className="space-y-0.5">
@@ -232,14 +232,10 @@ export const WebmailInboxView: React.FC = () => {
                   <button
                     key={f.id}
                     onClick={() => setWebmailSelectedFolder(f.id)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                      isActive
-                        ? 'bg-blue-50 text-blue-700 font-bold border border-blue-100'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
-                    }`}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${ isActive ? 'bg-blue-50 text-blue-700 font-bold border border-blue-100' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]' }`}
                   >
                     <div className="flex items-center gap-2.5 truncate">
-                      <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                      <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-600' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400'}`} />
                       <span className="truncate">{f.label}</span>
                     </div>
                     {unread > 0 && (
@@ -255,7 +251,7 @@ export const WebmailInboxView: React.FC = () => {
 
           {/* Quick CRM Accounts Link */}
           <div className="pt-3 border-t border-[var(--border-subtle)]">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1.5">
+            <div className="text-[10px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider px-2 mb-1.5">
               Cuentas Activas
             </div>
             <div className="space-y-1 text-xs">
@@ -291,13 +287,13 @@ export const WebmailInboxView: React.FC = () => {
           {/* Search and Filters Bar */}
           <div className="p-3 border-b border-[var(--border-subtle)] bg-[var(--bg-muted)] space-y-2">
             <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
               <input
                 type="text"
                 placeholder="Buscar por remitente, asunto o texto..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500 focus:bg-[var(--bg-card)]"
+                className="w-full bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden focus:border-blue-500 focus:bg-[var(--bg-card)]"
               />
             </div>
 
@@ -305,22 +301,18 @@ export const WebmailInboxView: React.FC = () => {
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => setFilterUnreadOnly(!filterUnreadOnly)}
-                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${
-                    filterUnreadOnly ? 'bg-blue-600 text-white' : 'bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]'
-                  }`}
+                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${ filterUnreadOnly ? 'bg-blue-600 text-white' : 'bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]' }`}
                 >
                   No leídos
                 </button>
                 <button
                   onClick={() => setFilterHasAttachment(!filterHasAttachment)}
-                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${
-                    filterHasAttachment ? 'bg-blue-600 text-white' : 'bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]'
-                  }`}
+                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${ filterHasAttachment ? 'bg-blue-600 text-white' : 'bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)]' }`}
                 >
                   Con adjuntos
                 </button>
               </div>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                 {filteredEmails.length} correos
               </span>
             </div>
@@ -329,8 +321,8 @@ export const WebmailInboxView: React.FC = () => {
           {/* Scrollable list */}
           <div className="flex-1 overflow-y-auto divide-y divide-[var(--border-subtle)] custom-scrollbar">
             {filteredEmails.length === 0 ? (
-              <div className="p-8 text-center text-slate-400 text-xs space-y-2">
-                <Mail className="w-8 h-8 mx-auto text-slate-300" />
+              <div className="p-8 text-center text-[var(--text-muted,#64748b)] dark:text-slate-400 text-xs space-y-2">
+                <Mail className="w-8 h-8 mx-auto text-[var(--text-secondary,#475569)] dark:text-slate-300" />
                 <p>No se encontraron correos en esta carpeta.</p>
               </div>
             ) : (
@@ -340,13 +332,7 @@ export const WebmailInboxView: React.FC = () => {
                   <div
                     key={email.id}
                     onClick={() => handleSelectEmail(email)}
-                    className={`p-3.5 cursor-pointer transition-all relative text-xs space-y-1.5 ${
-                      isSelected
-                        ? 'bg-blue-50/80 border-l-4 border-blue-600'
-                        : email.isRead
-                        ? 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)]'
-                        : 'bg-blue-50/30 hover:bg-blue-50/50'
-                    }`}
+                    className={`p-3.5 cursor-pointer transition-all relative text-xs space-y-1.5 ${ isSelected ? 'bg-blue-50/80 border-l-4 border-blue-600' : email.isRead ? 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)]' : 'bg-blue-50/30 hover:bg-blue-50/50' }`}
                   >
                     {/* Header line: Sender & Time */}
                     <div className="flex items-center justify-between gap-2">
@@ -356,31 +342,25 @@ export const WebmailInboxView: React.FC = () => {
                             e.stopPropagation();
                             toggleWebmailStar(email.id);
                           }}
-                          className={`p-0.5 rounded transition-colors cursor-pointer ${
-                            email.isStarred ? 'text-amber-500' : 'text-slate-300 hover:text-[var(--text-muted)]'
-                          }`}
+                          className={`p-0.5 rounded transition-colors cursor-pointer ${ email.isStarred ? 'text-amber-500' : 'text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:text-[var(--text-muted)]' }`}
                         >
                           <Star className={`w-3.5 h-3.5 ${email.isStarred ? 'fill-amber-400' : ''}`} />
                         </button>
                         <span
-                          className={`truncate font-medium ${
-                            !email.isRead ? 'text-[var(--text-primary)] font-bold' : 'text-[var(--text-secondary)]'
-                          }`}
+                          className={`truncate font-medium ${ !email.isRead ? 'text-[var(--text-primary)] font-bold' : 'text-[var(--text-secondary)]' }`}
                         >
                           {email.fromName || email.from}
                         </span>
                       </div>
 
-                      <span className="text-[10px] text-slate-400 shrink-0 font-mono">
+                      <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0 font-mono">
                         {new Date(email.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
 
                     {/* Subject */}
                     <div
-                      className={`truncate text-xs ${
-                        !email.isRead ? 'text-blue-900 font-bold' : 'text-[var(--text-secondary)]'
-                      }`}
+                      className={`truncate text-xs ${ !email.isRead ? 'text-blue-900 font-bold' : 'text-[var(--text-secondary)]' }`}
                     >
                       {email.subject}
                     </div>
@@ -496,7 +476,7 @@ export const WebmailInboxView: React.FC = () => {
                     SPF: {selectedEmail.spfStatus} • DKIM: {selectedEmail.dkimStatus}
                   </span>
 
-                  <span className="text-slate-400 text-[11px] font-mono">
+                  <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px] font-mono">
                     Message-ID: {selectedEmail.messageId}
                   </span>
                 </div>
@@ -522,7 +502,7 @@ export const WebmailInboxView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="text-right text-[11px] text-slate-400 shrink-0 font-mono">
+                <div className="text-right text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0 font-mono">
                   {new Date(selectedEmail.timestamp).toLocaleString()}
                 </div>
               </div>
@@ -565,7 +545,7 @@ export const WebmailInboxView: React.FC = () => {
                           </div>
                           <div className="min-w-0">
                             <div className="text-[var(--text-primary)] font-medium truncate font-mono text-[11px]">{att.name}</div>
-                            <div className="text-[10px] text-slate-400 font-mono">
+                            <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                               {Math.round(att.size / 1024)} KB • {att.type}
                             </div>
                           </div>
@@ -612,7 +592,7 @@ export const WebmailInboxView: React.FC = () => {
                     placeholder={`Escribe una respuesta rápida para ${selectedEmail.fromName || selectedEmail.from}...`}
                     value={quickReplyText}
                     onChange={(e) => setQuickReplyText(e.target.value)}
-                    className="w-full bg-[var(--bg-card)] border border-[var(--border-default)] rounded-lg p-3 text-xs text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans shadow-xs"
+                    className="w-full bg-[var(--bg-card)] border border-[var(--border-default)] rounded-lg p-3 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted,#64748b)] dark:text-slate-400 focus:outline-hidden focus:border-blue-600 leading-relaxed font-sans shadow-xs"
                   />
 
                   <div className="flex items-center justify-end">
@@ -629,8 +609,8 @@ export const WebmailInboxView: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center p-8 text-center text-slate-400 space-y-2">
-              <Mail className="w-12 h-12 text-slate-300 mb-2" />
+            <div className="h-full flex flex-col items-center justify-center p-8 text-center text-[var(--text-muted,#64748b)] dark:text-slate-400 space-y-2">
+              <Mail className="w-12 h-12 text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-2" />
               <h4 className="text-sm font-semibold text-[var(--text-secondary)]">Ningún correo seleccionado</h4>
               <p className="text-xs max-w-sm text-[var(--text-muted)]">
                 Selecciona un correo de la lista o redacta un nuevo mensaje para comenzar.

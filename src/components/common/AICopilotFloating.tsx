@@ -14,7 +14,7 @@ export const AICopilotFloating: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group px-4 py-2.5 rounded-full bg-slate-900 hover:bg-slate-850 text-white font-bold text-xs shadow-2xl transition-all duration-200 flex items-center gap-2 border border-slate-700/80 cursor-pointer hover:scale-105 active:scale-95 backdrop-blur-md"
+          className="group px-4 py-2.5 rounded-full bg-slate-900 hover:bg-slate-850 text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-xs shadow-2xl transition-all duration-200 flex items-center gap-2 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80 cursor-pointer hover:scale-105 active:scale-95 backdrop-blur-md"
           title="Abrir Clientum AI Copilot"
         >
           <div className="w-5 h-5 rounded-full bg-indigo-900/60 border border-indigo-500/40 flex items-center justify-center">

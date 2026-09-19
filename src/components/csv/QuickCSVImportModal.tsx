@@ -162,29 +162,29 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="w-full max-w-2xl bg-[#0e111a] border border-[#20273a] rounded-2xl shadow-2xl overflow-hidden text-xs text-slate-300"
+          className="w-full max-w-2xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e111a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20273a] rounded-2xl shadow-2xl overflow-hidden text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300"
         >
           {/* Header */}
-          <div className="px-5 py-4 border-b border-[#1c2233] bg-[#121623] flex items-center justify-between">
+          <div className="px-5 py-4 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c2233] bg-[var(--bg-card,#ffffff)] dark:bg-[#121623] flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <h3 className="font-bold text-sm text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
                   Importador de Contactos (CSV / Excel)
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">
                     Batch Firestore
                   </span>
                 </h3>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Carga rápida de bases de datos masivas directamente a tu CRM
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-[#1c2233] text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1c2233] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -201,11 +201,7 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-3 ${
-                  isDragging
-                    ? 'border-emerald-500 bg-emerald-500/10'
-                    : 'border-[#263147] hover:border-emerald-500/60 bg-[#131724]'
-                }`}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-3 ${ isDragging ? 'border-emerald-500 bg-emerald-500/10' : 'border-[var(--border-subtle,#e2e8f0)] dark:border-[#263147] hover:border-emerald-500/60 bg-[var(--bg-card,#ffffff)] dark:bg-[#131724]' }`}
               >
                 <input
                   ref={fileInputRef}
@@ -218,10 +214,10 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                   <Upload className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">
+                  <p className="text-[var(--text-primary,#0f172a)] dark:text-white font-semibold text-sm">
                     Arrastra aquí tu archivo CSV o haz clic para seleccionarlo
                   </p>
-                  <p className="text-slate-400 text-xs mt-1">
+                  <p className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-xs mt-1">
                     Compatible con exportaciones de Excel, Google Sheets, HubSpot o WhatsApp
                   </p>
                 </div>
@@ -229,12 +225,12 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
             ) : (
               <div className="space-y-4">
                 {/* File info bar */}
-                <div className="p-3 rounded-xl bg-[#141824] border border-[#22293d] flex items-center justify-between">
+                <div className="p-3 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293d] flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
                     <div>
-                      <span className="font-semibold text-white">{csvFile.name}</span>
-                      <span className="text-slate-400 ml-2">({parsedRows.length} filas detectadas)</span>
+                      <span className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white">{csvFile.name}</span>
+                      <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 ml-2">({parsedRows.length} filas detectadas)</span>
                     </div>
                   </div>
                   <button
@@ -243,26 +239,26 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                       setParsedRows([]);
                       setHeaders([]);
                     }}
-                    className="text-[11px] text-slate-400 hover:text-rose-400 cursor-pointer"
+                    className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 cursor-pointer"
                   >
                     Cambiar archivo
                   </button>
                 </div>
 
                 {/* Column Mapping Section */}
-                <div className="p-4 rounded-xl bg-[#131724] border border-[#20273a] space-y-3">
-                  <h4 className="font-semibold text-white text-xs flex items-center gap-2">
+                <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#131724] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20273a] space-y-3">
+                  <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs flex items-center gap-2">
                     <Database className="w-3.5 h-3.5 text-blue-400" />
                     Asignación de Columnas
                   </h4>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[11px]">
                     <div>
-                      <label className="text-slate-400 block mb-1">Nombre</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Nombre</label>
                       <select
                         value={mapping.firstName}
                         onChange={(e) => setMapping({ ...mapping, firstName: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -272,11 +268,11 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                     </div>
 
                     <div>
-                      <label className="text-slate-400 block mb-1">Apellido</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Apellido</label>
                       <select
                         value={mapping.lastName}
                         onChange={(e) => setMapping({ ...mapping, lastName: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -286,11 +282,11 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                     </div>
 
                     <div>
-                      <label className="text-slate-400 block mb-1">Email</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Email</label>
                       <select
                         value={mapping.email}
                         onChange={(e) => setMapping({ ...mapping, email: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -300,11 +296,11 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                     </div>
 
                     <div>
-                      <label className="text-slate-400 block mb-1">Teléfono / WhatsApp</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Teléfono / WhatsApp</label>
                       <select
                         value={mapping.phone}
                         onChange={(e) => setMapping({ ...mapping, phone: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -314,11 +310,11 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                     </div>
 
                     <div>
-                      <label className="text-slate-400 block mb-1">Empresa</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Empresa</label>
                       <select
                         value={mapping.company}
                         onChange={(e) => setMapping({ ...mapping, company: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -328,11 +324,11 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                     </div>
 
                     <div>
-                      <label className="text-slate-400 block mb-1">Cargo / Puesto</label>
+                      <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Cargo / Puesto</label>
                       <select
                         value={mapping.jobTitle}
                         onChange={(e) => setMapping({ ...mapping, jobTitle: e.target.value })}
-                        className="w-full bg-[#0d1017] border border-[#22293b] rounded-lg p-2 text-white"
+                        className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22293b] rounded-lg p-2 text-[var(--text-primary,#0f172a)] dark:text-white"
                       >
                         <option value="">-- No asignar --</option>
                         {headers.map((h) => (
@@ -345,12 +341,12 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
 
                 {/* Preview Table */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-white text-xs">
+                  <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs">
                     Vista previa (Primeros 4 registros)
                   </h4>
-                  <div className="border border-[#20273a] rounded-xl overflow-x-auto bg-[#0d1017]">
+                  <div className="border border-[var(--border-subtle,#e2e8f0)] dark:border-[#20273a] rounded-xl overflow-x-auto bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d1017]">
                     <table className="w-full text-[11px] text-left">
-                      <thead className="bg-[#141824] text-slate-400 border-b border-[#20273a]">
+                      <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] text-[var(--text-muted,#64748b)] dark:text-slate-400 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#20273a]">
                         <tr>
                           <th className="p-2.5">Nombre</th>
                           <th className="p-2.5">Email</th>
@@ -358,20 +354,20 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
                           <th className="p-2.5">Empresa</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1b2131]">
+                      <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#1b2131]">
                         {parsedRows.slice(0, 4).map((row, idx) => (
-                          <tr key={idx} className="hover:bg-[#131724]">
-                            <td className="p-2.5 text-white">
+                          <tr key={idx} className="hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#131724]">
+                            <td className="p-2.5 text-[var(--text-primary,#0f172a)] dark:text-white">
                               {mapping.firstName ? row[mapping.firstName] : ''}{' '}
                               {mapping.lastName ? row[mapping.lastName] : ''}
                             </td>
-                            <td className="p-2.5 text-slate-300">
+                            <td className="p-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">
                               {mapping.email ? row[mapping.email] : '-'}
                             </td>
-                            <td className="p-2.5 text-slate-300">
+                            <td className="p-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">
                               {mapping.phone ? row[mapping.phone] : '-'}
                             </td>
-                            <td className="p-2.5 text-slate-300">
+                            <td className="p-2.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">
                               {mapping.company ? row[mapping.company] : '-'}
                             </td>
                           </tr>
@@ -385,15 +381,15 @@ export const QuickCSVImportModal: React.FC<QuickCSVImportModalProps> = ({ isOpen
           </div>
 
           {/* Footer */}
-          <div className="px-5 py-3.5 border-t border-[#1c2233] bg-[#121623] flex items-center justify-between">
-            <div className="text-[11px] text-slate-400">
+          <div className="px-5 py-3.5 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c2233] bg-[var(--bg-card,#ffffff)] dark:bg-[#121623] flex items-center justify-between">
+            <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
               {parsedRows.length > 0 && `${parsedRows.length} contactos se guardarán en tu Firestore.`}
             </div>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-[#181d2c] transition-colors"
+                className="px-4 py-2 rounded-xl text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#181d2c] transition-colors"
               >
                 Cancelar
               </button>

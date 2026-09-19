@@ -435,7 +435,7 @@ export const PublicClientsPage: React.FC<PublicClientsPageProps> = ({ onNavigate
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 selectedCategory === cat.id
-                  ? 'bg-slate-900 text-white shadow-xs'
+                  ? 'bg-slate-900 text-[#0f172a] dark:text-white shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
@@ -457,7 +457,7 @@ export const PublicClientsPage: React.FC<PublicClientsPageProps> = ({ onNavigate
                     {client.type}
                   </span>
                   {client.domain && (
-                    <span className="text-[10px] font-mono text-slate-400">
+                    <span className="text-[10px] font-mono text-[#64748b] dark:text-slate-400">
                       {client.domain}
                     </span>
                   )}
@@ -482,13 +482,13 @@ export const PublicClientsPage: React.FC<PublicClientsPageProps> = ({ onNavigate
       <RealTeamsSection onNavigate={onNavigate} />
 
       {/* 5. CTA Footer */}
-      <section className="rounded-3xl bg-slate-900 text-white p-8 sm:p-12 text-center space-y-6 shadow-2xl">
+      <section className="rounded-3xl bg-slate-900 text-[#0f172a] dark:text-white p-8 sm:p-12 text-center space-y-6 shadow-2xl">
         <div className="space-y-2">
           <div className="text-xs font-mono uppercase text-emerald-400 font-bold">¿Querés unirte?</div>
           <h2 className="text-2xl sm:text-4xl font-black">
             Tu empresa podría ser la próxima
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-2xl mx-auto">
             Implementación en 5 días hábiles, soporte en español 24/7 y tecnología que se adapta a tu rubro. Sin contratos mínimos.
           </p>
         </div>
@@ -504,7 +504,7 @@ export const PublicClientsPage: React.FC<PublicClientsPageProps> = ({ onNavigate
           <button
             type="button"
             onClick={() => onNavigate('/precios')}
-            className="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs cursor-pointer transition-colors"
+            className="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#334155] dark:text-slate-200 font-bold text-xs cursor-pointer transition-colors"
           >
             Ver Planes & Precios
           </button>

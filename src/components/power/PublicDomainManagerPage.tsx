@@ -277,11 +277,7 @@ export const PublicDomainManagerPage: React.FC = () => {
       <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] pb-2">
         <button
           onClick={() => setActiveTab('dns')}
-          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
-            activeTab === 'dns'
-              ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
-          }`}
+          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${ activeTab === 'dns' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-bold shadow-xs' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]' }`}
         >
           <Server className="w-3.5 h-3.5" />
           <span>Registros DNS & Nameservers</span>
@@ -289,11 +285,7 @@ export const PublicDomainManagerPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('ssl')}
-          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
-            activeTab === 'ssl'
-              ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
-          }`}
+          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${ activeTab === 'ssl' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-bold shadow-xs' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]' }`}
         >
           <Cloud className="w-3.5 h-3.5" />
           <span>Cloudflare Proxy & Seguridad</span>
@@ -301,11 +293,7 @@ export const PublicDomainManagerPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('seo')}
-          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
-            activeTab === 'seo'
-              ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
-          }`}
+          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${ activeTab === 'seo' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-bold shadow-xs' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]' }`}
         >
           <Search className="w-3.5 h-3.5" />
           <span>Auditoría SEO On-Page</span>
@@ -313,11 +301,7 @@ export const PublicDomainManagerPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('sitemap')}
-          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${
-            activeTab === 'sitemap'
-              ? 'bg-blue-600 text-white font-bold shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]'
-          }`}
+          className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors ${ activeTab === 'sitemap' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-bold shadow-xs' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]' }`}
         >
           <FileCode className="w-3.5 h-3.5" />
           <span>Sitemap.xml Dinámico</span>
@@ -388,13 +372,7 @@ export const PublicDomainManagerPage: React.FC = () => {
                       </td>
                       <td className="p-3 text-right">
                         <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                            r.status === 'Propagado'
-                              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                              : r.status === 'Error'
-                                ? 'bg-red-50 text-red-800 border-red-200'
-                                : 'bg-amber-50 text-amber-800 border-amber-200'
-                          }`}
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${ r.status === 'Propagado' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : r.status === 'Error' ? 'bg-red-50 text-red-800 border-red-200' : 'bg-amber-50 text-amber-800 border-amber-200' }`}
                         >
                           {r.status}
                         </span>

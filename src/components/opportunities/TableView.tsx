@@ -150,16 +150,16 @@ export const TableView: React.FC = () => {
       case 'Medium':
         return 'text-blue-400 bg-blue-500/10 border-blue-500/20';
       default:
-        return 'text-slate-400 bg-slate-500/10 border-slate-500/20';
+        return 'text-[var(--text-muted,#64748b)] dark:text-slate-400 bg-slate-500/10 border-slate-500/20';
     }
   }, []);
 
   return (
-    <div id="clientum-table-container" className="flex-1 flex flex-col bg-[#0d0f14] overflow-hidden">
+    <div id="clientum-table-container" className="flex-1 flex flex-col bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0d0f14] overflow-hidden">
       {/* Table Toolbar / Export Header */}
-      <div className="bg-[#11141c] border-b border-[#1e2330] px-4 py-2 flex items-center justify-between text-xs">
-        <div className="text-slate-400 font-mono">
-          Mostrando <strong className="text-slate-200">{sorted.length}</strong> de <strong className="text-slate-200">{opportunities.length}</strong> negocios
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#11141c] border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] px-4 py-2 flex items-center justify-between text-xs">
+        <div className="text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
+          Mostrando <strong className="text-[var(--text-primary,#0f172a)] dark:text-slate-200">{sorted.length}</strong> de <strong className="text-[var(--text-primary,#0f172a)] dark:text-slate-200">{opportunities.length}</strong> negocios
         </div>
         <button
           id="table-export-csv-btn"
@@ -174,18 +174,18 @@ export const TableView: React.FC = () => {
 
       {/* Bulk Action Bar when items selected */}
       {selectedIds.length > 0 && (
-        <div className="bg-[#181d29] border-b border-blue-500/30 px-4 py-2 flex items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-200">
+        <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] border-b border-blue-500/30 px-4 py-2 flex items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-[var(--text-primary,#0f172a)] dark:text-slate-200">
             <span className="font-semibold text-blue-400">{selectedIds.length}</span> {t('selected')}
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-400 text-[11px]">{t('stage')}:</span>
+              <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 text-[11px]">{t('stage')}:</span>
               <select
                 id="bulk-stage-select"
                 onChange={(e) => handleBulkStageChange(e.target.value as StageId)}
                 defaultValue=""
-                className="bg-[#12151d] text-slate-200 text-xs px-2 py-1 rounded border border-[#283044] focus:outline-none"
+                className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-xs px-2 py-1 rounded border border-[var(--border-subtle,#e2e8f0)] dark:border-[#283044] focus:outline-none"
               >
                 <option value="" disabled>
                   {t('stage')}...
@@ -213,12 +213,12 @@ export const TableView: React.FC = () => {
       <div className="flex-1 overflow-auto">
         <table className="w-full text-left text-xs border-collapse">
           {/* Table Header */}
-          <thead className="bg-[#11141c] text-slate-400 sticky top-0 z-10 border-b border-[#1e2330]">
+          <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#11141c] text-[var(--text-muted,#64748b)] dark:text-slate-400 sticky top-0 z-10 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
             <tr>
               <th className="w-10 px-3 py-2.5">
                 <button
                   onClick={toggleSelectAll}
-                  className="text-slate-400 hover:text-slate-200 p-0.5"
+                  className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 p-0.5"
                   title="Select all"
                 >
                   {selectedIds.length === sorted.length && sorted.length > 0 ? (
@@ -230,72 +230,72 @@ export const TableView: React.FC = () => {
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors"
                 onClick={() => handleSort('name')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('dealName')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors"
                 onClick={() => handleSort('amount')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('amount')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors"
                 onClick={() => handleSort('stage')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('stage')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors hidden sm:table-cell"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors hidden sm:table-cell"
                 onClick={() => handleSort('companyName')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('company')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors hidden md:table-cell"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors hidden md:table-cell"
                 onClick={() => handleSort('priority')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('priority')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors hidden lg:table-cell"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors hidden lg:table-cell"
                 onClick={() => handleSort('closeDate')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('closeDate')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
               <th
-                className="px-3 py-2.5 font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors hidden xl:table-cell"
+                className="px-3 py-2.5 font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 cursor-pointer hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors hidden xl:table-cell"
                 onClick={() => handleSort('assignedTo')}
               >
                 <div className="flex items-center gap-1.5">
                   <span>{t('owner')}</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <ArrowUpDown className="w-3 h-3 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 </div>
               </th>
 
@@ -304,12 +304,12 @@ export const TableView: React.FC = () => {
           </thead>
 
           {/* Table Body */}
-          <tbody className="divide-y divide-[#191d28]">
+          <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#191d28]">
             {sorted.length === 0 ? (
               <tr>
                 <td colSpan={9} className="py-16 px-4 text-center">
                   <div className="max-w-md mx-auto flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-4 rounded-2xl overflow-hidden border border-[#283044] bg-[#12151d] shadow-lg flex items-center justify-center shrink-0">
+                    <div className="w-24 h-24 mb-4 rounded-2xl overflow-hidden border border-[var(--border-subtle,#e2e8f0)] dark:border-[#283044] bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] shadow-lg flex items-center justify-center shrink-0">
                       <img
                         src={tableEmptyStateImg}
                         alt="Sin resultados"
@@ -317,10 +317,10 @@ export const TableView: React.FC = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <h3 className="text-sm font-bold text-slate-200 mb-1">
+                    <h3 className="text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-200 mb-1">
                       No se encontraron negocios
                     </h3>
-                    <p className="text-xs text-slate-400 max-w-xs leading-relaxed">
+                    <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 max-w-xs leading-relaxed">
                       Ningún negocio coincide con los criterios de búsqueda o filtros seleccionados en este momento.
                     </p>
                   </div>

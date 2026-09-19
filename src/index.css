@@ -70,63 +70,63 @@ body {
 :root,
 [data-theme="light"],
 .light {
-  /* Canvas & Base Surfaces */
-  --bg-canvas: var(--clientum-surface, #F5F7FA);
+  /* Canvas & Base Surfaces — Refined Enterprise Palette */
+  --bg-canvas: #f8fafc;          /* Brighter, cleaner base */
   --bg-surface: #ffffff;
   --bg-surface-elevated: #ffffff;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
   --bg-navbar: #ffffff;
-  --bg-input: #ffffff;
+  --bg-input: #fdfdfd;
   --bg-muted: #f1f5f9;
-  --bg-accent-subtle: #eef1f6;
+  --bg-accent-subtle: #eff6ff;
 
-  /* High Contrast Typography */
-  --text-primary: var(--clientum-ink, #212121);       /* Texto Principal Body */
-  --text-secondary: #334155;
-  --text-muted: #64748b;
+  /* High Contrast Typography — Deep Slate & Obsidian */
+  --text-primary: #0f172a;       /* Slate 900 */
+  --text-secondary: #475569;     /* Slate 600 */
+  --text-muted: #64748b;         /* Slate 500 */
   --text-inverse: #ffffff;
-  --text-brand: var(--clientum-navy, #022046);        /* Azul Profundo e Institucional */
-  --text-brand-hover: var(--clientum-blue, #002B5C);  /* Azul Corporativo */
+  --text-brand: #2563eb;         /* High-contrast Blue */
+  --text-brand-hover: #1d4ed8;
 
-  /* Border & Divider System */
-  --border-subtle: #e2e8f0;
-  --border-default: #cbd5e1;
-  --border-strong: #94a3b8;
-  --border-focus: var(--clientum-action, #0056B3);
+  /* Border & Divider System — Subtle but Defined */
+  --border-subtle: #e2e8f0;      /* Slate 200 */
+  --border-default: #cbd5e1;     /* Slate 300 */
+  --border-strong: #94a3b8;      /* Slate 400 */
+  --border-focus: #3b82f6;
 
-  /* Brand Accents */
-  --color-primary: var(--clientum-action, #0056B3);   /* Azul de Acción (CTA principales / Barras) */
-  --color-primary-hover: #004494;
-  --color-primary-light: #dbe2ec;
-  --color-primary-text: #051530;
-  --color-success: var(--clientum-success, #4CAF50);  /* Verde de Éxito */
+  /* Brand Accents — Clientum Deep Blue & Action Blue */
+  --color-primary: #0a2558;      /* Brand Navy */
+  --color-primary-hover: #071b3d;
+  --color-primary-light: #eef1f6;
+  --color-primary-text: #0a2558;
+  --color-success: #059669;
   --color-warning: #d97706;
   --color-danger: #dc2626;
 
    /* --------------------------------------------------------------------------
-      Clientum Clarity navigation surfaces
+      Clientum Clarity navigation surfaces (Light Mode)
       -------------------------------------------------------------------------- */
    --sidebar-bg: #ffffff;
-   --sidebar-header-bg: #f8fafc;
+   --sidebar-header-bg: #ffffff;
    --sidebar-footer-bg: #f8fafc;
    --sidebar-border: #e2e8f0;
    --sidebar-text-primary: #0f172a;
    --sidebar-text-secondary: #475569;
-   --sidebar-text-muted: #64748b;
-   --sidebar-hover-bg: #eef1f6;
-   --sidebar-hover-text: #081c42;
+   --sidebar-text-muted: #94a3b8;
+   --sidebar-hover-bg: #f1f5f9;
+   --sidebar-hover-text: #0f172a;
   --sidebar-active-bg: #0a2558;
   --sidebar-active-text: #ffffff;
-   --sidebar-search-bg: #f8fafc;
-   --sidebar-search-border: #cbd5e1;
+   --sidebar-search-bg: #f1f5f9;
+   --sidebar-search-border: #e2e8f0;
    --sidebar-search-text: #0f172a;
-   --sidebar-portal-btn-bg: #eef1f6;
-   --sidebar-portal-btn-text: #071b3d;
-   --sidebar-portal-btn-border: #c3cee0;
-   --sidebar-copilot-bg: linear-gradient(135deg, #eef1f6 0%, #dbe2ec 100%);
-   --sidebar-copilot-border: #c5cee5;
-   --sidebar-card-text: #334155;
+   --sidebar-portal-btn-bg: #f8fafc;
+   --sidebar-portal-btn-text: #0a2558;
+   --sidebar-portal-btn-border: #e2e8f0;
+   --sidebar-copilot-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+   --sidebar-copilot-border: #bae6fd;
+   --sidebar-card-text: #0f172a;
    --sidebar-card-muted: #64748b;
 
   /* Consistent Spacing Tokens */
@@ -186,9 +186,9 @@ body {
   --radius-xl: 1rem;
   --radius-full: 9999px;
 
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
-  --shadow-elevated: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
-  --shadow-popover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-popover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   color-scheme: light;
 }

@@ -284,7 +284,7 @@ export const ReportsAnalyticsView: React.FC<{
   return (
     <div
       id="reports-and-analytics-dashboard"
-      className="flex-1 w-full bg-[#F5F7FA] dark:bg-[#0B1120] text-[#212121] dark:text-slate-100 min-h-screen p-4 sm:p-6 lg:p-8 font-['Inter',sans-serif] transition-colors duration-200"
+      className="flex-1 w-full bg-[#F5F7FA] dark:bg-[#0B1120] text-[#212121] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 min-h-screen p-4 sm:p-6 lg:p-8 font-['Inter',sans-serif] transition-colors duration-200"
     >
       <div className="max-w-7xl mx-auto space-y-6">
         
@@ -296,7 +296,7 @@ export const ReportsAnalyticsView: React.FC<{
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#022046] dark:text-white">
               Reports & Analytics
             </h1>
-            <p className="text-sm text-[var(--text-muted)] dark:text-slate-400 font-normal">
+            <p className="text-sm text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-normal">
               Deep dive into your sales performance and team metrics.
             </p>
           </div>
@@ -308,15 +308,15 @@ export const ReportsAnalyticsView: React.FC<{
                 type="button"
                 id="analytics-period-selector-btn"
                 onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
-                className="px-3.5 py-2 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-xs hover:border-[var(--border-default)] dark:hover:border-slate-700 text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-200 flex items-center gap-2 transition-all cursor-pointer"
+                className="px-3.5 py-2 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-xs hover:border-[var(--border-default)] dark:border-[var(--border-subtle,#e2e8f0)] dark:hover:border-slate-700 text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 flex items-center gap-2 transition-all cursor-pointer"
               >
-                <Calendar className="w-4 h-4 text-slate-400 dark:text-slate-400" />
+                <Calendar className="w-4 h-4 text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 <span>{selectedPeriod}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
               </button>
 
               {showPeriodDropdown && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 shadow-lg py-1.5 z-30 animate-in fade-in zoom-in-95 duration-100">
+                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-lg py-1.5 z-30 animate-in fade-in zoom-in-95 duration-100">
                   {(['Feb 2026', 'Ene 2026', 'Q1 2026', 'Últimos 30 días'] as const).map((period) => (
                     <button
                       key={period}
@@ -325,11 +325,7 @@ export const ReportsAnalyticsView: React.FC<{
                         setSelectedPeriod(period);
                         setShowPeriodDropdown(false);
                       }}
-                      className={`w-full text-left px-3.5 py-2 text-xs font-medium flex items-center justify-between hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer ${
-                        selectedPeriod === period
-                          ? 'text-[#0056B3] dark:text-blue-400 font-bold bg-blue-50/50 dark:bg-blue-950/30'
-                          : 'text-[var(--text-secondary)] dark:text-slate-300'
-                      }`}
+                      className={`w-full text-left px-3.5 py-2 text-xs font-medium flex items-center justify-between hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer ${ selectedPeriod === period ? 'text-[#0056B3] dark:text-blue-400 font-bold bg-blue-50/50 dark:bg-blue-950/30' : 'text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300' }`}
                     >
                       <span>{period}</span>
                       {selectedPeriod === period && <Check className="w-3.5 h-3.5 text-[#0056B3] dark:text-blue-400" />}
@@ -345,7 +341,7 @@ export const ReportsAnalyticsView: React.FC<{
               id="download-analytics-report-btn"
               onClick={handleDownloadReport}
               disabled={isExporting}
-              className="px-4 py-2 rounded-xl bg-[#0056B3] hover:bg-[#004494] active:bg-[#00387b] text-white text-xs font-semibold flex items-center gap-2 shadow-xs shadow-blue-900/10 hover:shadow-md transition-all cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0056B3] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] active:bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#00387b] text-white text-xs font-semibold flex items-center gap-2 shadow-xs shadow-blue-900/10 hover:shadow-md transition-all cursor-pointer disabled:opacity-50"
             >
               <Download className={`w-4 h-4 ${isExporting ? 'animate-bounce' : ''}`} />
               <span>{isExporting ? 'Generando...' : 'Download Report'}</span>
@@ -358,12 +354,12 @@ export const ReportsAnalyticsView: React.FC<{
            ======================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
           {/* Card 1: Revenue Forecast */}
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-[#0056B3] dark:text-blue-400 flex items-center justify-center shrink-0">
                 <TrendingUp className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Revenue Forecast
               </span>
             </div>
@@ -381,12 +377,12 @@ export const ReportsAnalyticsView: React.FC<{
           </div>
 
           {/* Card 2: Sales Velocity */}
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 text-[#4CAF50] dark:text-emerald-400 flex items-center justify-center shrink-0">
                 <Target className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Sales Velocity
               </span>
             </div>
@@ -404,12 +400,12 @@ export const ReportsAnalyticsView: React.FC<{
           </div>
 
           {/* Card 3: LTV / CAC Ratio */}
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-900/50 text-amber-500 dark:text-amber-400 flex items-center justify-center shrink-0">
                 <Users className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 LTV / CAC Ratio
               </span>
             </div>
@@ -433,26 +429,26 @@ export const ReportsAnalyticsView: React.FC<{
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* 3.A: Revenue vs Target (Recharts BarChart & Target Dashed Line) */}
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-6 shadow-xs space-y-5">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-6 shadow-xs space-y-5">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-[#022046] dark:text-white">
                 Revenue vs Target
               </h3>
 
               {/* Legend with matching mockup styling */}
-              <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">
+              <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
                 <button
                   type="button"
                   onClick={() => setActiveLegend(activeLegend === 'revenue' ? 'all' : 'revenue')}
-                  className="flex items-center gap-1.5 hover:text-[var(--text-primary)] dark:hover:text-slate-200 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 hover:text-[var(--text-primary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 transition-colors cursor-pointer"
                 >
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0056B3] dark:bg-blue-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0056B3] dark:bg-blue-500" />
                   <span>Revenue</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveLegend(activeLegend === 'target' ? 'all' : 'target')}
-                  className="flex items-center gap-1.5 hover:text-[var(--text-primary)] dark:hover:text-slate-200 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 hover:text-[var(--text-primary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 transition-colors cursor-pointer"
                 >
                   <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600" />
                   <span>Target</span>
@@ -530,7 +526,7 @@ export const ReportsAnalyticsView: React.FC<{
           </div>
 
           {/* 3.B: Sales Funnel Conversion (Horizontal Proportional Bars with Conversion Badges) */}
-          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between space-y-4">
+          <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between space-y-4">
             <h3 className="text-base font-bold text-[#022046] dark:text-white">
               Sales Funnel Conversion
             </h3>
@@ -540,7 +536,7 @@ export const ReportsAnalyticsView: React.FC<{
                 <div key={stage.id} className="space-y-1.5">
                   {/* Label, Conversion Pill & Percentage */}
                   <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="text-[var(--text-secondary)] dark:text-slate-300">
+                    <span className="text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                       {stage.name}
                     </span>
 
@@ -559,7 +555,7 @@ export const ReportsAnalyticsView: React.FC<{
                   {/* Funnel Progress Bar with Action Blue */}
                   <div className="w-full h-3 rounded-full bg-[var(--bg-muted)] dark:bg-slate-800 overflow-hidden relative">
                     <div
-                      className="h-full rounded-full bg-[#0056B3] dark:bg-blue-600 transition-all duration-700 ease-out"
+                      className="h-full rounded-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0056B3] dark:bg-blue-600 transition-all duration-700 ease-out"
                       style={{ width: `${stage.percentage}%` }}
                     />
                   </div>
@@ -568,7 +564,7 @@ export const ReportsAnalyticsView: React.FC<{
             </div>
 
             {/* Footnote matching Clientum verbal identity */}
-            <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+            <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center justify-between">
               <span>Embudo sincronizado con el Pipeline de Negocios</span>
               <span className="font-semibold text-emerald-600 dark:text-emerald-400">18% Tasa Global de Cierre</span>
             </div>
@@ -578,7 +574,7 @@ export const ReportsAnalyticsView: React.FC<{
         {/* ========================================================
             4. BOTTOM CARD: Team Performance Table
            ======================================================== */}
-        <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-slate-800/80 rounded-2xl p-6 shadow-xs space-y-4">
+        <div className="bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-[#022046] dark:text-white">
               Team Performance
@@ -597,7 +593,7 @@ export const ReportsAnalyticsView: React.FC<{
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-[var(--border-subtle)]/80 dark:border-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <tr className="border-b border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 text-[10px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                   <th className="pb-3 font-semibold">REPRESENTATIVE</th>
                   <th className="pb-3 font-semibold text-center">LEADS MANAGED</th>
                   <th className="pb-3 font-semibold text-center">DEALS CLOSED</th>
@@ -611,14 +607,14 @@ export const ReportsAnalyticsView: React.FC<{
                     {/* Representative Column: Avatar initials + Full Name */}
                     <td className="py-3.5 pr-4">
                       <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full ${rep.avatarColor} text-white font-bold text-xs flex items-center justify-center shadow-xs shrink-0`}>
+                        <div className={`w-8 h-8 rounded-full ${rep.avatarColor} text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-xs flex items-center justify-center shadow-xs shrink-0`}>
                           {rep.initials}
                         </div>
                         <div>
                           <div className="font-semibold text-[var(--text-primary)] dark:text-white">
                             {rep.name}
                           </div>
-                          <div className="text-[11px] text-slate-400 font-normal">
+                          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-normal">
                             {rep.role}
                           </div>
                         </div>
@@ -626,12 +622,12 @@ export const ReportsAnalyticsView: React.FC<{
                     </td>
 
                     {/* Leads Managed */}
-                    <td className="py-3.5 px-4 text-center font-mono font-semibold text-[var(--text-secondary)] dark:text-slate-300">
+                    <td className="py-3.5 px-4 text-center font-mono font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                       {rep.leadsManaged}
                     </td>
 
                     {/* Deals Closed */}
-                    <td className="py-3.5 px-4 text-center font-mono font-semibold text-[var(--text-secondary)] dark:text-slate-300">
+                    <td className="py-3.5 px-4 text-center font-mono font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                       {rep.dealsClosed}
                     </td>
 
@@ -643,7 +639,7 @@ export const ReportsAnalyticsView: React.FC<{
                         </div>
                         <div className="w-24 h-1.5 rounded-full bg-[var(--bg-muted)] dark:bg-slate-800 overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-[#0056B3] dark:bg-blue-600"
+                            className="h-full rounded-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0056B3] dark:bg-blue-600"
                             style={{ width: `${Math.min(rep.winRate * 2.5, 100)}%` }}
                           />
                         </div>
@@ -664,8 +660,8 @@ export const ReportsAnalyticsView: React.FC<{
         {/* Modal: View All Sales Reps Detail & Commission Breakdown */}
         {showAllRepsModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-            <div className="relative w-full max-w-2xl rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-slate-800 p-6 shadow-2xl text-[var(--text-primary)] dark:text-slate-200">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+            <div className="relative w-full max-w-2xl rounded-2xl bg-[var(--bg-card)] dark:bg-slate-900 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 p-6 shadow-2xl text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200">
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0056B3] dark:text-blue-400">
                     <Users className="w-5 h-5" />
@@ -674,7 +670,7 @@ export const ReportsAnalyticsView: React.FC<{
                     <h3 className="text-base font-bold text-[#022046] dark:text-white">
                       Detalle Completo del Equipo de Ventas
                     </h3>
-                    <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                    <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       Rendimiento individual, cuota asignada y tasa de conversión
                     </p>
                   </div>
@@ -683,7 +679,7 @@ export const ReportsAnalyticsView: React.FC<{
                 <button
                   type="button"
                   onClick={() => setShowAllRepsModal(false)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -693,17 +689,17 @@ export const ReportsAnalyticsView: React.FC<{
                 {salesTeam.map((rep) => (
                   <div
                     key={rep.id}
-                    className="p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)]/50 dark:bg-slate-800/40 flex items-center justify-between gap-4"
+                    className="p-3.5 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 bg-[var(--bg-muted)]/50 dark:bg-slate-800/40 flex items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full ${rep.avatarColor} text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0`}>
+                      <div className={`w-10 h-10 rounded-full ${rep.avatarColor} text-[var(--text-primary,#0f172a)] dark:text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0`}>
                         {rep.initials}
                       </div>
                       <div>
                         <div className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                           {rep.name}
                         </div>
-                        <div className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                        <div className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                           {rep.role} · {rep.leadsManaged} leads atendidos
                         </div>
                       </div>
@@ -721,11 +717,11 @@ export const ReportsAnalyticsView: React.FC<{
                 ))}
               </div>
 
-              <div className="mt-5 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800 flex items-center justify-end">
+              <div className="mt-5 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 flex items-center justify-end">
                 <button
                   type="button"
                   onClick={() => setShowAllRepsModal(false)}
-                  className="px-4 py-2 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-200 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors cursor-pointer"
                 >
                   Cerrar
                 </button>

@@ -25,7 +25,7 @@ export const FlowConnectionLine: React.FC<FlowConnectionLineProps> = ({
   // Path styling
   let strokeColor = '#0ea5e9'; // Cyan/sky default
   let glowColor = 'rgba(14, 165, 233, 0.4)';
-  let chipBg = 'bg-[#101b2b] text-cyan-300 border-cyan-500/30';
+  let chipBg = 'bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#101b2b] text-cyan-300 border-cyan-500/30';
 
   if (isTrueBranch) {
     strokeColor = '#10b981'; // Emerald
@@ -107,9 +107,7 @@ export const FlowConnectionLine: React.FC<FlowConnectionLineProps> = ({
               e.stopPropagation();
               onInsertNodeBetween(connection.id, connection.fromNodeId, connection.toNodeId);
             }}
-            className={`w-5 h-5 rounded-full bg-[#111728] border border-cyan-400/60 hover:bg-cyan-500 hover:text-black text-cyan-300 flex items-center justify-center shadow-lg transition-all cursor-pointer ${
-              isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
+            className={`w-5 h-5 rounded-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111728] border border-cyan-400/60 hover:bg-cyan-500 hover:text-black text-cyan-300 flex items-center justify-center shadow-lg transition-all cursor-pointer ${ isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75' }`}
           >
             <Plus className="w-3 h-3" />
           </button>

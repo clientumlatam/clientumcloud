@@ -213,7 +213,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
               >
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    activeMenu === 'product' ? 'rotate-180 text-blue-600' : 'text-slate-400'
+                    activeMenu === 'product' ? 'rotate-180 text-blue-600' : 'text-[#64748b] dark:text-slate-400'
                   }`}
                 />
               </button>
@@ -417,7 +417,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                 <span>Industrias</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    activeMenu === 'industries' ? 'rotate-180 text-blue-600' : 'text-slate-400'
+                    activeMenu === 'industries' ? 'rotate-180 text-blue-600' : 'text-[#64748b] dark:text-slate-400'
                   }`}
                 />
               </button>
@@ -506,7 +506,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                 <span>Recursos</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    activeMenu === 'resources' ? 'rotate-180 text-blue-600' : 'text-slate-400'
+                    activeMenu === 'resources' ? 'rotate-180 text-blue-600' : 'text-[#64748b] dark:text-slate-400'
                   }`}
                 />
               </button>
@@ -635,9 +635,9 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
               title="Buscar módulos, funciones o contactos (⌘K / Ctrl+K)"
             >
-              <Search className="w-3.5 h-3.5 text-slate-400" />
+              <Search className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
               <span className="text-[11px]">Buscar...</span>
-              <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-slate-400">
+              <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-[#64748b] dark:text-slate-400">
                 ⌘K
               </kbd>
             </button>
@@ -673,7 +673,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                   setIsAuthModalOpen(true);
                 }
               }}
-              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-xs tracking-wide shadow-md shadow-slate-900/20 border border-slate-700 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
+              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#ffffff] dark:bg-[#0F172A] hover:bg-[#eef1f6] hover:dark:bg-[#1E293B] text-[#0f172a] dark:text-white font-bold text-xs tracking-wide shadow-md shadow-slate-900/20 border border-slate-700 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
             >
               <span>{isAuthenticated ? 'Ir al Dashboard' : 'Registrarse Gratis'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover:translate-x-0.5 transition-transform" />

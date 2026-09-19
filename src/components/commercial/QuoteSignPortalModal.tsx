@@ -188,10 +188,10 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
     >
       <div className="relative w-full max-w-3xl bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-[var(--border-subtle)] overflow-hidden flex flex-col my-auto max-h-[92vh]">
         {/* Top Notification Bar */}
-        <div className="bg-slate-900 text-white px-5 py-3 flex items-center justify-between border-b border-slate-800 shrink-0">
+        <div className="bg-slate-900 text-[var(--text-primary,#0f172a)] dark:text-white px-5 py-3 flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shrink-0">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <ShieldCheck className="w-4 h-4 text-white" />
+              <ShieldCheck className="w-4 h-4 text-[var(--text-primary,#0f172a)] dark:text-white" />
             </div>
             <div>
               <h3 className="text-xs font-bold flex items-center gap-2">
@@ -200,7 +200,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                   Validez Legal SSL
                 </span>
               </h3>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Vista de cliente para cotización COT-2026-{opportunity?.id.slice(-4) || '9012'}
               </p>
             </div>
@@ -208,7 +208,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopyLink}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors cursor-pointer"
               title="Copiar enlace público"
             >
               {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -224,7 +224,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
             </button>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer ml-1"
+              className="p-1 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-slate-800 transition-colors cursor-pointer ml-1"
             >
               <X className="w-4 h-4" />
             </button>
@@ -247,7 +247,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 Soluciones Comerciales & Software de Gestión
               </p>
-              <p className="text-[11px] text-slate-400">info@clientum.app • www.clientum.app</p>
+              <p className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">info@clientum.app • www.clientum.app</p>
             </div>
 
             <div className="text-left sm:text-right">
@@ -266,7 +266,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
           {/* Client Recipient Details */}
           <div className="p-4 bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
                 Preparado para:
               </span>
               <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">
@@ -275,7 +275,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
               <p className="text-xs text-[var(--text-secondary)]">{opportunity?.companyName || 'Empresa Cliente'}</p>
             </div>
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider block">
                 Proyecto / Propuesta:
               </span>
               <p className="text-xs font-bold text-blue-700 mt-0.5">{opportunity?.name}</p>
@@ -428,7 +428,7 @@ export const QuoteSignPortalModal: React.FC<QuoteSignPortalModalProps> = ({
                   className="w-full h-[140px] bg-[var(--bg-card)] rounded-lg cursor-crosshair touch-none"
                 />
                 {!hasDrawn && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-slate-400 text-xs font-medium">
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-[var(--text-muted,#64748b)] dark:text-slate-400 text-xs font-medium">
                     Haz clic o toca para firmar aquí con tu dedo o mouse
                   </div>
                 )}

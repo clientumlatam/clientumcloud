@@ -389,11 +389,7 @@ export const EcosystemReposHubTab: React.FC = () => {
           <button
             key={cat.id}
             onClick={() => setSelectedCategory(cat.id)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 flex items-center gap-1.5 cursor-pointer ${
-              selectedCategory === cat.id
-                ? 'bg-blue-600 text-white font-semibold shadow-2xs'
-                : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)]'
-            }`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 flex items-center gap-1.5 cursor-pointer ${ selectedCategory === cat.id ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white font-semibold shadow-2xs' : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] border border-[var(--border-subtle)]' }`}
           >
             <span>{cat.label}</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 font-mono opacity-80">

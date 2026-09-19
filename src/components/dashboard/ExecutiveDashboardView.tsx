@@ -226,7 +226,7 @@ export const ExecutiveDashboardView: React.FC = () => {
   };
 
   return (
-    <div className="crm-dashboard flex-1 flex flex-col h-full bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--clientum-ink,#212121)] dark:text-slate-100 overflow-y-auto select-none font-['Inter',sans-serif]">
+    <div className="crm-dashboard flex-1 flex flex-col h-full bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--clientum-ink,#212121)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 overflow-y-auto select-none font-['Inter',sans-serif]">
       <div className="crm-dashboard__content p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
@@ -236,14 +236,14 @@ export const ExecutiveDashboardView: React.FC = () => {
                 CLIENTUMOS
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--clientum-success,#4CAF50)] animate-pulse" />
-              <span className="text-[11px] font-bold tracking-wider text-[var(--text-muted)] dark:text-slate-400 uppercase">
+              <span className="text-[11px] font-bold tracking-wider text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase">
                 RESUMEN EJECUTIVO COMERCIAL & PYME
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tracking-tight">
               Resumen ejecutivo
             </h1>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] dark:text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
               Visión consolidada de salud comercial, forecast de ingresos y focos de atención prioritaria.
             </p>
           </div>
@@ -253,24 +253,20 @@ export const ExecutiveDashboardView: React.FC = () => {
             <div className="relative">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/60 shadow-2xs transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/60 shadow-2xs transition-all cursor-pointer"
                 onClick={() => setIsPipelineDropdownOpen(!isPipelineDropdownOpen)}
               >
-                <Filter size={13} className="text-slate-400" />
+                <Filter size={13} className="text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 <span>{pipelineFilter}</span>
-                <ChevronDown size={13} className="text-slate-400" />
+                <ChevronDown size={13} className="text-[var(--text-muted,#64748b)] dark:text-slate-400" />
               </button>
               {isPipelineDropdownOpen && (
-                <div className="absolute right-0 mt-1.5 w-48 py-1.5 bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 rounded-xl shadow-xl z-30">
+                <div className="absolute right-0 mt-1.5 w-48 py-1.5 bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 rounded-xl shadow-xl z-30">
                   {(['Todos los negocios', 'New Business', 'Expansion', 'Renewal'] as const).map((item) => (
                     <button
                       key={item}
                       type="button"
-                      className={`w-full px-3.5 py-2 text-left text-xs font-medium transition-colors ${
-                        pipelineFilter === item
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-semibold'
-                          : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/50'
-                      }`}
+                      className={`w-full px-3.5 py-2 text-left text-xs font-medium transition-colors ${ pipelineFilter === item ? 'bg-blue-50 dark:bg-blue-900/30 text-[var(--clientum-action,#0056B3)] dark:text-blue-400 font-semibold' : 'text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700/50' }`}
                       onClick={() => {
                         setPipelineFilter(item);
                         setIsPipelineDropdownOpen(false);
@@ -287,7 +283,7 @@ export const ExecutiveDashboardView: React.FC = () => {
             <button
               type="button"
               onClick={() => openNewRecordModal('opportunity')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold shadow-xs hover:shadow transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold shadow-xs hover:shadow transition-all cursor-pointer"
             >
               <Plus size={14} />
               <span>Nuevo trato</span>
@@ -299,7 +295,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 setIsChatOpen(true);
                 handleSendMessage('¿Qué negocios debería priorizar hoy?');
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--clientum-navy,#022046)] hover:bg-[#002B5C] text-white shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--clientum-navy,#022046)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#002B5C] text-white shadow-xs transition-all cursor-pointer"
               title="Copilot IA: ¿Qué debería hacer hoy?"
             >
               <Sparkles size={14} />
@@ -324,7 +320,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                     Ahorro hasta 82%
                   </span>
                 </div>
-                <p className="text-xs text-[var(--text-secondary)] dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
                   Importa deals y contactos automáticamente, elimina costos punitivos por volumen y suma facturación AFIP nativa.
                 </p>
               </div>
@@ -334,7 +330,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('competitorHub')}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
               >
                 <span>Abrir Centro de Migración & TCO</span>
                 <ArrowRight size={13} />
@@ -342,7 +338,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowCompetitorBanner(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 transition-colors cursor-pointer"
                 title="Cerrar aviso"
               >
                 <X size={14} />
@@ -356,7 +352,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Card 1: Pipeline Activo */}
           <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                 Pipeline Activo
               </span>
               <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/60 dark:border-emerald-800/40 flex items-center justify-center text-[var(--clientum-success,#4CAF50)]">
@@ -367,14 +363,14 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(pipelineTotal > 0 ? pipelineTotal : 582000)}
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-[var(--clientum-success,#4CAF50)] font-semibold">
                   <ArrowUpRight size={12} /> {money(weightedPipeline > 0 ? Math.round(weightedPipeline) : 348000)}
                 </span>
-                <span className="text-[11px] text-slate-400 dark:text-[var(--text-muted)]">ponderado</span>
+                <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)]">ponderado</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
               {activeOpportunities.length} negocios en gestión
             </div>
           </div>
@@ -382,7 +378,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Card 2: Vendido */}
           <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                 Vendido
               </span>
               <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center text-[var(--clientum-action,#0056B3)]">
@@ -393,13 +389,13 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-[var(--clientum-navy,#022046)] dark:text-white tabular-nums tracking-tight font-mono">
                 {money(wonTotal > 0 ? wonTotal : 54000)}
               </div>
-              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 font-medium">
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
                 <span className="inline-flex items-center text-[var(--clientum-action,#0056B3)] font-semibold">
                   <CheckCircle2 size={12} /> Vinoteca Valle Andino
                 </span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
               Facturación confirmada AFIP
             </div>
           </div>
@@ -407,7 +403,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Card 3: Conversión */}
           <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                 Conversión
               </span>
               <span className="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200/60 dark:border-purple-800/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
@@ -423,7 +419,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <span>↑ 5,8% vs. anterior</span>
               </div>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
               6 negocios evaluados
             </div>
           </div>
@@ -431,14 +427,14 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Card 4: Ciclo de Venta con Selector */}
           <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                 Ciclo de Venta
               </span>
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsCycleDropdownOpen(!isCycleDropdownOpen)}
-                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[var(--border-subtle)] dark:border-[#1c2d47] bg-[var(--bg-muted)] dark:bg-[#111a2d] text-[var(--text-secondary)] dark:text-slate-200 hover:bg-[var(--bg-muted)] flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-0.5 rounded-lg text-[10px] font-bold border border-[var(--border-subtle)] dark:border-[#1c2d47] bg-[var(--bg-muted)] dark:bg-[#111a2d] text-[var(--text-secondary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 hover:bg-[var(--bg-muted)] flex items-center gap-1 cursor-pointer"
                   title="Cambiar métrica de ciclo"
                 >
                   <span>{cycleMetricMode}</span>
@@ -454,11 +450,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                           setCycleMetricMode(mode);
                           setIsCycleDropdownOpen(false);
                         }}
-                        className={`w-full px-2.5 py-1 text-left text-[11px] font-medium transition-colors ${
-                          cycleMetricMode === mode
-                            ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-bold'
-                            : 'text-[var(--text-secondary)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700'
-                        }`}
+                        className={`w-full px-2.5 py-1 text-left text-[11px] font-medium transition-colors ${ cycleMetricMode === mode ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-bold' : 'text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700' }`}
                       >
                         {mode}
                       </button>
@@ -489,21 +481,21 @@ export const ExecutiveDashboardView: React.FC = () => {
                 </>
               )}
               {cycleMetricMode === 'Por etapa' && (
-                <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-300 space-y-0.5 my-1">
+                <div className="text-[11px] text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 space-y-0.5 my-1">
                   <div>• Calificación: <strong>8d</strong></div>
                   <div>• Propuesta: <strong>11d</strong></div>
                   <div>• Negociación: <strong>8d</strong></div>
                 </div>
               )}
               {cycleMetricMode === 'Por vendedor' && (
-                <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-300 space-y-0.5 my-1">
+                <div className="text-[11px] text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 space-y-0.5 my-1">
                   <div>• Fernando: <strong>22d</strong></div>
                   <div>• Sarah: <strong>29d</strong></div>
                   <div>• Marcus: <strong>31d</strong></div>
                 </div>
               )}
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-medium">
+            <div className="mt-3 pt-2.5 border-t border-[var(--border-subtle)] dark:border-[#1c2d47]/70 text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">
               Velocidad de cierre PyME
             </div>
           </div>
@@ -511,7 +503,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           {/* Card 5: Atención Requerida */}
           <div className="crm-kpi-card bg-[var(--bg-card)] dark:bg-[#0e1626] border border-[var(--border-subtle)]/80 dark:border-[#1c2d47] rounded-2xl p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase tracking-wider">
                 Atención Requerida
               </span>
               <span className="w-7 h-7 rounded-lg flex items-center justify-center border bg-rose-50 dark:bg-rose-950/50 border-rose-200/60 dark:border-rose-800/40 text-rose-600 dark:text-rose-400">
@@ -522,7 +514,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <div className="text-xl sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight font-mono">
                 5 acciones
               </div>
-              <div className="text-[11px] text-[var(--text-secondary)] dark:text-slate-400 mt-1 leading-tight font-medium">
+              <div className="text-[11px] text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 leading-tight font-medium">
                 2 estancados · 2 tareas vencidas · 1 sin seguimiento
               </div>
             </div>
@@ -551,7 +543,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Tareas Pendientes & Prioritarias
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     {overdueTasks.length} vencidas · {pendingTasks.length} en cola
                   </p>
                 </div>
@@ -571,13 +563,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                 return (
                   <div
                     key={task.id}
-                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all"
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <button
                         type="button"
                         onClick={() => toggleTaskStatus(task.id)}
-                        className="w-5 h-5 rounded-md border border-[var(--border-default)] dark:border-slate-600 hover:border-emerald-500 flex items-center justify-center text-transparent hover:text-emerald-500 transition-colors shrink-0 cursor-pointer"
+                        className="w-5 h-5 rounded-md border border-[var(--border-default)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600 hover:border-emerald-500 flex items-center justify-center text-transparent hover:text-emerald-500 transition-colors shrink-0 cursor-pointer"
                         title="Marcar como completada"
                       >
                         <Check size={12} />
@@ -593,24 +585,16 @@ export const ExecutiveDashboardView: React.FC = () => {
                         <div className="text-xs font-semibold text-[var(--text-primary)] dark:text-white truncate">
                           {task.title}
                         </div>
-                        <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                        <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
                           <span
-                            className={`font-semibold ${
-                              isOverdue
-                                ? 'text-rose-600 dark:text-rose-400'
-                                : 'text-[var(--text-muted)] dark:text-slate-400'
-                            }`}
+                            className={`font-semibold ${ isOverdue ? 'text-rose-600 dark:text-rose-400' : 'text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400' }`}
                           >
                             {isOverdue ? '⚠️ Vencida · ' : 'Vence '}
                             {formatShortDate(task.dueDate)}
                           </span>
                           {task.priority && (
                             <span
-                              className={`text-[10px] px-1.5 py-0.2 rounded font-semibold uppercase ${
-                                task.priority === 'High'
-                                  ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400'
-                                  : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-slate-400'
-                              }`}
+                              className={`text-[10px] px-1.5 py-0.2 rounded font-semibold uppercase ${ task.priority === 'High' ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] dark:bg-slate-800 dark:text-[var(--text-muted,#64748b)] dark:text-slate-400' }`}
                             >
                               {task.priority}
                             </span>
@@ -624,7 +608,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                         setSelectedRecord({ type: 'task', id: task.id });
                         setActiveTab('tasks');
                       }}
-                      className="text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 p-1 cursor-pointer"
+                      className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 p-1 cursor-pointer"
                     >
                       <ArrowRight size={13} />
                     </button>
@@ -633,7 +617,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               })}
 
               {pendingTasks.length === 0 && (
-                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
                   <CheckCircle2 size={24} className="text-emerald-500" />
                   <span>¡Todas tus tareas están al día!</span>
                 </div>
@@ -652,7 +636,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Negocios sin Seguimiento Reciente
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Tratos activos sin actividad registrada en más de 7 días
                   </p>
                 </div>
@@ -678,13 +662,13 @@ export const ExecutiveDashboardView: React.FC = () => {
                       setSelectedRecord({ type: 'opportunity', id: opp.id });
                       setActiveTab('opportunities');
                     }}
-                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer group"
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer group"
                   >
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                         {opp.name}
                       </div>
-                      <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                      <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center gap-2 mt-0.5">
                         <span>{opp.companyName || 'Sin empresa'}</span>
                         <span>·</span>
                         <span className="text-rose-600 dark:text-rose-400 font-semibold">
@@ -693,10 +677,10 @@ export const ExecutiveDashboardView: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-xs font-bold text-[var(--text-primary)] dark:text-slate-100 tabular-nums font-mono">
+                      <div className="text-xs font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 tabular-nums font-mono">
                         {money(opp.amount)}
                       </div>
-                      <span className="text-[10px] font-semibold text-slate-400 dark:text-[var(--text-muted)]">
+                      <span className="text-[10px] font-semibold text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)]">
                         {opp.probability}% prob.
                       </span>
                     </div>
@@ -705,7 +689,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               })}
 
               {staleOpportunities.length === 0 && (
-                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
+                <div className="py-6 text-center text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex flex-col items-center justify-center gap-1.5">
                   <CheckCircle2 size={24} className="text-emerald-500" />
                   <span>¡Excelente! Todos los negocios tienen seguimiento fresco.</span>
                 </div>
@@ -720,21 +704,21 @@ export const ExecutiveDashboardView: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Layers size={14} className="text-blue-600 dark:text-blue-400" />
-                <span className="text-[10px] font-bold tracking-widest text-[var(--text-muted)] dark:text-slate-400 uppercase">
+                <span className="text-[10px] font-bold tracking-widest text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase">
                   Dónde intervenir
                 </span>
               </div>
               <h2 className="text-base font-bold text-[var(--text-primary)] dark:text-white tracking-tight">
                 Embudo del Pipeline Comercial
               </h2>
-              <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+              <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Distribución de oportunidades y volumen financiero por etapa activa.
               </p>
             </div>
             <button
               type="button"
               onClick={() => setActiveTab('opportunities')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-primary)] dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-[var(--bg-muted)] dark:bg-slate-800 hover:bg-[var(--bg-muted)] dark:hover:bg-slate-700 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors cursor-pointer self-start sm:self-center"
             >
               <span>Abrir Pipeline</span>
               <ArrowRight size={13} />
@@ -751,7 +735,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               return (
                 <div
                   key={stage.id}
-                  className="p-3.5 rounded-xl border border-[var(--border-subtle)]/80 dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 flex flex-col justify-between hover:border-[var(--border-default)] dark:hover:border-slate-700 transition-all"
+                  className="p-3.5 rounded-xl border border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 flex flex-col justify-between hover:border-[var(--border-default)] dark:border-[var(--border-subtle,#e2e8f0)] dark:hover:border-slate-700 transition-all"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-1 mb-2">
@@ -764,12 +748,12 @@ export const ExecutiveDashboardView: React.FC = () => {
                           {stage.name}
                         </span>
                       </div>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                         {columnDeals.length}
                       </span>
                     </div>
 
-                    <div className="text-base font-extrabold text-[var(--text-primary)] dark:text-slate-100 tabular-nums font-mono my-1">
+                    <div className="text-base font-extrabold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 tabular-nums font-mono my-1">
                       {money(stageSum)}
                     </div>
 
@@ -784,7 +768,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-3 space-y-1.5 pt-2 border-t border-[var(--border-subtle)]/60 dark:border-slate-800/60">
+                  <div className="mt-3 space-y-1.5 pt-2 border-t border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60">
                     {columnDeals.slice(0, 2).map((deal) => (
                       <div
                         key={deal.id}
@@ -792,12 +776,12 @@ export const ExecutiveDashboardView: React.FC = () => {
                           setSelectedRecord({ type: 'opportunity', id: deal.id });
                           setActiveTab('opportunities');
                         }}
-                        className="p-1.5 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800/80 border border-[var(--border-subtle)]/60 dark:border-slate-700/60 hover:border-blue-400 text-left transition-all cursor-pointer"
+                        className="p-1.5 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800/80 border border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 hover:border-blue-400 text-left transition-all cursor-pointer"
                       >
-                        <div className="text-[11px] font-semibold text-[var(--text-primary)] dark:text-slate-200 truncate">
+                        <div className="text-[11px] font-semibold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 truncate">
                           {deal.name}
                         </div>
-                        <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] dark:text-slate-400 mt-0.5">
+                        <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">
                           <span className="truncate">{deal.companyName || 'Sin empresa'}</span>
                           <span className="font-mono font-bold">{money(deal.amount)}</span>
                         </div>
@@ -813,7 +797,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                       </button>
                     )}
                     {columnDeals.length === 0 && (
-                      <div className="text-[10px] text-slate-400 dark:text-[var(--text-muted)] italic py-1 text-center">
+                      <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)] italic py-1 text-center">
                         Sin oportunidades
                       </div>
                     )}
@@ -838,7 +822,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                     <h3 className="text-sm font-bold text-[var(--clientum-navy,#022046)] dark:text-white">
                       Rendimiento de Conversión & Eficiencia
                     </h3>
-                    <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                    <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       Tasa de éxito de cierres y distribución de valor en el embudo
                     </p>
                   </div>
@@ -852,26 +836,26 @@ export const ExecutiveDashboardView: React.FC = () => {
 
               {/* Quick Metrics Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
-                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Ticket Promedio</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Ticket Promedio</div>
                   <div className="text-sm font-extrabold text-[var(--text-primary)] dark:text-white font-mono mt-0.5">
                     {money(averageDealSize)}
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
-                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">En Progreso</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">En Progreso</div>
                   <div className="text-sm font-extrabold text-blue-600 dark:text-blue-400 font-mono mt-0.5">
                     {activeOpportunities.length} tratos
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
-                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Pipeline Activo</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Pipeline Activo</div>
                   <div className="text-sm font-extrabold text-amber-600 dark:text-amber-400 font-mono mt-0.5">
                     {money(pipelineTotal)}
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-slate-800/80">
-                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-slate-400">Ciclo Medio</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-muted)]/50 dark:bg-slate-900/40 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80">
+                  <div className="text-[11px] font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Ciclo Medio</div>
                   <div className="text-sm font-extrabold text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">
                     {averageCycleDays} días
                   </div>
@@ -880,7 +864,7 @@ export const ExecutiveDashboardView: React.FC = () => {
 
               {/* Progress bars of stages */}
               <div className="space-y-2.5">
-                <div className="flex items-center justify-between text-xs font-semibold text-[var(--text-secondary)] dark:text-slate-300">
+                <div className="flex items-center justify-between text-xs font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   <span>Avance por Etapas del Embudo</span>
                   <span>{filteredOpportunities.length} tratos totales</span>
                 </div>
@@ -901,8 +885,8 @@ export const ExecutiveDashboardView: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-3 mt-4 border-t border-[var(--border-subtle)] dark:border-slate-800/80 text-xs">
-              <span className="text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-1.5">
+            <div className="flex items-center justify-between pt-3 mt-4 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 text-xs">
+              <span className="text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 Actualizado automáticamente en tiempo real
               </span>
@@ -922,7 +906,7 @@ export const ExecutiveDashboardView: React.FC = () => {
               <h3 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                 Distribución de Oportunidades
               </h3>
-              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-slate-400">
+              <span className="text-xs font-semibold text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 {filteredOpportunities.length} total
               </span>
             </div>
@@ -952,19 +936,19 @@ export const ExecutiveDashboardView: React.FC = () => {
                 <span className="text-xl font-extrabold text-[var(--text-primary)] dark:text-white tabular-nums">
                   {filteredOpportunities.length}
                 </span>
-                <span className="text-[10px] text-slate-400 font-medium">Tratos</span>
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">Tratos</span>
               </div>
             </div>
 
-            <div className="space-y-2 mt-2 pt-3 border-t border-[var(--border-subtle)] dark:border-slate-800/80">
+            <div className="space-y-2 mt-2 pt-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80">
               {sourceData.map((item) => (
                 <div key={item.name} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-[var(--text-secondary)] dark:text-slate-300 font-medium">{item.name}</span>
+                    <span className="text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium">{item.name}</span>
                   </div>
-                  <span className="font-bold text-[var(--text-primary)] dark:text-slate-100">
-                    {item.value}% <span className="text-slate-400 font-normal">({item.count})</span>
+                  <span className="font-bold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100">
+                    {item.value}% <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 font-normal">({item.count})</span>
                   </span>
                 </div>
               ))}
@@ -991,9 +975,9 @@ export const ExecutiveDashboardView: React.FC = () => {
 
       {/* Slide-over AI Copilot Drawer */}
       {isChatOpen && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-[var(--bg-card)] dark:bg-[#0f172a] border-l border-[var(--border-subtle)] dark:border-slate-800 shadow-2xl flex flex-col transition-all animate-in slide-in-from-right">
+        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-[var(--bg-card)] dark:bg-[#0f172a] border-l border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 shadow-2xl flex flex-col transition-all animate-in slide-in-from-right">
           {/* Drawer Header */}
-          <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--border-subtle)] dark:border-slate-800 bg-[var(--bg-muted)]/80 dark:bg-slate-900/60">
+          <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 bg-[var(--bg-muted)]/80 dark:bg-slate-900/60">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs">
                 <Sparkles size={16} />
@@ -1003,7 +987,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   Copilot Ejecutivo IA
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 </h3>
-                <p className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">
+                <p className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   Asistente comercial contextual en línea
                 </p>
               </div>
@@ -1011,14 +995,14 @@ export const ExecutiveDashboardView: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsChatOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-[var(--bg-muted)]/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <X size={16} />
             </button>
           </div>
 
           {/* Quick Prompt Chips */}
-          <div className="p-3 bg-[var(--bg-muted)] dark:bg-slate-900/40 border-b border-[var(--border-subtle)]/80 dark:border-slate-800/80 flex flex-wrap gap-1.5">
+          <div className="p-3 bg-[var(--bg-muted)] dark:bg-slate-900/40 border-b border-[var(--border-subtle)]/80 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/80 flex flex-wrap gap-1.5">
             {[
               '🎯 ¿Qué negocios priorizar hoy?',
               '📊 Resumen de ventas',
@@ -1029,7 +1013,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                 key={chip}
                 type="button"
                 onClick={() => handleSendMessage(chip)}
-                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer shadow-2xs"
+                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-[var(--bg-card)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer shadow-2xs"
               >
                 {chip}
               </button>
@@ -1041,25 +1025,19 @@ export const ExecutiveDashboardView: React.FC = () => {
             {chatMessages.map((msg) => (
               <div
                 key={msg.id}
-                className={`flex flex-col ${
-                  msg.sender === 'user' ? 'items-end' : 'items-start'
-                }`}
+                className={`flex flex-col ${ msg.sender === 'user' ? 'items-end' : 'items-start' }`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-xs'
-                      : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-200 rounded-bl-xs border border-[var(--border-subtle)]/60 dark:border-slate-700/60'
-                  }`}
+                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${ msg.sender === 'user' ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white rounded-br-xs' : 'bg-[var(--bg-muted)] dark:bg-slate-800 text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 rounded-bl-xs border border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60' }`}
                 >
                   <p className="whitespace-pre-line">{msg.text}</p>
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1 px-1">{msg.time}</span>
+                <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 px-1">{msg.time}</span>
               </div>
             ))}
 
             {isAiTyping && (
-              <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] dark:text-slate-400 bg-[var(--bg-muted)] dark:bg-slate-800/70 px-3 py-2 rounded-xl w-fit">
+              <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 bg-[var(--bg-muted)] dark:bg-slate-800/70 px-3 py-2 rounded-xl w-fit">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce" />
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-150" />
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-bounce delay-300" />
@@ -1069,7 +1047,7 @@ export const ExecutiveDashboardView: React.FC = () => {
           </div>
 
           {/* Composer */}
-          <div className="p-3 border-t border-[var(--border-subtle)] dark:border-slate-800 bg-[var(--bg-card)] dark:bg-slate-900">
+          <div className="p-3 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 bg-[var(--bg-card)] dark:bg-slate-900">
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -1079,7 +1057,7 @@ export const ExecutiveDashboardView: React.FC = () => {
                   if (e.key === 'Enter') handleSendMessage();
                 }}
                 placeholder="Preguntale a Copilot sobre el CRM..."
-                className="flex-1 bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-[var(--text-primary)] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+                className="flex-1 bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-[var(--text-primary)] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
               />
               <button
                 type="button"

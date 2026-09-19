@@ -87,7 +87,7 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
           <button
             onClick={handleDownloadPDF}
             disabled={isGeneratingPdf}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer disabled:opacity-50"
+            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer disabled:opacity-50"
             title="Descargar Dossier Completo en PDF"
           >
             <Download className="w-3.5 h-3.5 text-cyan-400" />

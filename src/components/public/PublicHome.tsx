@@ -377,9 +377,9 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
           {/* Tab 2: WhatsApp Bot IA Simulator */}
           {previewTab === 'whatsapp' && (
             <div className="p-6 bg-slate-100 flex justify-center">
-              <div className="w-full max-w-md bg-[#e5ddd5] rounded-2xl overflow-hidden shadow-lg border border-slate-300">
+              <div className="w-full max-w-md bg-[#eef1f6] dark:bg-[#e5ddd5] rounded-2xl overflow-hidden shadow-lg border border-slate-300">
                 {/* Chat Header */}
-                <div className="bg-[#075e54] text-white p-3 flex items-center justify-between">
+                <div className="bg-[#eef1f6] dark:bg-[#075e54] text-[#0f172a] dark:text-white p-3 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-full bg-emerald-400 flex items-center justify-center font-bold text-slate-900 text-xs">
                       IA
@@ -402,19 +402,19 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
                       <div
                         className={`max-w-[80%] rounded-xl p-2.5 text-xs shadow-xs ${
                           msg.sender === 'user'
-                            ? 'bg-[#dcf8c6] text-slate-900 rounded-tr-none'
+                            ? 'bg-[#eef1f6] dark:bg-[#dcf8c6] text-slate-900 rounded-tr-none'
                             : 'bg-white text-slate-900 rounded-tl-none border border-slate-200'
                         }`}
                       >
                         <div>{msg.text}</div>
-                        <div className="text-[9px] text-slate-400 text-right mt-1">{msg.time}</div>
+                        <div className="text-[9px] text-[#64748b] dark:text-slate-400 text-right mt-1">{msg.time}</div>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Input form */}
-                <form onSubmit={handleSendChatMessage} className="p-2 bg-[#f0f0f0] border-t border-slate-300 flex gap-2">
+                <form onSubmit={handleSendChatMessage} className="p-2 bg-[#eef1f6] dark:bg-[#f0f0f0] border-t border-slate-300 flex gap-2">
                   <input
                     type="text"
                     value={chatInput}
@@ -424,7 +424,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
                   />
                   <button
                     type="submit"
-                    className="px-4 py-1.5 rounded-full bg-[#075e54] hover:bg-[#064942] text-white text-xs font-bold cursor-pointer transition-colors"
+                    className="px-4 py-1.5 rounded-full bg-[#eef1f6] dark:bg-[#075e54] hover:bg-[#eef1f6] hover:dark:bg-[#064942] text-[#0f172a] dark:text-white text-xs font-bold cursor-pointer transition-colors"
                   >
                     Enviar
                   </button>
@@ -456,12 +456,12 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
 
                 <div className="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
                   <div>
-                    <div className="text-slate-400 font-bold uppercase text-[10px]">Cliente / Receptor</div>
+                    <div className="text-[#64748b] dark:text-slate-400 font-bold uppercase text-[10px]">Cliente / Receptor</div>
                     <div className="font-bold text-slate-900">FRIGORÍFICO DEL VALLE S.A.</div>
                     <div className="text-slate-500">CUIT: 30-68492011-4</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-slate-400 font-bold uppercase text-[10px]">Condición de Venta</div>
+                    <div className="text-[#64748b] dark:text-slate-400 font-bold uppercase text-[10px]">Condición de Venta</div>
                     <div className="font-bold text-slate-900">Transferencia / MercadoPago</div>
                     <div className="text-emerald-700 font-semibold">1 Pago Acreditado</div>
                   </div>
@@ -615,10 +615,10 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
               <Calculator className="w-3.5 h-3.5 text-blue-400" />
               <span>Calculadora de Impacto Comercial & ROI</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#0f172a] dark:text-white">
               Calculá el Retorno de Inversión Estimado para tu Empresa
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300">
               Simulá los resultados proyectados al automatizar conversaciones de WhatsApp, reducir el enfriamiento de ofertas y facturar con CAE automático.
             </p>
           </div>
@@ -629,7 +629,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
               {/* Slider 1: Reps Count */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-300">Vendedores en el Equipo:</span>
+                  <span className="font-semibold text-[#475569] dark:text-slate-300">Vendedores en el Equipo:</span>
                   <span className="font-black text-blue-300 bg-blue-900/60 px-2.5 py-0.5 rounded border border-blue-700/60">
                     {roiRepCount} Asesores
                   </span>
@@ -647,7 +647,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
               {/* Slider 2: Monthly Leads */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-300">Consultas / Leads por Mes (WhatsApp & Web):</span>
+                  <span className="font-semibold text-[#475569] dark:text-slate-300">Consultas / Leads por Mes (WhatsApp & Web):</span>
                   <span className="font-black text-emerald-300 bg-emerald-900/60 px-2.5 py-0.5 rounded border border-emerald-700/60">
                     {roiMonthlyLeads} Leads / mes
                   </span>
@@ -666,7 +666,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
               {/* Slider 3: Ticket Promedio ARS */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-300">Valor Promedio de Venta / Venta Promedio (ARS):</span>
+                  <span className="font-semibold text-[#475569] dark:text-slate-300">Valor Promedio de Venta / Venta Promedio (ARS):</span>
                   <span className="font-black text-amber-300 bg-amber-900/60 px-2.5 py-0.5 rounded border border-amber-700/60">
                     ${roiAvgDealARS.toLocaleString('es-AR')} ARS
                   </span>
@@ -692,7 +692,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
               <div className="space-y-3">
                 <div className="p-3.5 bg-white/10 rounded-xl border border-white/10">
                   <div className="text-[11px] text-blue-100 font-medium">Facturación Adicional Estimada / Mes:</div>
-                  <div className="text-2xl sm:text-3xl font-black text-white font-mono mt-0.5">
+                  <div className="text-2xl sm:text-3xl font-black text-[#0f172a] dark:text-white font-mono mt-0.5">
                     +${estimatedExtraRevenue.toLocaleString('es-AR')} ARS
                   </div>
                   <div className="text-[10px] text-emerald-300 font-semibold mt-1">
@@ -703,7 +703,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div className="p-3 bg-white/10 rounded-xl border border-white/10">
                     <div className="text-[10px] text-blue-100">Horas Ahorradas / Mes:</div>
-                    <div className="text-xl font-black text-white font-mono">{estimatedHoursSaved}hs</div>
+                    <div className="text-xl font-black text-[#0f172a] dark:text-white font-mono">{estimatedHoursSaved}hs</div>
                   </div>
                   <div className="p-3 bg-white/10 rounded-xl border border-white/10">
                     <div className="text-[10px] text-blue-100">Recuperación Inversión:</div>
@@ -892,7 +892,7 @@ export const PublicHome: React.FC<PublicHomeProps> = ({
       {/* 10. FINAL HIGH-CONVERSION CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white text-center space-y-6 shadow-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#0f172a] dark:text-white text-xs font-bold border border-white/20">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
             <span>Puesta en Marcha en 5 Días</span>
           </div>

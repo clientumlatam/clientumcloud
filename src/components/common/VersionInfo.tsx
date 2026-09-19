@@ -32,13 +32,13 @@ export const VersionInfo: React.FC<VersionInfoProps> = ({
   return (
     <div
       id="clientum-version-info-footer"
-      className={`text-[11px] text-slate-400 dark:text-[var(--text-muted)] font-mono flex items-center justify-between px-3 py-1.5 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 rounded-md border border-[var(--border-subtle)]/60 dark:border-slate-800/60 select-none ${className}`}
+      className={`text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)] font-mono flex items-center justify-between px-3 py-1.5 bg-[var(--bg-muted)]/60 dark:bg-slate-900/40 rounded-md border border-[var(--border-subtle)]/60 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800/60 select-none ${className}`}
       title={`ClientumCRM Auditoría de Despliegue | Versión: ${version} | Compilación: ${buildTimestamp}`}
     >
       <div className="flex items-center gap-1.5 truncate">
         <Server className="w-3 h-3 text-blue-500 shrink-0" />
-        <span className="font-bold text-[var(--text-secondary)] dark:text-slate-300">{version}</span>
-        <span className="text-slate-300 dark:text-[var(--text-secondary)]">•</span>
+        <span className="font-bold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">{version}</span>
+        <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300 dark:text-[var(--text-secondary)]">•</span>
         <span className="truncate hidden sm:inline text-[var(--text-muted)]">{buildTimestamp}</span>
       </div>
 

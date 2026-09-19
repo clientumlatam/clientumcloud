@@ -119,8 +119,8 @@ export const PlatformBillingView: React.FC = () => {
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-[11px] font-semibold text-blue-300">
             <ShieldCheck className="h-3.5 w-3.5" /> Suscripción de ClientumCRM
           </div>
-          <h1 className="text-2xl font-bold text-white">Elige tu plan</h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-400">
+          <h1 className="text-2xl font-bold text-[var(--text-primary,#0f172a)] dark:text-white">Elige tu plan</h1>
+          <p className="mt-1 max-w-2xl text-sm text-[var(--text-muted,#64748b)] dark:text-slate-400">
             Pagos seguros con Mercado Pago. Este módulo cobra el acceso a Clientum, no a los clientes de tu workspace.
           </p>
         </div>
@@ -128,7 +128,7 @@ export const PlatformBillingView: React.FC = () => {
           type="button"
           onClick={() => void loadBilling()}
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-800 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 px-3 py-2 text-xs font-semibold text-[var(--text-secondary,#475569)] dark:text-slate-300 hover:bg-slate-800 disabled:opacity-50"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Actualizar
         </button>
@@ -142,26 +142,18 @@ export const PlatformBillingView: React.FC = () => {
 
       {/* Billing Cycle Selector */}
       <div className="flex justify-center my-6">
-        <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800">
+        <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
           <button
             type="button"
             onClick={() => setBillingCycle("monthly")}
-            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all ${
-              billingCycle === "monthly"
-                ? "bg-blue-600 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all ${ billingCycle === "monthly" ? "bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-sm" : "text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200" }`}
           >
             Mensual
           </button>
           <button
             type="button"
             onClick={() => setBillingCycle("annual")}
-            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all flex items-center gap-1 ${
-              billingCycle === "annual"
-                ? "bg-blue-600 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all flex items-center gap-1 ${ billingCycle === "annual" ? "bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-sm" : "text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200" }`}
           >
             Anual <span className="rounded bg-emerald-500/20 text-emerald-300 text-[9px] px-1 font-bold">-20%</span>
           </button>
@@ -170,21 +162,21 @@ export const PlatformBillingView: React.FC = () => {
 
       <div className="grid gap-4 md:grid-cols-3">
         {loading && !plans.length ? (
-          <div className="col-span-full flex items-center justify-center py-16 text-slate-400">
+          <div className="col-span-full flex items-center justify-center py-16 text-[var(--text-muted,#64748b)] dark:text-slate-400">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Cargando planes…
           </div>
         ) : plans.map((plan, index) => {
           const amount = displayAmount(plan.id);
           const totalAnnual = amount * 12;
           return (
-            <article key={plan.id} className={`rounded-2xl border p-5 ${index === 1 ? "border-blue-500 bg-blue-500/10" : "border-slate-700 bg-slate-900/60"}`}>
+            <article key={plan.id} className={`rounded-2xl border p-5 ${index === 1 ? "border-blue-500 bg-blue-500/10" : "border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 bg-slate-900/60"}`}>
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-white">{plan.name}</h2>
+                <h2 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{plan.name}</h2>
                 {index === 1 && <span className="rounded-full bg-blue-500 px-2 py-1 text-[10px] font-bold text-white">Recomendado</span>}
               </div>
               <div className="mt-4">
-                <div className="text-2xl font-extrabold text-white">
-                  ${amount.toLocaleString("es-AR")} <span className="text-xs font-medium text-slate-400">ARS / mes</span>
+                <div className="text-2xl font-extrabold text-[var(--text-primary,#0f172a)] dark:text-white">
+                  ${amount.toLocaleString("es-AR")} <span className="text-xs font-medium text-[var(--text-muted,#64748b)] dark:text-slate-400">ARS / mes</span>
                 </div>
                 {billingCycle === "annual" && (
                   <div className="mt-1 text-[10px] font-medium text-emerald-400">
@@ -192,7 +184,7 @@ export const PlatformBillingView: React.FC = () => {
                   </div>
                 )}
               </div>
-              <ul className="mt-4 space-y-2 text-xs text-slate-300">
+              <ul className="mt-4 space-y-2 text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 <li className="flex gap-2"><Check className="h-3.5 w-3.5 text-emerald-400" /> Workspace persistente en Neon</li>
                 <li className="flex gap-2"><Check className="h-3.5 w-3.5 text-emerald-400" /> Acceso autenticado con Clerk</li>
                 <li className="flex gap-2"><Check className="h-3.5 w-3.5 text-emerald-400" /> Soporte de la plataforma</li>
@@ -211,8 +203,8 @@ export const PlatformBillingView: React.FC = () => {
         })}
       </div>
 
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
-        <div className="mb-4 flex items-center gap-2 text-sm font-bold text-white">
+      <div className="rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 bg-slate-900/50 p-5">
+        <div className="mb-4 flex items-center gap-2 text-sm font-bold text-[var(--text-primary,#0f172a)] dark:text-white">
           <CreditCard className="h-4 w-4 text-blue-400" /> Historial de pagos
         </div>
         {!checkouts.length ? (
@@ -220,20 +212,14 @@ export const PlatformBillingView: React.FC = () => {
         ) : (
           <div className="space-y-2">
             {checkouts.map((checkout) => (
-              <div key={checkout.checkoutId} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 px-3 py-2.5 text-xs">
+              <div key={checkout.checkoutId} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 px-3 py-2.5 text-xs">
                 <div>
-                  <span className="font-semibold text-slate-200 capitalize">{checkout.planId}</span>
+                  <span className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-slate-200 capitalize">{checkout.planId}</span>
                   <span className="ml-2 text-[var(--text-muted)]">{new Date(checkout.createdAt).toLocaleString("es-AR")}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-semibold text-slate-200">${Number(checkout.amount).toLocaleString("es-AR")} {checkout.currency}</span>
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                    checkout.status === "approved"
-                      ? "bg-emerald-500/20 text-emerald-300"
-                      : checkout.status === "cancelled"
-                        ? "bg-slate-800 text-slate-400"
-                        : "bg-amber-500/20 text-amber-300"
-                  }`}>
+                  <span className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-slate-200">${Number(checkout.amount).toLocaleString("es-AR")} {checkout.currency}</span>
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${ checkout.status === "approved" ? "bg-emerald-500/20 text-emerald-300" : checkout.status === "cancelled" ? "bg-slate-800 text-[var(--text-muted,#64748b)] dark:text-slate-400" : "bg-amber-500/20 text-amber-300" }`}>
                     {statusLabel[checkout.status] || checkout.status}
                   </span>
                   {checkout.status === "approved" && (

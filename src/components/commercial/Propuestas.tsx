@@ -182,20 +182,20 @@ export const Propuestas: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#0a0c10] text-slate-300 text-xs">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1e2330]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
               Módulo Comercial 2.3
             </span>
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-xl font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
               <FileText className="w-5 h-5 text-cyan-400" />
               Cotizador & Generador de Propuestas
             </h1>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">
             Diseña presupuestos técnico-comerciales con membrete oficial, cálculo automático de IVA y exportación directa a PDF o WhatsApp.
           </p>
         </div>
@@ -203,7 +203,7 @@ export const Propuestas: React.FC = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setPreviewMode(!previewMode)}
-            className="px-3.5 py-2 rounded-lg bg-[#141824] hover:bg-[#1a2133] border border-[#222b40] text-slate-200 font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3.5 py-2 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141824] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1a2133] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222b40] text-[var(--text-primary,#0f172a)] dark:text-slate-200 font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
           >
             <FileCheck className="w-4 h-4 text-cyan-400" />
             <span>{previewMode ? 'Volver a Edición' : 'Vista Previa Formal'}</span>
@@ -233,33 +233,33 @@ export const Propuestas: React.FC = () => {
           {/* Left Column: Form & Items */}
           <div className="lg:col-span-2 space-y-6">
             {/* Quick Templates Bar */}
-            <div className="p-4 rounded-xl bg-[#0e1320] border border-[#1b253b] space-y-2.5">
+            <div className="p-4 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e1320] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-white text-xs flex items-center gap-1.5">
+                <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-xs flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                   Plantillas Rápidas Prediseñadas
                 </span>
-                <span className="text-[11px] text-slate-400">Haz clic para cargar ítems estándar</span>
+                <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Haz clic para cargar ítems estándar</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={() => applyTemplate('crm_basico')}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#141c2e] hover:bg-[#1a253e] border border-[#22304d] text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141c2e] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1a253e] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22304d] text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
                 >
                   🚀 Implementación CRM PyME
                 </button>
                 <button
                   type="button"
                   onClick={() => applyTemplate('bot_ia')}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#141c2e] hover:bg-[#1a253e] border border-[#22304d] text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141c2e] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1a253e] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22304d] text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
                 >
                   🤖 Chatbot WhatsApp IA 24/7
                 </button>
                 <button
                   type="button"
                   onClick={() => applyTemplate('integral')}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#141c2e] hover:bg-[#1a253e] border border-[#22304d] text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#141c2e] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#1a253e] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#22304d] text-[var(--text-primary,#0f172a)] dark:text-slate-200 text-[11px] font-medium transition-colors cursor-pointer"
                 >
                   💼 Suite Integral (CRM + AFIP + IA)
                 </button>
@@ -267,15 +267,15 @@ export const Propuestas: React.FC = () => {
             </div>
 
             {/* General Info Card */}
-            <div className="p-5 rounded-xl bg-[#0c101a] border border-[#182133] space-y-4">
-              <h3 className="font-bold text-white text-sm">1. Datos del Cliente & Encabezado</h3>
+            <div className="p-5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c101a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#182133] space-y-4">
+              <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">1. Datos del Cliente & Encabezado</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Vincular con Oportunidad CRM</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Vincular con Oportunidad CRM</label>
                   <select
                     value={selectedOppId}
                     onChange={(e) => handleSelectOpp(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   >
                     <option value="">Seleccionar oportunidad existente...</option>
                     {opportunities.map((opp: any) => (
@@ -287,61 +287,61 @@ export const Propuestas: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Título de la Propuesta</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Título de la Propuesta</label>
                   <input
                     type="text"
                     value={proposalTitle}
                     onChange={(e) => setProposalTitle(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Cliente / Empresa</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Cliente / Empresa</label>
                   <input
                     type="text"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Email de Contacto</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Email de Contacto</label>
                   <input
                     type="email"
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Teléfono / WhatsApp</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Teléfono / WhatsApp</label>
                   <input
                     type="tel"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Vigencia hasta</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Vigencia hasta</label>
                   <input
                     type="date"
                     value={validUntil}
                     onChange={(e) => setValidUntil(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                   />
                 </div>
               </div>
             </div>
 
             {/* Line Items Table */}
-            <div className="p-5 rounded-xl bg-[#0c101a] border border-[#182133] space-y-4">
+            <div className="p-5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c101a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#182133] space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-white text-sm">2. Desglose de Servicios & Precios</h3>
+                <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">2. Desglose de Servicios & Precios</h3>
                 <button
                   type="button"
                   onClick={addItem}
@@ -361,9 +361,9 @@ export const Propuestas: React.FC = () => {
                   const lineTotal = net + tax;
 
                   return (
-                    <div key={item.id} className="p-3 rounded-lg bg-[#111624] border border-[#1c263c] space-y-2">
+                    <div key={item.id} className="p-3 rounded-lg bg-[var(--bg-card,#ffffff)] dark:bg-[#111624] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c263c] space-y-2">
                       <div className="flex items-start gap-2">
-                        <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-300 font-bold flex items-center justify-center text-[10px] shrink-0 mt-1">
+                        <span className="w-5 h-5 rounded-full bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 font-bold flex items-center justify-center text-[10px] shrink-0 mt-1">
                           {idx + 1}
                         </span>
                         <input
@@ -371,7 +371,7 @@ export const Propuestas: React.FC = () => {
                           value={item.description}
                           onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                           placeholder="Descripción del entregable o servicio..."
-                          className="flex-1 bg-[#0b0e18] border border-[#1b253b] rounded px-2.5 py-1.5 text-xs text-white"
+                          className="flex-1 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e18] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] rounded px-2.5 py-1.5 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                         />
                         <button
                           type="button"
@@ -384,44 +384,44 @@ export const Propuestas: React.FC = () => {
 
                       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-[11px]">
                         <div>
-                          <label className="text-slate-400 block mb-0.5">Cant.</label>
+                          <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-0.5">Cant.</label>
                           <input
                             type="number"
                             min="1"
                             value={item.quantity}
                             onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
-                            className="w-full bg-[#0b0e18] border border-[#1b253b] rounded px-2 py-1 text-xs text-white"
+                            className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e18] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] rounded px-2 py-1 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                           />
                         </div>
 
                         <div>
-                          <label className="text-slate-400 block mb-0.5">Precio Unit. ($)</label>
+                          <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-0.5">Precio Unit. ($)</label>
                           <input
                             type="number"
                             value={item.unitPrice}
                             onChange={(e) => updateItem(item.id, 'unitPrice', Number(e.target.value))}
-                            className="w-full bg-[#0b0e18] border border-[#1b253b] rounded px-2 py-1 text-xs text-white"
+                            className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e18] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] rounded px-2 py-1 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                           />
                         </div>
 
                         <div>
-                          <label className="text-slate-400 block mb-0.5">Desc. (%)</label>
+                          <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-0.5">Desc. (%)</label>
                           <input
                             type="number"
                             min="0"
                             max="100"
                             value={item.discount}
                             onChange={(e) => updateItem(item.id, 'discount', Number(e.target.value))}
-                            className="w-full bg-[#0b0e18] border border-[#1b253b] rounded px-2 py-1 text-xs text-white"
+                            className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e18] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] rounded px-2 py-1 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                           />
                         </div>
 
                         <div>
-                          <label className="text-slate-400 block mb-0.5">IVA AFIP</label>
+                          <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-0.5">IVA AFIP</label>
                           <select
                             value={item.ivaRate}
                             onChange={(e) => updateItem(item.id, 'ivaRate', Number(e.target.value))}
-                            className="w-full bg-[#0b0e18] border border-[#1b253b] rounded px-2 py-1 text-xs text-white"
+                            className="w-full bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0b0e18] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1b253b] rounded px-2 py-1 text-xs text-[var(--text-primary,#0f172a)] dark:text-white"
                           >
                             <option value="21">21.0% (General)</option>
                             <option value="10.5">10.5% (Reducido)</option>
@@ -430,7 +430,7 @@ export const Propuestas: React.FC = () => {
                         </div>
 
                         <div>
-                          <label className="text-slate-400 block mb-0.5">Total Línea</label>
+                          <label className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-0.5">Total Línea</label>
                           <div className="font-bold text-cyan-400 py-1 text-xs">
                             $ {Math.round(lineTotal).toLocaleString('es-AR')}
                           </div>
@@ -443,25 +443,25 @@ export const Propuestas: React.FC = () => {
             </div>
 
             {/* Terms & Conditions */}
-            <div className="p-5 rounded-xl bg-[#0c101a] border border-[#182133] space-y-4">
-              <h3 className="font-bold text-white text-sm">3. Condiciones Comerciales & Cláusulas</h3>
+            <div className="p-5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0c101a] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#182133] space-y-4">
+              <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">3. Condiciones Comerciales & Cláusulas</h3>
               <div className="space-y-3">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Condiciones de Pago</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Condiciones de Pago</label>
                   <textarea
                     rows={2}
                     value={paymentTerms}
                     onChange={(e) => setPaymentTerms(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white resize-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white resize-none"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Cláusula de Confidencialidad & Propiedad</label>
+                  <label className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 block mb-1">Cláusula de Confidencialidad & Propiedad</label>
                   <textarea
                     rows={2}
                     value={confidentialityClause}
                     onChange={(e) => setConfidentialityClause(e.target.value)}
-                    className="w-full bg-[#111726] border border-[#1e2942] rounded-lg px-3 py-2 text-xs text-white resize-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#111726] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2942] rounded-lg px-3 py-2 text-xs text-[var(--text-primary,#0f172a)] dark:text-white resize-none"
                   />
                 </div>
               </div>
@@ -470,14 +470,14 @@ export const Propuestas: React.FC = () => {
 
           {/* Right Column: Financial Summary & Actions */}
           <div className="space-y-6">
-            <div className="p-5 rounded-xl bg-[#0e1422] border border-[#1c263c] space-y-4 sticky top-6">
-              <h3 className="font-bold text-white text-sm flex items-center gap-2">
+            <div className="p-5 rounded-xl bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e1422] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c263c] space-y-4 sticky top-6">
+              <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm flex items-center gap-2">
                 <DollarSign className="w-4 h-4 text-emerald-400" />
                 Resumen Económico
               </h3>
 
               <div className="space-y-2.5 text-xs">
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   <span>Subtotal Bruto</span>
                   <span>$ {Math.round(subtotalGross).toLocaleString('es-AR')}</span>
                 </div>
@@ -489,17 +489,17 @@ export const Propuestas: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between text-slate-300">
+                <div className="flex items-center justify-between text-[var(--text-secondary,#475569)] dark:text-slate-300">
                   <span>Base Imponible Neta</span>
                   <span>$ {Math.round(netTaxable).toLocaleString('es-AR')}</span>
                 </div>
 
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400">
                   <span>Impuesto IVA Liquidado</span>
                   <span>$ {Math.round(totalTax).toLocaleString('es-AR')}</span>
                 </div>
 
-                <div className="border-t border-[#1c263c] pt-3 flex items-center justify-between text-white font-extrabold text-base">
+                <div className="border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1c263c] pt-3 flex items-center justify-between text-[var(--text-primary,#0f172a)] dark:text-white font-extrabold text-base">
                   <span>Inversión Total</span>
                   <span className="text-cyan-400">$ {Math.round(grandTotal).toLocaleString('es-AR')}</span>
                 </div>
@@ -518,15 +518,15 @@ export const Propuestas: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleShareWhatsApp}
-                  className="w-full py-2 rounded-lg bg-[#0e2a22] hover:bg-[#13382e] border border-emerald-500/30 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full py-2 rounded-lg bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0e2a22] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#13382e] border border-emerald-500/30 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Enviar Presupuesto a WhatsApp</span>
                 </button>
               </div>
 
-              <div className="p-3 rounded-lg bg-[#080c14] border border-[#161d2d] text-[11px] text-slate-400 space-y-1">
-                <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+              <div className="p-3 rounded-lg bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#080c14] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#161d2d] text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 space-y-1">
+                <div className="flex items-center gap-1.5 text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Homologación Fiscal</span>
                 </div>
@@ -567,13 +567,13 @@ export const Propuestas: React.FC = () => {
           {/* Client Details */}
           <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-[var(--bg-muted)] border border-[var(--border-subtle)] text-xs">
             <div>
-              <span className="text-slate-400 block font-medium">Dirigido a:</span>
+              <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block font-medium">Dirigido a:</span>
               <div className="font-bold text-[var(--text-primary)] text-sm">{clientName}</div>
               <div className="text-[var(--text-secondary)]">{clientEmail}</div>
               <div className="text-[var(--text-secondary)]">{clientPhone}</div>
             </div>
             <div>
-              <span className="text-slate-400 block font-medium">Asunto del proyecto:</span>
+              <span className="text-[var(--text-muted,#64748b)] dark:text-slate-400 block font-medium">Asunto del proyecto:</span>
               <div className="font-semibold text-[var(--text-primary)]">{proposalTitle}</div>
               <div className="text-[var(--text-muted)] mt-1">Atención personalizada: Asesor Comercial Senior</div>
             </div>
@@ -601,7 +601,7 @@ export const Propuestas: React.FC = () => {
                     const net = gross - disc;
                     return (
                       <tr key={item.id}>
-                        <td className="p-3 text-slate-400">{i + 1}</td>
+                        <td className="p-3 text-[var(--text-muted,#64748b)] dark:text-slate-400">{i + 1}</td>
                         <td className="p-3 font-medium text-[var(--text-primary)]">{item.description}</td>
                         <td className="p-3 text-center">{item.quantity}</td>
                         <td className="p-3 text-right">$ {item.unitPrice.toLocaleString('es-AR')}</td>

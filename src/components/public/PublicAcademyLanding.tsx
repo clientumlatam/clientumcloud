@@ -158,7 +158,7 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
                       {course.badge}
                     </span>
                     <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      <Clock className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
                       {course.duration}
                     </span>
                   </div>
@@ -274,8 +274,8 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
           </div>
 
           {/* Interactive Run Console */}
-          <div className="bg-slate-900 rounded-2xl p-5 text-white font-mono text-xs space-y-3 shadow-inner">
-            <div className="flex items-center justify-between text-slate-400 border-b border-slate-800 pb-2">
+          <div className="bg-slate-900 rounded-2xl p-5 text-[#0f172a] dark:text-white font-mono text-xs space-y-3 shadow-inner">
+            <div className="flex items-center justify-between text-[#64748b] dark:text-slate-400 border-b border-slate-800 pb-2">
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 clientum-sandbox://sim-{sandboxAction}
@@ -283,7 +283,7 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
               <span>TestMode: Active</span>
             </div>
 
-            <div className="py-2 text-slate-300">
+            <div className="py-2 text-[#475569] dark:text-slate-300">
               {sandboxAction === 'invoice' && '> Preparando petición WSFE mock: CUIT 30-71829384-9, Factura B, Total $124.500 ARS...'}
               {sandboxAction === 'broadcast' && '> Preparando plantilla pre-aprobada con placeholders: {{1}}=Nombre, {{2}}=Oferta...'}
               {sandboxAction === 'kanban' && '> Evaluando oportunidad #9421: Presupuesto validado, tomador de decisión identificado...'}

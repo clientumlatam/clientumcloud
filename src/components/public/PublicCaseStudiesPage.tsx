@@ -284,7 +284,7 @@ export const PublicCaseStudiesPage: React.FC<PublicCaseStudiesPageProps> = ({ on
                   <span className="text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full uppercase tracking-wider">
                     {cs.industryLabel}
                   </span>
-                  <span className="text-slate-400 font-mono">
+                  <span className="text-[#64748b] dark:text-slate-400 font-mono">
                     {cs.year}
                   </span>
                 </div>
@@ -349,11 +349,11 @@ export const PublicCaseStudiesPage: React.FC<PublicCaseStudiesPageProps> = ({ on
       <RealTeamsSection onNavigate={onNavigate} />
 
       {/* 5. Banner Final de Cierre */}
-      <section className="rounded-3xl bg-slate-950 text-white p-8 sm:p-12 text-center space-y-6 shadow-2xl">
+      <section className="rounded-3xl bg-slate-950 text-[#0f172a] dark:text-white p-8 sm:p-12 text-center space-y-6 shadow-2xl">
         <h2 className="text-2xl sm:text-4xl font-black max-w-3xl mx-auto">
           ¿Querés que tu equipo también ahorre horas y multiplique sus ventas?
         </h2>
-        <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
           Implementamos CRM, WhatsApp con IA y automatizaciones en 5 días hábiles con acompañamiento humano cercano.
         </p>
         <div>
@@ -386,7 +386,7 @@ export const PublicCaseStudiesPage: React.FC<PublicCaseStudiesPageProps> = ({ on
               <button
                 type="button"
                 onClick={() => setSelectedCaseModal(null)}
-                className="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
+                className="text-[#64748b] dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
               >
                 ✕
               </button>

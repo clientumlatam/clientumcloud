@@ -114,7 +114,7 @@ export const PublicCrmWhatsappIaPage: React.FC<PublicCrmWhatsappIaPageProps> = (
           </button>
           <button
             onClick={() => enterApp()}
-            className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 transition-all cursor-pointer shadow-xs"
+            className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-2 transition-all cursor-pointer shadow-xs"
           >
             <span>Ver Demo del CRM en Vivo</span>
             <ArrowRight className="w-4 h-4" />
@@ -157,7 +157,7 @@ export const PublicCrmWhatsappIaPage: React.FC<PublicCrmWhatsappIaPageProps> = (
                   <p>{m.text}</p>
                   <span
                     className={`block text-[9px] mt-1 text-right ${
-                      m.sender === 'user' ? 'text-blue-200' : 'text-slate-400'
+                      m.sender === 'user' ? 'text-blue-200' : 'text-[#64748b] dark:text-slate-400'
                     }`}
                   >
                     {m.time}
@@ -276,11 +276,11 @@ export const PublicCrmWhatsappIaPage: React.FC<PublicCrmWhatsappIaPageProps> = (
       </section>
 
       {/* Bottom CTA Banner */}
-      <section className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
+      <section className="bg-slate-900 text-[#0f172a] dark:text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
           Comenzá a Automatizar tus Ventas por WhatsApp Hoy Mismo
         </h2>
-        <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
           Probá nuestra demo interactiva completa, simulá tus flujos comerciales o cotizá la implementación para tu empresa en 2 minutos.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
@@ -293,7 +293,7 @@ export const PublicCrmWhatsappIaPage: React.FC<PublicCrmWhatsappIaPageProps> = (
           </button>
           <button
             onClick={() => onNavigate('/contacto')}
-            className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all cursor-pointer"
+            className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#0f172a] dark:text-white font-bold text-xs transition-all cursor-pointer"
           >
             Hablar con un Asesor
           </button>

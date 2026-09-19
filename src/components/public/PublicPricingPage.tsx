@@ -262,7 +262,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
           <button
             type="button"
             onClick={handleDownloadBrochure}
-            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
           >
             <Download className="w-4 h-4 text-emerald-400" />
             <span>Descargar Brochure & Planes PDF</span>
@@ -330,7 +330,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
               key={p.id}
               className={`rounded-3xl p-8 flex flex-col justify-between transition-all relative ${
                 p.popular
-                  ? 'bg-slate-900 text-white shadow-2xl ring-2 ring-blue-500 scale-[1.02]'
+                  ? 'bg-slate-900 text-[#0f172a] dark:text-white shadow-2xl ring-2 ring-blue-500 scale-[1.02]'
                   : 'bg-slate-50 border border-slate-200 text-slate-900 shadow-sm hover:shadow-md'
               }`}
             >
@@ -343,7 +343,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl font-black">{p.name}</h3>
-                  <p className={`text-xs mt-2 leading-relaxed ${p.popular ? 'text-slate-300' : 'text-slate-600'}`}>
+                  <p className={`text-xs mt-2 leading-relaxed ${p.popular ? 'text-[#475569] dark:text-slate-300' : 'text-slate-600'}`}>
                     {p.subtitle}
                   </p>
                 </div>
@@ -351,7 +351,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
                 <div className="border-t border-b py-4 space-y-1.5 border-slate-200/40">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-4xl font-black tracking-tight">${price}</span>
-                    <span className={`text-xs font-semibold ${p.popular ? 'text-slate-300' : 'text-slate-500'}`}>
+                    <span className={`text-xs font-semibold ${p.popular ? 'text-[#475569] dark:text-slate-300' : 'text-slate-500'}`}>
                       USD / mes
                     </span>
                   </div>
@@ -362,8 +362,8 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
                     </div>
                   )}
 
-                  <div className={`text-[11px] pt-1 ${p.popular ? 'text-slate-400' : 'text-slate-500'}`}>
-                    Setup e Implementación: <strong className={p.popular ? 'text-white' : 'text-slate-800'}>${p.setupFeeUSD} USD (único)</strong>
+                  <div className={`text-[11px] pt-1 ${p.popular ? 'text-[#64748b] dark:text-slate-400' : 'text-slate-500'}`}>
+                    Setup e Implementación: <strong className={p.popular ? 'text-[#0f172a] dark:text-white' : 'text-slate-800'}>${p.setupFeeUSD} USD (único)</strong>
                   </div>
                 </div>
 
@@ -383,8 +383,8 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
                   {p.excludes.length > 0 && (
                     <ul className="space-y-2.5 pt-2 border-t border-slate-200/30">
                       {p.excludes.map((ex, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 text-slate-400">
-                          <X className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
+                        <li key={idx} className="flex items-start gap-2.5 text-[#64748b] dark:text-slate-400">
+                          <X className="w-4 h-4 shrink-0 mt-0.5 text-[#64748b] dark:text-slate-400" />
                           <span className="leading-snug line-through">{ex}</span>
                         </li>
                       ))}
@@ -400,14 +400,14 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
                   className={`w-full py-3.5 px-6 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm ${
                     p.popular
                       ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30'
-                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                      : 'bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white'
                   }`}
                 >
                   <span>{p.cta}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
-                <div className={`text-[10px] text-center ${p.popular ? 'text-slate-400' : 'text-slate-500'} flex items-center justify-center gap-1`}>
+                <div className={`text-[10px] text-center ${p.popular ? 'text-[#64748b] dark:text-slate-400' : 'text-slate-500'} flex items-center justify-center gap-1`}>
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                   <span>Garantía de satisfacción o reembolso en 15 días</span>
                 </div>
@@ -475,7 +475,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
             className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none"
           />
 
-          <div className="flex justify-between text-[11px] text-slate-400 font-mono">
+          <div className="flex justify-between text-[11px] text-[#64748b] dark:text-slate-400 font-mono">
             <span>10 (Inicial)</span>
             <span>40 (PyME)</span>
             <span>70 (Pro)</span>

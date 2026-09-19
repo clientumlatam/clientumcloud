@@ -108,11 +108,11 @@ export const AuthModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
-      <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-[440px] overflow-y-auto rounded-2xl border border-[#222a3d] bg-[#111520] shadow-2xl">
+      <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-[440px] overflow-y-auto rounded-2xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] bg-[var(--bg-card,#ffffff)] dark:bg-[#111520] shadow-2xl">
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-[var(--bg-card)]/10 hover:text-white"
+          className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 transition-colors hover:bg-[var(--bg-card)]/10 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white"
           aria-label="Cerrar autenticación"
         >
           <X className="h-4 w-4" />
@@ -120,12 +120,12 @@ export const AuthModal: React.FC = () => {
 
         <div className="p-6 pt-7">
           <div className="text-center mb-5">
-            <h2 className="text-lg font-bold text-white tracking-tight">
+            <h2 className="text-lg font-bold text-[var(--text-primary,#0f172a)] dark:text-white tracking-tight">
               {mode === "login" && "Iniciar sesión en ClientumCRM"}
               {mode === "register" && "Crear cuenta comercial"}
               {mode === "forgot" && "Recuperar contraseña"}
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
               {mode === "login" && "Ingresa con tus credenciales seguras de Firebase"}
               {mode === "register" && "Comienza a gestionar tu pipeline comercial"}
               {mode === "forgot" && "Te enviaremos un enlace de restablecimiento seguro"}
@@ -143,7 +143,7 @@ export const AuthModal: React.FC = () => {
                 <Zap className="h-3.5 w-3.5 text-blue-100" />
                 Entrar con cuenta demo
               </button>
-              <p className="mt-2 text-center text-[10px] text-slate-400">
+              <p className="mt-2 text-center text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                 Explora ClientumCRM al instante sin registrarte.
               </p>
             </div>
@@ -178,30 +178,30 @@ export const AuthModal: React.FC = () => {
             {mode === "register" && (
               <>
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-300 mb-1">Nombre completo *</label>
+                  <label className="block text-[11px] font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre completo *</label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Alex Morgan"
-                      className="w-full rounded-xl border border-[#222a3d] bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                      className="w-full rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-[var(--text-primary,#0f172a)] dark:text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-300 mb-1">Empresa / Negocio</label>
+                  <label className="block text-[11px] font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Empresa / Negocio</label>
                   <div className="relative">
-                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                     <input
                       type="text"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="Mi Empresa S.A."
-                      className="w-full rounded-xl border border-[#222a3d] bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                      className="w-full rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-[var(--text-primary,#0f172a)] dark:text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -209,16 +209,16 @@ export const AuthModal: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-[11px] font-medium text-slate-300 mb-1">Correo electrónico *</label>
+              <label className="block text-[11px] font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Correo electrónico *</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@empresa.com"
-                  className="w-full rounded-xl border border-[#222a3d] bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c12] py-2.5 pl-9 pr-3 text-xs text-[var(--text-primary,#0f172a)] dark:text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ export const AuthModal: React.FC = () => {
             {mode !== "forgot" && (
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-[11px] font-medium text-slate-300">Contraseña *</label>
+                  <label className="block text-[11px] font-medium text-[var(--text-secondary,#475569)] dark:text-slate-300">Contraseña *</label>
                   {mode === "login" && (
                     <button
                       type="button"
@@ -238,19 +238,19 @@ export const AuthModal: React.FC = () => {
                   )}
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#222a3d] bg-[#0a0c12] py-2.5 pl-9 pr-9 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                    className="w-full rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c12] py-2.5 pl-9 pr-9 text-xs text-[var(--text-primary,#0f172a)] dark:text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white"
                   >
                     {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                   </button>
@@ -282,7 +282,7 @@ export const AuthModal: React.FC = () => {
           </form>
         </div>
 
-        <div className="border-t border-[#222a3d] px-6 py-4 text-center text-xs text-slate-400">
+        <div className="border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#222a3d] px-6 py-4 text-center text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
           {mode === "login" ? (
             <>
               ¿Todavía no tienes una cuenta?{" "}

@@ -238,7 +238,7 @@ export const TiendaDigitalView: React.FC = () => {
           </div>
 
           <div className="relative w-full sm:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-[#64748b] dark:text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
               value={searchQuery}
@@ -287,7 +287,7 @@ export const TiendaDigitalView: React.FC = () => {
 
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-400 block font-semibold">Precio Base</span>
+                    <span className="text-[10px] text-[#64748b] dark:text-slate-400 block font-semibold">Precio Base</span>
                     <div className="text-base font-extrabold text-blue-600">
                       $ {product.price.toLocaleString('es-AR')}
                     </div>
@@ -318,7 +318,7 @@ export const TiendaDigitalView: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="p-1 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-slate-700 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -327,7 +327,7 @@ export const TiendaDigitalView: React.FC = () => {
             {/* Cart Items */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.length === 0 ? (
-                <div className="text-center py-12 text-slate-400 space-y-2">
+                <div className="text-center py-12 text-[#64748b] dark:text-slate-400 space-y-2">
                   <ShoppingBag className="w-10 h-10 mx-auto opacity-40" />
                   <p>Tu carrito está vacío.</p>
                 </div>
@@ -365,7 +365,7 @@ export const TiendaDigitalView: React.FC = () => {
 
                       <button
                         onClick={() => updateQuantity(item.product.id, -item.quantity)}
-                        className="text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                        className="text-[#64748b] dark:text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

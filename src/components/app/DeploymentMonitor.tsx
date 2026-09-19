@@ -39,15 +39,13 @@ export const DeploymentMonitor: React.FC<DeploymentMonitorProps> = ({
       aria-label="Deployment Monitor"
       className={`select-none transition-all ${className}`}
     >
-      <div className="bg-slate-900/95 dark:bg-slate-900/95 text-slate-300 border border-slate-800 rounded-lg p-2.5 text-xs shadow-lg backdrop-blur-md">
+      <div className="bg-slate-900/95 dark:bg-slate-900/95 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 rounded-lg p-2.5 text-xs shadow-lg backdrop-blur-md">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 font-mono">
             <Server className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-            <span className="font-bold text-slate-100">{version}</span>
+            <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-slate-100">{version}</span>
             <span
-              className={`w-2 h-2 rounded-full ${
-                isOnline && isFirestoreConnected ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'
-              }`}
+              className={`w-2 h-2 rounded-full ${ isOnline && isFirestoreConnected ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse' }`}
               title={isOnline ? 'Deployment Active' : 'Offline Mode'}
             />
           </div>
@@ -55,7 +53,7 @@ export const DeploymentMonitor: React.FC<DeploymentMonitorProps> = ({
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+              className="p-1 rounded text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 hover:bg-slate-800 transition-colors"
               title="Ver detalles de versión y sistema"
             >
               <Info className="w-3.5 h-3.5" />
@@ -81,12 +79,12 @@ export const DeploymentMonitor: React.FC<DeploymentMonitorProps> = ({
         </div>
 
         {isExpanded && (
-          <div className="mt-2 pt-2 border-t border-slate-800 space-y-1.5 font-mono text-[11px] text-slate-400 animate-fadeIn">
+          <div className="mt-2 pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 space-y-1.5 font-mono text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 animate-fadeIn">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3 text-[var(--text-muted)]" /> Compilación:
               </span>
-              <span className="text-slate-200">{buildTimestamp}</span>
+              <span className="text-[var(--text-primary,#0f172a)] dark:text-slate-200">{buildTimestamp}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1">

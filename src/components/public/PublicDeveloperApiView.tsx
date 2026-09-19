@@ -249,13 +249,13 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
       </div>
 
       {/* 3. Interactive Endpoints Explorer */}
-      <section className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6">
+      <section className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-[#0f172a] dark:text-white shadow-xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
           <div>
             <div className="text-xs font-mono uppercase text-blue-400 font-bold">REST Reference</div>
-            <h2 className="text-xl sm:text-2xl font-black text-white">Endpoints Disponibles</h2>
+            <h2 className="text-xl sm:text-2xl font-black text-[#0f172a] dark:text-white">Endpoints Disponibles</h2>
           </div>
-          <div className="text-xs text-slate-400 font-mono">
+          <div className="text-xs text-[#64748b] dark:text-slate-400 font-mono">
             Base URL: <span className="text-emerald-400">https://api.clientum.com.ar/v1</span>
           </div>
         </div>
@@ -287,7 +287,7 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
                     >
                       {ep.method}
                     </span>
-                    <span className="font-mono text-xs font-bold text-slate-200 truncate">{ep.path}</span>
+                    <span className="font-mono text-xs font-bold text-[#334155] dark:text-slate-200 truncate">{ep.path}</span>
                   </div>
                   <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${isSelected ? 'text-blue-400 translate-x-1' : 'text-slate-600'}`} />
                 </button>
@@ -311,7 +311,7 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
                   >
                     {endpoints[selectedEndpoint].method}
                   </span>
-                  <span className="font-mono text-sm font-bold text-white">
+                  <span className="font-mono text-sm font-bold text-[#0f172a] dark:text-white">
                     {endpoints[selectedEndpoint].path}
                   </span>
                 </div>
@@ -322,14 +322,14 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
                       'curl-copy'
                     )
                   }
-                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[#475569] dark:text-slate-300 text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
                 >
                   {copiedId === 'curl-copy' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedId === 'curl-copy' ? 'Copiado' : 'Copiar cURL'}</span>
                 </button>
               </div>
 
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[#64748b] dark:text-slate-400">
                 {endpoints[selectedEndpoint].desc}
               </p>
 
@@ -344,7 +344,7 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
             </div>
 
             <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-800 flex items-center justify-between">
-              <span>Header requerido: <code className="text-slate-300 font-mono">Authorization: Bearer &lt;TOKEN&gt;</code></span>
+              <span>Header requerido: <code className="text-[#475569] dark:text-slate-300 font-mono">Authorization: Bearer &lt;TOKEN&gt;</code></span>
               <span className="text-emerald-400 font-bold">200 OK / 201 Created</span>
             </div>
           </div>
@@ -381,14 +381,14 @@ export const PublicDeveloperApiView: React.FC<PublicDeveloperApiViewProps> = ({ 
         </div>
 
         {/* Webhook JSON Payload Preview */}
-        <div className="bg-slate-900 rounded-2xl p-5 text-white space-y-3">
+        <div className="bg-slate-900 rounded-2xl p-5 text-[#0f172a] dark:text-white space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-[#64748b] dark:text-slate-400">
               // POST a tu endpoint cuando se dispara: <strong className="text-blue-400">{selectedWebhookEvent}</strong>
             </span>
             <button
               onClick={() => copyToClipboard(sampleWebhookPayload, 'wh-copy')}
-              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 flex items-center gap-1.5 cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-[#475569] dark:text-slate-300 flex items-center gap-1.5 cursor-pointer"
             >
               {copiedId === 'wh-copy' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedId === 'wh-copy' ? 'Copiado' : 'Copiar Payload'}</span>

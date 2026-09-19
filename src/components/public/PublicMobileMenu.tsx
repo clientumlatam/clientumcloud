@@ -64,7 +64,7 @@ export const PublicMobileMenu: React.FC<PublicMobileMenuProps> = ({
   return (
     <div className="xl:hidden max-h-[85vh] space-y-4 overflow-y-auto border-b border-slate-200 bg-white px-4 py-4 shadow-xl">
       <div className="relative">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" aria-hidden="true" />
+        <Search className="absolute left-3 top-3 h-4 w-4 text-[#64748b] dark:text-slate-400" aria-hidden="true" />
         <input
           type="search"
           value={searchQuery}

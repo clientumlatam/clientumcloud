@@ -300,11 +300,7 @@ export const SettingsView: React.FC = () => {
               <div
                 id="lang-card-en"
                 onClick={() => setLanguage('en')}
-                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
-                  language === 'en'
-                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
-                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
-                }`}
+                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${ language === 'en' ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10' : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30' }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xl">🇺🇸</span>
@@ -323,11 +319,7 @@ export const SettingsView: React.FC = () => {
               <div
                 id="lang-card-es"
                 onClick={() => setLanguage('es')}
-                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
-                  language === 'es'
-                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
-                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
-                }`}
+                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${ language === 'es' ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10' : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30' }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xl">🇪🇸</span>
@@ -346,11 +338,7 @@ export const SettingsView: React.FC = () => {
               <div
                 id="lang-card-pt"
                 onClick={() => setLanguage('pt')}
-                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
-                  language === 'pt'
-                    ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10'
-                    : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30'
-                }`}
+                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${ language === 'pt' ? 'border-blue-500 bg-[var(--bg-muted)] shadow-md shadow-blue-500/10' : 'border-[var(--border-subtle)] bg-[var(--bg-card)] hover:border-blue-500/30' }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xl">🇧🇷</span>
@@ -571,7 +559,7 @@ export const SettingsView: React.FC = () => {
               onClick={exportFullWorkspaceJSON}
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all shadow-md cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-white" />
+              <Download className="w-3.5 h-3.5 text-[var(--text-primary,#0f172a)] dark:text-white" />
               <span>Export Full CRM & ERP Workspace (JSON)</span>
             </button>
 

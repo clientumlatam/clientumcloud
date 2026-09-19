@@ -248,7 +248,7 @@ export const KanbanView: React.FC = () => {
       {/* Top Bar with Saved Views and Multi-Select Filter Trigger */}
       <div className="flex items-center justify-between border-b border-[var(--border-subtle)] bg-[var(--bg-card)] min-h-[58px]">
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="hidden lg:flex items-center gap-1.5 pl-4 text-xs text-slate-400 shrink-0">
+          <div className="hidden lg:flex items-center gap-1.5 pl-4 text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0">
             <span>Negocios</span>
             <ChevronRight className="w-3 h-3" />
             <span className="font-semibold text-[var(--text-secondary)]">Kanban</span>
@@ -280,11 +280,7 @@ export const KanbanView: React.FC = () => {
           <button
             id="toggle-kanban-filter-sidebar"
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-              activeFiltersCount > 0 || isFilterSidebarOpen
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs'
-            }`}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${ activeFiltersCount > 0 || isFilterSidebarOpen ? 'bg-blue-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs' : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs' }`}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span>Filtros ({activeFiltersCount})</span>
@@ -293,11 +289,7 @@ export const KanbanView: React.FC = () => {
             <button
               id="kanban-settings-btn"
               onClick={() => setIsBoardSettingsOpen((open) => !open)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                isBoardSettingsOpen
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs'
-              }`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${ isBoardSettingsOpen ? 'bg-slate-900 text-white' : 'bg-[var(--bg-card)] hover:bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shadow-2xs' }`}
               aria-expanded={isBoardSettingsOpen}
               aria-haspopup="menu"
             >
@@ -311,7 +303,7 @@ export const KanbanView: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-[var(--text-primary)]">Configuración Kanban</span>
-                  <span className="text-[10px] text-slate-400">Vista actual</span>
+                  <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Vista actual</span>
                 </div>
                 {[
                   { label: 'Etiquetas y prioridad', value: showCardTags, setValue: setShowCardTags },
@@ -329,7 +321,7 @@ export const KanbanView: React.FC = () => {
                     {setting.value ? (
                       <Eye className="w-3.5 h-3.5 text-blue-600" />
                     ) : (
-                      <EyeOff className="w-3.5 h-3.5 text-slate-400" />
+                      <EyeOff className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                     )}
                   </button>
                 ))}
@@ -378,23 +370,19 @@ export const KanbanView: React.FC = () => {
 
         {/* Currency Switcher */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-400 font-medium">Moneda:</span>
+          <span className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-medium">Moneda:</span>
           <div className="flex bg-[var(--bg-muted)] p-0.5 rounded-lg border border-[var(--border-subtle)] text-[11px]">
             <button
               type="button"
               onClick={() => setCurrencyMode('USD')}
-              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
-                currencyMode === 'USD' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${ currencyMode === 'USD' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
             >
               USD
             </button>
             <button
               type="button"
               onClick={() => setCurrencyMode('ARS')}
-              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
-                currencyMode === 'ARS' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${ currencyMode === 'ARS' ? 'bg-[var(--bg-card)] text-blue-600 shadow-xs' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]' }`}
             >
               ARS
             </button>
@@ -417,11 +405,7 @@ export const KanbanView: React.FC = () => {
                 onDragOver={(e) => handleDragOver(e, stage.id)}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, stage.id)}
-                className={`w-72 shrink-0 flex flex-col max-h-full rounded-xl bg-[var(--bg-muted)]/90 border transition-all duration-150 ${
-                  isTarget
-                    ? 'border-blue-500 bg-blue-50/50 shadow-md shadow-blue-500/10'
-                    : 'border-[var(--border-subtle)]'
-                }`}
+                className={`w-72 shrink-0 flex flex-col max-h-full rounded-xl bg-[var(--bg-muted)]/90 border transition-all duration-150 ${ isTarget ? 'border-blue-500 bg-blue-50/50 shadow-md shadow-blue-500/10' : 'border-[var(--border-subtle)]' }`}
               >
                 {/* Column Header */}
                 <div className="p-3 border-b border-[var(--border-subtle)]/80 flex items-center justify-between">
@@ -468,7 +452,7 @@ export const KanbanView: React.FC = () => {
                       <p className="text-[11px] font-bold text-[var(--text-secondary)] mb-0.5">
                         {t('noDealsInStage')}
                       </p>
-                      <p className="text-[10px] text-slate-400 max-w-[180px]">
+                      <p className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 max-w-[180px]">
                         Arrastra un trato o crea uno nuevo en esta etapa.
                       </p>
                     </div>
@@ -518,7 +502,7 @@ export const KanbanView: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsFilterSidebarOpen(false)}
-                className="p-1 text-slate-400 hover:text-[var(--text-secondary)] rounded hover:bg-[var(--bg-muted)] cursor-pointer"
+                className="p-1 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-secondary)] rounded hover:bg-[var(--bg-muted)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>

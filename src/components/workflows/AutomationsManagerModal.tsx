@@ -154,14 +154,14 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
                   En Vivo
                 </span>
               </h3>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 Disparadores automáticos que ahorran horas de trabajo a tu equipo
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -182,11 +182,7 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
             {rules.map((rule) => (
               <div
                 key={rule.id}
-                className={`p-4 rounded-xl border transition-all ${
-                  rule.isActive
-                    ? 'bg-[var(--bg-card)] border-[var(--border-subtle)]/90 shadow-2xs hover:border-blue-300'
-                    : 'bg-[var(--bg-muted)] border-[var(--border-subtle)] opacity-60'
-                }`}
+                className={`p-4 rounded-xl border transition-all ${ rule.isActive ? 'bg-[var(--bg-card)] border-[var(--border-subtle)]/90 shadow-2xs hover:border-blue-300' : 'bg-[var(--bg-muted)] border-[var(--border-subtle)] opacity-60' }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
@@ -204,7 +200,7 @@ export const AutomationsManagerModal: React.FC<AutomationsManagerModalProps> = (
                         <Clock className="w-3 h-3 text-blue-600 shrink-0" />
                         <span className="truncate">Si: {rule.trigger}</span>
                       </div>
-                      <ArrowRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 shrink-0" />
                       <div className="flex items-center gap-1 font-semibold text-blue-700">
                         <Zap className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />
                         <span className="truncate">Entonces: {rule.action}</span>

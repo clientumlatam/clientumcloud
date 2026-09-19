@@ -116,21 +116,21 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--text-primary)] dark:text-slate-200 transition-colors">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--clientum-surface,#F5F7FA)] dark:bg-[var(--crm-bg,#040711)] text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200 transition-colors">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)] dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
               Google Workspace
             </span>
-            <span className="text-xs text-slate-400 dark:text-[var(--text-muted)]">workspace_integrations_dashboard.md</span>
+            <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted)]">workspace_integrations_dashboard.md</span>
           </div>
           <h1 className="text-xl font-bold text-[var(--clientum-navy,#022046)] dark:text-white flex items-center gap-2.5">
             <HardDrive className="w-6 h-6 text-sky-500 dark:text-sky-400" />
             Integraciones Google Workspace, Gmail y Drive
           </h1>
-          <p className="text-xs text-[var(--text-secondary)] dark:text-slate-400 mt-1 max-w-3xl">
+          <p className="text-xs text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1 max-w-3xl">
             Conectividad con herramientas de Google Workspace (Drive, Gmail, Calendar y SMTP) para centralizar la documentación corporativa, el envío de campañas de correo y la sincronización de agendas.
           </p>
         </div>
@@ -139,7 +139,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
           <button
             onClick={handleSyncDrive}
             disabled={isSyncing}
-            className="px-3 py-2 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-xs"
+            className="px-3 py-2 bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-xs"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
             <span>{isSyncing ? 'Sincronizando...' : 'Sincronizar con Drive'}</span>
@@ -148,7 +148,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] dark:border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-800 pb-2">
         {[
           { id: 'drive', label: '1. Google Drive & Document Manager', icon: HardDrive },
           { id: 'campaigns', label: '2. Campañas Email & Plantillas HTML', icon: Mail },
@@ -159,11 +159,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === tab.id
-                  ? 'bg-[var(--clientum-blue,#002B5C)] text-white shadow-xs font-bold'
-                  : 'text-[var(--text-secondary)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800/60'
-              }`}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${ activeTab === tab.id ? 'bg-[var(--clientum-blue,#002B5C)] text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs font-bold' : 'text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary)] dark:hover:text-white hover:bg-[var(--bg-muted)] dark:hover:bg-slate-800/60' }`}
             >
               <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
@@ -182,7 +178,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h2>
             <button
               onClick={() => setIsDriveModalOpen(true)}
-              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
+              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <Plus className="w-3.5 h-3.5" />
               Subir a Drive
@@ -191,7 +187,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
 
           <div className="bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] rounded-xl overflow-hidden shadow-xs">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[var(--bg-muted)] dark:bg-slate-900/80 text-[var(--text-muted)] dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-[var(--border-subtle)] dark:border-slate-700">
+              <thead className="bg-[var(--bg-muted)] dark:bg-slate-900/80 text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700">
                 <tr>
                   <th className="p-3">Nombre del Archivo</th>
                   <th className="p-3">Carpeta</th>
@@ -200,20 +196,20 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                   <th className="p-3 text-right">Acción</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border-subtle)] dark:divide-slate-800 text-[var(--text-secondary)] dark:text-slate-300">
+              <tbody className="divide-y divide-[var(--border-subtle)] dark:divide-slate-800 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">
                 {driveFiles.map((file) => (
                   <tr key={file.id} className="hover:bg-[var(--bg-muted)]/80 dark:hover:bg-slate-800/30 transition-colors">
                     <td className="p-3 font-semibold text-[var(--text-primary)] dark:text-white flex items-center gap-2">
                       <FileText className="w-4 h-4 text-sky-500 dark:text-sky-400 shrink-0" />
                       <span>{file.name}</span>
                     </td>
-                    <td className="p-3 text-[var(--text-muted)] dark:text-slate-400">
-                      <span className="px-2 py-0.5 rounded text-[10px] bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-slate-400">
+                    <td className="p-3 text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-[var(--bg-muted)] dark:bg-slate-800 border border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                         {file.folder}
                       </span>
                     </td>
-                    <td className="p-3 font-mono text-[var(--text-muted)] dark:text-slate-400">{file.size}</td>
-                    <td className="p-3 text-[var(--text-muted)] dark:text-slate-400">{file.updated}</td>
+                    <td className="p-3 font-mono text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">{file.size}</td>
+                    <td className="p-3 text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">{file.updated}</td>
                     <td className="p-3 text-right">
                       <button
                         onClick={() => showToast(`Abriendo ${file.name} en Google Drive`, 'info')}
@@ -241,7 +237,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h2>
             <button
               onClick={() => setIsTmplModalOpen(true)}
-              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
+              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <Plus className="w-3.5 h-3.5" />
               Nueva Plantilla
@@ -252,10 +248,10 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             {emailTemplates.map((tmpl) => (
               <div key={tmpl.id} className="p-4 rounded-xl bg-[var(--bg-card)] dark:bg-[#0D1527] border border-[var(--border-subtle)] dark:border-[#1E2E4A] space-y-3 shadow-xs">
                 <div className="text-xs font-bold text-[var(--text-primary)] dark:text-white">{tmpl.name}</div>
-                <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 line-clamp-1 italic">"{tmpl.subject}"</div>
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] dark:border-slate-700/60 text-xs">
-                  <span className="text-[var(--text-muted)] dark:text-slate-400">Aperturas: <strong className="text-emerald-600 dark:text-emerald-400">{tmpl.openRate}</strong></span>
-                  <span className="text-[var(--text-muted)] dark:text-slate-400">Enviados: <strong className="text-[var(--text-primary)] dark:text-white">{tmpl.sentCount}</strong></span>
+                <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 line-clamp-1 italic">"{tmpl.subject}"</div>
+                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 text-xs">
+                  <span className="text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Aperturas: <strong className="text-emerald-600 dark:text-emerald-400">{tmpl.openRate}</strong></span>
+                  <span className="text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">Enviados: <strong className="text-[var(--text-primary)] dark:text-white">{tmpl.sentCount}</strong></span>
                 </div>
                 <button
                   onClick={() => showToast(`Enviando prueba de "${tmpl.name}" vía SMTP verificado...`, 'info')}
@@ -280,7 +276,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h2>
             <button
               onClick={() => setIsCalModalOpen(true)}
-              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
+              className="px-3 py-1.5 bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <Plus className="w-3.5 h-3.5" />
               Agendar Evento
@@ -295,13 +291,13 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                     {evt.status}
                   </span>
                 </div>
-                <div className="text-xs text-[var(--text-secondary)] dark:text-slate-300">Cliente: {evt.client}</div>
+                <div className="text-xs text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300">Cliente: {evt.client}</div>
                 <div className="text-xs text-sky-600 dark:text-sky-400 font-mono flex items-center gap-1.5 font-semibold">
                   <Clock className="w-3.5 h-3.5" />
                   {evt.time}
                 </div>
-                <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-slate-700 flex items-center justify-between">
-                  <span className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 font-mono">{evt.meetLink}</span>
+                <div className="pt-2 border-t border-[var(--border-subtle)] dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700 flex items-center justify-between">
+                  <span className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{evt.meetLink}</span>
                   <button
                     onClick={() => showToast(`Abriendo enlace de Google Meet: ${evt.meetLink}`, 'info')}
                     className="px-2.5 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-[11px] font-semibold cursor-pointer shadow-xs"
@@ -325,7 +321,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h3>
             <form onSubmit={handleCreateDriveFile} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Nombre del Archivo</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre del Archivo</label>
                 <input
                   type="text"
                   required
@@ -336,7 +332,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Carpeta de Destino</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Carpeta de Destino</label>
                 <select
                   value={newFileFolder}
                   onChange={(e) => setNewFileFolder(e.target.value)}
@@ -351,13 +347,13 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsDriveModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
                 >
                   Subir a Drive
                 </button>
@@ -377,7 +373,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h3>
             <form onSubmit={handleCreateTemplate} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Nombre Interno</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Nombre Interno</label>
                 <input
                   type="text"
                   required
@@ -388,7 +384,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Asunto del Email</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Asunto del Email</label>
                 <input
                   type="text"
                   required
@@ -402,13 +398,13 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsTmplModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
                 >
                   Guardar Plantilla
                 </button>
@@ -428,7 +424,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
             </h3>
             <form onSubmit={handleCreateCalendarEvent} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Título de la Reunión</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Título de la Reunión</label>
                 <input
                   type="text"
                   required
@@ -439,7 +435,7 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-slate-300 mb-1">Cliente / Asistentes</label>
+                <label className="block text-[11px] font-semibold text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 mb-1">Cliente / Asistentes</label>
                 <input
                   type="text"
                   placeholder="ej. Carlos Mendoza (ABEPOL S.R.L.)"
@@ -452,13 +448,13 @@ export const GoogleWorkspaceDashboardPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsCalModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--bg-muted)] hover:bg-[var(--bg-muted)] dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] dark:text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                  className="px-4 py-1.5 rounded-lg bg-[var(--clientum-action,#0056B3)] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#004494] text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
                 >
                   Agendar Evento
                 </button>

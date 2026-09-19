@@ -232,7 +232,7 @@ export const WarehouseErpModule: React.FC = () => {
                 Multi-Depósito Activo
               </span>
             </div>
-            <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+            <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
               Rastreo físico de estanterías y pasillos con sincronización automática al cerrar oportunidades ganadas en CRM.
             </p>
           </div>
@@ -273,11 +273,7 @@ export const WarehouseErpModule: React.FC = () => {
           <button
             type="button"
             onClick={() => setSelectedWarehouseFilter('all')}
-            className={`px-3 py-1.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap ${
-              selectedWarehouseFilter === 'all'
-                ? 'bg-teal-600 text-white shadow-2xs'
-                : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            }`}
+            className={`px-3 py-1.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap ${ selectedWarehouseFilter === 'all' ? 'bg-teal-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]' }`}
           >
             Todos los Depósitos ({inventory.length})
           </button>
@@ -286,11 +282,7 @@ export const WarehouseErpModule: React.FC = () => {
               key={wh}
               type="button"
               onClick={() => setSelectedWarehouseFilter(wh)}
-              className={`px-3 py-1.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                selectedWarehouseFilter === wh
-                  ? 'bg-teal-600 text-white shadow-2xs'
-                  : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
+              className={`px-3 py-1.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${ selectedWarehouseFilter === wh ? 'bg-teal-600 text-[var(--text-primary,#0f172a)] dark:text-white shadow-2xs' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]' }`}
             >
               <MapPin size={12} />
               <span>{wh}</span>
@@ -299,7 +291,7 @@ export const WarehouseErpModule: React.FC = () => {
         </div>
 
         <div className="relative shrink-0 w-full sm:w-64">
-          <Search size={14} className="absolute left-3 top-2.5 text-slate-400" />
+          <Search size={14} className="absolute left-3 top-2.5 text-[var(--text-muted,#64748b)] dark:text-slate-400" />
           <input
             type="text"
             placeholder="Buscar por SKU, nombre o pasillo..."
@@ -318,11 +310,7 @@ export const WarehouseErpModule: React.FC = () => {
           return (
             <div
               key={item.id}
-              className={`p-4 rounded-xl border transition-all space-y-3 ${
-                isCritical
-                  ? 'border-amber-400/60 bg-amber-50/15 dark:bg-amber-950/20'
-                  : 'border-[var(--border-subtle)] bg-[var(--bg-muted)]/30 hover:bg-[var(--bg-muted)]/60'
-              }`}
+              className={`p-4 rounded-xl border transition-all space-y-3 ${ isCritical ? 'border-amber-400/60 bg-amber-50/15 dark:bg-amber-950/20' : 'border-[var(--border-subtle)] bg-[var(--bg-muted)]/30 hover:bg-[var(--bg-muted)]/60' }`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
@@ -332,20 +320,18 @@ export const WarehouseErpModule: React.FC = () => {
                   <h4 className="font-bold text-xs text-[var(--text-primary)] dark:text-white truncate">
                     {item.name}
                   </h4>
-                  <span className="text-[11px] text-[var(--text-muted)] dark:text-slate-400">
+                  <span className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Categoría: {item.category}
                   </span>
                 </div>
 
                 <div className="text-right shrink-0">
                   <div
-                    className={`text-lg font-extrabold font-mono ${
-                      isCritical ? 'text-amber-500' : 'text-emerald-500'
-                    }`}
+                    className={`text-lg font-extrabold font-mono ${ isCritical ? 'text-amber-500' : 'text-emerald-500' }`}
                   >
                     {item.stockQuantity} un.
                   </div>
-                  <div className="text-[10px] text-slate-400">
+                  <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Punto de reorden: {item.reorderLevel}
                   </div>
                 </div>
@@ -353,14 +339,14 @@ export const WarehouseErpModule: React.FC = () => {
 
               {/* Physical Warehouse Location Pin */}
               <div className="p-2.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[11px] space-y-1">
-                <div className="flex items-center gap-1.5 font-semibold text-[var(--text-primary)] dark:text-slate-200">
+                <div className="flex items-center gap-1.5 font-semibold text-[var(--text-primary)] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-200">
                   <MapPin size={12} className="text-teal-500 shrink-0" />
                   <span className="truncate">
                     {item.warehouseLocation?.warehouse || 'Depósito Central'}
                   </span>
                 </div>
 
-                <div className="text-[10px] text-[var(--text-muted)] dark:text-slate-400 font-mono flex items-center gap-2 flex-wrap">
+                <div className="text-[10px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono flex items-center gap-2 flex-wrap">
                   {item.warehouseLocation?.aisle && (
                     <span className="px-1.5 py-0.5 rounded-md bg-[var(--bg-muted)]">
                       {item.warehouseLocation.aisle}
@@ -435,19 +421,19 @@ export const WarehouseErpModule: React.FC = () => {
                     ({log.sku})
                   </span>
                 </div>
-                <div className="text-[11px] text-[var(--text-muted)] dark:text-slate-400 flex items-center gap-1.5">
-                  <MapPin size={11} className="text-slate-400" />
+                <div className="text-[11px] text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center gap-1.5">
+                  <MapPin size={11} className="text-[var(--text-muted,#64748b)] dark:text-slate-400" />
                   <span>Despachado desde: {log.warehouseName} ({log.locationString})</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-4 text-right shrink-0">
-                <div className="text-[11px] text-slate-400">{log.timestamp}</div>
+                <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{log.timestamp}</div>
                 <div className="flex items-center gap-1 font-mono font-bold text-rose-500">
                   <TrendingDown size={13} />
                   <span>-{log.quantityDeducted} un.</span>
                 </div>
-                <div className="text-[10px] text-slate-400 font-mono">
+                <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">
                   Stock remanente: <strong className="text-[var(--text-primary)]">{log.remainingStock}</strong>
                 </div>
               </div>
@@ -469,7 +455,7 @@ export const WarehouseErpModule: React.FC = () => {
                   <h4 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Cierre de Venta con Deducción de Stock
                   </h4>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Cambia la oportunidad a 'Ganada' y rebaja el inventario del depósito correspondiente.
                   </p>
                 </div>
@@ -477,7 +463,7 @@ export const WarehouseErpModule: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsDeductModalOpen(false)}
-                className="text-slate-400 hover:text-slate-200 cursor-pointer"
+                className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -588,7 +574,7 @@ export const WarehouseErpModule: React.FC = () => {
                   <h4 className="text-sm font-bold text-[var(--text-primary)] dark:text-white">
                     Catalogar Nuevo Producto en Almacén
                   </h4>
-                  <p className="text-xs text-[var(--text-muted)] dark:text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     Defina código SKU, precio de lista y coordenadas exactas en depósito.
                   </p>
                 </div>
@@ -596,7 +582,7 @@ export const WarehouseErpModule: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsAddProductModalOpen(false)}
-                className="text-slate-400 hover:text-slate-200 cursor-pointer"
+                className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-200 cursor-pointer"
               >
                 <X size={18} />
               </button>

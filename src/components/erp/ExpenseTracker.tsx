@@ -164,42 +164,42 @@ export const ExpenseTracker: React.FC = () => {
     <div className="space-y-5 text-xs">
       {/* Top KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="flex items-center justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-2">
             <span className="text-xs font-medium">Total Business Expenses</span>
             <DollarSign className="w-4 h-4 text-rose-400" />
           </div>
           <div className="text-xl font-bold font-mono text-rose-400">
             ${totalExpenseAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[11px] text-slate-400 mt-1">{expenses.length} recorded expense entries</div>
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">{expenses.length} recorded expense entries</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="flex items-center justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-2">
             <span className="text-xs font-medium">Top Expense Category</span>
             <Tag className="w-4 h-4 text-amber-400" />
           </div>
-          <div className="text-xl font-bold font-mono text-white">{topCategory}</div>
-          <div className="text-[11px] text-slate-400 mt-1">Largest operational cost center</div>
+          <div className="text-xl font-bold font-mono text-[var(--text-primary,#0f172a)] dark:text-white">{topCategory}</div>
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Largest operational cost center</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#12151d] border border-[#1e2330]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="p-4 rounded-xl bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <div className="flex items-center justify-between text-[var(--text-muted,#64748b)] dark:text-slate-400 mb-2">
             <span className="text-xs font-medium">Average Expense Entry</span>
             <CreditCard className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-xl font-bold font-mono text-blue-400">
             ${expenses.length > 0 ? (totalExpenseAmount / expenses.length).toFixed(2) : '0.00'}
           </div>
-          <div className="text-[11px] text-slate-400 mt-1">Per transaction average</div>
+          <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-1">Per transaction average</div>
         </div>
       </div>
 
       {/* Monthly Breakdown Chart & Category Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-[#12151d] p-4 rounded-xl border border-[#1e2330]">
-          <h4 className="font-semibold text-white text-xs mb-3 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs mb-3 flex items-center gap-2">
             <TrendingDown className="w-4 h-4 text-rose-400" />
             Expenses Breakdown by Category ($ USD)
           </h4>
@@ -223,8 +223,8 @@ export const ExpenseTracker: React.FC = () => {
         </div>
 
         {/* Categories Distribution */}
-        <div className="bg-[#12151d] p-4 rounded-xl border border-[#1e2330]">
-          <h4 className="font-semibold text-white text-xs mb-3 flex items-center gap-2">
+        <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
+          <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs mb-3 flex items-center gap-2">
             <PieIcon className="w-4 h-4 text-purple-400" />
             Category Allocation
           </h4>
@@ -234,18 +234,18 @@ export const ExpenseTracker: React.FC = () => {
               return (
                 <div key={cat.name} className="space-y-1">
                   <div className="flex justify-between text-[11px]">
-                    <span className="text-slate-300 font-medium flex items-center gap-1.5">
+                    <span className="text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium flex items-center gap-1.5">
                       <span
                         className="w-2.5 h-2.5 rounded-full inline-block"
                         style={{ backgroundColor: CATEGORY_COLORS[cat.name] || '#3b82f6' }}
                       />
                       {cat.name}
                     </span>
-                    <span className="font-mono text-white font-semibold">
+                    <span className="font-mono text-[var(--text-primary,#0f172a)] dark:text-white font-semibold">
                       ${cat.value.toLocaleString()} ({pct}%)
                     </span>
                   </div>
-                  <div className="h-1.5 bg-[#181d29] rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-300"
                       style={{
@@ -262,23 +262,23 @@ export const ExpenseTracker: React.FC = () => {
       </div>
 
       {/* Filter and Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12151d] p-4 rounded-xl border border-[#1e2330]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] p-4 rounded-xl border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
         <div className="flex items-center gap-2 flex-1">
           <div className="relative flex-1 max-w-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search expenses by vendor or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#181d29] text-xs text-white pl-8 pr-3 py-1.5 rounded-lg border border-[#273044] focus:outline-none focus:border-rose-500"
+              className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-xs text-[var(--text-primary,#0f172a)] dark:text-white pl-8 pr-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-rose-500"
             />
           </div>
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-[#181d29] text-xs text-slate-300 px-3 py-1.5 rounded-lg border border-[#273044] focus:outline-none"
+            className="bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-xs text-[var(--text-secondary,#475569)] dark:text-slate-300 px-3 py-1.5 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
           >
             <option value="all">All Categories</option>
             {Object.keys(CATEGORY_COLORS).map((cat) => (
@@ -302,10 +302,10 @@ export const ExpenseTracker: React.FC = () => {
       </div>
 
       {/* Expense Table */}
-      <div className="bg-[#12151d] border border-[#1e2330] rounded-xl overflow-hidden shadow-md">
+      <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330] rounded-xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#151924] text-slate-400 font-semibold border-b border-[#1e2330]">
+            <thead className="bg-[var(--bg-card,#ffffff)] dark:bg-[#151924] text-[var(--text-muted,#64748b)] dark:text-slate-400 font-semibold border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2330]">
               <tr>
                 <th className="p-3.5">Expense Description</th>
                 <th className="p-3.5">Category</th>
@@ -316,38 +316,38 @@ export const ExpenseTracker: React.FC = () => {
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#181d28] text-slate-300">
+            <tbody className="divide-y divide-[var(--border-subtle,#e2e8f0)] dark:divide-[#181d28] text-[var(--text-secondary,#475569)] dark:text-slate-300">
               {filteredExpenses.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-400">
+                  <td colSpan={7} className="p-8 text-center text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     No expense entries found matching your filter.
                   </td>
                 </tr>
               ) : (
                 filteredExpenses.map((exp) => (
-                  <tr key={exp.id} className="hover:bg-[#161b26] transition-colors">
-                    <td className="p-3.5 font-medium text-white">
+                  <tr key={exp.id} className="hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#161b26] transition-colors">
+                    <td className="p-3.5 font-medium text-[var(--text-primary,#0f172a)] dark:text-white">
                       <div>{exp.description}</div>
-                      {exp.notes && <div className="text-[10px] text-slate-400">{exp.notes}</div>}
+                      {exp.notes && <div className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{exp.notes}</div>}
                     </td>
                     <td className="p-3.5">
                       <span
-                        className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-white inline-block"
+                        className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-[var(--text-primary,#0f172a)] dark:text-white inline-block"
                         style={{ backgroundColor: `${CATEGORY_COLORS[exp.category]}33`, color: CATEGORY_COLORS[exp.category], border: `1px solid ${CATEGORY_COLORS[exp.category]}44` }}
                       >
                         {exp.category}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-300">{exp.vendor || '—'}</td>
-                    <td className="p-3.5 text-slate-400 font-mono">{exp.date}</td>
-                    <td className="p-3.5 text-slate-400">{exp.assignedTo || 'General'}</td>
+                    <td className="p-3.5 text-[var(--text-secondary,#475569)] dark:text-slate-300">{exp.vendor || '—'}</td>
+                    <td className="p-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400 font-mono">{exp.date}</td>
+                    <td className="p-3.5 text-[var(--text-muted,#64748b)] dark:text-slate-400">{exp.assignedTo || 'General'}</td>
                     <td className="p-3.5 text-right font-mono font-bold text-rose-400 text-sm">
                       ${exp.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
                     <td className="p-3.5 text-right">
                       <button
                         onClick={() => deleteExpense(exp.id)}
-                        className="p-1.5 rounded-lg hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-rose-500/20 text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-rose-400 transition-colors"
                         title="Delete expense entry"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -364,13 +364,13 @@ export const ExpenseTracker: React.FC = () => {
       {/* RECORD NEW EXPENSE MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
-          <div className="bg-[#12151d] border border-[#212838] w-full max-w-lg rounded-2xl shadow-2xl p-5 space-y-4 text-xs">
-            <div className="flex items-center justify-between border-b border-[#212838] pb-3">
-              <h3 className="font-bold text-white text-sm flex items-center gap-2">
+          <div className="bg-[var(--bg-card,#ffffff)] dark:bg-[#12151d] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212838] w-full max-w-lg rounded-2xl shadow-2xl p-5 space-y-4 text-xs">
+            <div className="flex items-center justify-between border-b border-[var(--border-subtle,#e2e8f0)] dark:border-[#212838] pb-3">
+              <h3 className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm flex items-center gap-2">
                 <CreditCard className="w-4 h-4 text-rose-400" />
                 Input New Business Expense
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white">
+              <button onClick={() => setIsModalOpen(false)} className="text-[var(--text-muted,#64748b)] dark:text-slate-400 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -378,7 +378,7 @@ export const ExpenseTracker: React.FC = () => {
             <form onSubmit={handleCreateExpense} className="space-y-3">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-slate-300 font-medium">Expense Description *</label>
+                  <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium">Expense Description *</label>
                   <button
                     type="button"
                     onClick={() => handleAiCategorize()}
@@ -409,25 +409,25 @@ export const ExpenseTracker: React.FC = () => {
                       handleAiCategorize();
                     }
                   }}
-                  className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-rose-500"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-rose-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Amount ($ USD) *</label>
+                  <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium mb-1">Amount ($ USD) *</label>
                   <input
                     type="number"
                     required
                     min="1"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none focus:border-rose-500 font-mono"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none focus:border-rose-500 font-mono"
                   />
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="block text-slate-300 font-medium">Category</label>
+                    <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium">Category</label>
                     {aiRationale && (
                       <span className="text-[10px] text-purple-300 bg-purple-500/20 px-1.5 py-0.5 rounded border border-purple-500/30 font-medium flex items-center gap-1">
                         <Bot className="w-2.5 h-2.5" /> AI Suggested
@@ -437,7 +437,7 @@ export const ExpenseTracker: React.FC = () => {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as any)}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                   >
                     {Object.keys(CATEGORY_COLORS).map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -458,45 +458,45 @@ export const ExpenseTracker: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Date</label>
+                  <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium mb-1">Date</label>
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Vendor / Payee</label>
+                  <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium mb-1">Vendor / Payee</label>
                   <input
                     type="text"
                     placeholder="e.g. Amazon Web Services"
                     value={vendor}
                     onChange={(e) => setVendor(e.target.value)}
-                    className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                    className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Department / Assigned Team</label>
+                <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium mb-1">Department / Assigned Team</label>
                 <input
                   type="text"
                   placeholder="e.g. Operations, Marketing, Engineering..."
                   value={assignedTo}
                   onChange={(e) => setAssignedTo(e.target.value)}
-                  className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Notes / Receipt reference</label>
+                <label className="block text-[var(--text-secondary,#475569)] dark:text-slate-300 font-medium mb-1">Notes / Receipt reference</label>
                 <textarea
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Additional context or invoice ref..."
-                  className="w-full bg-[#181d29] text-white px-3 py-2 rounded-lg border border-[#273044] focus:outline-none"
+                  className="w-full bg-[var(--bg-card,#ffffff)] dark:bg-[#181d29] text-[var(--text-primary,#0f172a)] dark:text-white px-3 py-2 rounded-lg border border-[var(--border-subtle,#e2e8f0)] dark:border-[#273044] focus:outline-none"
                 />
               </div>
 

@@ -130,7 +130,7 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
   return (
     <div className="space-y-24">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 text-white shadow-xl">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 text-[#0f172a] dark:text-white shadow-xl">
           <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-10">
             <div>
               <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-200">
@@ -140,7 +140,7 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
               <h2 className="max-w-xl text-2xl font-extrabold tracking-tight sm:text-4xl">
                 Crecimiento comercial, IA y automatización en un solo equipo.
               </h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
+              <p className="mt-3 max-w-xl text-sm leading-6 text-[#475569] dark:text-slate-300">
                 Consultoría estratégica, implementación de CRM, agentes de WhatsApp, marketing, desarrollo web e integraciones para PyMEs de Latinoamérica.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -155,7 +155,7 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
                 <button
                   type="button"
                   onClick={onOpenSimulator}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2.5 text-xs font-bold text-white transition-colors hover:bg-white/10"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2.5 text-xs font-bold text-[#0f172a] dark:text-white transition-colors hover:bg-white/10"
                 >
                   Ver demo en vivo
                   <MessageSquare className="h-4 w-4 text-emerald-300" />
@@ -175,13 +175,13 @@ export const PublicSiteHighlights: React.FC<PublicSiteHighlightsProps> = ({
                   <div key={metric.label} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
                     <MetricIcon className={`h-4 w-4 ${metric.color}`} />
                     <div className={`mt-3 text-2xl font-black ${metric.color}`}>{metric.value}</div>
-                    <div className="mt-1 text-[10px] font-semibold uppercase leading-4 tracking-wide text-slate-400">{metric.label}</div>
+                    <div className="mt-1 text-[10px] font-semibold uppercase leading-4 tracking-wide text-[#64748b] dark:text-slate-400">{metric.label}</div>
                   </div>
                 );
               })}
             </div>
           </div>
-          <div className="border-t border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] text-slate-300 sm:px-10">
+          <div className="border-t border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] text-[#475569] dark:text-slate-300 sm:px-10">
             <span className="font-bold text-emerald-300">Última actividad:</span>{' '}
             TechGlobal S.A. activó WhatsApp CRM · Clínica Odontológica Córdoba cerró contrato Enterprise · una distribuidora importó 340 prospectos desde Maps IA.
           </div>

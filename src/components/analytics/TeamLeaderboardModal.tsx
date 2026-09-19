@@ -91,7 +91,7 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[var(--text-primary,#0f172a)]/80 dark:text-white/80 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white hover:bg-[var(--bg-card)]/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -107,10 +107,10 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
                   Objetivo Global del Equipo
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="text-xl font-mono font-extrabold text-white">
+                  <span className="text-xl font-mono font-extrabold text-[var(--text-primary,#0f172a)] dark:text-white">
                     ${totalTeamWon.toLocaleString()} USD
                   </span>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400">
                     de ${totalTeamQuota.toLocaleString()} USD ({teamQuotaPercent}%)
                   </span>
                 </div>
@@ -119,7 +119,7 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
               {/* Edit Quota Button */}
               <button
                 onClick={() => setIsEditingQuota(!isEditingQuota)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700/80 hover:bg-slate-700 text-slate-200 border border-slate-600 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700/80 hover:bg-slate-700 text-[var(--text-primary,#0f172a)] dark:text-slate-200 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600 transition-colors cursor-pointer"
               >
                 <Sliders className="w-3.5 h-3.5" />
                 <span>Ajustar Metas & Comisiones</span>
@@ -136,27 +136,27 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
 
             {/* Inline Quota Settings Drawer */}
             {isEditingQuota && (
-              <div className="mt-4 pt-3 border-t border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs animate-in fade-in-50">
+              <div className="mt-4 pt-3 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs animate-in fade-in-50">
                 <div>
-                  <label className="block text-[11px] text-slate-300 font-semibold mb-1">
+                  <label className="block text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold mb-1">
                     Meta Individual por Vendedor (USD / Mes):
                   </label>
                   <input
                     type="number"
                     value={defaultQuota}
                     onChange={(e) => setDefaultQuota(Number(e.target.value) || 0)}
-                    className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                    className="w-full bg-slate-800 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600 rounded-lg px-3 py-1.5 text-[var(--text-primary,#0f172a)] dark:text-white font-mono text-xs focus:outline-none focus:border-amber-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-slate-300 font-semibold mb-1">
+                  <label className="block text-[11px] text-[var(--text-secondary,#475569)] dark:text-slate-300 font-semibold mb-1">
                     Porcentaje de Comisión por Cierre (%):
                   </label>
                   <input
                     type="number"
                     value={commissionRate}
                     onChange={(e) => setCommissionRate(Number(e.target.value) || 0)}
-                    className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                    className="w-full bg-slate-800 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-600 rounded-lg px-3 py-1.5 text-[var(--text-primary,#0f172a)] dark:text-white font-mono text-xs focus:outline-none focus:border-amber-400"
                   />
                 </div>
               </div>
@@ -240,7 +240,7 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
               <tbody className="divide-y divide-[var(--border-subtle)] text-xs">
                 {repStats.map((rep, idx) => (
                   <tr key={rep.user.id} className="hover:bg-[var(--bg-muted)]/60 transition-colors">
-                    <td className="p-3 font-mono font-bold text-slate-400">
+                    <td className="p-3 font-mono font-bold text-[var(--text-muted,#64748b)] dark:text-slate-400">
                       #{idx + 1}
                     </td>
                     <td className="p-3">
@@ -264,13 +264,7 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
                     </td>
                     <td className="p-3 text-center">
                       <span
-                        className={`inline-block px-2 py-0.5 rounded-full font-mono text-[10px] font-bold ${
-                          rep.quotaPercent >= 100
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : rep.quotaPercent >= 60
-                            ? 'bg-amber-100 text-amber-800'
-                            : 'bg-[var(--bg-muted)] text-[var(--text-secondary)]'
-                        }`}
+                        className={`inline-block px-2 py-0.5 rounded-full font-mono text-[10px] font-bold ${ rep.quotaPercent >= 100 ? 'bg-emerald-100 text-emerald-800' : rep.quotaPercent >= 60 ? 'bg-amber-100 text-amber-800' : 'bg-[var(--bg-muted)] text-[var(--text-secondary)]' }`}
                       >
                         {rep.quotaPercent}%
                       </span>
@@ -292,7 +286,7 @@ export const TeamLeaderboardModal: React.FC<TeamLeaderboardModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl font-bold bg-slate-900 hover:bg-slate-800 text-[var(--text-primary,#0f172a)] dark:text-white shadow-xs transition-colors cursor-pointer"
           >
             Cerrar
           </button>

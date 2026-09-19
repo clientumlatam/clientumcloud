@@ -163,7 +163,7 @@ export const CareersPartnersSection: React.FC<CareersPartnersSectionProps> = ({ 
 
               <button
                 onClick={() => onNavigate('/contacto')}
-                className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs cursor-pointer transition-colors shadow-xs"
+                className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-colors shadow-xs"
               >
                 Postularme como Partner
               </button>

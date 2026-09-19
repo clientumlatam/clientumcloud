@@ -243,11 +243,7 @@ export const NotificationCenter: React.FC<{ isOpen: boolean; onClose: () => void
                   type="button"
                   onClick={handleTogglePush}
                   disabled={pushStatus === 'granted'}
-                  className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg transition-colors ${
-                    pushStatus === 'granted'
-                      ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 cursor-default'
-                      : 'bg-blue-600 hover:bg-blue-500 text-white cursor-pointer'
-                  }`}
+                  className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg transition-colors ${ pushStatus === 'granted' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 cursor-default' : 'bg-blue-600 hover:bg-blue-500 text-[var(--text-primary,#0f172a)] dark:text-white cursor-pointer' }`}
                 >
                   {pushStatus === 'granted' ? 'Habilitadas' : 'Activar Push'}
                 </button>
@@ -288,9 +284,7 @@ export const NotificationCenter: React.FC<{ isOpen: boolean; onClose: () => void
                 <div
                   key={notif.id}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`flex gap-3 p-3.5 transition-colors cursor-pointer hover:bg-[var(--bg-muted)] ${
-                    !notif.read ? 'bg-blue-500/5' : ''
-                  }`}
+                  className={`flex gap-3 p-3.5 transition-colors cursor-pointer hover:bg-[var(--bg-muted)] ${ !notif.read ? 'bg-blue-500/5' : '' }`}
                 >
                   <div className="mt-0.5 shrink-0">
                     {notif.type === 'task_assignment' && (

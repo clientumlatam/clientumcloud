@@ -22,40 +22,36 @@ export const RestaurantView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#0a0c10] text-slate-300 text-xs">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--bg-canvas,#f8fafc)] dark:bg-[#0a0c10] text-[var(--text-secondary,#475569)] dark:text-slate-300 text-xs">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <h3 className="text-base font-bold text-[var(--text-primary,#0f172a)] dark:text-white flex items-center gap-2">
             <Utensils className="w-5 h-5 text-amber-400" />
             Sistema para Restaurantes & Hospitality (POS & KDS)
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">Gestión de mesas, carta digital, comandas y pantalla de cocina en tiempo real (KDS).</p>
+          <p className="text-xs text-[var(--text-muted,#64748b)] dark:text-slate-400 mt-0.5">Gestión de mesas, carta digital, comandas y pantalla de cocina en tiempo real (KDS).</p>
         </div>
       </div>
 
       {/* Tables Grid */}
       <div className="space-y-3">
-        <h4 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400">Estado de Salón y Mesas</h4>
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400">Estado de Salón y Mesas</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {tables.map((t, idx) => (
-            <div key={idx} className="bg-[#131722] border border-[#212a3d] p-4 rounded-xl space-y-2">
+            <div key={idx} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] p-4 rounded-xl space-y-2">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-white text-sm">{t.id}</span>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                  t.status === 'Libre' ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' :
-                  t.status === 'Ocupada' ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' :
-                  'bg-amber-500/10 text-amber-300 border border-amber-500/20'
-                }`}>
+                <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">{t.id}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${ t.status === 'Libre' ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' : t.status === 'Ocupada' ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' : 'bg-amber-500/10 text-amber-300 border border-amber-500/20' }`}>
                   {t.status}
                 </span>
               </div>
-              <div className="text-[11px] text-slate-400">Comensales: {t.guests}</div>
-              <div className="text-xs text-slate-200 font-medium truncate">{t.order}</div>
-              <div className="flex items-center justify-between pt-2 border-t border-[#1e2638]">
-                <span className="font-mono font-bold text-white">{t.total}</span>
+              <div className="text-[11px] text-[var(--text-muted,#64748b)] dark:text-slate-400">Comensales: {t.guests}</div>
+              <div className="text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 font-medium truncate">{t.order}</div>
+              <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle,#e2e8f0)] dark:border-[#1e2638]">
+                <span className="font-mono font-bold text-[var(--text-primary,#0f172a)] dark:text-white">{t.total}</span>
                 <button
                   onClick={() => showToast(`Asignando orden a ${t.id}`, 'info')}
-                  className="px-2.5 py-1 bg-[#1c2333] hover:bg-[#252f44] text-white rounded transition-colors"
+                  className="px-2.5 py-1 bg-[var(--bg-muted,#f1f5f9)] dark:bg-[#1c2333] hover:bg-[var(--bg-card-hover,#f1f5f9)] dark:hover:bg-[#252f44] text-[var(--text-primary,#0f172a)] dark:text-white rounded transition-colors"
                 >
                   Ver Comanda
                 </button>
@@ -67,22 +63,22 @@ export const RestaurantView: React.FC = () => {
 
       {/* Kitchen Display System (KDS) */}
       <div className="space-y-3 pt-4">
-        <h4 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
+        <h4 className="font-semibold text-[var(--text-primary,#0f172a)] dark:text-white text-xs uppercase tracking-wider text-[var(--text-muted,#64748b)] dark:text-slate-400 flex items-center gap-2">
           <Flame className="w-4 h-4 text-red-400 animate-pulse" />
           Pantalla de Cocina en Vivo (KDS)
         </h4>
         <div className="space-y-3">
           {kitchenOrders.map(ord => (
-            <div key={ord.id} className="bg-[#131722] border border-[#212a3d] p-4 rounded-xl flex items-center justify-between">
+            <div key={ord.id} className="bg-[var(--bg-card,#ffffff)] dark:bg-[#131722] border border-[var(--border-subtle,#e2e8f0)] dark:border-[#212a3d] p-4 rounded-xl flex items-center justify-between">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-white text-sm">{ord.id}</span>
+                  <span className="font-bold text-[var(--text-primary,#0f172a)] dark:text-white text-sm">{ord.id}</span>
                   <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 text-[10px] border border-amber-500/20 font-mono">
                     {ord.table}
                   </span>
-                  <span className="text-[10px] text-slate-400">{ord.time}</span>
+                  <span className="text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">{ord.time}</span>
                 </div>
-                <div className="text-xs text-slate-200 font-semibold">{ord.items}</div>
+                <div className="text-xs text-[var(--text-primary,#0f172a)] dark:text-slate-200 font-semibold">{ord.items}</div>
               </div>
 
               <div className="flex items-center gap-3">
