@@ -103,7 +103,7 @@ export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNaviga
       </div>
 
       {/* Interactive SLA & Implementation Calculator */}
-      <section className="bg-slate-900 text-[#0f172a] dark:text-white border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xl relative overflow-hidden">
+      <section className="bg-[#f8fafc] dark:bg-slate-900 text-[#0f172a] dark:text-white dark:text-white border border-[#e2e8f0] dark:border-slate-800 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="text-center max-w-2xl mx-auto space-y-2 relative z-10">
@@ -114,14 +114,14 @@ export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNaviga
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Seleccioná el Alcance de Implementación para tu PyME
           </h2>
-          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300">
+          <p className="text-xs sm:text-sm text-[#475569] dark:text-white dark:text-slate-300">
             Compromiso por contrato con penalización por demora. Entregamos soluciones listas para operar con capacitación de personal.
           </p>
         </div>
 
         {/* Scope Selector Tabs */}
         <div className="flex justify-center relative z-10">
-          <div className="inline-flex p-1 rounded-xl bg-slate-800 border border-slate-700">
+          <div className="inline-flex p-1 rounded-xl bg-[#ffffff] dark:bg-slate-800 border border-[#cbd5e1] dark:border-slate-700">
             <button
               onClick={() => setSelectedScope('express')}
               className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
@@ -152,18 +152,18 @@ export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNaviga
         {/* Dynamic Scope Result Box */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 relative z-10">
           <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 backdrop-blur-xs">
-            <div className="text-xs text-[#64748b] dark:text-slate-400 font-semibold">Tiempo Estimado de Entrega</div>
+            <div className="text-xs text-[#64748b] dark:text-white dark:text-slate-400 font-semibold">Tiempo Estimado de Entrega</div>
             <div className="text-2xl font-black text-blue-400 font-mono">
               {selectedScope === 'express' && '5 Días Hábiles'}
               {selectedScope === 'full' && '10 Días Hábiles'}
               {selectedScope === 'enterprise' && '18 Días Hábiles'}
             </div>
-            <div className="text-[11px] text-[#475569] dark:text-slate-300">Garantía por SLA con entrega auditada por acta.</div>
+            <div className="text-[11px] text-[#475569] dark:text-white dark:text-slate-300">Garantía por SLA con entrega auditada por acta.</div>
           </div>
 
           <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 backdrop-blur-xs">
-            <div className="text-xs text-[#64748b] dark:text-slate-400 font-semibold">Entregables Principales</div>
-            <div className="text-xs font-bold text-[#0f172a] dark:text-white leading-relaxed">
+            <div className="text-xs text-[#64748b] dark:text-white dark:text-slate-400 font-semibold">Entregables Principales</div>
+            <div className="text-xs font-bold text-[#0f172a] dark:text-white dark:text-white leading-relaxed">
               {selectedScope === 'express' && 'Sincronización WhatsApp + Pipeline CRM + Plantillas Oficiales.'}
               {selectedScope === 'full' && 'WhatsApp IA Gemini + Homologación AFIP + Certificados + Capacitación.'}
               {selectedScope === 'enterprise' && 'Conectores ERP + API Gateway + Flujos Custom DAG + Capacitación In-Company.'}
@@ -173,7 +173,7 @@ export const PublicServicesPage: React.FC<PublicServicesPageProps> = ({ onNaviga
           <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 space-y-3 flex flex-col justify-between">
             <div>
               <div className="text-[10px] font-bold uppercase tracking-wider text-blue-200">Ingeniero Asignado</div>
-              <div className="text-sm font-bold text-[#0f172a] dark:text-white mt-1">Especialista Sénior Dedicado</div>
+              <div className="text-sm font-bold text-[#0f172a] dark:text-white dark:text-white mt-1">Especialista Sénior Dedicado</div>
               <p className="text-[11px] text-blue-100 mt-0.5">Acompañamiento 1 a 1 por canal directo de WhatsApp.</p>
             </div>
             <button

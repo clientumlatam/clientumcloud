@@ -99,7 +99,7 @@ export const PublicPartnersPage: React.FC<PublicPartnersPageProps> = ({ onNaviga
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20 font-sans bg-white text-slate-900">
       
       {/* 1. Header & Hero */}
       <section className="text-center max-w-4xl mx-auto space-y-6">
@@ -235,7 +235,7 @@ export const PublicPartnersPage: React.FC<PublicPartnersPageProps> = ({ onNaviga
                 setSelectedTrack('implementador');
                 setIsApplyModalOpen(true);
               }}
-              className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
+              className="w-full py-3.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
             >
               <span>Postularme como Partner Certificado</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -306,7 +306,7 @@ export const PublicPartnersPage: React.FC<PublicPartnersPageProps> = ({ onNaviga
               <button
                 type="button"
                 onClick={() => setIsApplyModalOpen(false)}
-                className="text-[#64748b] dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
+                className="text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
               >
                 ✕
               </button>

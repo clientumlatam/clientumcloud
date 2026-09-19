@@ -261,7 +261,7 @@ export const RealTeamsSection: React.FC<RealTeamsSectionProps> = ({ onNavigate, 
             </button>
             <button
               onClick={() => onNavigate('/contacto')}
-              className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-[#0f172a] dark:text-white font-semibold text-xs cursor-pointer transition-all flex items-center gap-1.5"
+              className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-[#0f172a] dark:text-white dark:text-white font-semibold text-xs cursor-pointer transition-all flex items-center gap-1.5"
             >
               <span>¿Querés trabajar con nosotros?</span>
             </button>

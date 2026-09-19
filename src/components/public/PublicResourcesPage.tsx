@@ -169,7 +169,7 @@ La revolución de los Agentes IA aplicados a ERP:
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
-              <Search className="w-4 h-4 text-[#64748b] dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#64748b] dark:text-white dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Buscar artículos..."
@@ -219,7 +219,7 @@ La revolución de los Agentes IA aplicados a ERP:
                 <span className="px-3 py-1 rounded-full bg-blue-100/80 text-blue-800 font-bold">
                   {post.category}
                 </span>
-                <div className="flex items-center gap-3 text-[#64748b] dark:text-slate-400 font-medium">
+                <div className="flex items-center gap-3 text-[#64748b] dark:text-white dark:text-slate-400 font-medium">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" />
                     {post.date}
@@ -291,7 +291,7 @@ La revolución de los Agentes IA aplicados a ERP:
 
             <button
               onClick={() => showToast('Descargando Ebook de Optimización E-commerce (PDF)...', 'success')}
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors"
             >
               <Download className="w-3.5 h-3.5 text-emerald-400" />
               <span>Descargar PDF Gratis</span>
@@ -352,7 +352,7 @@ La revolución de los Agentes IA aplicados a ERP:
               </span>
               <button
                 onClick={() => setSelectedPost(null)}
-                className="p-1 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="p-1 rounded-lg text-[#64748b] dark:text-white dark:text-slate-400 hover:text-slate-700 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -403,7 +403,7 @@ La revolución de los Agentes IA aplicados a ERP:
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200 relative">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-bold text-lg text-slate-900">Consultar sobre este tema</h3>
-              <button onClick={() => setConsultPost(null)} className="text-[#64748b] dark:text-slate-400 hover:text-slate-700 cursor-pointer">
+              <button onClick={() => setConsultPost(null)} className="text-[#64748b] dark:text-white dark:text-slate-400 hover:text-slate-700 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -455,7 +455,7 @@ La revolución de los Agentes IA aplicados a ERP:
                 <PlusCircle className="w-5 h-5 text-blue-600" />
                 <span>Añadir Nuevo Artículo</span>
               </h3>
-              <button onClick={() => setIsAddModalOpen(false)} className="text-[#64748b] dark:text-slate-400 hover:text-slate-700 cursor-pointer">
+              <button onClick={() => setIsAddModalOpen(false)} className="text-[#64748b] dark:text-white dark:text-slate-400 hover:text-slate-700 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>

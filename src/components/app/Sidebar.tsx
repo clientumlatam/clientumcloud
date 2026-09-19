@@ -41,11 +41,11 @@ import {
   ShieldAlert,
   Layers,
   HardDrive,
-  ArrowLeftRight,
-  GitBranch,
-  Cloud,
-  Mic,
   Code2,
+  LayoutDashboard,
+  ShieldCheck,
+  Shield,
+  Zap,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -55,24 +55,7 @@ import { ClientumNavyIcon } from '../common/ClientumNavyIcons';
 import { ModuleCredentialsModal } from '../settings/ModuleCredentialsModal';
 import { UserProfileModal } from '../auth/UserProfileModal';
 import { SidebarItem } from './SidebarItem';
-
-interface SidebarNavItem {
-  id: ActiveTab;
-  label: string;
-  icon: React.ElementType;
-  badge?: string | number;
-  badgeColor?: string;
-  configurable?: boolean;
-  subItems?: SidebarNavItem[];
-  defaultExpanded?: boolean;
-}
-
-interface NavSection {
-  id: 'main' | 'control' | 'sales' | 'prospecting' | 'communication' | 'ai' | 'operations' | 'system' | 'admin';
-  label: string;
-  categoryIcon: 'sales' | 'communication' | 'ai' | 'erp' | 'admin' | null;
-  items: SidebarNavItem[];
-}
+import { sidebarConfig, NavSection, SidebarNavItem } from '../../config/sidebar';
 
 export const Sidebar: React.FC = React.memo(() => {
   const {
@@ -153,145 +136,7 @@ export const Sidebar: React.FC = React.memo(() => {
     }));
   }, []);
 
-  const navSections: NavSection[] = [
-    {
-      id: 'main',
-      label: '1. Dirección Comercial & CRM',
-      categoryIcon: null,
-      items: [
-        { id: 'dashboard', label: 'Dashboard Directivo', icon: Home, badge: 'Live', badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono' },
-        {
-          id: 'opportunities',
-          label: 'Embudo de Ventas [Pipeline]',
-          icon: Briefcase,
-          badge: 'Kanban',
-          badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
-          subItems: [
-            { id: 'meddic', label: 'Matriz MEDDIC & Scoring', icon: Target },
-            { id: 'analytics', label: 'Análisis de Desvíos CRM', icon: BarChart3 },
-          ],
-        },
-        {
-          id: 'people',
-          label: 'Directorio B2B & Leads',
-          icon: Users2,
-          subItems: [
-            { id: 'companies', label: 'Cuentas Clave Enterprise', icon: Building2 },
-            { id: 'activityInbox', label: 'Historial de Interacciones', icon: Inbox },
-          ],
-        },
-        {
-          id: 'tasks',
-          label: 'Agenda & Tareas Comerciales',
-          icon: CheckSquare,
-          subItems: [
-            { id: 'calendar', label: 'Calendario de Reuniones', icon: Calendar },
-            { id: 'workflows', label: 'Recordatorios Automatizados', icon: Workflow },
-          ],
-        },
-        {
-          id: 'propuestas',
-          label: 'Generador de Propuestas [PDF]',
-          icon: FileSpreadsheet,
-          badge: 'Pro',
-          badgeColor: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 font-mono',
-        },
-      ],
-    },
-    {
-      id: 'communication',
-      label: '2. Comunicación Omnicanal',
-      categoryIcon: 'communication',
-      items: [
-        {
-          id: 'whatsapp',
-          label: 'WhatsApp WACE Hub [IA]',
-          icon: MessageSquare,
-          badge: 'En Línea',
-          badgeColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono',
-          subItems: [
-            { id: 'messages', label: 'Bandeja de Entrada Unificada', icon: Send },
-            { id: 'campaigns', label: 'Campañas de Difusión', icon: Send },
-            { id: 'chatbot', label: 'Reglas de Auto-Respuesta IA', icon: Bot },
-          ],
-        },
-        {
-          id: 'webmail',
-          label: 'Correo Corporativo [Webmail]',
-          icon: Mail,
-          badge: 'Cloudflare',
-          badgeColor: 'bg-sky-500/20 text-sky-400 border border-sky-500/30 font-mono',
-        },
-      ],
-    },
-    {
-      id: 'ai',
-      label: '3. Inteligencia Artificial & Agentes',
-      categoryIcon: 'ai',
-      items: [
-        {
-          id: 'agenteOS',
-          label: 'AgenteOS [14 Roles IA]',
-          icon: Cpu,
-          badge: 'Autónomo',
-          badgeColor: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30',
-          subItems: [
-            { id: 'sdrOutreach', label: 'Agente SDR Prospección 24/7', icon: Bot },
-            { id: 'aiAssistant', label: 'Capital Gemini Forecasting', icon: Sparkles },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'operations',
-      label: '4. Operaciones, ERP & Facturación',
-      categoryIcon: 'erp',
-      items: [
-        {
-          id: 'operations',
-          label: 'ERP & Logística Avanzada',
-          icon: Compass,
-          badge: 'Módulo 414',
-          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
-          subItems: [
-            { id: 'erp', label: 'Control de Stock & Delivery', icon: Receipt },
-            { id: 'campusLMS', label: 'Campus LMS & Academia', icon: GraduationCap },
-          ],
-        },
-        {
-          id: 'erpAvanzado',
-          label: 'Facturación Electrónica [AFIP]',
-          icon: Receipt,
-          badge: 'CAE Nativo',
-          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
-        },
-      ],
-    },
-    {
-      id: 'control',
-      label: '5. Infraestructura & Sistema',
-      categoryIcon: 'admin',
-      items: [
-        {
-          id: 'customObjects',
-          label: 'Motor de Datos [Schema SQL]',
-          icon: Database,
-          badge: 'Módulo 49',
-          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
-          subItems: [
-            { id: 'csvStudio', label: 'Importador CSV Studio', icon: FileSpreadsheet },
-          ],
-        },
-        {
-          id: 'workspaceIntegrations',
-          label: 'Sincronización Cloud & Backups',
-          icon: HardDrive,
-          badge: 'Módulo 48',
-          badgeColor: 'bg-slate-800 text-[var(--text-secondary,#475569)] dark:text-slate-300 border border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/80',
-        },
-      ],
-    },
-  ];
+  const navSections: NavSection[] = sidebarConfig;
 
   const filteredNavSections = useMemo(() => {
     if (!searchTerm.trim()) return navSections;
@@ -337,7 +182,7 @@ export const Sidebar: React.FC = React.memo(() => {
         {/* Collapse Toggle Button (Floating on Edge) */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3.5 top-20 hidden lg:flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface-elevated)] text-[var(--text-muted)] shadow-md hover:bg-blue-600 hover:text-[var(--text-primary,#0f172a)] dark:hover:text-white transition-colors z-30 cursor-pointer"
+          className="absolute -right-3.5 top-20 hidden lg:flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface-elevated)] text-[var(--text-muted)] shadow-md hover:bg-[var(--color-primary)] hover:text-white transition-colors z-30 cursor-pointer"
           title={isCollapsed ? "Expandir menú" : "Colapsar menú"}
         >
           <ChevronRight className={`h-3 w-3 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} />
@@ -350,8 +195,8 @@ export const Sidebar: React.FC = React.memo(() => {
             className="flex items-center gap-3 text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md p-1 overflow-hidden group cursor-pointer"
             aria-label="Ir al Resumen Ejecutivo"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 shrink-0">
-              <Boxes className="w-5 h-5 text-[var(--text-primary,#0f172a)] dark:text-white" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--color-primary)] to-indigo-600 flex items-center justify-center shadow-lg shadow-[var(--color-primary)]/30 shrink-0">
+              <Boxes className="w-5 h-5 text-white" />
             </div>
             {!isCollapsed && (
               <div className="animate-in fade-in slide-in-from-left-2 duration-300">
@@ -369,7 +214,7 @@ export const Sidebar: React.FC = React.memo(() => {
             <button
               onClick={() => openNewRecordModal('opportunity')}
               aria-label="Creación Rápida"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/10 text-blue-500 hover:bg-blue-600 hover:text-white transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-400 shrink-0 shadow-sm"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-primary-light)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] shrink-0 shadow-sm"
               title="Creación Rápida"
             >
               <Plus className="h-4 w-4" />
@@ -380,20 +225,20 @@ export const Sidebar: React.FC = React.memo(() => {
         {/* Acceso a Buscador y Portal Público */}
         <div className="space-y-1.5 border-b p-3 border-[var(--border-subtle)]/80 dark:border-[#1c2d47]">
           <div className="relative group">
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 transition-colors ${searchTerm ? 'text-blue-500' : 'text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:text-[var(--text-muted,#64748b)] dark:text-slate-500 group-focus-within:text-blue-500'}`} />
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 transition-colors ${searchTerm ? 'text-[var(--color-primary)]' : 'text-[var(--text-muted)] group-focus-within:text-[var(--color-primary)]'}`} />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={isCollapsed ? "" : "Buscar en ClientumOS..."}
-              className={`w-full bg-slate-50 dark:bg-[#0a0f1d] border border-slate-200 dark:border-[var(--border-subtle,#e2e8f0)] dark:border-slate-700/60 rounded-lg text-xs py-2 focus:outline-hidden focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all ${isCollapsed ? 'px-0 text-center w-10 mx-auto' : 'pl-9 pr-3'}`}
+              className={`w-full bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-lg text-xs py-2 focus:outline-hidden focus:ring-1 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)]/50 transition-all ${isCollapsed ? 'px-0 text-center w-10 mx-auto' : 'pl-9 pr-3'}`}
             />
           </div>
 
           {!isCollapsed && (
             <button
               onClick={exitToPublicSite}
-              className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/40 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-light)] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             >
               <span className="flex items-center gap-2">
                 <Globe className="h-3.5 w-3.5" />
@@ -483,13 +328,13 @@ export const Sidebar: React.FC = React.memo(() => {
               />
             ) : null}
             <div
-              className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs shadow-xs ${ currentUser?.avatar ? 'hidden' : 'flex' }`}
+              className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary)] font-bold text-white text-xs shadow-xs ${ currentUser?.avatar ? 'hidden' : 'flex' }`}
             >
               {userInitials}
             </div>
             {!isCollapsed && (
               <div className="truncate min-w-0">
-                <span className="block truncate text-xs font-bold text-[var(--text-primary)] dark:text-white group-hover:text-blue-500 transition-colors">
+                <span className="block truncate text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
                   {userDisplayName}
                 </span>
                 <span className="block truncate text-[10px] text-[var(--text-muted,#64748b)] dark:text-slate-400">
@@ -502,9 +347,9 @@ export const Sidebar: React.FC = React.memo(() => {
           <div className={`flex items-center gap-1 shrink-0 ${isCollapsed ? 'flex-col mt-4 w-full' : 'justify-between w-full'}`}>
             <button
               onClick={toggleTheme}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] dark:text-[var(--text-muted,#64748b)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-[var(--text-primary,#0f172a)] dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
             >
-              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
+              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4 text-[var(--color-warning)]" /> : <Moon className="h-4 w-4 text-[var(--color-primary)]" />}
             </button>
             <button
               onClick={() => setActiveTab('settings')}

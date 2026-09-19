@@ -221,7 +221,11 @@ export type ActiveTab =
   | 'adminConsole'
   | 'workspaceIntegrations'
   | 'dashboardDocs'
-  | 'competitorHub';
+  | 'competitorHub'
+  | 'reportsAnalytics'
+  | 'documentManagement'
+  | 'integrationSettings'
+  | 'teamManagement';
 
 export type OpportunityViewMode = 'kanban' | 'table';
 

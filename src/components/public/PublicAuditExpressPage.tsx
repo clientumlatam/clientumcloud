@@ -85,7 +85,7 @@ export const PublicAuditExpressPage: React.FC<PublicAuditExpressPageProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-sans bg-white text-slate-900">
       
       {/* Header */}
       <section className="text-center max-w-3xl mx-auto space-y-4">
@@ -215,7 +215,7 @@ export const PublicAuditExpressPage: React.FC<PublicAuditExpressPageProps> = ({
                 <span>Ejecutar Diagnóstico Digital en Tiempo Real</span>
               </button>
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 mt-2">
-                <Clock className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
+                <Clock className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400" />
                 <span>Tiempo de procesamiento estimado: 45 segundos. Sin costo ni tarjeta.</span>
               </div>
             </div>
@@ -282,14 +282,14 @@ export const PublicAuditExpressPage: React.FC<PublicAuditExpressPageProps> = ({
                 <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
                   Índice de Madurez Digital: <span className="text-emerald-400">68 / 100</span>
                 </h2>
-                <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 leading-relaxed">
                   Tu empresa cuenta con buena tracción comercial, pero detectamos una fuga estimada de <strong>38% de prospectos</strong> debido a demoras de respuesta fuera de horario comercial en WhatsApp y falta de seguimiento unificado en CRM.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <span className="text-[11px] bg-white/10 px-2.5 py-1 rounded-lg text-[#334155] dark:text-slate-200">
+                  <span className="text-[11px] bg-white/10 px-2.5 py-1 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-200">
                     Rubro: {formData.industry}
                   </span>
-                  <span className="text-[11px] bg-white/10 px-2.5 py-1 rounded-lg text-[#334155] dark:text-slate-200">
+                  <span className="text-[11px] bg-white/10 px-2.5 py-1 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-200">
                     Volumen: {formData.monthlyLeads} consultas
                   </span>
                   <span className="text-[11px] bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 px-2.5 py-1 rounded-lg font-bold">
@@ -300,8 +300,8 @@ export const PublicAuditExpressPage: React.FC<PublicAuditExpressPageProps> = ({
 
               <div className="md:col-span-4 flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
                 <div className="text-5xl font-black text-emerald-400">68%</div>
-                <div className="text-xs font-bold text-[#334155] dark:text-slate-200 uppercase tracking-wider">Nivel: Intermedio</div>
-                <div className="text-[11px] text-[#64748b] dark:text-slate-400">Tiempo de respuesta prom: 3.5 horas</div>
+                <div className="text-xs font-bold text-[#0f172a] dark:text-white dark:text-slate-200 uppercase tracking-wider">Nivel: Intermedio</div>
+                <div className="text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400">Tiempo de respuesta prom: 3.5 horas</div>
               </div>
 
             </div>

@@ -11,7 +11,7 @@ export const PublicLegalPage: React.FC<PublicLegalPageProps> = ({ initialTab = '
   const [activeTab, setActiveTab] = useState<'terms' | 'privacy' | 'sla'>(initialTab);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-sans bg-white text-slate-900">
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">

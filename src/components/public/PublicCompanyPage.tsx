@@ -218,7 +218,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-sans bg-white text-slate-900">
       
       {/* 1. Hero Section */}
       <section className="text-center max-w-4xl mx-auto space-y-5">
@@ -254,7 +254,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           <button
             id="btn-explore-demo"
             onClick={() => enterApp()}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-all shadow-xs"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-all shadow-xs"
           >
             <span>Explorar Demo en Vivo</span>
             <ArrowRight className="w-4 h-4" />
@@ -271,7 +271,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
       </section>
 
       {/* 2. Goal & Unified Metrics Banner */}
-      <section className="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 rounded-3xl p-8 sm:p-12 text-white space-y-6 shadow-xl relative overflow-hidden border border-slate-800">
+      <section className="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 rounded-3xl p-8 sm:p-12 text-white space-y-6 shadow-xl relative overflow-hidden border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-cyan-300">
@@ -281,7 +281,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             "Alcanzar la Excelencia Empresarial"
           </h2>
-          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 leading-relaxed">
             Sistemas · Desarrollos · Promoción Digital. Trabajamos codo a codo con cada cliente para transformar desafíos comerciales en ventajas competitivas duraderas.
           </p>
         </div>
@@ -423,7 +423,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
       </section>
 
       {/* 9. Hermes Prime Architecture & Named AI Enswarm */}
-      <section className="p-8 sm:p-10 rounded-3xl bg-slate-950 text-[#0f172a] dark:text-white space-y-6 shadow-xl border border-slate-800">
+      <section className="p-8 sm:p-10 rounded-3xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-950 text-[#0f172a] dark:text-white space-y-6 shadow-xl border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">
@@ -439,13 +439,13 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           </div>
         </div>
 
-        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 leading-relaxed max-w-3xl">
           Jonathan y Matías dirigen una compañía asistida por agentes autónomos especializados que ejecutan tareas críticas de prospección, desarrollo, marketing, facturación AFIP y soporte de forma ininterrumpida.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
           {namedAgents.map((ag, idx) => (
-            <div key={idx} className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 hover:border-cyan-500/50 transition-all">
+            <div key={idx} className="p-5 rounded-2xl bg-slate-900/90 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 space-y-2 hover:border-cyan-500/50 transition-all">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800">
                   {ag.badge}
@@ -453,8 +453,8 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
                 <Bot className="w-4 h-4 text-slate-500" />
               </div>
               <h4 className="text-sm font-bold text-[#0f172a] dark:text-white">{ag.name}</h4>
-              <div className="text-[11px] font-semibold text-[#64748b] dark:text-slate-400">{ag.role}</div>
-              <p className="text-xs text-[#475569] dark:text-slate-300 leading-relaxed pt-1">{ag.focus}</p>
+              <div className="text-[11px] font-semibold text-[#0f172a] dark:text-white dark:text-slate-400">{ag.role}</div>
+              <p className="text-xs text-[#0f172a] dark:text-white dark:text-slate-300 leading-relaxed pt-1">{ag.focus}</p>
             </div>
           ))}
         </div>
@@ -700,7 +700,7 @@ export const PublicCompanyPage: React.FC<PublicCompanyPageProps> = ({ onNavigate
           </button>
           <button
             onClick={() => onNavigate('/contacto')}
-            className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-semibold text-xs cursor-pointer shadow-xs transition-all"
+            className="px-6 py-3.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-semibold text-xs cursor-pointer shadow-xs transition-all"
           >
             Contactar al Equipo
           </button>

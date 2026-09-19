@@ -247,7 +247,7 @@ export const ClientPortfolioSection: React.FC<ClientPortfolioSectionProps> = ({ 
       : clientsData.filter((c) => c.category === selectedIndustry);
 
   return (
-    <section className="space-y-10 font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="space-y-10 font-sans">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-800 shadow-xs">
@@ -333,7 +333,7 @@ export const ClientPortfolioSection: React.FC<ClientPortfolioSectionProps> = ({ 
       </div>
 
       {/* Sector Público Highlight Box */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800 shadow-xl">
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 shadow-xl">
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">
             <Landmark className="w-3.5 h-3.5" />
@@ -342,7 +342,7 @@ export const ClientPortfolioSection: React.FC<ClientPortfolioSectionProps> = ({ 
           <h3 className="text-lg sm:text-2xl font-bold">
             Soluciones Especiales para Municipios, Medios y Sindicatos
           </h3>
-          <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 leading-relaxed">
             Pliegos técnicos de homologación, facturación oficial, integración con pasarelas bancarias y soporte directo con ingenieros en territorio patagónico.
           </p>
         </div>

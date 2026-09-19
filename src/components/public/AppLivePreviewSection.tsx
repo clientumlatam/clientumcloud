@@ -108,7 +108,7 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
   };
 
   return (
-    <section className="space-y-8 font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="space-y-8 font-sans">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-800 shadow-xs">
@@ -124,16 +124,16 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
       </div>
 
       {/* Interactive App Window Container */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-950 text-[#0f172a] dark:text-white shadow-2xl overflow-hidden">
+      <div className="rounded-3xl border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-950 text-[#0f172a] dark:text-white shadow-2xl overflow-hidden">
         {/* App Topbar */}
-        <div className="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+        <div className="bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 px-4 py-3 border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full bg-rose-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-emerald-500/80"></span>
             </div>
-            <span className="text-xs font-bold text-[#475569] dark:text-slate-300 ml-2">ClientumOS — Tablero de Oportunidades & Pipeline</span>
+            <span className="text-xs font-bold text-[#0f172a] dark:text-white dark:text-slate-300 ml-2">ClientumOS — Tablero de Oportunidades & Pipeline</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -155,36 +155,36 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
           {/* Panel 1: Mini Sidebar (2 cols) */}
           <div className="hidden lg:block lg:col-span-2 bg-slate-900/60 border-r border-slate-800/80 p-3 space-y-4 text-xs">
             <div className="space-y-1">
-              <div className="text-[10px] font-bold text-[#475569] dark:text-slate-300 uppercase tracking-wider px-2">Comercial & CRM</div>
+              <div className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-300 uppercase tracking-wider px-2">Comercial & CRM</div>
               <div className="p-2 rounded-xl bg-blue-600/20 text-blue-300 font-bold flex items-center justify-between border border-blue-500/30">
                 <span>Oportunidades</span>
                 <span className="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded text-white">$582k</span>
               </div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
                 <span>Empresas</span>
               </div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
                 <span>Personas</span>
               </div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center gap-2">
                 <span>Tareas</span>
               </div>
             </div>
 
             <div className="space-y-1 pt-2 border-t border-slate-800/80">
-              <div className="text-[10px] font-bold text-[#475569] dark:text-slate-300 uppercase tracking-wider px-2">WhatsApp & IA</div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center justify-between">
+              <div className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-300 uppercase tracking-wider px-2">WhatsApp & IA</div>
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white flex items-center justify-between">
                 <span>WhatsApp CRM</span>
                 <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">PRO</span>
               </div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Chatbot 24/7</div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Agente Outreach</div>
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Chatbot 24/7</div>
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Agente Outreach</div>
             </div>
 
             <div className="space-y-1 pt-2 border-t border-slate-800/80">
-              <div className="text-[10px] font-bold text-[#475569] dark:text-slate-300 uppercase tracking-wider px-2">ERP & AFIP</div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Facturación AFIP</div>
-              <div className="p-2 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">MercadoPago</div>
+              <div className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-300 uppercase tracking-wider px-2">ERP & AFIP</div>
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">Facturación AFIP</div>
+              <div className="p-2 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white">MercadoPago</div>
             </div>
           </div>
 
@@ -193,7 +193,7 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-extrabold text-sm text-[#0f172a] dark:text-white">Pipeline de Ventas B2B</h4>
-                <p className="text-[11px] text-[#64748b] dark:text-slate-400">18 negocios activos · Conversión ponderada en tiempo real</p>
+                <p className="text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400">18 negocios activos · Conversión ponderada en tiempo real</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-cyan-400">$124.800 USD Totales</span>
@@ -203,11 +203,11 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
             {/* 5 Stages Kanban Horizontal Flow */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
               {stages.map((stg, idx) => (
-                <div key={idx} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-2.5 space-y-2 flex flex-col justify-between">
+                <div key={idx} className="bg-slate-900/80 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 rounded-2xl p-2.5 space-y-2 flex flex-col justify-between">
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[11px] font-bold">
-                      <span className="text-[#334155] dark:text-slate-200">{stg.name}</span>
-                      <span className="text-[#475569] dark:text-slate-300 text-[10px] bg-slate-800 px-1.5 rounded">{stg.count}</span>
+                      <span className="text-[#0f172a] dark:text-white dark:text-slate-200">{stg.name}</span>
+                      <span className="text-[#0f172a] dark:text-white dark:text-slate-300 text-[10px] bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 px-1.5 rounded">{stg.count}</span>
                     </div>
                     <div className="text-[10px] text-cyan-400 font-extrabold">{stg.amount}</div>
                   </div>
@@ -218,7 +218,7 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
                         <div className="text-[11px] font-bold text-[#0f172a] dark:text-white leading-tight truncate">{deal.title}</div>
                         <div className="flex items-center justify-between text-[10px]">
                           <span className="font-extrabold text-emerald-400">{deal.value}</span>
-                          <span className="px-1.5 py-0.2 rounded bg-slate-700 text-[#475569] dark:text-slate-300 text-[9px]">{deal.tag}</span>
+                          <span className="px-1.5 py-0.2 rounded bg-slate-700 text-[#0f172a] dark:text-white dark:text-slate-300 text-[9px]">{deal.tag}</span>
                         </div>
                       </div>
                     ))}
@@ -228,30 +228,30 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
             </div>
 
             {/* Bottom KPI Metrics Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-800 text-xs">
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="text-[10px] text-[#475569] dark:text-slate-300">Ingresos Totales</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 text-xs">
+              <div className="p-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
+                <div className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-300">Ingresos Totales</div>
                 <div className="text-sm font-extrabold text-[#0f172a] dark:text-white">$124.800 <span className="text-[10px] text-emerald-400">(+18.6%)</span></div>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="text-[10px] text-[#475569] dark:text-slate-300">Negocios Activos</div>
+              <div className="p-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
+                <div className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-300">Negocios Activos</div>
                 <div className="text-sm font-extrabold text-[#0f172a] dark:text-white">22 <span className="text-[10px] text-emerald-400">(+15.8%)</span></div>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="text-[10px] text-[#475569] dark:text-slate-300">Tasa de Cierre</div>
+              <div className="p-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
+                <div className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-300">Tasa de Cierre</div>
                 <div className="text-sm font-extrabold text-[#0f172a] dark:text-white">32.4% <span className="text-[10px] text-emerald-400">(+6.2%)</span></div>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="text-[10px] text-[#475569] dark:text-slate-300">Ticket Promedio</div>
+              <div className="p-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 border border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
+                <div className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-300">Ticket Promedio</div>
                 <div className="text-sm font-extrabold text-[#0f172a] dark:text-white">$6.218 <span className="text-[10px] text-emerald-400">(+9.3%)</span></div>
               </div>
             </div>
           </div>
 
           {/* Panel 3: Copilot IA Right Panel (3 cols) */}
-          <div className="col-span-1 lg:col-span-3 bg-slate-900/80 border-t lg:border-t-0 lg:border-l border-slate-800 p-4 flex flex-col justify-between space-y-3">
+          <div className="col-span-1 lg:col-span-3 bg-slate-900/80 border-t lg:border-t-0 lg:border-l border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 p-4 flex flex-col justify-between space-y-3">
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div className="flex items-center justify-between border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs">
                     <Bot className="w-3.5 h-3.5" />
@@ -274,7 +274,7 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
                         : 'bg-slate-800 border border-slate-700 text-[#334155] dark:text-slate-200 mr-2'
                     } space-y-1`}
                   >
-                    <div className="text-[10px] font-bold text-[#64748b] dark:text-slate-400">
+                    <div className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400">
                       {msg.sender === 'user' ? 'Tú' : 'Copilot Clientum'} · {msg.time}
                     </div>
                     <div className="text-xs leading-relaxed">{msg.text}</div>
@@ -284,13 +284,13 @@ export const AppLivePreviewSection: React.FC<AppLivePreviewSectionProps> = ({ on
             </div>
 
             {/* Quick Interactive Input */}
-            <form onSubmit={handleSendCopilot} className="pt-2 border-t border-slate-800 flex gap-2">
+            <form onSubmit={handleSendCopilot} className="pt-2 border-t border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 flex gap-2">
               <input
                 type="text"
                 value={inputQuery}
                 onChange={(e) => setInputQuery(e.target.value)}
                 placeholder="Preguntale a la IA sobre tus ventas..."
-                className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-[#0f172a] dark:text-white placeholder-slate-500 focus:outline-hidden focus:border-cyan-400"
+                className="w-full px-3 py-2 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 text-xs text-[#0f172a] dark:text-white placeholder-slate-500 focus:outline-hidden focus:border-cyan-400"
               />
               <button
                 type="submit"

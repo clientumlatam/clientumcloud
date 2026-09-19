@@ -31,9 +31,9 @@
 :root,
 [data-theme="light"],
 .light {
-  --clientum-navy: #022046;
-  --clientum-blue: #002B5C;
-  --clientum-action: #0056B3;
+  --clientum-navy: #0a2558;
+  --clientum-blue: #0a2558;
+  --clientum-action: #0a2558;
   --clientum-success: #4CAF50;
   --clientum-surface: #F5F7FA;
   --clientum-surface-card: #ffffff;
@@ -101,8 +101,14 @@ body {
   --color-primary-light: #eef1f6;
   --color-primary-text: #0a2558;
   --color-success: #059669;
+  --color-success-light: #ecfdf5;
+  --color-success-border: #a7f3d0;
   --color-warning: #d97706;
+  --color-warning-light: #fffbeb;
+  --color-warning-border: #fde68a;
   --color-danger: #dc2626;
+  --color-danger-light: #fef2f2;
+  --color-danger-border: #fecaca;
 
    /* --------------------------------------------------------------------------
       Clientum Clarity navigation surfaces (Light Mode)
@@ -226,8 +232,14 @@ body {
   --color-primary-light: rgba(30, 64, 175, 0.25);
   --color-primary-text: #bfdbfe;
   --color-success: #10b981;
+  --color-success-light: rgba(16, 185, 129, 0.15);
+  --color-success-border: rgba(16, 185, 129, 0.3);
   --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
+  --color-warning-border: rgba(245, 158, 11, 0.3);
   --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
+  --color-danger-border: rgba(239, 68, 68, 0.3);
 
   /* --------------------------------------------------------------------------
      Sidebar High-Contrast Visual Separation (Dark Mode: Refined Obsidian)
@@ -444,9 +456,9 @@ button:focus-visible {
   --crm-text-primary: #0f172a;
   --crm-text-secondary: #334155;
   --crm-text-muted: #64748b;
-  --crm-cyan: #0f766e;
-  --crm-cyan-glow: rgba(15, 118, 110, 0.2);
-  --crm-cyan-border: rgba(15, 118, 110, 0.35);
+  --crm-cyan: var(--color-primary);
+  --crm-cyan-glow: rgba(10, 37, 88, 0.1);
+  --crm-cyan-border: rgba(10, 37, 88, 0.25);
   --crm-grid-gap: 12px;
   --crm-kpi-bg: #ffffff;
   --crm-kpi-border: #dbe4ef;
@@ -2205,9 +2217,28 @@ html[data-theme="light"] .clientum-light-dashboard .crm-chat-reopen {
   }
 }
 
+
 @media (min-width: 768px) {
   /* The sidebar already carries the workspace identity on desktop. */
   .crm-top-navbar #dashboard-header-brand {
     display: none;
   }
 }
+
+/* Smooth theme transitions — dashboard surfaces */
+.crm-dashboard,
+.crm-kpi-card,
+.crm-panel,
+.crm-deal-card,
+.crm-stage,
+.crm-assistant,
+#clientum-sidebar,
+.crm-top-navbar {
+  transition:
+    background 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+

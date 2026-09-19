@@ -240,7 +240,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-sans bg-white text-slate-900">
       
       {/* 1. Header Section */}
       <section className="text-center max-w-3xl mx-auto space-y-4">
@@ -262,7 +262,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
           <button
             type="button"
             onClick={handleDownloadBrochure}
-            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
           >
             <Download className="w-4 h-4 text-emerald-400" />
             <span>Descargar Brochure & Planes PDF</span>
@@ -383,8 +383,8 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
                   {p.excludes.length > 0 && (
                     <ul className="space-y-2.5 pt-2 border-t border-slate-200/30">
                       {p.excludes.map((ex, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 text-[#64748b] dark:text-slate-400">
-                          <X className="w-4 h-4 shrink-0 mt-0.5 text-[#64748b] dark:text-slate-400" />
+                        <li key={idx} className="flex items-start gap-2.5 text-[#0f172a] dark:text-white dark:text-slate-400">
+                          <X className="w-4 h-4 shrink-0 mt-0.5 text-[#0f172a] dark:text-white dark:text-slate-400" />
                           <span className="leading-snug line-through">{ex}</span>
                         </li>
                       ))}
@@ -475,7 +475,7 @@ export const PublicPricingPage: React.FC<PublicPricingPageProps> = ({
             className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none"
           />
 
-          <div className="flex justify-between text-[11px] text-[#64748b] dark:text-slate-400 font-mono">
+          <div className="flex justify-between text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400 font-mono">
             <span>10 (Inicial)</span>
             <span>40 (PyME)</span>
             <span>70 (Pro)</span>

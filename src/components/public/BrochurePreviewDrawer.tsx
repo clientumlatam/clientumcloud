@@ -120,7 +120,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
   return (
     <div
       id="brochure-preview-drawer-root"
-      className="fixed inset-0 z-50 overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]"
+      className="fixed inset-0 z-50 overflow-hidden font-sans"
     >
       {/* Dimmed Backdrop */}
       <div
@@ -136,7 +136,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
           }`}
         >
           {/* Top Drawer Header & Toolbar */}
-          <div className="bg-[#f8fafc] dark:bg-[#090F1E] text-[#0f172a] dark:text-white px-5 py-4 flex flex-col gap-3 shrink-0 border-b border-slate-800">
+          <div className="bg-[#eef1f6] dark:bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-[#090F1E] text-[#0f172a] dark:text-white px-5 py-4 flex flex-col gap-3 shrink-0 border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-xl bg-blue-600/30 border border-blue-400/30 text-blue-300">
@@ -149,7 +149,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
                       PDF Interactivo
                     </span>
                   </h3>
-                  <p className="text-[11px] text-[#64748b] dark:text-slate-400">
+                  <p className="text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400">
                     Revisá el folleto corporativo directamente en el navegador antes de descargarlo.
                   </p>
                 </div>
@@ -160,7 +160,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="hidden md:flex p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#475569] dark:text-slate-300 hover:text-[#0f172a] hover:dark:text-white transition-colors cursor-pointer"
+                  className="hidden md:flex p-2 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 hover:bg-slate-700 text-[#0f172a] dark:text-white dark:text-slate-300 hover:text-[#0f172a] hover:dark:text-white transition-colors cursor-pointer"
                   title={isExpanded ? 'Reducir tamaño' : 'Pantalla completa'}
                 >
                   {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -169,7 +169,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#64748b] dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 hover:bg-slate-700 text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-[#0f172a] hover:dark:text-white transition-colors cursor-pointer"
                   title="Cerrar vista previa (Esc)"
                 >
                   <X className="w-5 h-5" />
@@ -181,7 +181,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-800/80 text-xs">
               <div className="flex flex-wrap items-center gap-2">
                 {/* Currency Switcher */}
-                <div className="inline-flex rounded-xl bg-slate-800 p-0.8 border border-slate-700 text-xs">
+                <div className="inline-flex rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 p-0.8 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 text-xs">
                   <button
                     type="button"
                     onClick={() => setCurrency('ARS')}
@@ -204,13 +204,13 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
 
                 {/* Optional Client Name Personalization Input */}
                 <div className="flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
+                  <Building2 className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400" />
                   <input
                     type="text"
                     placeholder="Personalizar para cliente..."
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 text-xs text-[#334155] dark:text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-44 sm:w-56"
+                    className="px-2.5 py-1 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 text-xs text-[#0f172a] dark:text-white dark:text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-44 sm:w-56"
                   />
                 </div>
               </div>
@@ -220,7 +220,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#334155] dark:text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 hover:bg-slate-700 text-[#0f172a] dark:text-white dark:text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Imprimir</span>
@@ -259,7 +259,7 @@ export const BrochurePreviewDrawer: React.FC<BrochurePreviewDrawerProps> = ({
               />
             ) : (
               <div className="text-center p-8 text-slate-500">
-                <FileText className="w-12 h-12 mx-auto mb-3 text-[#64748b] dark:text-slate-400" />
+                <FileText className="w-12 h-12 mx-auto mb-3 text-[#0f172a] dark:text-white dark:text-slate-400" />
                 <p className="text-sm font-semibold">Cargando previsualizador...</p>
               </div>
             )}

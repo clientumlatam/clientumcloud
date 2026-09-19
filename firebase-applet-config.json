@@ -1,12 +1,12 @@
 {
-  "projectId": "gothic-presence-nds98",
-  "appId": "1:960057091990:web:3a0d91bd4ec49dbaa3dfb7",
-  "apiKey": "AIzaSyCRajIMl2Nk2ZBdLl76gy2FL8NRdUeMj9Y",
-  "authDomain": "gothic-presence-nds98.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-remixremixclient-a4d0b6d5-2aa7-40be-980a-b0bdad97d033",
-  "storageBucket": "gothic-presence-nds98.firebasestorage.app",
-  "messagingSenderId": "960057091990",
+  "projectId": "scenic-bricolage-wpnh2",
+  "appId": "1:228760976706:web:bcb91421c7b4287eeb9cdb",
+  "apiKey": "AIzaSyCPCUWsQVjBhsHtUMLdZSh3tFI90cRf4js",
+  "authDomain": "scenic-bricolage-wpnh2.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-remixclientumcrm-34b79b48-e936-4b65-8cea-38e38b3b740f",
+  "storageBucket": "scenic-bricolage-wpnh2.firebasestorage.app",
+  "messagingSenderId": "228760976706",
   "measurementId": "",
-  "oAuthClientId": "960057091990-3u63r4fs37coaqmtjc0rquoonnj5v3tu.apps.googleusercontent.com",
+  "oAuthClientId": "228760976706-b7lrn9vhhtr0vp90hd3o6e7l265psoq7.apps.googleusercontent.com",
   "recaptchaSiteKey": ""
 }

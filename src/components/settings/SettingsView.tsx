@@ -27,6 +27,13 @@ import {
   Bug,
   BookOpen,
   Mail,
+  Building2,
+  Bell,
+  Webhook,
+  Save,
+  DollarSign,
+  Clock,
+  Send,
 } from 'lucide-react';
 import { useCRM } from '../../context/CRMContext';
 import { CustomField, Language } from '../../types';
@@ -59,7 +66,9 @@ export const SettingsView: React.FC = () => {
     showToast,
   } = useCRM();
 
-  const [activeSubTab, setActiveSubTab] = useState<'roles' | 'audit' | 'integrations' | 'mail' | 'appearance' | 'schema' | 'members' | 'ecosystem' | 'data'>('roles');
+  const [activeSubTab, setActiveSubTab] = useState<
+    'roles' | 'audit' | 'integrations' | 'mail' | 'appearance' | 'schema' | 'members' | 'ecosystem' | 'data' | 'workspace' | 'notifications'
+  >('roles');
 
   const getTabClass = (subTab: typeof activeSubTab) => {
     const isActive = activeSubTab === subTab;
@@ -90,6 +99,30 @@ export const SettingsView: React.FC = () => {
 
   const [newFieldName, setNewFieldName] = useState('');
   const [newFieldType, setNewFieldType] = useState<'text' | 'number' | 'select' | 'boolean'>('text');
+
+  // Workspace settings state
+  const [workspaceName, setWorkspaceName] = useState('Clientum Enterprise OS');
+  const [companyTaxId, setCompanyTaxId] = useState('30-71689234-9');
+  const [currency, setCurrency] = useState('USD');
+  const [timezone, setTimezone] = useState('America/Argentina/Buenos_Aires');
+  const [supportEmail, setSupportEmail] = useState('soporte@clientum.com');
+  const [industrySector, setIndustrySector] = useState('Tecnología, B2B & Software');
+
+  // Notifications state
+  const [notifyDealsWon, setNotifyDealsWon] = useState(true);
+  const [notifySecurityAnomalies, setNotifySecurityAnomalies] = useState(true);
+  const [notifyLeadAssignment, setNotifyLeadAssignment] = useState(true);
+  const [webhookUrl, setWebhookUrl] = useState('https://api.clientum.com/v1/webhooks/deals');
+
+  const handleSaveWorkspaceInfo = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Configuración del Workspace actualizada exitosamente', 'success');
+  };
+
+  const handleSaveNotificationSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Preferencias de notificaciones y webhooks guardadas', 'success');
+  };
 
   const handleAddCustomField = (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,6 +195,24 @@ export const SettingsView: React.FC = () => {
 
       {/* Sub Tabs */}
       <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] pb-2.5 mb-4 overflow-x-auto">
+        <button
+          id="tab-settings-workspace"
+          onClick={() => setActiveSubTab('workspace')}
+          className={getTabClass('workspace')}
+        >
+          <Building2 className="w-3.5 h-3.5 text-blue-500" />
+          <span>Configuración Workspace</span>
+        </button>
+
+        <button
+          id="tab-settings-notifications"
+          onClick={() => setActiveSubTab('notifications')}
+          className={getTabClass('notifications')}
+        >
+          <Bell className="w-3.5 h-3.5 text-purple-500" />
+          <span>Notificaciones & Webhooks</span>
+        </button>
+
         <button
           id="tab-settings-roles"
           onClick={() => setActiveSubTab('roles')}
@@ -265,6 +316,230 @@ export const SettingsView: React.FC = () => {
           {t('dataManagement')}
         </button>
       </div>
+
+      {/* SUBTAB: WORKSPACE GENERAL SETTINGS */}
+      {activeSubTab === 'workspace' && (
+        <div className="space-y-4 max-w-3xl">
+          <form onSubmit={handleSaveWorkspaceInfo} className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-5 rounded-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
+              <div>
+                <h3 className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-blue-500" />
+                  Perfil & Datos del Workspace
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  Información corporativa, moneda base de facturación y parámetros globales.
+                </p>
+              </div>
+              <button
+                type="submit"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-md transition-colors cursor-pointer"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Guardar Cambios</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  Nombre del Workspace
+                </label>
+                <input
+                  type="text"
+                  value={workspaceName}
+                  onChange={(e) => setWorkspaceName(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  CUIT / CPT / ID Fiscal
+                </label>
+                <input
+                  type="text"
+                  value={companyTaxId}
+                  onChange={(e) => setCompanyTaxId(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  Moneda Principal del CRM
+                </label>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                >
+                  <option value="USD">USD ($ Dólar Estadounidense)</option>
+                  <option value="ARS">ARS ($ Peso Argentino)</option>
+                  <option value="BRL">BRL (R$ Real Brasileño)</option>
+                  <option value="EUR">EUR (€ Euro)</option>
+                  <option value="MXN">MXN ($ Peso Mexicano)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  Zona Horaria Principal
+                </label>
+                <select
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                >
+                  <option value="America/Argentina/Buenos_Aires">GMT-3 (Buenos Aires / Brasilia)</option>
+                  <option value="America/Mexico_City">GMT-6 (Ciudad de México)</option>
+                  <option value="America/Bogota">GMT-5 (Bogotá / Lima)</option>
+                  <option value="America/New_York">GMT-5 (New York / Miami)</option>
+                  <option value="Europe/Madrid">GMT+1 (Madrid / Barcelona)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  Email de Soporte / Notificaciones
+                </label>
+                <input
+                  type="email"
+                  value={supportEmail}
+                  onChange={(e) => setSupportEmail(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                  Industria / Sector de Negocio
+                </label>
+                <input
+                  type="text"
+                  value={industrySector}
+                  onChange={(e) => setIndustrySector(e.target.value)}
+                  className="w-full bg-[var(--bg-input)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            </div>
+          </form>
+
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-4 rounded-xl flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                C
+              </div>
+              <div>
+                <div className="text-xs font-semibold text-[var(--text-primary)]">Clientum Workspace Shield</div>
+                <div className="text-[11px] text-[var(--text-muted)]">Cifrado de datos en reposo AES-256 + Autenticación Firebase Auth activa.</div>
+              </div>
+            </div>
+            <span className="text-[10px] font-mono font-semibold px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+              PROTEGIDO
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* SUBTAB: NOTIFICATIONS & WEBHOOKS */}
+      {activeSubTab === 'notifications' && (
+        <div className="space-y-4 max-w-3xl">
+          <form onSubmit={handleSaveNotificationSettings} className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-5 rounded-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
+              <div>
+                <h3 className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-purple-500" />
+                  Alertas Automatizadas & Webhooks
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  Recibe notificaciones instantáneas y envía eventos a Zapier, N8N o Make.
+                </p>
+              </div>
+              <button
+                type="submit"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold rounded-lg shadow-md transition-colors cursor-pointer"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Guardar Alertas</span>
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <label className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-canvas)] cursor-pointer">
+                <div className="flex items-center gap-2.5">
+                  <Send className="w-4 h-4 text-emerald-500" />
+                  <div>
+                    <div className="text-xs font-semibold text-[var(--text-primary)]">Notificar Oportunidades Ganadas</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Envía un email al equipo cuando un trato cambia a estado "Ganado" (Won).</div>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={notifyDealsWon}
+                  onChange={(e) => setNotifyDealsWon(e.target.checked)}
+                  className="w-4 h-4 accent-purple-600 rounded cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-canvas)] cursor-pointer">
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-rose-500" />
+                  <div>
+                    <div className="text-xs font-semibold text-[var(--text-primary)]">Alertas de Seguridad SOC2 & Anomalías</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Notificación prioritaria en caso de accesos inusuales o intentos de exportación masiva.</div>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={notifySecurityAnomalies}
+                  onChange={(e) => setNotifySecurityAnomalies(e.target.checked)}
+                  className="w-4 h-4 accent-purple-600 rounded cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-canvas)] cursor-pointer">
+                <div className="flex items-center gap-2.5">
+                  <Users className="w-4 h-4 text-blue-500" />
+                  <div>
+                    <div className="text-xs font-semibold text-[var(--text-primary)]">Asignación de Leads & Contactos</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Notifica al ejecutivo comercial asignado cuando se le transfiere un prospecto.</div>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={notifyLeadAssignment}
+                  onChange={(e) => setNotifyLeadAssignment(e.target.checked)}
+                  className="w-4 h-4 accent-purple-600 rounded cursor-pointer"
+                />
+              </label>
+            </div>
+
+            <div className="pt-3 border-t border-[var(--border-subtle)]">
+              <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1 flex items-center gap-2">
+                <Webhook className="w-4 h-4 text-purple-400" />
+                URL Endpoint del Webhook HTTP (POST)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  value={webhookUrl}
+                  onChange={(e) => setWebhookUrl(e.target.value)}
+                  placeholder="https://hooks.zapier.com/hooks/catch/..."
+                  className="flex-1 bg-[var(--bg-input)] text-xs font-mono text-[var(--text-primary)] px-3 py-2 rounded-lg border border-[var(--border-strong)] focus:outline-none focus:border-purple-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => showToast('Evento de prueba enviado al webhook con exito', 'info')}
+                  className="px-3 py-2 bg-[var(--bg-muted)] border border-[var(--border-subtle)] hover:bg-[var(--bg-muted)]/80 text-[var(--text-primary)] text-xs font-medium rounded-lg cursor-pointer transition-colors"
+                >
+                  Probar Webhook
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* SUBTAB: ROLES & GRANULAR PERMISSIONS (RBAC) */}
       {activeSubTab === 'roles' && <RolesPermissionsTab />}

@@ -66,7 +66,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-sans bg-white text-slate-900">
       
       {/* Header */}
       <section className="text-center max-w-3xl mx-auto space-y-4">
@@ -177,7 +177,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Ej: Laura Gómez"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
                     />
                   </div>
                   <div className="space-y-1">
@@ -188,7 +188,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="laura@miempresa.com"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
                     />
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="+54 9 11 ..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
                     />
                   </div>
                   <div className="space-y-1">
@@ -213,7 +213,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
                       value={form.company}
                       onChange={(e) => setForm({ ...form, company: e.target.value })}
                       placeholder="Nombre comercial"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-xs"
                     />
                   </div>
                 </div>
@@ -260,7 +260,7 @@ export const PublicContactPage: React.FC<PublicContactPageProps> = ({ onNavigate
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Ej: Queremos automatizar WhatsApp para que ningún cliente espere y poder emitir facturas AFIP en el momento..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none shadow-xs"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 resize-none shadow-xs"
                   />
                 </div>
 

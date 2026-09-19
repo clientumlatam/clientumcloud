@@ -164,7 +164,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
   const filteredDeals = deals.filter((d) => pipelineFilter === 'Todos' || d.type === pipelineFilter);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 font-sans">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs font-bold text-blue-700 dark:text-blue-300 shadow-2xs">
@@ -436,7 +436,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
                             </div>
                           </div>
                         </div>
-                        <span className="text-[10px] font-bold text-[#64748b] dark:text-slate-400 dark:text-slate-500 shrink-0">
+                        <span className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400 dark:text-slate-500 shrink-0">
                           {isDone ? 'Listo' : 'Pendiente'}
                         </span>
                       </div>
@@ -473,7 +473,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
                       ⚠️ 9 días sin seguimiento comercial registrado. Alta probabilidad de enfriamiento.
                     </div>
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[10px] text-[#64748b] dark:text-slate-400">Contacto: Lic. Martín Gómez</span>
+                      <span className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-400">Contacto: Lic. Martín Gómez</span>
                       <button
                         type="button"
                         onClick={() => {
@@ -501,7 +501,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
                       ⏳ 8 días en etapa de negociación. El decisor económico no respondió el último WhatsApp.
                     </div>
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[10px] text-[#64748b] dark:text-slate-400">Contacto: Ing. Federico Rossi</span>
+                      <span className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-400">Contacto: Ing. Federico Rossi</span>
                       <button
                         type="button"
                         onClick={() => onOpenSimulator?.()}
@@ -614,7 +614,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
                       ))}
 
                       {stageDeals.length === 0 && (
-                        <div className="text-[11px] text-[#64748b] dark:text-slate-400 italic text-center py-3">
+                        <div className="text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400 italic text-center py-3">
                           Etapa en flujo
                         </div>
                       )}
@@ -702,7 +702,7 @@ export const PublicDashboardShowcase: React.FC<PublicDashboardShowcaseProps> = (
                   >
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[11px] font-bold text-[#64748b] dark:text-slate-400 dark:text-slate-500 uppercase">
+                        <span className="text-[11px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400 dark:text-slate-500 uppercase">
                           Área Operativa
                         </span>
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${area.color}`}>

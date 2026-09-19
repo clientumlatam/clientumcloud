@@ -158,6 +158,15 @@ const DashboardDocsExplorerPage = lazy(
 const CompetitorHubView = lazy(
   () => import(/* webpackChunkName: "competitor-hub-view" */ '../competitor/CompetitorHubView').then((m) => ({ default: m.CompetitorHubView }))
 );
+const TeamView = lazy(
+  () => import(/* webpackChunkName: "team-view" */ './modules/Team').then((m) => ({ default: m.Team }))
+);
+const IntegrationSettingsView = lazy(
+  () => import(/* webpackChunkName: "integration-settings-view" */ './modules/Settings').then((m) => ({ default: m.Settings }))
+);
+const ReportsView = lazy(
+  () => import(/* webpackChunkName: "reports-view" */ './modules/Reports').then((m) => ({ default: m.Reports }))
+);
 
 const ViewFallbackLoader: React.FC = () => (
   <div className="flex-1 flex flex-col items-center justify-center p-8 min-h-[350px] select-none">
@@ -223,6 +232,7 @@ const MainContent: React.FC = () => {
           {activeTab === 'operations' && <OperationsView />}
           {activeTab === 'calendar' && <CalendarView />}
           {activeTab === 'analytics' && <AnalyticsView />}
+          {activeTab === 'reportsAnalytics' && <ReportsView />}
           {activeTab === 'powerSuite' && <PowerSuiteView />}
           {activeTab === 'whatsapp' && <WhatsAppView />}
           {activeTab === 'messages' && <MessagesView />}
@@ -264,14 +274,16 @@ const MainContent: React.FC = () => {
               onBackToHome={() => setActiveTab('dashboard')}
             />
           )}
-          {activeTab === 'settings' && <SettingsView />}
+          {activeTab === 'teamManagement' && <TeamView />}
+          {activeTab === 'integrationSettings' && <IntegrationSettingsView />}
+          {(activeTab === 'settings' || activeTab === 'rbacRoles' || activeTab === 'auditLogs' || activeTab === 'apiIntegrations') && <SettingsView />}
           {activeTab === 'webmail' && <WebmailInboxView />}
           {activeTab === 'erpAvanzado' && <ErpAvanzadoDashboardPage />}
           {activeTab === 'vscrmSuite' && <VscrmSuitePage />}
           {activeTab === 'wordpressIntegracion' && <WordPressIntegracionPage />}
           {activeTab === 'adminConsole' && <AdminConsoleDashboardPage />}
           {activeTab === 'workspaceIntegrations' && <GoogleWorkspaceDashboardPage />}
-          {activeTab === 'dashboardDocs' && <DashboardDocsExplorerPage />}
+          {(activeTab === 'dashboardDocs' || activeTab === 'documentManagement') && <DashboardDocsExplorerPage />}
           {activeTab === 'competitorHub' && <CompetitorHubView />}
         </Suspense>
       </main>
@@ -303,7 +315,7 @@ const MainContent: React.FC = () => {
 };
 
 export const PrivateEnvironment: React.FC = () => (
-  <div className="clientum-light-dashboard flex h-[100dvh] min-h-screen w-screen overflow-hidden bg-[var(--clientum-surface,#F5F7FA)] text-[var(--clientum-ink,#212121)] dark:bg-[#040711] dark:text-[var(--text-primary,#0f172a)] dark:text-slate-100 font-['Inter',sans-serif]">
+  <div className="clientum-light-dashboard flex h-[100dvh] min-h-screen w-screen overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)] font-['Inter',sans-serif]">
     <Sidebar />
     <MainContent />
   </div>

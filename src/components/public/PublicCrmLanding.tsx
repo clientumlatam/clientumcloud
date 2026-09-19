@@ -90,7 +90,7 @@ export const PublicCrmLanding: React.FC<PublicCrmLandingProps> = ({ onNavigate }
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-sans bg-white text-slate-900">
       
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto space-y-6">
@@ -256,11 +256,11 @@ export const PublicCrmLanding: React.FC<PublicCrmLandingProps> = ({ onNavigate }
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-slate-900 text-[#0f172a] dark:text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
+      <section className="bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 text-[#0f172a] dark:text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
           Moderniza el Equipo Comercial de tu Empresa
         </h2>
-        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
           Comienza con nuestra demo guiada o conversa con uno de nuestros directores para diseñar la arquitectura adecuada para tu negocio.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">

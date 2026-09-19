@@ -92,7 +92,7 @@ export const PublicCareersPage: React.FC<PublicCareersPageProps> = ({ onNavigate
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20 font-sans bg-white text-slate-900">
       
       {/* 1. Header & Hero */}
       <section className="text-center max-w-4xl mx-auto space-y-6">
@@ -194,7 +194,7 @@ export const PublicCareersPage: React.FC<PublicCareersPageProps> = ({ onNavigate
                 <button
                   type="button"
                   onClick={() => setSelectedJob({ title: job.title, type: job.type })}
-                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="w-full py-3 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Postularme →</span>
                 </button>
@@ -205,11 +205,11 @@ export const PublicCareersPage: React.FC<PublicCareersPageProps> = ({ onNavigate
       </section>
 
       {/* 4. ¿No encontrás tu perfil? */}
-      <section className="rounded-3xl bg-slate-900 text-[#0f172a] dark:text-white p-8 sm:p-12 text-center space-y-5 shadow-2xl">
+      <section className="rounded-3xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 text-[#0f172a] dark:text-white p-8 sm:p-12 text-center space-y-5 shadow-2xl">
         <h2 className="text-2xl sm:text-4xl font-black">
           ¿No encontrás tu perfil?
         </h2>
-        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#0f172a] dark:text-white dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
           Mandanos tu CV y contanos en qué podés aportar. Siempre estamos abiertos a perfiles que sorprendan.
         </p>
         <button
@@ -236,7 +236,7 @@ export const PublicCareersPage: React.FC<PublicCareersPageProps> = ({ onNavigate
               <button
                 type="button"
                 onClick={() => setSelectedJob(null)}
-                className="text-[#64748b] dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
+                className="text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer"
               >
                 ✕
               </button>

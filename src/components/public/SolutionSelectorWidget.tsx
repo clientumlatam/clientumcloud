@@ -77,7 +77,7 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
   };
 
   return (
-    <section className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-[#0f172a] dark:text-white border border-slate-800 space-y-6 shadow-xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="p-8 sm:p-10 rounded-3xl bg-[#f8fafc] dark:bg-slate-900 text-[#0f172a] dark:text-white dark:text-white border border-[#e2e8f0] dark:border-slate-800 space-y-6 shadow-xl relative overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
       <div className="text-center max-w-2xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs font-bold border border-cyan-500/30">
           <Sparkles className="w-3.5 h-3.5" />
@@ -86,7 +86,7 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
         <h3 className="text-xl sm:text-3xl font-extrabold tracking-tight">
           ¿Qué solución necesita tu negocio hoy?
         </h3>
-        <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300">
+        <p className="text-xs sm:text-sm text-[#475569] dark:text-white dark:text-slate-300">
           Selecciona tu prioridad y te mostramos el flujo operativo recomendado para tu empresa.
         </p>
       </div>
@@ -97,11 +97,11 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
           <div
             key={sol.id}
             onClick={() => handleSelect(sol.id)}
-            className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 hover:border-cyan-400 hover:bg-slate-800 transition-all cursor-pointer space-y-3 flex flex-col justify-between group shadow-xs"
+            className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 hover:border-cyan-400 hover:bg-[#eef1f6] hover:dark:bg-slate-800 transition-all cursor-pointer space-y-3 flex flex-col justify-between group shadow-xs"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <div className="p-2 rounded-xl bg-slate-900 border border-slate-700">
+                <div className="p-2 rounded-xl bg-[#f8fafc] dark:bg-slate-900 border border-[#cbd5e1] dark:border-slate-700">
                   {sol.icon}
                 </div>
                 <span className="text-[10px] font-bold text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-800">
@@ -109,7 +109,7 @@ export const SolutionSelectorWidget: React.FC<SolutionSelectorWidgetProps> = ({ 
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-[#0f172a] dark:text-white group-hover:text-cyan-300 transition-colors">
+              <h4 className="text-sm font-bold text-[#0f172a] dark:text-white dark:text-white group-hover:text-cyan-300 transition-colors">
                 {sol.title}
               </h4>
               <p className="text-xs text-[#475569]/90 dark:text-slate-300/90 leading-relaxed">

@@ -85,7 +85,7 @@ export const PublicHelpCenterPage: React.FC<PublicHelpCenterPageProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 font-sans bg-white text-slate-900">
       
       {/* 1. Header Section */}
       <section className="text-center max-w-3xl mx-auto space-y-4">
@@ -102,7 +102,7 @@ export const PublicHelpCenterPage: React.FC<PublicHelpCenterPageProps> = ({
 
         {/* Search Input */}
         <div className="pt-2 max-w-lg mx-auto relative">
-          <Search className="w-5 h-5 text-[#64748b] dark:text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="w-5 h-5 text-[#0f172a] dark:text-white dark:text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Buscar por servicio, AFIP, WhatsApp, facturación..."
@@ -219,7 +219,7 @@ export const PublicHelpCenterPage: React.FC<PublicHelpCenterPageProps> = ({
               </div>
               <button
                 onClick={() => setIsTicketModalOpen(false)}
-                className="text-[#64748b] dark:text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                className="text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
               >
                 ✕
               </button>

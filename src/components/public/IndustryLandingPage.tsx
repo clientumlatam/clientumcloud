@@ -420,7 +420,7 @@ export const IndustryLandingPage: React.FC<{
   const calculatedResult = Math.round(calcInput * activeVertical.calculator.savingsMultiplier);
 
   return (
-    <div className="bg-white text-slate-800 min-h-screen text-xs font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="bg-white text-slate-800 min-h-screen text-xs font-sans">
       {/* Top Vertical Switcher Bar */}
       <div className="bg-slate-50 border-b border-slate-200 p-3 sticky top-0 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 overflow-x-auto">
@@ -431,7 +431,7 @@ export const IndustryLandingPage: React.FC<{
             >
               ← Portal General
             </button>
-            <span className="text-[#475569] dark:text-slate-300">|</span>
+            <span className="text-[#0f172a] dark:text-white dark:text-slate-300">|</span>
             <span className="text-[11px] text-slate-500 font-bold px-1 hidden sm:inline">
               Verticales de Industria:
             </span>

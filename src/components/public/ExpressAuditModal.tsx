@@ -115,7 +115,7 @@ export const ExpressAuditModal: React.FC<{ isOpen: boolean; onClose: () => void 
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-      <div className="max-w-xl w-full bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 text-slate-800 text-xs font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="max-w-xl w-full bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 text-slate-800 text-xs font-sans">
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-200">
           <div className="flex items-center gap-2.5">
@@ -127,7 +127,7 @@ export const ExpressAuditModal: React.FC<{ isOpen: boolean; onClose: () => void 
               <p className="text-[11px] text-slate-500">Diagnóstico automático de madurez comercial y fiscal</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer">
+          <button onClick={onClose} className="p-1.5 rounded-lg text-[#0f172a] dark:text-white dark:text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -159,7 +159,7 @@ export const ExpressAuditModal: React.FC<{ isOpen: boolean; onClose: () => void 
                   className="w-full text-left p-3.5 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs text-slate-800 transition-all cursor-pointer flex items-center justify-between group shadow-xs"
                 >
                   <span>{opt.text}</span>
-                  <ArrowRight className="w-4 h-4 text-[#64748b] dark:text-slate-400 group-hover:text-blue-600 transition-colors shrink-0 ml-2" />
+                  <ArrowRight className="w-4 h-4 text-[#0f172a] dark:text-white dark:text-slate-400 group-hover:text-blue-600 transition-colors shrink-0 ml-2" />
                 </button>
               ))}
             </div>
@@ -173,7 +173,7 @@ export const ExpressAuditModal: React.FC<{ isOpen: boolean; onClose: () => void 
               </span>
               <div className="text-5xl font-black text-blue-600 flex items-center justify-center gap-2">
                 <span>{scorePercent}</span>
-                <span className="text-xl text-[#64748b] dark:text-slate-400 font-bold">/ 100</span>
+                <span className="text-xl text-[#0f172a] dark:text-white dark:text-slate-400 font-bold">/ 100</span>
               </div>
               <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold border ${diagnosis.badgeColor}`}>
                 {diagnosis.level}

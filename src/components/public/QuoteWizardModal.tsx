@@ -88,7 +88,7 @@ export const QuoteWizardModal: React.FC<{ isOpen: boolean; onClose: () => void }
               <p className="text-[11px] text-slate-500">Estima costos y retorno de inversión en tiempo real</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-[#64748b] dark:text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer">
+          <button onClick={onClose} className="p-1.5 rounded-lg text-[#64748b] dark:text-white dark:text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -243,13 +243,13 @@ export const QuoteWizardModal: React.FC<{ isOpen: boolean; onClose: () => void }
                 <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                   <span className="text-[10px] text-slate-500 block">Ahorro en Tareas Manuales</span>
                   <div className="text-lg font-black text-emerald-600 mt-0.5">~{totalHoursSavedMonth} hs/mes</div>
-                  <span className="text-[9px] text-[#64748b] dark:text-slate-400">en cargas, avisos y seguimiento</span>
+                  <span className="text-[9px] text-[#64748b] dark:text-white dark:text-slate-400">en cargas, avisos y seguimiento</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                   <span className="text-[10px] text-slate-500 block">Aumento Estimado de Cierre</span>
                   <div className="text-lg font-black text-blue-600 mt-0.5">+{projectedSalesIncreasePercent}%</div>
-                  <span className="text-[9px] text-[#64748b] dark:text-slate-400">por respuesta inmediata 24/7</span>
+                  <span className="text-[9px] text-[#64748b] dark:text-white dark:text-slate-400">por respuesta inmediata 24/7</span>
                 </div>
               </div>
             </div>

@@ -103,7 +103,7 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="border-t border-slate-800 bg-[#f8fafc] dark:bg-[#090F1E] text-[#475569] dark:text-slate-300 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden select-none">
+    <footer className="border-t border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 bg-[#eef1f6] dark:bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-[#090F1E] text-[#0f172a] dark:text-white dark:text-slate-300 font-sans relative overflow-hidden select-none">
       
       {/* ACCESSIBLE HIDDEN METADATA ELEMENT FOR SUPPORT TEAM & BUG REPORTING */}
       <div
@@ -127,7 +127,7 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
               <h3 className="text-2xl font-extrabold text-[#0f172a] dark:text-white tracking-tight">
                 Estrategias de ventas, WhatsApp IA y facturación en tu inbox
               </h3>
-              <p className="text-xs text-[#64748b] dark:text-slate-400 mt-2 leading-relaxed">
+              <p className="text-xs text-[#0f172a] dark:text-white dark:text-slate-400 mt-2 leading-relaxed">
                 Únete a más de 4.500 dueños de negocio, directores de ventas y contadores en América Latina. Recibe guías prácticas sin spam.
               </p>
             </div>
@@ -143,7 +143,7 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="tu.email@empresa.com"
                   disabled={subscribed}
-                  className="w-full pl-10 pr-3 py-3 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-[#0f172a] dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                  className="w-full pl-10 pr-3 py-3 rounded-xl bg-slate-800/80 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 text-xs text-[#0f172a] dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
                 />
               </div>
               <button
@@ -169,22 +169,22 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
               <div>
                 <span className="text-lg font-extrabold text-[#0f172a] dark:text-white tracking-tight">Clientum</span>
                 <span className="text-lg font-extrabold text-blue-500 tracking-tight">CRM</span>
-                <span className="block text-[10px] text-[#64748b] dark:text-slate-400 font-semibold tracking-wider uppercase">
+                <span className="block text-[10px] text-[#0f172a] dark:text-white dark:text-slate-400 font-semibold tracking-wider uppercase">
                   Suite Comercial & AFIP CAE
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-[#64748b] dark:text-slate-400 leading-relaxed max-w-sm">
+            <p className="text-xs text-[#0f172a] dark:text-white dark:text-slate-400 leading-relaxed max-w-sm">
               Plataforma omnicanal de gestión comercial, automatizaciones y agentes de Inteligencia Artificial para empresas y PyMEs de América Latina.
             </p>
 
             <div className="space-y-2 pt-2 text-xs border-t border-slate-800/80">
-              <div className="flex items-center gap-2 text-[#475569] dark:text-slate-300">
+              <div className="flex items-center gap-2 text-[#0f172a] dark:text-white dark:text-slate-300">
                 <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                 <span>{CLIENTUM_BROCHURE_METRICS.location}</span>
               </div>
-              <div className="flex items-center gap-2 text-[#475569] dark:text-slate-300">
+              <div className="flex items-center gap-2 text-[#0f172a] dark:text-white dark:text-slate-300">
                 <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <a
                   href="https://wa.me/5492984510883"
@@ -195,7 +195,7 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                   {CLIENTUM_BROCHURE_METRICS.phone} (WhatsApp Oficial)
                 </a>
               </div>
-              <div className="flex items-center gap-2 text-[#475569] dark:text-slate-300">
+              <div className="flex items-center gap-2 text-[#0f172a] dark:text-white dark:text-slate-300">
                 <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                 <a
                   href={`mailto:${CLIENTUM_BROCHURE_METRICS.email}`}
@@ -219,7 +219,7 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
                 onClick={handleDownloadBrochure}
                 disabled={isDownloadingBrochure}
                 aria-label="Descargar Brochure Corporativo en PDF"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 border border-slate-700 hover:border-sky-500/40 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 hover:border-sky-500/40 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
               >
                 <Download className="w-3.5 h-3.5 shrink-0" />
                 <span>{isDownloadingBrochure ? 'Generando...' : 'Descargar Brochure (PDF)'}</span>
@@ -229,10 +229,10 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
 
           {/* Column 2: Producto */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
               Producto
             </h4>
-            <ul className="space-y-2 text-[#64748b] dark:text-slate-400">
+            <ul className="space-y-2 text-[#0f172a] dark:text-white dark:text-slate-400">
               <li>
                 <button onClick={() => nav('/producto')} className="hover:text-[#0f172a] hover:dark:text-white transition-colors text-left">
                   Overview Suite
@@ -273,10 +273,10 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
 
           {/* Column 3: Industrias */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
               Industrias
             </h4>
-            <ul className="space-y-2 text-[#64748b] dark:text-slate-400">
+            <ul className="space-y-2 text-[#0f172a] dark:text-white dark:text-slate-400">
               <li>
                 <button onClick={() => nav('/industrias')} className="hover:text-blue-400 font-bold text-blue-400 transition-colors text-left">
                   Directorio (10 Sectores)
@@ -312,10 +312,10 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
 
           {/* Column 4: Legales & Contacto */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
               Legales & Contacto
             </h4>
-            <ul className="space-y-2 text-[#64748b] dark:text-slate-400">
+            <ul className="space-y-2 text-[#0f172a] dark:text-white dark:text-slate-400">
               <li>
                 <button onClick={() => nav('/privacidad')} className="hover:text-emerald-400 font-semibold transition-colors text-left">
                   Política de Privacidad
@@ -346,10 +346,10 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
 
           {/* Column 5: Recursos & Soporte */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+            <h4 className="text-xs font-extrabold text-[#0f172a] dark:text-white uppercase tracking-wider border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
               Recursos
             </h4>
-            <ul className="space-y-2 text-[#64748b] dark:text-slate-400">
+            <ul className="space-y-2 text-[#0f172a] dark:text-white dark:text-slate-400">
               <li>
                 <button onClick={() => nav('/desarrolladores')} className="hover:text-sky-400 font-bold text-sky-400 transition-colors text-left">
                   API REST & Webhooks
@@ -403,27 +403,27 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
       {/* 3. CERTIFICATIONS & INTEGRATIONS BADGE BAR */}
       <div className="border-t border-slate-800/80 bg-slate-950/60 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 text-[11px] text-[#64748b] dark:text-slate-400">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400">
             <div className="flex flex-wrap items-center gap-6">
-              <span className="flex items-center gap-1.5 text-[#475569] dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 text-[#0f172a] dark:text-white dark:text-slate-300 font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
                 Facturación AFIP CAE (WSFE v1)
               </span>
-              <span className="flex items-center gap-1.5 text-[#475569] dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 text-[#0f172a] dark:text-white dark:text-slate-300 font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 Meta WhatsApp Business API
               </span>
-              <span className="flex items-center gap-1.5 text-[#475569] dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 text-[#0f172a] dark:text-white dark:text-slate-300 font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 text-sky-400" />
                 Google Workspace ISV Partner
               </span>
-              <span className="flex items-center gap-1.5 text-[#475569] dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 text-[#0f172a] dark:text-white dark:text-slate-300 font-semibold">
                 <Lock className="w-3.5 h-3.5 text-amber-400" />
                 Soberanía de Datos & Encriptación AES-256
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-[10px] text-[#64748b] dark:text-slate-400 font-mono">
+            <div className="flex items-center gap-3 text-[10px] text-[#0f172a] dark:text-white dark:text-slate-400 font-mono">
               <span title="Build Time Timestamp">{buildTime}</span>
               <span>•</span>
               <span className="text-emerald-400">Uptime: 99.99%</span>
@@ -433,8 +433,8 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ onNavigate }) => {
       </div>
 
       {/* 4. BOTTOM COPYRIGHT & LEGAL LINKS BAR */}
-      <div className="border-t border-slate-800 bg-[#f8fafc] dark:bg-[#060A14] py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#64748b] dark:text-slate-400">
+      <div className="border-t border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 bg-[#eef1f6] dark:bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-[#060A14] py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#0f172a] dark:text-white dark:text-slate-400">
           <div>
             © 2026 Clientum Latam. Todos los derechos reservados. Desarrollado y operado en Patagonia Argentina.
           </div>

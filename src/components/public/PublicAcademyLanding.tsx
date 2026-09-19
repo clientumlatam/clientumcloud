@@ -96,7 +96,7 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-sans bg-white text-slate-900">
       
       {/* Hero Header */}
       <section className="text-center max-w-3xl mx-auto space-y-4">
@@ -158,7 +158,7 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
                       {course.badge}
                     </span>
                     <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
+                      <Clock className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400" />
                       {course.duration}
                     </span>
                   </div>
@@ -274,8 +274,8 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
           </div>
 
           {/* Interactive Run Console */}
-          <div className="bg-slate-900 rounded-2xl p-5 text-[#0f172a] dark:text-white font-mono text-xs space-y-3 shadow-inner">
-            <div className="flex items-center justify-between text-[#64748b] dark:text-slate-400 border-b border-slate-800 pb-2">
+          <div className="bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 rounded-2xl p-5 text-[#0f172a] dark:text-white font-mono text-xs space-y-3 shadow-inner">
+            <div className="flex items-center justify-between text-[#0f172a] dark:text-white dark:text-slate-400 border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 pb-2">
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 clientum-sandbox://sim-{sandboxAction}
@@ -283,7 +283,7 @@ export const PublicAcademyLanding: React.FC<PublicAcademyLandingProps> = ({
               <span>TestMode: Active</span>
             </div>
 
-            <div className="py-2 text-[#475569] dark:text-slate-300">
+            <div className="py-2 text-[#0f172a] dark:text-white dark:text-slate-300">
               {sandboxAction === 'invoice' && '> Preparando petición WSFE mock: CUIT 30-71829384-9, Factura B, Total $124.500 ARS...'}
               {sandboxAction === 'broadcast' && '> Preparando plantilla pre-aprobada con placeholders: {{1}}=Nombre, {{2}}=Oferta...'}
               {sandboxAction === 'kanban' && '> Evaluando oportunidad #9421: Presupuesto validado, tomador de decisión identificado...'}

@@ -74,7 +74,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
   ];
 
   return (
-    <div className="space-y-16 pt-8 border-t border-slate-200 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="space-y-16 pt-8 border-t border-slate-200 text-slate-900 font-sans">
       
       {/* 1. Industrias & Soluciones Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -85,7 +85,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
             <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
               Industrias & Casos
             </h3>
-            <span className="text-[10px] font-bold text-[#64748b] dark:text-slate-400 uppercase tracking-wider">Especialidades</span>
+            <span className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400 uppercase tracking-wider">Especialidades</span>
           </div>
           <div className="space-y-2.5">
             {industries.map((ind, i) => {
@@ -106,10 +106,10 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-mono font-bold text-[#64748b] dark:text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded">
+                    <span className="text-[10px] font-mono font-bold text-[#0f172a] dark:text-white dark:text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded">
                       {ind.code}
                     </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </button>
               );
@@ -123,7 +123,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
             <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
               Soluciones & Servicios
             </h3>
-            <span className="text-[10px] font-bold text-[#64748b] dark:text-slate-400 uppercase tracking-wider">Tecnología</span>
+            <span className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400 uppercase tracking-wider">Tecnología</span>
           </div>
           <div className="space-y-2.5">
             {solutions.map((sol, i) => (
@@ -137,7 +137,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
                   <span className="text-blue-600">→</span>
                   {sol.title}
                 </span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
               </button>
             ))}
           </div>
@@ -149,7 +149,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
             <h3 className="text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-1.5">
               <span className="text-blue-600">#</span> Leverage
             </h3>
-            <span className="text-[10px] font-bold text-[#64748b] dark:text-slate-400 uppercase tracking-wider">Ecosistema</span>
+            <span className="text-[10px] font-bold text-[#0f172a] dark:text-white dark:text-slate-400 uppercase tracking-wider">Ecosistema</span>
           </div>
           <div className="space-y-2.5">
             {leverageLinks.map((lev, i) => {
@@ -174,7 +174,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
                 </button>
               );
             })}
@@ -184,7 +184,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
       </div>
 
       {/* 2. Empezar Banner */}
-      <div className="rounded-3xl bg-slate-950 text-[#0f172a] dark:text-white p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+      <div className="rounded-3xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-950 text-[#0f172a] dark:text-white p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
         <div className="space-y-2 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold border border-blue-500/30">
             <Zap className="w-3.5 h-3.5" />
@@ -193,7 +193,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight">
             Transforma tu negocio con automatización IA. Sin código. Sin contratos largos.
           </h3>
-          <p className="text-xs text-[#64748b] dark:text-slate-400 max-w-2xl">
+          <p className="text-xs text-[#0f172a] dark:text-white dark:text-slate-400 max-w-2xl">
             Implementación guiada en 5 días hábiles. Comprobantes fiscales con CAE y WhatsApp oficial de Meta listos para facturar.
           </p>
         </div>
@@ -209,7 +209,7 @@ export const PublicEcosystemSections: React.FC<PublicEcosystemSectionsProps> = (
           <button
             type="button"
             onClick={() => onNavigate('/contacto')}
-            className="px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#334155] dark:text-slate-200 font-bold text-xs border border-slate-700 cursor-pointer transition-colors"
+            className="px-5 py-3.5 rounded-xl bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-slate-800 hover:bg-slate-700 text-[#0f172a] dark:text-white dark:text-slate-200 font-bold text-xs border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 cursor-pointer transition-colors"
           >
             Hablar con Asesor
           </button>

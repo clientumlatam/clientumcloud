@@ -262,7 +262,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
   if (typeof document === 'undefined') return null;
 
   const content = (
-    <div id="public-floating-chatbot-portal" className="font-['Plus_Jakarta_Sans',sans-serif]">
+    <div id="public-floating-chatbot-portal" className="font-sans">
       {/* FLOATING LAUNCHER BUTTON (Bottom-Right) */}
       {!isOpen && (
         <button
@@ -271,7 +271,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
             setIsOpen(true);
             setIsMinimized(false);
           }}
-          className="fixed bottom-6 right-6 z-[9999] group flex items-center gap-3 bg-slate-900 hover:bg-slate-850 text-[#0f172a] dark:text-white p-3 pl-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border border-slate-700/80 backdrop-blur-md"
+          className="fixed bottom-6 right-6 z-[9999] group flex items-center gap-3 bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-slate-850 text-[#0f172a] dark:text-white p-3 pl-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border border-slate-700/80 backdrop-blur-md"
           aria-label="Abrir asistente de ventas en vivo"
         >
           {/* Avatar with live pulse status */}
@@ -307,7 +307,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
           }`}
         >
           {/* Chat Window Header */}
-          <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white p-4 flex items-center justify-between shrink-0 border-b border-slate-800 select-none">
+          <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white p-4 flex items-center justify-between shrink-0 border-b border-[#cbd5e1] dark:border-[#e2e8f0] dark:border-slate-800 select-none">
             <div className="flex items-center gap-3">
               <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-600/30 border border-blue-400/30 text-white">
                 <Bot className="w-5 h-5 text-sky-400" />
@@ -320,14 +320,14 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
                     Online
                   </span>
                 </div>
-                <p className="text-[10px] text-[#475569] dark:text-slate-300 mt-0.5 flex items-center gap-1">
+                <p className="text-[10px] text-[#0f172a] dark:text-white dark:text-slate-300 mt-0.5 flex items-center gap-1">
                   <Zap className="w-2.5 h-2.5 text-amber-400" />
                   <span>Responde en tiempo real</span>
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 text-[#64748b] dark:text-slate-400">
+            <div className="flex items-center gap-1 text-[#0f172a] dark:text-white dark:text-slate-400">
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
                 className="p-1.5 hover:text-[#0f172a] hover:dark:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
@@ -374,7 +374,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
 
                       {/* Lead form inside chatbot if requested */}
                       {msg.isForm && !formSubmitted && (
-                        <form onSubmit={handleFormSubmit} className="mt-3 pt-3 border-t border-slate-200 space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <form onSubmit={handleFormSubmit} className="mt-3 pt-3 border-t border-slate-200 space-y-2 bg-slate-50 p-3 rounded-xl border">
                           <div>
                             <label className="text-[10px] font-bold text-slate-700 block mb-0.5">Nombre y Apellido</label>
                             <input
@@ -451,12 +451,12 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
                       )}
                     </div>
 
-                    <span className="text-[9px] text-[#64748b] dark:text-slate-400 mt-1 px-1">{msg.timestamp}</span>
+                    <span className="text-[9px] text-[#0f172a] dark:text-white dark:text-slate-400 mt-1 px-1">{msg.timestamp}</span>
                   </div>
                 ))}
 
                 {isTyping && (
-                  <div className="flex items-center gap-2 text-[#64748b] dark:text-slate-400 bg-white p-3 rounded-2xl border border-slate-200 w-24">
+                  <div className="flex items-center gap-2 text-[#0f172a] dark:text-white dark:text-slate-400 bg-white p-3 rounded-2xl border border-slate-200 w-24">
                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-100" />
                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-200" />
@@ -474,7 +474,7 @@ export const PublicFloatingChatbot: React.FC<PublicFloatingChatbotProps> = ({
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     placeholder="Escribe tu consulta aquí..."
-                    className="flex-1 px-3.5 py-2.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-900 placeholder:text-[#64748b] placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                    className="flex-1 px-3.5 py-2.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-900 placeholder:text-[#0f172a] placeholder:dark:text-white placeholder:dark:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
                   />
                   <button
                     type="submit"

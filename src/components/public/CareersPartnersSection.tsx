@@ -96,7 +96,7 @@ export const CareersPartnersSection: React.FC<CareersPartnersSectionProps> = ({ 
   };
 
   return (
-    <section className="space-y-12 font-['Plus_Jakarta_Sans',sans-serif]">
+    <section className="space-y-12 font-sans">
       {/* 1. Programa de Alianzas / Partners */}
       <div className="space-y-8">
         <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -163,7 +163,7 @@ export const CareersPartnersSection: React.FC<CareersPartnersSectionProps> = ({ 
 
               <button
                 onClick={() => onNavigate('/contacto')}
-                className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-colors shadow-xs"
+                className="w-full py-3 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs cursor-pointer transition-colors shadow-xs"
               >
                 Postularme como Partner
               </button>

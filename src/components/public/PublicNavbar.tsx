@@ -115,7 +115,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
       {/* Main sticky navigation header */}
       <nav
         ref={navRef}
-        className="sticky top-0 z-50 bg-[var(--bg-surface)] dark:bg-[#090d16] backdrop-blur-md border-b border-[var(--border-subtle)] dark:border-[#1a2642] text-[var(--text-primary)] dark:text-slate-100 shadow-2xs transition-colors duration-200 font-['Plus_Jakarta_Sans',sans-serif]"
+        className="sticky top-0 z-50 bg-[var(--bg-surface)] dark:bg-[#090d16] backdrop-blur-md border-b border-[var(--border-subtle)] dark:border-[#1a2642] text-[var(--text-primary)] dark:text-slate-100 shadow-2xs transition-colors duration-200 font-sans"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
           
@@ -349,7 +349,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                           onClick={() => handleNavClick('/producto/integraciones')}
                           className="p-2.5 rounded-xl hover:bg-orange-50/70 border border-transparent hover:border-orange-200 transition-all text-left flex items-start gap-2.5 group cursor-pointer"
                         >
-                          <div className="p-2 rounded-lg bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors shrink-0">
+                          <div className="p-2 rounded-lg bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:text-[#0f172a] group-hover:dark:text-white transition-colors shrink-0">
                             <Store className="w-4 h-4" />
                           </div>
                           <div>
@@ -635,9 +635,9 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 text-xs transition-colors cursor-pointer shadow-2xs"
               title="Buscar módulos, funciones o contactos (⌘K / Ctrl+K)"
             >
-              <Search className="w-3.5 h-3.5 text-[#64748b] dark:text-slate-400" />
+              <Search className="w-3.5 h-3.5 text-[#0f172a] dark:text-white dark:text-slate-400" />
               <span className="text-[11px]">Buscar...</span>
-              <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-[#64748b] dark:text-slate-400">
+              <kbd className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white border border-slate-200 text-[#0f172a] dark:text-white dark:text-slate-400">
                 ⌘K
               </kbd>
             </button>
@@ -673,7 +673,7 @@ export const PublicNavbar: React.FC<PublicNavbarProps> = ({
                   setIsAuthModalOpen(true);
                 }
               }}
-              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#ffffff] dark:bg-[#0F172A] hover:bg-[#eef1f6] hover:dark:bg-[#1E293B] text-[#0f172a] dark:text-white font-bold text-xs tracking-wide shadow-md shadow-slate-900/20 border border-slate-700 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
+              className="group relative inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#eef1f6] dark:bg-[#eef1f6] dark:bg-[#ffffff] dark:bg-[#0F172A] hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-[#1E293B] text-[#0f172a] dark:text-white font-bold text-xs tracking-wide shadow-md shadow-slate-900/20 border border-[#cbd5e1] dark:border-[#cbd5e1] dark:border-slate-700 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
             >
               <span>{isAuthenticated ? 'Ir al Dashboard' : 'Registrarse Gratis'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover:translate-x-0.5 transition-transform" />

@@ -60,7 +60,7 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900 print:py-2 print:px-0">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-sans bg-white text-slate-900 print:py-2 print:px-0">
       
       {/* Top Action Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 print:hidden shadow-2xs">
@@ -87,7 +87,7 @@ export const PublicBrochurePage: React.FC<PublicBrochurePageProps> = ({ onNaviga
           <button
             onClick={handleDownloadPDF}
             disabled={isGeneratingPdf}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer disabled:opacity-50"
+            className="px-3.5 py-2 rounded-xl bg-[#eef1f6] dark:bg-[#f8fafc] dark:bg-slate-900 hover:bg-[#eef1f6] hover:dark:bg-[#eef1f6] hover:dark:bg-slate-800 text-[#0f172a] dark:text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer disabled:opacity-50"
             title="Descargar Dossier Completo en PDF"
           >
             <Download className="w-3.5 h-3.5 text-cyan-400" />

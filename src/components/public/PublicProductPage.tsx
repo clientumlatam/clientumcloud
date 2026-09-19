@@ -130,7 +130,7 @@ export const PublicProductPage: React.FC<PublicProductPageProps> = ({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-['Plus_Jakarta_Sans',sans-serif] bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 font-sans bg-white text-slate-900">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
